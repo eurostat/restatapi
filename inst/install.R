@@ -1,0 +1,1 @@
+message("install script\n")

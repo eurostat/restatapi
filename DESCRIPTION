@@ -1,0 +1,16 @@
+Package: restatapi
+Type: Package
+Title: using SDMX to search and retrieve data from Eurobase
+Date: 2019-02-01
+Version: 0.1.0
+Encoding: UTF-8
+Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
+Maintainer: Mátyás Mészáros <matyas.meszaros@ec.europa.eu>
+Description: Tools to search and download data from the Eurostat database using the SDMX standard.
+License: EUPL-1.1 | file LICENSE
+Imports: data.table, parallel, rjson, rsdmx, readr, utils, xml2
+Suggests: knitr, rmarkdown, roxygen2, testthat, tmap
+LazyData: true
+VignetteBuilder: knitr
+NeedsCompilation: no
+RoxygenNote: 6.1.1
