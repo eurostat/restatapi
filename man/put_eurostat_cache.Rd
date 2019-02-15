@@ -4,12 +4,15 @@
 \alias{put_eurostat_cache}
 \title{Put an object to cache}
 \usage{
-put_eurostat_cache(obj, oname, cache_dir = NULL, compress_file = T)
+put_eurostat_cache(obj, oname, update_cache = F, cache_dir = NULL,
+  compress_file = T)
 }
 \arguments{
 \item{obj}{an object (toc, dataset, DSD)}
 
 \item{oname}{a character string with the name of the object to reference later in the cache}
+
+\item{update_cache}{a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cahce is overwritten.  Can be set also with \code{options(restatapi_update = TRUE)}}
 
 \item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the object is saved in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory under the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
 

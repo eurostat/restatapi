@@ -2,12 +2,6 @@
 #' @description Download data sets from \href{https://ec.europa.eu/eurostat/}{Eurostat} database and put in a standardized format.
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
-#' @param select_freq a character symbol for a time frequency when a dataset has multiple time
-#'        frequencies. Possible values are:
-#'    	  A = annual, S = semi-annual, Q = quarterly, M = monthly. 
-#'    	  The default is \code{NULL} as most datasets have just one time
-#'        frequency and in this case if there are multiple frequencies, then only the most common frequency kept.
-#'        If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.
 #' @param cache a logical whether to do caching. Default is \code{TRUE}.
 #' @param update_cache a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
 #'        \code{options(restatapi_update = TRUE)}
@@ -20,6 +14,12 @@
 #' @param stringsAsFactors if \code{TRUE} (the default) variables are not numeric then they are
 #'        converted to factors. If the value \code{FALSE}
 #'        they are returned as a characters.
+#' @param select_freq a character symbol for a time frequency when a dataset has multiple time
+#'        frequencies. Possible values are:
+#'    	  A = annual, S = semi-annual, Q = quarterly, M = monthly. 
+#'    	  The default is \code{NULL} as most datasets have just one time
+#'        frequency and in this case if there are multiple frequencies, then only the most common frequency kept.
+#'        If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
@@ -72,7 +72,7 @@ get_eurostat_bulk <- function(id,
                               verbose=FALSE,...){
   
   .datatable.aware=T 
-  FREQ<-N<-restat<-NULL
+  FREQ<-N<-restat_bulk<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
@@ -80,38 +80,45 @@ get_eurostat_bulk <- function(id,
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
   
-  toc<-get_eurostat_toc()
+  toc<-get_eurostat_toc(verbose=verbose)
   if ((cache)&(!update_cache)) {
-    udate<-toc$lastUpdate[toc$code==id]
-    restat<-get_eurostat_cache(paste0(id,"_", udate,"_",sum(keep_flags),sub("_$","",paste0("_",select_freq),perl=T)),cache_dir)
-    if ((!is.null(restat))&(verbose)) {message("The data was loaded from cache.")}  
+    nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
+    restat_bulk<-get_eurostat_cache(nm,cache_dir)
+    if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
+      col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
+      restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+    }
+    if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
+      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=T)
+    }
+    if ((!is.null(restat_bulk))&(verbose)) {message("The data was loaded from cache.")}  
   }
-  if ((!cache)|(is.null(restat))|(update_cache)){
-    restat<-get_eurostat_raw(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,...)
-  }  
+  if ((!cache)|(is.null(restat_bulk))|(update_cache)){
+    restat_bulk<-get_eurostat_raw(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
+  } 
   drop=c("FREQ","TIME_FORMAT")
   if ((is.null(select_freq))){
-    if (length(unique(restat$FREQ))>1){
-      st<-data.table::setorder(restat[,.N,by=FREQ],-N)[1,1]
-      if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{as.character(st$FREQ)}
+    if (length(unique(restat_bulk$FREQ))>1){
+      st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
+      if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
       warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
     } 
   }
-  if (!(is.null(select_freq))){restat<-restat[FREQ==select_freq]}
-  if ("OBS_VALUE" %in% colnames(restat)) {
+  if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
+  if ("OBS_VALUE" %in% colnames(restat_bulk)) {
     if (keep_flags){
-      data.table::setnames(restat,"OBS_STATUS","flags")
+      data.table::setnames(restat_bulk,"OBS_STATUS","flags")
     } else {
-     if ("OBS_STATUS" %in% colnames(restat)) {drop<-c(drop,"OBS_STATUS")}    
+     if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
     }
-    restat[,(drop):=NULL]
-    data.table::setnames(restat,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
+    restat_bulk[,(drop):=NULL]
+    data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
   }
-  if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
-  if (cache){
-    udate<-toc$lastUpdate[toc$code==id]
-    pl<-put_eurostat_cache(restat,paste0(id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T)),cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("The data was cached ",pl,".\n" )}
+  if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
+  if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=T)))){
+    oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
+    pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
+    if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
   }
-  restat
+  restat_bulk
 }

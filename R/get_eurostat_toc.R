@@ -70,8 +70,9 @@ get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,comp
     } 
     toc<-toc[!duplicated(toc[,c(1:8)]),]
     if (cache){
-      pl<-put_eurostat_cache(toc,paste0("toc.",mode,".",lang),cache_dir,compress_file)
-      if (verbose){message("The toc was cached ",pl,".\n")}
+      name<-paste0("toc.",mode,".",lang)
+      pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
+      if (verbose){message("The TOC was cached ",pl,".\n")}
     }
   }
   toc  

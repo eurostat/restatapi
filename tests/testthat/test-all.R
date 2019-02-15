@@ -84,10 +84,18 @@ test_that("test of the get_eurostat_raw/bulk function", {
 context("test of the get/put_eurostat_cache function")
 id<-"ei_bsfs_q"
 udate<-toc$lastUpdate[toc$code==id]
-nm<-paste0(id,"-",udate)
-raw<-get_eurostat_raw(id,keep_flags=T)
-raw2<-get_eurostat_raw(id,cache_dir=tempdir())
-raw3<-get_eurostat_raw(id)
+nm<-paste0("r_",id,"-",udate)
+rt1<-system.time(raw<-get_eurostat_raw(id,keep_flags=T))[3]
+bt1<-system.time(bulk<-get_eurostat_bulk(id,stringsAsFactors=F))[3]
+rt2<-system.time(raw2<-get_eurostat_raw(id,cache_dir=tempdir()))[3]
+dt1<-system.time(estat_data<-get_eurostat_data(id,keep_flags=T))[3]
+rt3<-system.time(raw3<-get_eurostat_raw(id))[3]
+dt2<-system.time(estat_data2<-get_eurostat_data(id,update_cache=T,stringsAsFactors=F))[3]
+dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=T))[3]
+id<-"avia_par_mk"
+suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(id,stringsAsFactors=F))[3])
+rt4<-system.time(raw4<-get_eurostat_raw(id,keep_flags=T))[3]
+suppressWarnings(bt2<-system.time(bulk2<-get_eurostat_bulk(id,keep_flags=T))[3])
 test_that("test of the get/put_eurostat_cache function", {
   expect_true(exists(paste0(nm,"-1"),envir=.restatapi_env))
   expect_true(exists(paste0(nm,"-0"),envir=.restatapi_env))
@@ -95,4 +103,27 @@ test_that("test of the get/put_eurostat_cache function", {
   expect_false(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=T),paste0(nm,"-1.rds"))))
   expect_false(identical(raw,raw2))
   expect_identical(raw2,raw3)
+  expect_identical(bulk,estat_data2)
+  expect_true(rt1>bt1)
+  expect_true(rt2<rt1)
+  expect_true(dt1<dt2)
+  expect_true(dt3<rt1)
+  expect_true(dt2>rt3)
+  expect_true(any(sapply(raw,is.factor)))
+  expect_true(any(sapply(raw2,is.factor)))
+  expect_true(any(sapply(raw3,is.factor)))
+  expect_true(any(sapply(raw4,is.factor)))
+  expect_false(any(sapply(bulk,is.factor)))
+  expect_true(any(sapply(bulk2,is.factor)))
+  expect_true(any(sapply(estat_data,is.factor)))
+  expect_false(any(sapply(estat_data2,is.factor)))
+  expect_true(any(sapply(estat_data3,is.factor)))
+  expect_false(any(sapply(estat_data4,is.factor)))
+  expect_true(ncol(raw)>ncol(bulk))
+  expect_equal(ncol(bulk)+1,ncol(estat_data3))
+  expect_equal(nrow(raw),nrow(bulk))
+  expect_true(bt2<dt4)
+  expect_true(bt2<rt4)
+  expect_equal(nrow(estat_data4),nrow(bulk2))
+  expect_true(nrow(raw4)>nrow(estat_data4))
 })

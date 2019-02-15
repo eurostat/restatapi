@@ -14,7 +14,7 @@
 clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(cache_dir)){cache_dir<-getOption("restatapi_cache_dir",NULL)}
-  cdirs<-NULL
+  files<-cdirs<-NULL
   if (!(exists(".restatapi_env"))) {
     load_cfg()
   } else {
@@ -33,11 +33,14 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
     cdirs<-c(cdirs,cache_dir)
     files<-unique(c(files,list.files(cache_dir,pattern=".rds",full.names=TRUE)))
   }
-  if (length(files) == 0) {
-    if (verbose){message("The cache folder ",cache_dir," is empty.")}
-  } else {
-    unlink(files)
-    if (verbose){message("Deleted all .rds files from ",paste(cdirs,collapse="; "))}    
-  }  
+  
+  if (!is.null(files)){
+    if (length(files) == 0) {
+      if (verbose){message("The cache folder ",cache_dir," is empty.")}
+    } else {
+      unlink(files)
+      if (verbose){message("Deleted all .rds files from ",paste(cdirs,collapse="; "))}    
+    }  
+  }
 }
 

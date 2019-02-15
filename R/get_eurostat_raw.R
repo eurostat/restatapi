@@ -58,7 +58,7 @@ get_eurostat_raw <- function(id,
                              keep_flags=FALSE,
                              verbose=FALSE,...){
   
-  restat<-NULL
+  restat_raw<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
@@ -66,26 +66,33 @@ get_eurostat_raw <- function(id,
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
   
-  toc<-get_eurostat_toc()
+  toc<-get_eurostat_toc(verbose=verbose)
   if ((cache)&(!update_cache)) {
     udate<-toc$lastUpdate[toc$code==id]
-    restat<-get_eurostat_cache(paste0(id,"-",udate,"-",sum(keep_flags)),cache_dir)
-    if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat)))  {restat$OBS_STATUS<-NULL}
-    if ((!is.null(restat))&(verbose)) {message("The data was loaded from cache.")}  
+    restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir)
+    if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
+      col_conv<-colnames(restat_raw)
+      restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
+    }
+    if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
+      restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=T)
+    }
+    if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
+    if ((!is.null(restat_raw))&(verbose)) {message("The data was loaded from cache.")}  
   }
-  if ((!cache)|(is.null(restat))|(update_cache)){
+  if ((!cache)|(is.null(restat_raw))|(update_cache)){
     bulk_url<-toc$downloadLink.sdmx[toc$code==id]
     temp <- tempfile()
     utils::download.file(bulk_url,temp)
     xml_leafs<-xml2::xml_find_all(xml2::read_xml(utils::unzip(temp, paste0(id,".sdmx.xml"))),".//data:Series")
-    restat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
     unlink(temp)
     unlink(paste0(id,".sdmx.xml"))
+    restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
+    }
+  if (cache&all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=T))){
+    oname<-paste0("r_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags))
+    pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
+    if ((!is.null(pl))&(verbose)) {message("The raw data was cached ",pl,".\n" )}
   }
-  if (cache){
-    udate<-toc$lastUpdate[toc$code==id]
-    pl<-put_eurostat_cache(restat,paste0(id,"-",udate,"-",sum(keep_flags)),cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("The data was cached ",pl,".\n" )}
-  }
-  restat
+  restat_raw
 }

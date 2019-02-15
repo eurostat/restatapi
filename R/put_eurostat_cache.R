@@ -2,6 +2,7 @@
 #' @description Save the object (dataset/toc/DSD) to cache
 #' @param obj  an object (toc, dataset, DSD)
 #' @param oname  a character string with the name of the object to reference later in the cache
+#' @param update_cache a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cahce is overwritten.  Can be set also with \code{options(restatapi_update = TRUE)}
 #' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the object is saved in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory under the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.
 #' @export 
@@ -12,27 +13,42 @@
 #' put_eurostat_cache(toc,"toc.xml")
 #' }
 
-put_eurostat_cache<-function(obj, oname, cache_dir=NULL, compress_file=T){
+put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_file=T){
   pl<-NULL
   if (is.null(cache_dir)){cache_dir <- getOption("restatapi_cache_dir", NULL)}
   if (is.null(cache_dir)){
     if (!exists(oname,envir=.restatapi_env)) {
-      assign(oname, obj, envir = .restatapi_env)
-      pl<-"in memory ('.restatapi_env')"
+      assign(oname,obj,envir=.restatapi_env)
+      pl<-paste0("in memory (",oname," in '.restatapi_env')")
+    } else if (update_cache){
+      assign(oname,obj,envir=.restatapi_env)
+      pl<-paste0("in memory (",oname," in '.restatapi_env'). The previous value was overwritten.")
+    } else {
+      pl<-paste("previously in memory (",oname,"in '.restatapi_env')")
     }
   } else if (dir.exists(cache_dir)){
     fname<-file.path(sub("[\\/]$","",cache_dir,perl=T),paste0(oname,".rds"))
     if (!file.exists(fname)){
-      saveRDS(obj, file = fname, compress = compress_file)
+      saveRDS(obj,file=fname,compress=compress_file)
+      pl<-paste("in the file", fname)
+    }else if(update_cache){
+      saveRDS(obj,file=fname,compress=compress_file)
+      pl<-paste0("previously in the file ",fname,". The previous value is now overwritten")
+    }else{
+      pl<-paste("previously in the file",fname)
     }
-    pl<-paste("in the file", fname)
   }else{
     if (!dir.exists(file.path(tempdir(),"restatapi"))){dir.create(file.path(tempdir(),"restatapi"))}
     fname<-file.path(tempdir(),"restatapi",paste0(oname,".rds"))
-      if (!file.exists(fname)){
-        saveRDS(obj, file = fname, compress = compress_file)
-      }
-    pl<-paste("in the file", fname)
-  }  
-return(pl)
+    if (!file.exists(fname)){
+      saveRDS(obj,file=fname,compress=compress_file)
+      pl<-paste("in the file", fname)
+    }else if(update_cache){
+      saveRDS(obj,file=fname,compress=compress_file)
+      pl<-paste0("previously in the file ",fname,". The previous value is now overwritten")
+    }else{
+      pl<-paste("previously in the file", fname)
+    }
+  }
+  return(pl)
 }

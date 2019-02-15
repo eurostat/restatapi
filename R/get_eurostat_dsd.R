@@ -51,7 +51,7 @@ get_eurostat_dsd <- function(id,
         dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=F)
         names(dsd)<-c("concept","code","name")
         if (cache){
-          pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),cache_dir,compress_file)
+          pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
           if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
         } 
       }

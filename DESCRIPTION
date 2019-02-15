@@ -1,8 +1,8 @@
 Package: restatapi
 Type: Package
 Title: using SDMX to search and retrieve data from Eurobase
-Date: 2019-02-01
-Version: 0.1.0
+Date: 2019-02-16
+Version: 0.1.1
 Encoding: UTF-8
 Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
 Maintainer: Mátyás Mészáros <matyas.meszaros@ec.europa.eu>

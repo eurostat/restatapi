@@ -16,14 +16,15 @@
 get_eurostat_cache<-function(oname, cache_dir=NULL){
   obj<-oname_p<-NULL
   if (is.null(cache_dir)){cache_dir <- getOption("restatapi_cache_dir", NULL)}
-  oname_all<-unique(c(oname,sub("-0$","-1",oname),sub("-0-","-1-",oname)))
+  oname_all<-unique(c(oname,sub("-0$","-1",oname),sub("-0-","-1-",oname),sub("^b_","r_",oname,perl=T)))
   if(length(gregexpr("-", oname)[[1]])>2){
     oname_p<-sapply(c(1:(length(gregexpr("-", oname)[[1]])-2)),FUN=pgen,oname=oname)
-    oname_p<-unique(c(oname_p,sub("-0$","-1",oname_p),sub("-0-","-1-",oname_p)))
+    oname_p<-unique(c(oname_p,sub("-0$","-1",oname_p),sub("-0-","-1-",oname_p),sub("^b_","r_",oname_p,perl=T)))
   }
   oname_all<-unique(c(oname_all,oname_p))
   if (any(sapply(oname_all,exists,envir=.restatapi_env))){
-      get(oname_all[sapply(oname_all,exists,envir=.restatapi_env)][1], envir = .restatapi_env)
+    get(oname_all[sapply(oname_all,exists,envir=.restatapi_env)][1], envir = .restatapi_env)
+    #eval(parse(text=(paste0(".restatapi_env$",oname_all[sapply(oname_all,exists,envir=.restatapi_env)][1]))))
   } else if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){
       fname<-file.path(sub("[\\/]$","",cache_dir,perl=T),paste0(oname_all,".rds"))
@@ -44,5 +45,5 @@ get_eurostat_cache<-function(oname, cache_dir=NULL){
 }
 
 pgen<-function(x,oname){
-  sub(paste0("((?:-[^-\r\n]*){",x,"})$"),"",oname,perl=T)
+  sub(paste0("((?:-[^-rb\r\n]*){",x,"})$"),"",oname,perl=T)
 }
