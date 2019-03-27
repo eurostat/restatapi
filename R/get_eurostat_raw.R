@@ -70,15 +70,17 @@ get_eurostat_raw <- function(id,
   if ((cache)&(!update_cache)) {
     udate<-toc$lastUpdate[toc$code==id]
     restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir)
-    if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
-      col_conv<-colnames(restat_raw)
-      restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
+    if (!is.null(restat_raw)){
+      if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
+        col_conv<-colnames(restat_raw)
+        restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
+      }
+      if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
+        restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=T)
+      }
+      if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
+      if (verbose) {message("The data was loaded from cache.")}        
     }
-    if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
-      restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=T)
-    }
-    if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
-    if ((!is.null(restat_raw))&(verbose)) {message("The data was loaded from cache.")}  
   }
   if ((!cache)|(is.null(restat_raw))|(update_cache)){
     bulk_url<-toc$downloadLink.sdmx[toc$code==id]

@@ -1,11 +1,10 @@
 Package: restatapi
 Type: Package
 Title: using SDMX to search and retrieve data from Eurobase
-Date: 2019-02-16
-Version: 0.1.1
+Date: 2019-03-27
+Version: 0.1.2
 Encoding: UTF-8
 Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
-Maintainer: Mátyás Mészáros <matyas.meszaros@ec.europa.eu>
 Description: Tools to search and download data from the Eurostat database using the SDMX standard.
 License: EUPL-1.1 | file LICENSE
 Imports: data.table, parallel, rjson, rsdmx, readr, utils, xml2

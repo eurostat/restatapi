@@ -239,10 +239,13 @@ get_eurostat_data <- function(id,
         if (verbose){
           message(x)
           try(rdat<-rsdmx::readSDMX(x),silent=T)
+          if (length(rdat@footer@messages)>0){
+            rdat<-NULL}
         } else {
           try(suppressWarnings(rdat<-rsdmx::readSDMX(x)),silent=T)
+          if (length(rdat@footer@messages)>0){
+            rdat<-NULL}
         }
-        
         if (!is.null(rdat)){data.table::as.data.table(rdat)}else{NULL}
       }),fill=T)
       if (!is.null(restat)){
