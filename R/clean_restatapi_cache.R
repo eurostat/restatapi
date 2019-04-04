@@ -7,9 +7,9 @@
 #'        \code{options(restatapi_verbose=TRUE)}
 #' @export
 #' @examples 
-#' \dontrun{
+#' 
 #' clean_restatapi_cache() 
-#' }
+#' 
 
 clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)

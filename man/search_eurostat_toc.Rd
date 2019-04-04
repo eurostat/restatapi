@@ -44,10 +44,12 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 'energy'.
 }
 \examples{
-\dontrun{
-  search_eurostat_toc("energy")
-  search_eurostat_toc("energie",lang="de",ignore.case=T)
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
 }
+  search_eurostat_toc("energy")
+  search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
+
 }
 \seealso{
 \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_toc}}

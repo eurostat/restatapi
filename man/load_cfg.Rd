@@ -22,10 +22,12 @@ it returns 2 objects in the '.restatapi_env'
 Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 }
 \details{
-TBD
+Loads configuration data from a JSON file. By this way different version of the API can be tested.
 }
 \examples{
-\dontrun{
+\donttest{
 load_cfg()
+load_cfg(api_version="test",verbose=TRUE)
 }
+
 }

@@ -6,11 +6,13 @@
 #' @details It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
 #' @return a matrix with 3 columns if the concepts has code list in the DSD file
 #' @examples 
-#' \dontrun{
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
+#' }
 #' dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
 #' dsd_xml<-xml2::read_xml(dsd_url)
-#' values<- extract_dsd("GEO",dsd_xml)
-#' }
+#' extract_dsd("GEO",dsd_xml)
+#' 
 #' 
 
 extract_dsd<-function(concept,dsd_xml){

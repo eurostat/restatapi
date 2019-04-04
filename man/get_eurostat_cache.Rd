@@ -24,7 +24,10 @@ Search and load the object (dataset/toc/DSD) from cache
 If the given name or the beginning of the name (for datasets) found in the cache then it returns the value of the object otherwise it returns \code{NULL}.
 }
 \examples{
-\dontrun{
-get_eurostat_cache("toc.xml")
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
 }
+toc<-get_eurostat_toc(cache=TRUE)
+head(get_eurostat_cache("toc.xml"))
+
 }

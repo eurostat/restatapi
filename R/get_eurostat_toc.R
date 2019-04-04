@@ -32,11 +32,15 @@
 #' @details The TOC is downloaded from Eurostat websites through the REST API for the \code{xml} (default) version or from the bulk download facilities for \code{txt} version.
 #'  
 #' @references For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
-#' @examples \dontrun{
-#' toc_xml <- get_eurostat_toc(cache=F)
-#' toc_txt <- get_eurostat_toc(mode="txt", lang="de")
-#' head(toc)
+#' @examples 
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' toc_xml<-get_eurostat_toc(cache=FALSE)
+#' head(toc_xml)
+#' toc_txt<-get_eurostat_toc(mode="txt", lang="de")
+#' head(toc_txt)
+#' 
 
 get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,compress_file=T,lang="en",verbose=F,...) {
   toc<-NULL

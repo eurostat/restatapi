@@ -21,10 +21,12 @@ Extracts the values from the XML Data Structure Definition (DSD) file
 It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
 }
 \examples{
-\dontrun{
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
+}
 dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
 dsd_xml<-xml2::read_xml(dsd_url)
-values<- extract_dsd("GEO",dsd_xml)
-}
+extract_dsd("GEO",dsd_xml)
+
 
 }

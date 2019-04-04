@@ -8,16 +8,18 @@
 #' @details It is a subfunction to use in the \code{\link{get_eurostat_data}} function.
 #' @return a data frame with 
 #' @examples 
-#' \dontrun{
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
+#' }
 #' id<-"agr_r_milkpr"
 #' toc<-get_eurostat_toc()
 #' bulk_url<-toc$downloadLink.sdmx[toc$code==id]
-#' temp <- tempfile()
+#' temp<-tempfile()
 #' download.file(bulk_url,temp)
 #' sdmx_xml<-xml2::read_xml(unzip(temp, paste0(id,".sdmx.xml")))
 #' xml_leafs<-xml2::xml_find_all(sdmx_xml,".//data:Series")
 #' extract_data(xml_leafs[1])
-#' }
+#' 
 #' 
 
 extract_data<-function(xml_lf,keep_flags=F,stringsAsFactors=default.stringsAsFactors()){

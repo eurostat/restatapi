@@ -9,9 +9,12 @@
 #' @details If the given name or the beginning of the name (for datasets) found in the cache then it returns the value of the object otherwise it returns \code{NULL}.
 #' @return The requested object if exists in the '.restatapi_env' or in the \code{cache_dir}, otherwise it returns the \code{NULL} value.  
 #' @examples 
-#' \dontrun{
-#' get_eurostat_cache("toc.xml")
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' toc<-get_eurostat_toc(cache=TRUE)
+#' head(get_eurostat_cache("toc.xml"))
+#' 
 
 get_eurostat_cache<-function(oname, cache_dir=NULL){
   obj<-oname_p<-NULL

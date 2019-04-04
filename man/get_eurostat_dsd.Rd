@@ -38,10 +38,12 @@ Download Data Structure Definition (DSD) of a Eurostat dataset if it is not cach
 The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX) format.
 }
 \examples{
-\dontrun{
-dsd <- get_eurostat_dsd("nama_10_gdp",cache=F)
-head(dsd)
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
 }
+dsd <- get_eurostat_dsd("nama_10_gdp",cache=FALSE)
+head(dsd)
+
 }
 \references{
 For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}.

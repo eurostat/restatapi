@@ -74,29 +74,34 @@
 #'         on particular time. 
 #' @seealso \code{\link{search_eurostat_toc}},\code{\link{search_eurostat_dsd}}
 #' @examples 
-#' \dontrun{
-#' 
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
+#' }
 #' dt<-get_eurostat_data("NAMA_10_GDP")
 #' dt<-get_eurostat_data("nama_10_gdp",update_cache=TRUE)
 #' dt<-get_eurostat_data("nama_10_gdp",cache_dir="/tmp")
 #' options(restatapi_update=TRUE)
 #' options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 #' 
-#' dt<-get_eurostat_data("avia_gonc", select_freq = "A", cache = FALSE)
-#' dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=T)
+#' dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
+#' dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 #' dt<-get_eurostat_data("avia_par_me",
 #'                       filters="BE$",
 #'                       date_filter=c(2016,"2017-03","2017-07-01"),
 #'                       select_freq="Q",
-#'                       label=T)
-#' dt<-get_eurostat_data("agr_r_milkpr",filters=c("BE$","Hungary"),date_filter="2007-06<",keep_flags=T)
+#'                       label=TRUE)
+#' dt<-get_eurostat_data("agr_r_milkpr",
+#'                       filters=c("BE$","Hungary"),
+#'                       date_filter="2007-06<",
+#'                       keep_flags=TRUE)
 #' dt<-get_eurostat_data("nama_10_a10_e",
 #'                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
 #'                       date_filter=c("2008",2002,2013:2018))
 #' dt<-get_eurostat_data("avia_par_me",
 #'                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
-#'                       date_filter=c("2016-08","2017-07-01"),select_freq="M")
-#' }
+#'                       date_filter=c("2016-08","2017-07-01"),
+#'                       select_freq="M")
+#' 
 
 get_eurostat_data <- function(id,
                          filters=NULL,
@@ -281,7 +286,10 @@ get_eurostat_data <- function(id,
           }    
           restat[,(drop):=NULL]
           data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
-          data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))    
+          data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
+          restat<-data.table(restat,key=names(restat))
+          restat<-unique(restat)
+          restat[order("time"),]
         }
       } else {
         warning("There is no data with the given filter(s) or still too many observations after filtering. The bulk download can be used to download the whole dataset.")

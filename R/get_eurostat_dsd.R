@@ -19,10 +19,13 @@
 #' @details The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX) format.
 #'  
 #' @references For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
-#' @examples \dontrun{
-#' dsd <- get_eurostat_dsd("nama_10_gdp",cache=F)
-#' head(dsd)
+#' @examples 
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' dsd <- get_eurostat_dsd("nama_10_gdp",cache=FALSE)
+#' head(dsd)
+#' 
 
 get_eurostat_dsd <- function(id,
                              cache=T,

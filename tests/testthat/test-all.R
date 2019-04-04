@@ -1,4 +1,4 @@
-options(mc.cores=2)
+options(mc.cores=min((parallel::detectCores()),2))
 clean_restatapi_cache()
 context("test of the get_eurostat_toc function")
 test_that("test of the get_eurostat_toc function", {

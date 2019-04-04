@@ -28,7 +28,10 @@ Save the object (dataset/toc/DSD) to cache
 Saves a given object in cache. This can be the memory \code{.restatapi_env} or on the hards disk. If the given \code{cache_dir} does not exist then the file is saved in the R temp directory (\code{tempdir()}. If the file or object with the \code{oname} exists in the cache, then the object is not cached.
 }
 \examples{
-\dontrun{
-put_eurostat_cache(toc,"toc.xml")
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
 }
+toc<-get_eurostat_toc()
+put_eurostat_cache(toc,"toc.xml")
+
 }

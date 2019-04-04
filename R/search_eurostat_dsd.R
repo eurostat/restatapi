@@ -15,14 +15,17 @@
 #' @seealso \code{\link{get_eurostat_dsd}}, \code{\link{search_eurostat_toc}}.
 #' @details The function returns the line(s) where the searched pattern appears in the code or in the name column.
 #'  
-#' @examples \dontrun{
-#' dsd <- get_eurostat_dsd("nama_10_gdp",cache=F) 
-#' search_eurostat_dsd(dsd,"EU")
-#' search_eurostat_dsd(dsd,"EU",ignore.case=F)
+#' @examples 
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE) 
+#' search_eurostat_dsd("EU",dsd)
+#' search_eurostat_dsd("EU",dsd,ignore.case=FALSE)
+#' 
 
 
-search_eurostat_dsd <- function(pattern, dsd, ignore.case=T ) {
+search_eurostat_dsd <- function(pattern,dsd,ignore.case=T) {
   if (is.null(dsd)){
     stop('No DSD were provided.')
   } else if (is.null(pattern)) {

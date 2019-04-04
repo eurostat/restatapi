@@ -28,10 +28,13 @@
 #'    The value in the \code{code} column can be used as an id in the \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_raw}} and \code{\link{get_eurostat_dsd}} functions.
 #' @export
 #' @seealso \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_toc}}
-#' @examples \dontrun{
-#'   search_eurostat_toc("energy")
-#'   search_eurostat_toc("energie",lang="de",ignore.case=T)
+#' @examples 
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#'   search_eurostat_toc("energy")
+#'   search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
+#' 
 
 
 search_eurostat_toc <- function(pattern,lang="en",...) {

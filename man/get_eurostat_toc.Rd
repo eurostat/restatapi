@@ -53,11 +53,14 @@ Download Table of Contents (TOC) of Eurostat datasets if it is not cached previo
 The TOC is downloaded from Eurostat websites through the REST API for the \code{xml} (default) version or from the bulk download facilities for \code{txt} version.
 }
 \examples{
-\dontrun{
-toc_xml <- get_eurostat_toc(cache=F)
-toc_txt <- get_eurostat_toc(mode="txt", lang="de")
-head(toc)
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
 }
+toc_xml<-get_eurostat_toc(cache=FALSE)
+head(toc_xml)
+toc_txt<-get_eurostat_toc(mode="txt", lang="de")
+head(toc_txt)
+
 }
 \references{
 For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}.

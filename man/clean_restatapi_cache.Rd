@@ -18,7 +18,7 @@ Remove all objects from the .restatapi_env except the configuration file and del
              See \code{\link{get_eurostat_data}} for more on cache.
 }
 \examples{
-\dontrun{
+
 clean_restatapi_cache() 
-}
+
 }

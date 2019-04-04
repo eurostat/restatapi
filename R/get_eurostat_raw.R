@@ -41,13 +41,14 @@
 #'         on particular time. 
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
-#' \dontrun{
-#' dt<-get_eurostat_bulk("tps00201")
-#' dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=T)
-#' dt<-get_eurostat_bulk("avia_par_ee",update_cache=T)
-#' options(restatapi_update=T)
-#' dt<-get_eurostat_bulk("tps00201",cache_dir="/tmp",compress_file=F)
+#' \dontshow{
+#' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
+#' dt<-get_eurostat_raw("avia_par_ee",update_cache=TRUE)
+#' options(restatapi_update=TRUE)
+#' dt<-get_eurostat_raw("avia_par_me",cache_dir="/tmp",compress_file=FALSE)
+#' 
 
 get_eurostat_raw <- function(id, 
                              cache=TRUE, 

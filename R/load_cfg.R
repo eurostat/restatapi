@@ -2,16 +2,19 @@
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
 #' @param verbose  A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. 
-#' @details TBD
 #' @return it returns 2 objects in the '.restatapi_env'  
 #' \itemize{
 #'  \item \code{cfg} a list with all the configuration data
 #'  \item \code{rav} a character string with a number defining the API_VERSION from the config file to be used later. It is determined based on the \code{api_version} parameter.   
 #'  } 
+#' @export
+#' @details Loads configuration data from a JSON file. By this way different version of the API can be tested.
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' load_cfg()
+#' load_cfg(api_version="test",verbose=TRUE)
 #' }
+#' 
 
 load_cfg<-function(api_version="current", verbose=FALSE){
   assign(".restatapi_env", new.env(), envir=baseenv())
