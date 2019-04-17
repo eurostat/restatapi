@@ -51,7 +51,7 @@ under the temporary directory from \code{tempdir()}. Directory can also be set w
 \item{compress_file}{a logical whether to compress the
 RDS-file in caching. Default is \code{TRUE}.}
 
-\item{stringsAsFactors}{if \code{TRUE} (the default) variables are not numeric then they are
+\item{stringsAsFactors}{if \code{TRUE} (the default) the non-numeric columns are
 converted to factors. If the value \code{FALSE}
 they are returned as a characters.}
 

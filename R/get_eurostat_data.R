@@ -30,7 +30,7 @@
 #'        \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
-#' @param stringsAsFactors if \code{TRUE} (the default) variables are not numeric then they are
+#' @param stringsAsFactors if \code{TRUE} (the default) the non-numeric columns are
 #'        converted to factors. If the value \code{FALSE}
 #'        they are returned as a characters.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",

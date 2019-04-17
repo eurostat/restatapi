@@ -1,14 +1,20 @@
 Package: restatapi
 Type: Package
-Title: Using the REST API with the rsdmx Package to Search and Retrieve Data from Eurostat Database
+Title: Tools using the REST API with the SDMX Web Service to Search and Retrieve Data from Eurostat Database
 Date: 2019-04-17
 Version: 0.1.4
 Encoding: UTF-8
 Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
-Description: Tools to search and download data from the Eurostat database using the SDMX standard.
+Description: Eurostat is the statistical office of the European Union and provides high quality statistics for Europe.
+             Large set of the data is disseminated through the Eurostat database (<https://ec.europa.eu/eurostat/data/database>). 
+             The tools are using the Statistical Data and Metadata eXchange (SDMX <https://sdmx.org>) Web Services 
+             (<https://ec.europa.eu/eurostat/web/sdmx-web-services/about-this-service>) to search and download data from 
+             the Eurostat database using the SDMX standard.
 License: EUPL-1.1 
 Imports: data.table, parallel, rjson, rsdmx, xml2
 Suggests: knitr, rmarkdown, testthat
 LazyData: true
 NeedsCompilation: no
 RoxygenNote: 6.1.1
+URL: https://github.com/eurostat/restatapi
+BugReports: https://github.com/eurostat/restatapi/issues
