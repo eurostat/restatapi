@@ -44,11 +44,12 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' \donttest{
 #' dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
 #' dt<-get_eurostat_raw("avia_par_ee",update_cache=TRUE)
-#' options(restatapi_update=TRUE)
-#' dt<-get_eurostat_raw("avia_par_me",cache_dir="/tmp",compress_file=FALSE)
-#' 
+#' options(restatapi_update=FALSE)
+#' dt<-get_eurostat_raw("avia_par_me",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+#' }
 
 get_eurostat_raw <- function(id, 
                              cache=TRUE, 
@@ -62,40 +63,80 @@ get_eurostat_raw <- function(id,
   restat_raw<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
+  ne<-ne2<-TRUE
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
   
   toc<-get_eurostat_toc(verbose=verbose)
-  if ((cache)&(!update_cache)) {
-    udate<-toc$lastUpdate[toc$code==id]
-    restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir)
-    if (!is.null(restat_raw)){
-      if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
-        col_conv<-colnames(restat_raw)
-        restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
+  if (is.null(toc)){
+    message("The TOC is missing. Could not get the download link.")
+  } else {
+    if ((cache)&(!update_cache)) {
+      udate<-toc$lastUpdate[toc$code==id]
+      restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose)
+      if (!is.null(restat_raw)){
+        if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
+          col_conv<-colnames(restat_raw)
+          restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
+        }
+        if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
+          restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=T)
+        }
+        if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
       }
-      if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
-        restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=T)
+    }
+    if ((!cache)|(is.null(restat_raw))|(update_cache)){
+      bulk_url<-toc$downloadLink.sdmx[toc$code==id]
+      if (!is.null(bulk_url)){
+        temp <- tempfile()
+        if (verbose) {
+          message(bulk_url)
+          tryCatch({utils::download.file(bulk_url,temp)},
+                   error = function(e) {
+                     message("Unable to download the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                     ne<-FALSE
+                   },
+                   warning = function(w) {
+                     message("Unable to download the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                   })
+        } else {
+          tryCatch({utils::download.file(bulk_url,temp)},
+                   error = function(e) {ne<-FALSE},
+                   warning = function(w) {})
+        }
+        if (ne) {
+          if (verbose) {
+            tryCatch({sdmx_file<-utils::unzip(temp, paste0(id,".sdmx.xml"))},
+                     error = function(e) {
+                       message("Unable to unzip the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                       ne2<-FALSE
+                     },
+                     warning = function(w) {
+                       message("Unable to unzip the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                     })
+          } else {
+            tryCatch({sdmx_file<-utils::unzip(temp, paste0(id,".sdmx.xml"))},
+                     error = function(e) {ne2<-FALSE},
+                     warning = function(w) {})
+          }
+          if (ne2){
+            xml_leafs<-xml2::xml_find_all(xml2::read_xml(sdmx_file),".//data:Series")
+            unlink(temp)
+            unlink(paste0(id,".sdmx.xml"))
+            restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
+          }
+        }
+      }else{
+        message("The download link from the TOC is missing. Try again later.")
       }
-      if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
-      if (verbose) {message("The data was loaded from cache.")}        
-    }
+    }  
+    if (ne&ne2&cache&all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=T))){
+      oname<-paste0("r_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags))
+      pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
+      if ((!is.null(pl))&(verbose)) {message("The raw data was cached ",pl,".\n" )}
+    }  
   }
-  if ((!cache)|(is.null(restat_raw))|(update_cache)){
-    bulk_url<-toc$downloadLink.sdmx[toc$code==id]
-    temp <- tempfile()
-    utils::download.file(bulk_url,temp)
-    xml_leafs<-xml2::xml_find_all(xml2::read_xml(utils::unzip(temp, paste0(id,".sdmx.xml"))),".//data:Series")
-    unlink(temp)
-    unlink(paste0(id,".sdmx.xml"))
-    restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
-    }
-  if (cache&all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=T))){
-    oname<-paste0("r_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags))
-    pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("The raw data was cached ",pl,".\n" )}
-  }
-  restat_raw
+  return(restat_raw)
 }

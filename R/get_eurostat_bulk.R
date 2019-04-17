@@ -54,13 +54,14 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
-#' 
+#' \donttest{
 #' dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
-#' dt<-get_eurostat_bulk("avia_par_ee")
-#' dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",update_cache=TRUE)
 #' options(restatapi_update=TRUE)
-#' dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir="/tmp",compress_file=FALSE)
-#' 
+#' dt<-get_eurostat_bulk("avia_par_ee")
+#' dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
+#' options(restatapi_update=FALSE)
+#' dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+#' }
 
 get_eurostat_bulk <- function(id,
                               cache=TRUE,
@@ -84,7 +85,7 @@ get_eurostat_bulk <- function(id,
   toc<-get_eurostat_toc(verbose=verbose)
   if ((cache)&(!update_cache)) {
     nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
-    restat_bulk<-get_eurostat_cache(nm,cache_dir)
+    restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
     if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
       col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
       restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
@@ -92,7 +93,6 @@ get_eurostat_bulk <- function(id,
     if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
       restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=T)
     }
-    if ((!is.null(restat_bulk))&(verbose)) {message("The data was loaded from cache.")}  
   }
   if ((!cache)|(is.null(restat_bulk))|(update_cache)){
     restat_bulk<-get_eurostat_raw(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
@@ -102,7 +102,7 @@ get_eurostat_bulk <- function(id,
     if (length(unique(restat_bulk$FREQ))>1){
       st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
       if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
-      warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+      message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
     } 
   }
   if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
@@ -121,5 +121,5 @@ get_eurostat_bulk <- function(id,
     pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
     if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
   }
-  restat_bulk
+  return(restat_bulk)
 }

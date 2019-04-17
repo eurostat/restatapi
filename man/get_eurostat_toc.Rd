@@ -56,11 +56,12 @@ The TOC is downloaded from Eurostat websites through the REST API for the \code{
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
 }
-toc_xml<-get_eurostat_toc(cache=FALSE)
+\donttest{
+toc_xml<-get_eurostat_toc(cache=FALSE,verbose=TRUE)
 head(toc_xml)
 toc_txt<-get_eurostat_toc(mode="txt", lang="de")
 head(toc_txt)
-
+}
 }
 \references{
 For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}.

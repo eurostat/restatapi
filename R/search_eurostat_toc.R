@@ -7,6 +7,8 @@
 #' 'energy'.
 #' @param pattern Character string to search for in the table of contents of Eurostat tables/datasets
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the table of contents. The default is \code{en} - English.
+#' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+#'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... other parameters to pass to the \code{grep} function.
 #' @return A table with the following columns:
 #'    \tabular{ll}{
@@ -32,12 +34,13 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' \donttest{
 #'   search_eurostat_toc("energy")
 #'   search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
-#' 
+#' }
 
 
-search_eurostat_toc <- function(pattern,lang="en",...) {
-  tmp<-get_eurostat_toc(lang=lang)
+search_eurostat_toc <- function(pattern,lang="en",verbose=FALSE,...) {
+  tmp<-get_eurostat_toc(lang=lang,verbose=verbose)
   tmp[grepl(pattern,tmp$title,...)|grepl(pattern,tmp$unit,...)|grepl(pattern,tmp$shortDescription,...), ]
 }

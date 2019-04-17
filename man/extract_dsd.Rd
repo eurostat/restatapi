@@ -4,7 +4,7 @@
 \alias{extract_dsd}
 \title{Extract values from XML}
 \usage{
-extract_dsd(concept, dsd_xml)
+extract_dsd(concept = NULL, dsd_xml = NULL)
 }
 \arguments{
 \item{concept}{a character vector with concept ids}
@@ -25,8 +25,12 @@ It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
 options(mc.cores=min((parallel::detectCores()),2))
 }
 dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
-dsd_xml<-xml2::read_xml(dsd_url)
-extract_dsd("GEO",dsd_xml)
-
+tryCatch({
+  dsd_xml<-xml2::read_xml(dsd_url)}, 
+  error=function(e){
+  message("Unable to download the xml file.\\n",e)}, 
+  warning=function(w){
+  message("Unable to download the xml file.\\n",w)}) 
+if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
 
 }

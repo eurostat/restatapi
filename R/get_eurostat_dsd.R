@@ -23,7 +23,7 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
-#' dsd <- get_eurostat_dsd("nama_10_gdp",cache=FALSE)
+#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE)
 #' head(dsd)
 #' 
 
@@ -41,14 +41,28 @@ get_eurostat_dsd <- function(id,
     if (!(exists(".restatapi_env"))) {load_cfg(...)}
     update_cache <- update_cache | getOption("restatapi_update", FALSE)
     if ((cache) & (!update_cache)) {
-      dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir)
-      if ((!is.null(dsd)&(verbose))) {message("The DSD of the ",id," dataset was loaded from cache.")}  
+      dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
     }
     if ((!cache)|(is.null(dsd))|(update_cache)){
       cfg<-get("cfg",envir=.restatapi_env) 
       rav<-get("rav",envir=.restatapi_env)
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
-      if (verbose) {try(dsd_xml<-xml2::read_xml(dsd_endpoint),silent=T)} else {try(suppressWarnings(dsd_xml<-xml2::read_xml(dsd_endpoint)),silent=T)}
+      if (verbose) {
+        message(dsd_endpoint)
+        tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
+                 error = function(e) {
+                   message("Unable to download the DSD:",'\n',paste(unlist(e),collapse="\n"))
+                 },
+                 warning = function(w) {
+                   message("Unable to download the DSD:",'\n',paste(unlist(w),collapse="\n"))
+                 })
+      } else {
+        tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
+                 error = function(e) {
+                 },
+                 warning = function(w) {
+                 })
+      }
       if (exists("dsd_xml")){
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
         dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=F)
@@ -57,10 +71,14 @@ get_eurostat_dsd <- function(id,
           pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
           if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
         } 
+      } else {
+        dsd<-NULL
       }
     }
     if (!is.null(dsd)){
       data.table::as.data.table(dsd)
+    } else {
+      NULL
     }
   }    
 }

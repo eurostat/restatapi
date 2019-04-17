@@ -41,7 +41,7 @@ The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
 }
-dsd <- get_eurostat_dsd("nama_10_gdp",cache=FALSE)
+dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE)
 head(dsd)
 
 }

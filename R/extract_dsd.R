@@ -10,14 +10,24 @@
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
 #' dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
-#' dsd_xml<-xml2::read_xml(dsd_url)
-#' extract_dsd("GEO",dsd_xml)
-#' 
+#' tryCatch({
+#'   dsd_xml<-xml2::read_xml(dsd_url)}, 
+#'   error=function(e){
+#'   message("Unable to download the xml file.\n",e)}, 
+#'   warning=function(w){
+#'   message("Unable to download the xml file.\n",w)}) 
+#' if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
 #' 
 
-extract_dsd<-function(concept,dsd_xml){
-  xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code')),"id")
-  if (length(xml_clc)>0){
-    xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code/com:Name')))
-    cbind(concept,xml_clc,xml_cln)}
-}
+extract_dsd<-function(concept=NULL,dsd_xml=NULL){
+  if (is.null(dsd_xml)|is.null(concept)){
+    message("The XML file or the concept is missing.")
+    return(NULL)
+  } else {
+    xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code')),"id")
+    if (length(xml_clc)>0){
+      xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code/com:Name')))
+      cbind(concept,xml_clc,xml_cln)
+    }  
+  }
+}  

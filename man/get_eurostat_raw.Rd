@@ -67,11 +67,12 @@ in parenthesis.
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
 }
+\donttest{
 dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
 dt<-get_eurostat_raw("avia_par_ee",update_cache=TRUE)
-options(restatapi_update=TRUE)
-dt<-get_eurostat_raw("avia_par_me",cache_dir="/tmp",compress_file=FALSE)
-
+options(restatapi_update=FALSE)
+dt<-get_eurostat_raw("avia_par_me",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+}
 }
 \seealso{
 \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}

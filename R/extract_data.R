@@ -11,6 +11,7 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' \donttest{
 #' id<-"agr_r_milkpr"
 #' toc<-get_eurostat_toc()
 #' bulk_url<-toc$downloadLink.sdmx[toc$code==id]
@@ -19,7 +20,7 @@
 #' sdmx_xml<-xml2::read_xml(unzip(temp, paste0(id,".sdmx.xml")))
 #' xml_leafs<-xml2::xml_find_all(sdmx_xml,".//data:Series")
 #' extract_data(xml_leafs[1])
-#' 
+#' }
 #' 
 
 extract_data<-function(xml_lf,keep_flags=F,stringsAsFactors=default.stringsAsFactors()){

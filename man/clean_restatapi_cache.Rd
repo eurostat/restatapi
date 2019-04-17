@@ -19,6 +19,6 @@ Remove all objects from the .restatapi_env except the configuration file and del
 }
 \examples{
 
-clean_restatapi_cache() 
+clean_restatapi_cache(verbose=TRUE) 
 
 }

@@ -11,9 +11,11 @@
 #' @examples 
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
+#' options(restatapi_cache_dir=NULL)
 #' }
-#' toc<-get_eurostat_toc()
-#' put_eurostat_cache(toc,"toc.xml")
+#' dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
+#' put_eurostat_cache(dt,"teszt")
+#' get("teszt",envir=.restatapi_env)
 #' 
 
 put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_file=T){
@@ -22,12 +24,12 @@ put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_fi
   if (is.null(cache_dir)){
     if (!exists(oname,envir=.restatapi_env)) {
       assign(oname,obj,envir=.restatapi_env)
-      pl<-paste0("in memory (",oname," in '.restatapi_env')")
+      pl<-paste0("in memory ('",oname,"' in '.restatapi_env')")
     } else if (update_cache){
       assign(oname,obj,envir=.restatapi_env)
-      pl<-paste0("in memory (",oname," in '.restatapi_env'). The previous value was overwritten.")
+      pl<-paste0("in memory ('",oname,"' in '.restatapi_env'). The previous value was overwritten")
     } else {
-      pl<-paste("previously in memory (",oname,"in '.restatapi_env')")
+      pl<-paste0("previously in memory ('",oname,"' in '.restatapi_env'). It remained unchanged")
     }
   } else if (dir.exists(cache_dir)){
     fname<-file.path(sub("[\\/]$","",cache_dir,perl=T),paste0(oname,".rds"))
@@ -50,7 +52,7 @@ put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_fi
       saveRDS(obj,file=fname,compress=compress_file)
       pl<-paste0("previously in the file ",fname,". The previous value is now overwritten")
     }else{
-      pl<-paste("previously in the file", fname)
+      pl<-paste("previously in the file",fname)
     }
   }
   return(pl)

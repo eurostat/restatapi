@@ -105,12 +105,12 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
 }
+\donttest{
 dt<-get_eurostat_data("NAMA_10_GDP")
 dt<-get_eurostat_data("nama_10_gdp",update_cache=TRUE)
 dt<-get_eurostat_data("nama_10_gdp",cache_dir="/tmp")
-options(restatapi_update=TRUE)
+options(restatapi_update=FALSE)
 options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
-
 dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
 dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 dt<-get_eurostat_data("avia_par_me",
@@ -129,7 +129,7 @@ dt<-get_eurostat_data("avia_par_me",
                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
                       date_filter=c("2016-08","2017-07-01"),
                       select_freq="M")
-
+}
 }
 \seealso{
 \code{\link{search_eurostat_toc}},\code{\link{search_eurostat_dsd}}

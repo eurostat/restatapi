@@ -25,8 +25,9 @@ options(mc.cores=min((parallel::detectCores()),2))
 cfg<-get("cfg",envir=.restatapi_env) 
 rav<-get("rav",envir=.restatapi_env)
 toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
+\donttest{
 xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")
-values<- extract_toc(xml_leafs[1])
-
+extract_toc(xml_leafs[1])
+}
 
 }

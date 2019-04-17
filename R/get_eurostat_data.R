@@ -77,12 +77,12 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
+#' \donttest{
 #' dt<-get_eurostat_data("NAMA_10_GDP")
 #' dt<-get_eurostat_data("nama_10_gdp",update_cache=TRUE)
 #' dt<-get_eurostat_data("nama_10_gdp",cache_dir="/tmp")
-#' options(restatapi_update=TRUE)
+#' options(restatapi_update=FALSE)
 #' options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
-#' 
 #' dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
 #' dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 #' dt<-get_eurostat_data("avia_par_me",
@@ -101,7 +101,7 @@
 #'                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
 #'                       date_filter=c("2016-08","2017-07-01"),
 #'                       select_freq="M")
-#' 
+#' }
 
 get_eurostat_data <- function(id,
                          filters=NULL,
@@ -157,25 +157,30 @@ get_eurostat_data <- function(id,
         filters<-c(filters,"Daily")
       } else {
         select_freq<-NULL
-        warning("Incorrect frequency selected. It can be 'A', 'S', 'H', 'Q', 'M', 'W' or 'D'. The select_freq parameter will be ignored.")
+        message("Incorrect frequency selected. It can be 'A', 'S', 'H', 'Q', 'M', 'W' or 'D'. The select_freq parameter will be ignored.")
       }
     }
   }
   if ((!is.null(filters))|(!is.null(date_filter))) {
     if (!is.null(filters)){
       dsd<-get_eurostat_dsd(id,verbose=verbose)
-      dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
-      if((length(filters)>1)){   
-        ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,ignore.case=ignore.case))[,2:3]
-        ft<-ft[order(match(ft$concept, dsdorder)),]
-        filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")
-      } else if (length(gregexpr("\\.",filters,perl=T)[[1]])!=(length(dsdorder)-1)){
-        if (!is.null(nrow(search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)))){
-          ft<-search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)[,2:3]
+      if (is.null(dsd)){
+        message("Could not download the DSD. The filter is ignored")
+        filters<-NULL
+      } else {
+        dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
+        if((length(filters)>1)){   
+          ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,ignore.case=ignore.case))[,2:3]
           ft<-ft[order(match(ft$concept, dsdorder)),]
-          filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")        
-        } else {
-          filters<-NULL
+          filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")
+        } else if (length(gregexpr("\\.",filters,perl=T)[[1]])!=(length(dsdorder)-1)){
+          if (!is.null(nrow(search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)))){
+            ft<-search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)[,2:3]
+            ft<-ft[order(match(ft$concept, dsdorder)),]
+            filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")        
+          } else {
+            filters<-NULL
+          }
         }
       }
     }
@@ -183,13 +188,13 @@ get_eurostat_data <- function(id,
       date_filter<-as.character(date_filter)
       if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=T))){
         date_filter<-NULL
-        warning("The date filter has invalid character (not 0-9, '-', '<', '>' or ':'). The date filter is ignored.")
+        message("The date filter has invalid character (not 0-9, '-', '<', '>' or ':'). The date filter is ignored.")
       } else if (length(date_filter)==1)  {
         if (grepl(":",date_filter,perl=T)){
           dates<-unlist(strsplit(date_filter,":"))
           if (length(dates)!=2){
             date_filter<-NULL
-            warning("Could not parse date range (more than one ':'). The date filter is ignored.")
+            message("Could not parse date range (more than one ':'). The date filter is ignored.")
           } else if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
             if ((as.numeric(gsub("-","",dates[2]))*(10^(8-nchar(as.numeric(gsub("-","",dates[2]))))))>(as.numeric(gsub("-","",dates[1]))*(10^(8-nchar(as.numeric(gsub("-","",dates[1]))))))){
               date_filter<-paste0("?startPeriod=",dates[1],"&endPeriod=",dates[2])
@@ -198,7 +203,7 @@ get_eurostat_data <- function(id,
             }
           } else{
             date_filter<-NULL
-            warning("The date range has invalid character (only 0-9 and '-' can be used). The date filter is ignored.")
+            message("The date range has invalid character (only 0-9 and '-' can be used). The date filter is ignored.")
           }
         } else if (check_tf(date_filter,c("^[<>]?[0-9]{4}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}-[0-9]{2}[<>]?$"))){
           if (grepl("^<[0-9\\-]{4,10}$",date_filter,perl=T)){
@@ -213,21 +218,21 @@ get_eurostat_data <- function(id,
             date_filter<-paste0("?startPeriod=",date_filter,"&endPeriod=",date_filter)
           } else{
             date_filter<-NULL
-            warning("Could not parse date filter (it can be more than '<','>'; or not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
+            message("Could not parse date filter (it can be more than '<','>'; or not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
           }
         } else {
           date_filter<-NULL
-          warning("Could not parse date filter (not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
+          message("Could not parse date filter (not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
         }  
       } else {
         if ((any(grepl("[^0-9\\-]",date_filter,perl=T)))){
           date_filter<-NULL
-          warning("The date filter has invalid character (there are more more than 2 date periods: in this case only 0-9 and '-' can be used, no ':','<' or '>'). The date filter is ignored.")
+          message("The date filter has invalid character (there are more more than 2 date periods: in this case only 0-9 and '-' can be used, no ':','<' or '>'). The date filter is ignored.")
         } else {
           if(all(sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
             date_filter<-sapply(date_filter,function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
           } else {
-            warning("Some of the date filter has invalid format (not in yyyy[-mm][-dd]). The wrong formatted date filter is ignored.")
+            message("Some of the date filter has invalid format (not in yyyy[-mm][-dd]). The wrong formatted date filter is ignored.")
             date_filter<-sapply(date_filter[sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$"))],function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
           }
         }
@@ -235,28 +240,39 @@ get_eurostat_data <- function(id,
     } 
     if (verbose){message(filters,"-",date_filter)}
     if (is.null(filters) & is.null(date_filter)){
-      warning("None of the filter could be parsed. The whole dataset will be retrieved through bulk download.")
+      message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
       restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
     } else {
       base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
       data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters,"/",date_filter),perl=T)
-      restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
-        if (verbose){
+      if (verbose) {
+        restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
           message(x)
-          try(rdat<-rsdmx::readSDMX(x),silent=T)
-          if (length(rdat@footer@messages)>0){
-            rdat<-NULL}
-        } else {
-          try(suppressWarnings(rdat<-rsdmx::readSDMX(x)),silent=T)
-          if (length(rdat@footer@messages)>0){
-            rdat<-NULL}
-        }
-        if (!is.null(rdat)){data.table::as.data.table(rdat)}else{NULL}
-      }),fill=T)
+          tryCatch({rdat<-rsdmx::readSDMX(x)},
+                 error = function(e) {
+                   message("Error by retriving data:",'\n',paste(unlist(e),collapse="\n"))
+                   if (!is.null(rdat)) {message(paste(unlist(rdat@footer@messages),collapse="\n"))}
+                   rdat<-NULL
+                 },
+                 warning = function(w) {
+                   message("Warning during the data retrival:",'\n',paste(unlist(w),collapse="\n"))
+                   if (!is.null(rdat)) {message(paste(unlist(rdat@footer@messages),collapse="\n"))}
+                   rdat<-NULL
+                 })
+          if (!is.null(rdat)){data.table::as.data.table(rdat)}
+          }),fill=T)
+      } else {
+        restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
+          tryCatch({rdat<-rsdmx::readSDMX(x)},
+                 error = function(e) {rdat<-NULL},
+                 warning = function(w) {rdat<-NULL })
+          if (!is.null(rdat)){data.table::as.data.table(rdat)}
+        }),fill=T)
+      }
       if (!is.null(restat)){
         if ((nrow(restat)==0)){
-          restat<-NULL
-          warning("There is no data with the given filter(s) or still too many observations after filtering. The bulk download can be used to download the whole dataset.")
+          message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
+          restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
         } else {
           if (length(unique(restat$FREQ))==1){
             drop<-c(drop,"FREQ")
@@ -292,14 +308,15 @@ get_eurostat_data <- function(id,
           restat[order("time"),]
         }
       } else {
-        warning("There is no data with the given filter(s) or still too many observations after filtering. The bulk download can be used to download the whole dataset.")
+        message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download can be used to download the whole dataset.")
+        restat<-NULL
       }
     }
   }else{
     toc<-get_eurostat_toc(verbose=verbose)
     if ((cache)&(!update_cache)) {
       udate<-toc$lastUpdate[toc$code==id]
-      restat<-get_eurostat_cache(paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq))),cache_dir)
+      restat<-get_eurostat_cache(paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq))),cache_dir,verbose=verbose)
       if (!is.null(restat)){
         drop=c("FREQ","TIME_FORMAT")
         if ((is.null(select_freq))){
@@ -318,7 +335,8 @@ get_eurostat_data <- function(id,
           }
           restat[,(drop):=NULL]
           data.table::setnames(restat,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
-        }  
+        } 
+        if (("flags" %in% colnames(restat))&(!keep_flags)){restat[,("flags"):=NULL]}
         if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
       }
       if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
@@ -342,19 +360,23 @@ get_eurostat_data <- function(id,
   }
   if (label & !is.null(restat)){
     dsd<-get_eurostat_dsd(id,verbose=verbose)
-    cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
-    restat<-data.table::data.table(restat,stringsAsFactors=T) 
-    sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=F])))]
-    sub_dsd<-data.table::setorder(sub_dsd,concept,code)
-    for (x in cn){
-     levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]
+    if (!is.null(dsd)){
+      cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
+      restat<-data.table::data.table(restat,stringsAsFactors=T) 
+      sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=F])))]
+      sub_dsd<-data.table::setorder(sub_dsd,concept,code)
+      for (x in cn){
+        levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]
+      }
+      if (!stringsAsFactors){
+        col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
+        restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
+      }  
+    } else {
+      message("Could not download the DSD. No label is applied.")
     }
-    if (!stringsAsFactors){
-      col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
-      restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
-    } 
   }
-  restat
+  return(restat)
 }
 
 

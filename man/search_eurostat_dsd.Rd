@@ -4,7 +4,7 @@
 \alias{search_eurostat_dsd}
 \title{Search the downloaded the Data Structure Definition of a dataset}
 \usage{
-search_eurostat_dsd(pattern, dsd, ignore.case = T)
+search_eurostat_dsd(pattern, dsd = NULL, ignore.case = T)
 }
 \arguments{
 \item{pattern}{a character string or a vector of character string.}
@@ -30,10 +30,12 @@ The function returns the line(s) where the searched pattern appears in the code 
 \examples{
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
+cfg<-get("cfg",envir=.restatapi_env) 
+rav<-get("rav",envir=.restatapi_env)
 }
-dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE) 
-search_eurostat_dsd("EU",dsd)
-search_eurostat_dsd("EU",dsd,ignore.case=FALSE)
+dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
+search_eurostat_dsd("EU",dsd_example)
+search_eurostat_dsd("EU",dsd_example,ignore.case=FALSE)
 
 }
 \seealso{

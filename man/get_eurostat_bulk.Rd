@@ -75,14 +75,16 @@ database gives codes in the Data Navigation Tree after every dataset
 in parenthesis.
 }
 \examples{
-\dontrun{
-dt<-get_eurostat_bulk("tps00201")
-dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=T)
+\dontshow{
+options(mc.cores=min((parallel::detectCores()),2))
+}
+\donttest{
+dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
+options(restatapi_update=TRUE)
 dt<-get_eurostat_bulk("avia_par_ee")
-dt<-get_eurostat_bulk("avia_par_ee",select_freq="A")
-dt<-get_eurostat_bulk("avia_par_ee",update_cache=T)
-options(restatapi_update=T)
-dt<-get_eurostat_bulk("tps00201",cache_dir="/tmp",compress_file=F)
+dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
+options(restatapi_update=FALSE)
+dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
 }
 }
 \seealso{

@@ -18,16 +18,19 @@
 #' @examples 
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
+#' cfg<-get("cfg",envir=.restatapi_env) 
+#' rav<-get("rav",envir=.restatapi_env)
 #' }
-#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE) 
-#' search_eurostat_dsd("EU",dsd)
-#' search_eurostat_dsd("EU",dsd,ignore.case=FALSE)
+#' dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
+#' search_eurostat_dsd("EU",dsd_example)
+#' search_eurostat_dsd("EU",dsd_example,ignore.case=FALSE)
 #' 
 
 
-search_eurostat_dsd <- function(pattern,dsd,ignore.case=T) {
+search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=T) {
   if (is.null(dsd)){
-    stop('No DSD were provided.')
+    message('No DSD were provided.')
+    sr<-FALSE
   } else if (is.null(pattern)) {
     sr<-FALSE
   } else {

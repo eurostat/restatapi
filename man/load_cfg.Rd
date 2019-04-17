@@ -22,12 +22,15 @@ it returns 2 objects in the '.restatapi_env'
 Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 }
 \details{
-Loads configuration data from a JSON file. By this way different version of the API can be tested.
+Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. If it is not possible it loads from  By this way different version of the API can be tested.
 }
 \examples{
 \donttest{
 load_cfg()
 load_cfg(api_version="test",verbose=TRUE)
+}
+\dontshow{
+load_cfg()
 }
 
 }

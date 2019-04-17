@@ -30,8 +30,10 @@ Saves a given object in cache. This can be the memory \code{.restatapi_env} or o
 \examples{
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
+options(restatapi_cache_dir=NULL)
 }
-toc<-get_eurostat_toc()
-put_eurostat_cache(toc,"toc.xml")
+dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
+put_eurostat_cache(dt,"teszt")
+get("teszt",envir=.restatapi_env)
 
 }

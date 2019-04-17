@@ -8,7 +8,7 @@
 #' @export
 #' @examples 
 #' 
-#' clean_restatapi_cache() 
+#' clean_restatapi_cache(verbose=TRUE) 
 #' 
 
 clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
@@ -21,6 +21,7 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
     td<-ls(envir=.restatapi_env)
     td<-td[!(td %in% c("cfg","rav"))]
     rm(list=td,envir=.restatapi_env)
+    if (verbose){message("All objects except from 'cfg' and 'rav' are removed from '.restatapi_env'.")}
   }
   if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){

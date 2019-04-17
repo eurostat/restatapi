@@ -4,12 +4,15 @@
 \alias{search_eurostat_toc}
 \title{Search in Eurostat datasets titles, units and short description}
 \usage{
-search_eurostat_toc(pattern, lang = "en", ...)
+search_eurostat_toc(pattern, lang = "en", verbose = FALSE, ...)
 }
 \arguments{
 \item{pattern}{Character string to search for in the table of contents of Eurostat tables/datasets}
 
 \item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the table of contents. The default is \code{en} - English.}
+
+\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
 \item{...}{other parameters to pass to the \code{grep} function.}
 }
@@ -47,9 +50,10 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 \dontshow{
 options(mc.cores=min((parallel::detectCores()),2))
 }
+\donttest{
   search_eurostat_toc("energy")
   search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
-
+}
 }
 \seealso{
 \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_toc}}

@@ -36,48 +36,83 @@
 #' \dontshow{
 #' options(mc.cores=min((parallel::detectCores()),2))
 #' }
-#' toc_xml<-get_eurostat_toc(cache=FALSE)
+#' \donttest{
+#' toc_xml<-get_eurostat_toc(cache=FALSE,verbose=TRUE)
 #' head(toc_xml)
 #' toc_txt<-get_eurostat_toc(mode="txt", lang="de")
 #' head(toc_txt)
-#' 
+#' }
 
 get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,compress_file=T,lang="en",verbose=F,...) {
   toc<-NULL
+  ne<-TRUE
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if ((cache) & (!update_cache)) {
-    toc<-get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir)
-    if ((!is.null(toc))&(verbose)) {message("The TOC was loaded from cache.")}  
+    toc<-get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)
   }
   if ((!cache)|(is.null(toc))|(update_cache)){
     cfg<-get("cfg",envir=.restatapi_env) 
     rav<-get("rav",envir=.restatapi_env)
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
-      toc<-readr::read_tsv(url(toc_endpoint), col_types = readr::cols(.default = readr::col_character()))
-      names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
-      toc<-toc[toc$type!="folder",]
+      temp <- tempfile()
+      if (verbose) {
+        message(toc_endpoint)
+        tryCatch({utils::download.file(toc_endpoint,temp)},
+                 error = function(e) {
+                   message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
+                   ne<-FALSE
+                 },
+                 warning = function(w) {
+                   message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
+                 })
+      } else {
+        tryCatch({utils::download.file(toc_endpoint,temp)},
+                 error = function(e) {ne<-FALSE},
+                 warning = function(w) {})
+      }
+      if (ne) {
+        toc<-utils::read.csv(temp,header=T,sep="\t",stringsAsFactors=F)
+        names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
+        toc<-toc[toc$type!="folder",]
+      }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
-      xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")
-      leafs<-parallel::mclapply(xml_leafs,extract_toc)
-      toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=F)
-      type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
-      toc<-cbind(toc,type)
-      names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=T),"type")
-      toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
-      names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")
+      if (verbose) {
+        message(toc_endpoint)
+        tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
+                 error = function(e) {
+                   message("Unable to download the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
+                   ne<-FALSE
+                 },
+                 warning = function(w) {
+                   message("Unable to download the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
+                 })
+      } else {
+        tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
+                 error = function(e) {ne<-FALSE},
+                 warning = function(w) {})
+      }
+      if ((ne)&!is.null(xml_leafs)){
+        leafs<-parallel::mclapply(xml_leafs,extract_toc)
+        toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=F)
+        type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+        toc<-cbind(toc,type)
+        names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=T),"type")
+        toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
+        names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+      }
     } else {
       stop('Incorrect mode is given. It should be either "xml" or "txt".')
     } 
     toc<-toc[!duplicated(toc[,c(1:8)]),]
-    if (cache){
-      name<-paste0("toc.",mode,".",lang)
-      pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
-      if (verbose){message("The TOC was cached ",pl,".\n")}
-    }
+  }  
+  if (cache){
+    name<-paste0("toc.",mode,".",lang)
+    pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
+    if (verbose){message("The TOC was cached ",pl,".\n")}
   }
-  toc  
+  return(toc)  
 }
