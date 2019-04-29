@@ -1,7 +1,14 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
-#' @param verbose  A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. 
+#' @param parallel A boolean with the default value \code{TRUE}. If the system is not Windows and there are multiple cores/logical processors then part of the data 
+#'        extraction is made in parallel reducing significantly the time needed. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
+#' @param max_cores A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
+#'        The default value \code{TRUE}, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
+#'        then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} and there are more than 2 cores/logical processors then the option \code{restatapi_cores} are set to 2. 
+#'        Otherwise the parallel processing turned off by setting the option \code{restatapi_cores} to 1.
+#'        The number of cores used for parallel computing can be changed any time with \code{options(restatapi_cores=...)}     
+#' @param verbose  A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. Can be set also with \code{options(restatapi_verbose=TRUE)} 
 #' @return it returns 2 objects in the '.restatapi_env'  
 #' \itemize{
 #'  \item \code{cfg} a list with all the configuration data
@@ -12,14 +19,16 @@
 #' @examples 
 #' \donttest{
 #' load_cfg()
-#' load_cfg(api_version="test",verbose=TRUE)
+#' load_cfg(parallel=FALSE)
+#' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
 #' }
 #' \dontshow{
 #' load_cfg()
 #' }
 #' 
 
-load_cfg<-function(api_version="current", verbose=FALSE){
+load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FALSE){
+  verbose<-verbose|getOption("restatapi_verbose",FALSE)
   assign(".restatapi_env",new.env(),envir=baseenv())
   tryCatch(
     {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
@@ -29,5 +38,27 @@ load_cfg<-function(api_version="current", verbose=FALSE){
   cfg<-get("cfg",envir=.restatapi_env)
   assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
   rav<-get("rav",envir=.restatapi_env)
-  if (verbose) {message("restatapi: The 'current' API version number is ",cfg$API_VERSIONING$current," and ",getOption("mc.cores"), if (getOption("mc.cores")>1) {" cores are"} else {" core is"}, " used for parallel computing.\n           Loaded config file with the API version number ",rav,"\n")}
+  if (Sys.info()[['sysname']]=='Windows'){
+    options(restatapi_cores=1)
+  }else{
+    if (parallel) {
+      if (max_cores){
+        options(restatapi_cores=parallel::detectCores()-1)
+      } else {
+        if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
+          options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
+        } else if (parallel::detectCores()>2){
+          options(restatapi_cores=2)
+        } else {
+          options(restatapi_cores=1)
+        }
+      }
+    }
+  }
+  if (getOption("restatapi_cores")<2){
+    parallel_text<-"No parallel computing."
+  } else{
+    parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing.")    
+  }
+  if (verbose) {message("restatapi: The 'current' API version number is ",cfg$API_VERSIONING$current,". Loaded config file with the API version number ",rav,"\n           ",parallel_text,"\n")}
 }

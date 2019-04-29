@@ -4,8 +4,8 @@
 \alias{put_eurostat_cache}
 \title{Put an object to cache}
 \usage{
-put_eurostat_cache(obj, oname, update_cache = F, cache_dir = NULL,
-  compress_file = T)
+put_eurostat_cache(obj, oname, update_cache = FALSE, cache_dir = NULL,
+  compress_file = TRUE)
 }
 \arguments{
 \item{obj}{an object (toc, dataset, DSD)}
@@ -29,7 +29,11 @@ Saves a given object in cache. This can be the memory \code{.restatapi_env} or o
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 options(restatapi_cache_dir=NULL)
 }
 dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))

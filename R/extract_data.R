@@ -9,7 +9,11 @@
 #' @return a data frame with 
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }
 #' }
 #' \donttest{
 #' id<-"agr_r_milkpr"
@@ -23,7 +27,7 @@
 #' }
 #' 
 
-extract_data<-function(xml_lf,keep_flags=F,stringsAsFactors=default.stringsAsFactors()){
+extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsAsFactors()){
   if (keep_flags){
     cn<-c("TIME_PERIOD","OBS_VALUE","OBS_STATUS")
   } else {

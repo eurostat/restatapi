@@ -4,7 +4,7 @@
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
 #' @param cache a logical whether to do caching. Default is \code{TRUE}.
 #' @param update_cache a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
-#'        \code{options(restatapi_update = TRUE)}
+#'        \code{options(restatapi_update=TRUE)}
 #' @param cache_dir a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
 #'        If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
 #'        under the temporary directory from \code{tempdir()}. Directory can also be set with
@@ -52,7 +52,11 @@
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_raw}}
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' }
 #' \donttest{
 #' dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
@@ -73,7 +77,7 @@ get_eurostat_bulk <- function(id,
                               keep_flags = FALSE,
                               verbose=FALSE,...){
   
-  .datatable.aware=T 
+  .datatable.aware=TRUE 
   FREQ<-N<-restat_bulk<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
@@ -84,14 +88,14 @@ get_eurostat_bulk <- function(id,
   
   toc<-get_eurostat_toc(verbose=verbose)
   if ((cache)&(!update_cache)) {
-    nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
+    nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
     if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
       col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
       restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
     }
     if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
-      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=T)
+      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
     }
   }
   if ((!cache)|(is.null(restat_bulk))|(update_cache)){
@@ -116,8 +120,8 @@ get_eurostat_bulk <- function(id,
     data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
   }
   if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
-  if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=T)))){
-    oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
+  if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
+    oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
     if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
   }

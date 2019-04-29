@@ -41,7 +41,7 @@ If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.}
 only queries without filtering. If \code{filters} or \code{date_filter} is used then there is no caching.}
 
 \item{update_cache}{a logical with a default value \code{FALSE}, whether to update the data in the cache. Can be set also with
-\code{options(restatapi_update = TRUE)}}
+\code{options(restatapi_update=TRUE)}}
 
 \item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
 If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
@@ -93,7 +93,7 @@ database gives codes in the Data Navigation Tree after every dataset
 in parenthesis.
 
 Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. Be careful that the filter is case sensitive, if you do not know exactly you can use the option \code{ignore.case=T}, but it can include unwanted elements as well. 
+If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. Be careful that the filter is case sensitive, if you do not know exactly you can use the option \code{ignore.case=TRUE}, but it can include unwanted elements as well. 
 We do not have to worry about the correct order it will be put in the correct place based on the DSD. In the \code{filters} parameter regular expressions can be used as well. 
 
 The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
@@ -103,7 +103,11 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 }
 \donttest{
 dt<-get_eurostat_data("NAMA_10_GDP")

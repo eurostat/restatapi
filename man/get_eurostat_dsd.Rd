@@ -4,17 +4,17 @@
 \alias{get_eurostat_dsd}
 \title{Download the Data Structure Definition of a dataset}
 \usage{
-get_eurostat_dsd(id, cache = T, update_cache = F, cache_dir = NULL,
-  compress_file = T, verbose = F, ...)
+get_eurostat_dsd(id, cache = TRUE, update_cache = FALSE,
+  cache_dir = NULL, compress_file = TRUE, verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{a character string with the id of the dataset. It is the value from the codename column of the \code{get_eurostat_toc} function.}
 
 \item{cache}{a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.}
 
-\item{update_cache}{a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update = T)}}
+\item{update_cache}{a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}}
 
-\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir)}.}
+\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.}
 
 \item{compress_file}{a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.}
 
@@ -39,7 +39,11 @@ The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}
 }
 dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE)
 head(dsd)

@@ -7,7 +7,11 @@
 #' @return a matrix with 3 columns if the concepts has code list in the DSD file
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' }
 #' dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
 #' tryCatch({

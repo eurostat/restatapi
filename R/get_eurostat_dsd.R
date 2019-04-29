@@ -2,8 +2,8 @@
 #' @description Download Data Structure Definition (DSD) of a Eurostat dataset if it is not cached previously. 
 #' @param id a character string with the id of the dataset. It is the value from the codename column of the \code{get_eurostat_toc} function. 
 #' @param cache a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.
-#' @param update_cache a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update = T)}
-#' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir)}.
+#' @param update_cache a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}
+#' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
@@ -21,18 +21,22 @@
 #' @references For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }
 #' }
 #' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE)
 #' head(dsd)
 #' 
 
 get_eurostat_dsd <- function(id,
-                             cache=T,
-                             update_cache=F,
+                             cache=TRUE,
+                             update_cache=FALSE,
                              cache_dir=NULL,
-                             compress_file=T,
-                             verbose=F,...) {
+                             compress_file=TRUE,
+                             verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(id)){
     stop('No dataset id were provided.')
@@ -65,7 +69,7 @@ get_eurostat_dsd <- function(id,
       }
       if (exists("dsd_xml")){
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-        dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=F)
+        dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         names(dsd)<-c("concept","code","name")
         if (cache){
           pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)

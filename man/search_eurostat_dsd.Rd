@@ -4,7 +4,7 @@
 \alias{search_eurostat_dsd}
 \title{Search the downloaded the Data Structure Definition of a dataset}
 \usage{
-search_eurostat_dsd(pattern, dsd = NULL, ignore.case = T)
+search_eurostat_dsd(pattern, dsd = NULL, ignore.case = TRUE)
 }
 \arguments{
 \item{pattern}{a character string or a vector of character string.}
@@ -29,7 +29,11 @@ The function returns the line(s) where the searched pattern appears in the code 
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 cfg<-get("cfg",envir=.restatapi_env) 
 rav<-get("rav",envir=.restatapi_env)
 }

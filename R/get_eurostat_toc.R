@@ -4,7 +4,7 @@
 #' The deafult value is \code{xml} as it provides more information (e.g. number of values, short description and  download links in diffrent format) 
 #' @param cache a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.
 #' @param update_cache a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}
-#' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS- file. Directory can also be set with \code{option(restatapi_cache_dir)}.
+#' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS- file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the table of contents. The default is \code{en} - English.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
@@ -34,7 +34,11 @@
 #' @references For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' }
 #' \donttest{
 #' toc_xml<-get_eurostat_toc(cache=FALSE,verbose=TRUE)
@@ -43,7 +47,7 @@
 #' head(toc_txt)
 #' }
 
-get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,compress_file=T,lang="en",verbose=F,...) {
+get_eurostat_toc<-function(mode="xml",cache=TRUE,update_cache=FALSE,cache_dir=NULL,compress_file=TRUE,lang="en",verbose=F,...) {
   toc<-NULL
   ne<-TRUE
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
@@ -74,7 +78,7 @@ get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,comp
                  warning = function(w) {})
       }
       if (ne) {
-        toc<-utils::read.csv(temp,header=T,sep="\t",stringsAsFactors=F)
+        toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
         toc<-toc[toc$type!="folder",]
       }  
@@ -96,11 +100,11 @@ get_eurostat_toc<-function(mode="xml",cache=T,update_cache=F,cache_dir=NULL,comp
                  warning = function(w) {})
       }
       if ((ne)&!is.null(xml_leafs)){
-        leafs<-parallel::mclapply(xml_leafs,extract_toc)
-        toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=F)
+        leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+        toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
         type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
         toc<-cbind(toc,type)
-        names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=T),"type")
+        names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
         toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
       }

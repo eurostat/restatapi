@@ -10,7 +10,11 @@
 #' @return The function returns the place where the object was cached: either it creates an the object in the memory ('.restatapi_env') or creates an RDS-file.  
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' options(restatapi_cache_dir=NULL)
 #' }
 #' dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
@@ -18,7 +22,7 @@
 #' get("teszt",envir=.restatapi_env)
 #' 
 
-put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_file=T){
+put_eurostat_cache<-function(obj,oname,update_cache=FALSE,cache_dir=NULL,compress_file=TRUE){
   pl<-NULL
   if (is.null(cache_dir)){cache_dir <- getOption("restatapi_cache_dir", NULL)}
   if (is.null(cache_dir)){
@@ -32,7 +36,7 @@ put_eurostat_cache<-function(obj,oname,update_cache=F,cache_dir=NULL,compress_fi
       pl<-paste0("previously in memory ('",oname,"' in '.restatapi_env'). It remained unchanged")
     }
   } else if (dir.exists(cache_dir)){
-    fname<-file.path(sub("[\\/]$","",cache_dir,perl=T),paste0(oname,".rds"))
+    fname<-file.path(sub("[\\/]$","",cache_dir,perl=TRUE),paste0(oname,".rds"))
     if (!file.exists(fname)){
       saveRDS(obj,file=fname,compress=compress_file)
       pl<-paste("in the file", fname)

@@ -22,7 +22,11 @@ It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 }
 dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
 tryCatch({

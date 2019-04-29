@@ -23,7 +23,7 @@
 #' @param cache a logical whether to do caching. Default is \code{TRUE}. Affects 
 #'        only queries without filtering. If \code{filters} or \code{date_filter} is used then there is no caching.
 #' @param update_cache a logical with a default value \code{FALSE}, whether to update the data in the cache. Can be set also with
-#'        \code{options(restatapi_update = TRUE)}
+#'        \code{options(restatapi_update=TRUE)}
 #' @param cache_dir a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
 #'        If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
 #'        under the temporary directory from \code{tempdir()}. Directory can also be set with
@@ -59,7 +59,7 @@
 #' in parenthesis.
 #' 
 #' Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-#' If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. Be careful that the filter is case sensitive, if you do not know exactly you can use the option \code{ignore.case=T}, but it can include unwanted elements as well. 
+#' If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. Be careful that the filter is case sensitive, if you do not know exactly you can use the option \code{ignore.case=TRUE}, but it can include unwanted elements as well. 
 #' We do not have to worry about the correct order it will be put in the correct place based on the DSD. In the \code{filters} parameter regular expressions can be used as well. 
 #' 
 #' The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
@@ -75,7 +75,11 @@
 #' @seealso \code{\link{search_eurostat_toc}},\code{\link{search_eurostat_dsd}}
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' }
 #' \donttest{
 #' dt<-get_eurostat_data("NAMA_10_GDP")
@@ -130,8 +134,8 @@ get_eurostat_data <- function(id,
     if (is.null(filters)|(length(filters)>1)) {
       append_sf<-T
     } else if (!is.null(filters)) {
-      if (grepl("\\.",filters,perl=T)){
-        if (grepl("^\\.",filters,perl=T)){
+      if (grepl("\\.",filters,perl=TRUE)){
+        if (grepl("^\\.",filters,perl=TRUE)){
           filters<-paste0(select_freq,filters)
         } else{
           filters<-paste0(select_freq,"+",filters)
@@ -173,7 +177,7 @@ get_eurostat_data <- function(id,
           ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,ignore.case=ignore.case))[,2:3]
           ft<-ft[order(match(ft$concept, dsdorder)),]
           filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")
-        } else if (length(gregexpr("\\.",filters,perl=T)[[1]])!=(length(dsdorder)-1)){
+        } else if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1)){
           if (!is.null(nrow(search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)))){
             ft<-search_eurostat_dsd(filters,dsd=dsd,ignore.case=ignore.case)[,2:3]
             ft<-ft[order(match(ft$concept, dsdorder)),]
@@ -186,11 +190,11 @@ get_eurostat_data <- function(id,
     }
     if (!is.null(date_filter)){
       date_filter<-as.character(date_filter)
-      if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=T))){
+      if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=TRUE))){
         date_filter<-NULL
         message("The date filter has invalid character (not 0-9, '-', '<', '>' or ':'). The date filter is ignored.")
       } else if (length(date_filter)==1)  {
-        if (grepl(":",date_filter,perl=T)){
+        if (grepl(":",date_filter,perl=TRUE)){
           dates<-unlist(strsplit(date_filter,":"))
           if (length(dates)!=2){
             date_filter<-NULL
@@ -206,15 +210,15 @@ get_eurostat_data <- function(id,
             message("The date range has invalid character (only 0-9 and '-' can be used). The date filter is ignored.")
           }
         } else if (check_tf(date_filter,c("^[<>]?[0-9]{4}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}-[0-9]{2}[<>]?$"))){
-          if (grepl("^<[0-9\\-]{4,10}$",date_filter,perl=T)){
-            date_filter<-paste0("?endPeriod=",sub("^<","",date_filter,perl=T))
-          } else if (grepl("^[0-9\\-]{4,10}<$",date_filter,perl=T)){
-            date_filter<-paste0("?startPeriod=",sub("<$","",date_filter,perl=T))
-          } else if (grepl("^>[0-9\\-]{4,10}$",date_filter,perl=T)){
-            date_filter<-paste0("?startPeriod=",sub("^>","",date_filter,perl=T))
-          } else if (grepl("^[0-9\\-]{4,10}>$",date_filter,perl=T)){
-            date_filter<-paste0("?endPeriod=",sub(">$","",date_filter,perl=T))
-          } else if (grepl("^[0-9\\-]{4,10}$",date_filter,perl=T)){
+          if (grepl("^<[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
+            date_filter<-paste0("?endPeriod=",sub("^<","",date_filter,perl=TRUE))
+          } else if (grepl("^[0-9\\-]{4,10}<$",date_filter,perl=TRUE)){
+            date_filter<-paste0("?startPeriod=",sub("<$","",date_filter,perl=TRUE))
+          } else if (grepl("^>[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
+            date_filter<-paste0("?startPeriod=",sub("^>","",date_filter,perl=TRUE))
+          } else if (grepl("^[0-9\\-]{4,10}>$",date_filter,perl=TRUE)){
+            date_filter<-paste0("?endPeriod=",sub(">$","",date_filter,perl=TRUE))
+          } else if (grepl("^[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
             date_filter<-paste0("?startPeriod=",date_filter,"&endPeriod=",date_filter)
           } else{
             date_filter<-NULL
@@ -225,7 +229,7 @@ get_eurostat_data <- function(id,
           message("Could not parse date filter (not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
         }  
       } else {
-        if ((any(grepl("[^0-9\\-]",date_filter,perl=T)))){
+        if ((any(grepl("[^0-9\\-]",date_filter,perl=TRUE)))){
           date_filter<-NULL
           message("The date filter has invalid character (there are more more than 2 date periods: in this case only 0-9 and '-' can be used, no ':','<' or '>'). The date filter is ignored.")
         } else {
@@ -244,7 +248,7 @@ get_eurostat_data <- function(id,
       restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
     } else {
       base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
-      data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters,"/",date_filter),perl=T)
+      data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters,"/",date_filter),perl=TRUE)
       if (verbose) {
         restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
           message(x)
@@ -260,14 +264,14 @@ get_eurostat_data <- function(id,
                    rdat<-NULL
                  })
           if (!is.null(rdat)){data.table::as.data.table(rdat)}
-          }),fill=T)
+          }),fill=TRUE)
       } else {
         restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
           tryCatch({rdat<-rsdmx::readSDMX(x)},
                  error = function(e) {rdat<-NULL},
                  warning = function(w) {rdat<-NULL })
           if (!is.null(rdat)){data.table::as.data.table(rdat)}
-        }),fill=T)
+        }),fill=TRUE)
       }
       if (!is.null(restat)){
         if ((nrow(restat)==0)){
@@ -344,7 +348,7 @@ get_eurostat_data <- function(id,
         restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
       }
       if (!any(sapply(restat,is.factor))&(stringsAsFactors)&(!is.null(restat))) {
-        restat<-data.table::data.table(restat,stringsAsFactors=T)
+        restat<-data.table::data.table(restat,stringsAsFactors=TRUE)
       }
       if ((!is.null(restat))&(verbose)) {message("The data was loaded from cache.")}  
     }
@@ -353,7 +357,7 @@ get_eurostat_data <- function(id,
     }
     if (cache){
       toc<-get_eurostat_toc(verbose=verbose)
-      oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=T))
+      oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
       pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
       if (verbose){message("The data was cached ",pl,".\n")}
     }
@@ -362,8 +366,8 @@ get_eurostat_data <- function(id,
     dsd<-get_eurostat_dsd(id,verbose=verbose)
     if (!is.null(dsd)){
       cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
-      restat<-data.table::data.table(restat,stringsAsFactors=T) 
-      sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=F])))]
+      restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
+      sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=FALSE])))]
       sub_dsd<-data.table::setorder(sub_dsd,concept,code)
       for (x in cn){
         levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]
@@ -385,7 +389,7 @@ gen_ft<-function(x,ft){
 }
 
 check_tf<-function(x,tf){
-  any(sapply(tf,grepl,x=x,perl=T))
+  any(sapply(tf,grepl,x=x,perl=TRUE))
 }
 
 

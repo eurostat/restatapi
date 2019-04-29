@@ -4,8 +4,8 @@
 \alias{get_eurostat_toc}
 \title{Download the Table of Contents of Eurostat datasets}
 \usage{
-get_eurostat_toc(mode = "xml", cache = T, update_cache = F,
-  cache_dir = NULL, compress_file = T, lang = "en", verbose = F,
+get_eurostat_toc(mode = "xml", cache = TRUE, update_cache = FALSE,
+  cache_dir = NULL, compress_file = TRUE, lang = "en", verbose = F,
   ...)
 }
 \arguments{
@@ -16,7 +16,7 @@ The deafult value is \code{xml} as it provides more information (e.g. number of 
 
 \item{update_cache}{a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}}
 
-\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS- file. Directory can also be set with \code{option(restatapi_cache_dir)}.}
+\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS- file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.}
 
 \item{compress_file}{a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.}
 
@@ -54,7 +54,11 @@ The TOC is downloaded from Eurostat websites through the REST API for the \code{
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 }
 \donttest{
 toc_xml<-get_eurostat_toc(cache=FALSE,verbose=TRUE)

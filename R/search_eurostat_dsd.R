@@ -17,7 +17,11 @@
 #'  
 #' @examples 
 #' \dontshow{
-#' options(mc.cores=min((parallel::detectCores()),2))
+#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#'    options(restatapi_cores=1)
+#' }else{
+#'    options(restatapi_cores=2)
+#' }    
 #' cfg<-get("cfg",envir=.restatapi_env) 
 #' rav<-get("rav",envir=.restatapi_env)
 #' }
@@ -27,7 +31,7 @@
 #' 
 
 
-search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=T) {
+search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=TRUE) {
   if (is.null(dsd)){
     message('No DSD were provided.')
     sr<-FALSE
@@ -37,7 +41,7 @@ search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=T) {
     if (all(c("concept","code","name") %in% colnames(dsd))){
       rn<-unique(c(grep(pattern,dsd$code,ignore.case=ignore.case),grep(pattern,dsd$name,ignore.case=ignore.case)))
       if (length(rn>0)){
-        sr<-data.frame(pattern,dsd[rn, ],stringsAsFactors = F)  
+        sr<-data.frame(pattern,dsd[rn, ],stringsAsFactors=FALSE)  
       }else{
         sr<-FALSE
       }

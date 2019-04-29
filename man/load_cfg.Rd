@@ -4,12 +4,22 @@
 \alias{load_cfg}
 \title{Load configuration data from JSON}
 \usage{
-load_cfg(api_version = "current", verbose = FALSE)
+load_cfg(api_version = "current", parallel = TRUE, max_cores = TRUE,
+  verbose = FALSE)
 }
 \arguments{
 \item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current".}
 
-\item{verbose}{A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}.}
+\item{parallel}{A boolean with the default value \code{TRUE}. If the system is not Windows and there are multiple cores/logical processors then part of the data 
+extraction is made in parallel reducing significantly the time needed. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.}
+
+\item{max_cores}{A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
+The default value \code{TRUE}, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
+then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} and there are more than 2 cores/logical processors then the option \code{restatapi_cores} are set to 2. 
+Otherwise the parallel processing turned off by setting the option \code{restatapi_cores} to 1.
+The number of cores used for parallel computing can be changed any time with \code{options(restatapi_cores=...)}}
+
+\item{verbose}{A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. Can be set also with \code{options(restatapi_verbose=TRUE)}}
 }
 \value{
 it returns 2 objects in the '.restatapi_env'  
@@ -27,7 +37,8 @@ Loads configuration data from a JSON file. The function first tries to load the 
 \examples{
 \donttest{
 load_cfg()
-load_cfg(api_version="test",verbose=TRUE)
+load_cfg(parallel=FALSE)
+load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
 }
 \dontshow{
 load_cfg()

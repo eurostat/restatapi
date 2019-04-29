@@ -41,14 +41,18 @@ Lists names of dataset from Eurostat with the particular
 pattern in the title, units or short description.
 }
 \details{
-Downloads list of all tables and datasets available in the 
-Eurostat database and return all the details from the table of contents of the tables/datasets that contains particular
+Downloads the list of all tables and datasets available in the 
+Eurostat database and returns all the details from the table of contents of the tables/datasets that contains particular
 pattern in the dataset title, unit or short description. E.g. all tables/datasets  mentioning
 'energy'.
 }
 \examples{
 \dontshow{
-options(mc.cores=min((parallel::detectCores()),2))
+if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+   options(restatapi_cores=1)
+}else{
+   options(restatapi_cores=2)
+}    
 }
 \donttest{
   search_eurostat_toc("energy")

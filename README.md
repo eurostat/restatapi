@@ -3,6 +3,14 @@ An R package to search and retrieve data from Eurostat database using SDMX
 
 ## installation
 
+Now 'restatapi' is on [CRAN](https://CRAN.R-project.org/package=restatapi) so it can be installed by 
+
+```R
+> install.packages("restatapi")
+```
+
+or use the development version from GitHub
+
 ```R
 > devtools::install_github("eurostat/restatapi")
 ```
@@ -25,10 +33,11 @@ Detailed documentation of the functions is in the package.
 ## examples
 
 ```R
+> options(restatapi_cores=3)
 > get_eurostat_toc()
 > get_get_eurostat_toc(mode="txt",verbose=TRUE)
 >
-> search_eurostat_toc("energie",lang="de",ignore.case=T)
+> search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
 > 
 > dsd<-get_eurostat_dsd("ei_bsfs_q")
 > search_eurostat_dsd("EU",dsd)
