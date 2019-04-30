@@ -98,8 +98,9 @@ We do not have to worry about the correct order it will be put in the correct pl
 
 The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "<" or ">" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
-A single date range can be defined as well by concatenating two dates with the ":", e.g. "2016-08:2017-03-15". The dates can have different length. In this case cannot use the "<" or ">" characters.
-If there are multiple dates which is not a continuous range, it can be put in vector in any order like c("2016-08",2013-2015,"2017-07-01"). In this case, as well, it is  not possible to use the  "<" or ">" characters.
+A single date range can be defined as well by concatenating two dates with the ":", e.g. \code{"2016-08:2017-03-15"}. As seen in the exemple the dates can have different length: one defined only at year/month level, the other by day level. 
+If a date range is defined with ":", it is not possible to use the "<" or ">" characters in the date filter.
+If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.
 }
 \examples{
 \dontshow{

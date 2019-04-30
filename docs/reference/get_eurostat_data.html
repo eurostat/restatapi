@@ -232,8 +232,9 @@ If we do not know the codes we can filter based on words or by the mix of the tw
 We do not have to worry about the correct order it will be put in the correct place based on the DSD. In the <code>filters</code> parameter regular expressions can be used as well.</p>
 <p>The <code>date_filter</code> shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "&lt;" or "&gt;" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
-A single date range can be defined as well by concatenating two dates with the ":", e.g. "2016-08:2017-03-15". The dates can have different length. In this case cannot use the "&lt;" or "&gt;" characters.
-If there are multiple dates which is not a continuous range, it can be put in vector in any order like c("2016-08",2013-2015,"2017-07-01"). In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
+A single date range can be defined as well by concatenating two dates with the ":", e.g. <code>"2016-08:2017-03-15"</code>. As seen in the exemple the dates can have different length: one defined only at year/month level, the other by day level. 
+If a date range is defined with ":", it is not possible to use the "&lt;" or "&gt;" characters in the date filter.
+If there are multiple dates which is not a continuous range, it can be put in vector in any order like <code><a href='https://rdrr.io/r/base/c.html'>c("2016-08",2013:2015,"2017-07-01")</a></code>. In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
