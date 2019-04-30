@@ -3,7 +3,7 @@
 #' @param pattern a character string or a vector of character string.
 #' @param dsd a table with the character string with the id of the dataset.  
 #' @param ignore.case a boolean if the pattern is case sensitive or not. The default is \code{TRUE}. 
-#' #' @return If the pattern found then the function returns table with the 4 columns:
+#' @return If the pattern found then the function returns table with the 4 columns:
 #'    \tabular{ll}{
 #'      \code{pattern} \tab The pattern which was searched \cr
 #'      \code{concept} \tab The name of the concepts in the data structure \cr

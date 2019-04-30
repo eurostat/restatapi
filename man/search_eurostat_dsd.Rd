@@ -11,15 +11,17 @@ search_eurostat_dsd(pattern, dsd = NULL, ignore.case = TRUE)
 
 \item{dsd}{a table with the character string with the id of the dataset.}
 
-\item{ignore.case}{a boolean if the pattern is case sensitive or not. The default is \code{TRUE}. 
-#' @return If the pattern found then the function returns table with the 4 columns:
+\item{ignore.case}{a boolean if the pattern is case sensitive or not. The default is \code{TRUE}.}
+}
+\value{
+If the pattern found then the function returns table with the 4 columns:
    \tabular{ll}{
      \code{pattern} \tab The pattern which was searched \cr
      \code{concept} \tab The name of the concepts in the data structure \cr
      \code{code} \tab The list of codes where the pattern was found, or the code of a name where the pattern appears \cr
      \code{name} \tab The name/description of the code where the pattern found, or the name of the code where the pattern appears 
    }
-   Otherwise returns the value \code{FALSE}.}
+   Otherwise returns the value \code{FALSE}.
 }
 \description{
 Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} function.
