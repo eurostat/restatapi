@@ -39,8 +39,8 @@
 #' }    
 #' }
 #' \donttest{
-#'   search_eurostat_toc("energy")
-#'   search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
+#'   head(search_eurostat_toc("energy"))
+#'   head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
 #' }
 
 
