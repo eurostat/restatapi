@@ -32,13 +32,18 @@ it returns 2 objects in the '.restatapi_env'
 Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 }
 \details{
-Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. If it is not possible it loads from  By this way different version of the API can be tested.
+Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
+         If it is not possible it loads from  By this way different version of the API can be tested. In addition, 
+         the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 }
 \examples{
 \donttest{
 load_cfg()
 load_cfg(parallel=FALSE)
 load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
+eu<-get("cc",envir=.restatapi_env)
+eu$EU28
+eu$EA15
 }
 \dontshow{
 load_cfg()

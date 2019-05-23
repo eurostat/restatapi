@@ -14,7 +14,8 @@ tries to clean default temporary cache directory. Directory can also be set with
 \code{options(restatapi_verbose=TRUE)}}
 }
 \description{
-Remove all objects from the .restatapi_env except the configuration file and delete all .rds files from the default and selected cache directory.
+Remove all objects from the .restatapi_env except the configuration file, API version number andthe country codes.
+             In addition, it deletes all the .rds files from the default and selected cache directory.
              See \code{\link{get_eurostat_data}} for more on cache.
 }
 \examples{

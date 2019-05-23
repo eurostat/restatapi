@@ -1,5 +1,6 @@
 #' @title Clean restatapi Cache
-#' @description  Remove all objects from the .restatapi_env except the configuration file and delete all .rds files from the default and selected cache directory.
+#' @description Remove all objects from the .restatapi_env except the configuration file, API version number andthe country codes.
+#'              In addition, it deletes all the .rds files from the default and selected cache directory.
 #'              See \code{\link{get_eurostat_data}} for more on cache.
 #' @param cache_dir A path to cache directory. If \code{NULL} (default)
 #'        tries to clean default temporary cache directory. Directory can also be set with \code{options(restatapi_cache_dir=...)}.
@@ -19,9 +20,9 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
     load_cfg()
   } else {
     td<-ls(envir=.restatapi_env)
-    td<-td[!(td %in% c("cfg","rav"))]
+    td<-td[!(td %in% c("cfg","rav","cc"))]
     rm(list=td,envir=.restatapi_env)
-    if (verbose){message("All objects except from 'cfg' and 'rav' are removed from '.restatapi_env'.")}
+    if (verbose){message("All objects except from 'cfg', 'rav' and 'cc' are removed from '.restatapi_env'.")}
   }
   if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){

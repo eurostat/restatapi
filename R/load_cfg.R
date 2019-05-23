@@ -15,12 +15,17 @@
 #'  \item \code{rav} a character string with a number defining the API_VERSION from the config file to be used later. It is determined based on the \code{api_version} parameter.   
 #'  } 
 #' @export
-#' @details Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. If it is not possible it loads from  By this way different version of the API can be tested.
+#' @details Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
+#'          If it is not possible it loads from  By this way different version of the API can be tested. In addition, 
+#'          the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
 #' load_cfg()
 #' load_cfg(parallel=FALSE)
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
+#' eu<-get("cc",envir=.restatapi_env)
+#' eu$EU28
+#' eu$EA15
 #' }
 #' \dontshow{
 #' load_cfg()
@@ -38,6 +43,7 @@ load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FA
   cfg<-get("cfg",envir=.restatapi_env)
   assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
   rav<-get("rav",envir=.restatapi_env)
+  assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
   if (Sys.info()[['sysname']]=='Windows'){
     options(restatapi_cores=1)
   }else{
