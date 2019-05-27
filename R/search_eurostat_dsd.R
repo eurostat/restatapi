@@ -1,8 +1,13 @@
 #' @title Search the downloaded Data Structure Definition of a dataset
-#' @description Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} function. 
+#' @description Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 
+#'              the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} 
+#'              function. 
 #' @param pattern a character string or a vector of character string.
-#' @param dsd a table with the character string with the id of the dataset.  
-#' @param ignore.case a boolean if the pattern is case sensitive or not. The default is \code{TRUE}. 
+#' @param dsd a table with the character string with the id of the dataset. 
+#' @param name a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
+#'             If the value \code{FALSE}, only the in the 'code' column of the DSD will be  searched.
+#' @param ... additional arguments to the \code{grep} fuynction like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+#'            The default value for \code{ignore.case} is \code{FALSE}. 
 #' @return If the pattern found then the function returns table with the 4 columns:
 #'    \tabular{ll}{
 #'      \code{pattern} \tab The pattern which was searched \cr
@@ -27,11 +32,12 @@
 #' }
 #' dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 #' search_eurostat_dsd("EU",dsd_example)
-#' search_eurostat_dsd("EU",dsd_example,ignore.case=FALSE)
+#' search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
+#' search_eurostat_dsd("EU",dsd_example,name=FALSE)
 #' 
 
 
-search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=TRUE) {
+search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,...) {
   if (is.null(dsd)){
     message('No DSD were provided.')
     sr<-FALSE
@@ -39,7 +45,11 @@ search_eurostat_dsd <- function(pattern,dsd=NULL,ignore.case=TRUE) {
     sr<-FALSE
   } else {
     if (all(c("concept","code","name") %in% colnames(dsd))){
-      rn<-unique(c(grep(pattern,dsd$code,ignore.case=ignore.case),grep(pattern,dsd$name,ignore.case=ignore.case)))
+      if (!name) {
+        rn<-unique(c(grep(pattern,dsd$code,...)))
+      } else {
+        rn<-unique(c(grep(pattern,dsd$code,...),grep(pattern,dsd$name,...)))
+      }
       if (length(rn>0)){
         sr<-data.frame(pattern,dsd[rn, ],stringsAsFactors=FALSE)  
       }else{

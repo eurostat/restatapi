@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_data</span>(<span class='no'>id</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ignore.case</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>get_eurostat_data</span>(<span class='no'>id</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>date_filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>select_freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(),
@@ -135,8 +135,8 @@ The default is <code>NULL</code>, in this case the whole dataset is returned via
 If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data.</p></td>
     </tr>
     <tr>
-      <th>ignore.case</th>
-      <td><p>a boolean with the default value <code>FALSE</code>, if the strings provided in <code>filters</code> shall be matched as is or the case can be ignored.</p></td>
+      <th>exact_match</th>
+      <td><p>a boolean with the default value <code>TRUE</code>, if the strings provided in <code>filters</code> shall be matched exactly as it is or as a pattern.</p></td>
     </tr>
     <tr>
       <th>date_filter</th>
@@ -201,7 +201,8 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     </tr>
     <tr>
       <th>...</th>
-      <td><p>further argument for <code><a href='load_cfg.html'>load_cfg</a></code> function.</p></td>
+      <td><p>further arguments to the for <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code> function like <code>ignore.case</code> 
+with the default value <code>FALSE</code>, if the strings provided in <code>filters</code> shall be matched as is or the case can be ignored.</p></td>
     </tr>
     </table>
     
@@ -224,14 +225,15 @@ used. In case after filtering the dataset has more rows than the limitation of t
 <p>By default all datasets cached as they are often rather large. 
 The datasets cached in memory (default) or can be stored in a temporary directory if <code>cache_dir</code> or <code><a href='https://rdrr.io/r/base/options.html'>option(restatpi_cache_dir)</a></code> is defined.
 The cache can be emptied with <code><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></code>.</p>
-<p>The <code>id</code>, is a value from the <code>code</code> column of the table of contents (<code><a href='get_eurostat_toc.html'>get_eurostat_toc</a></code>), and can be searched for with the <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> function. The id value can be retrieved from the <a href='http://ec.europa.eu/eurostat/data/database'>Eurostat database</a>
- as well. The Eurostat
-database gives codes in the Data Navigation Tree after every dataset
-in parenthesis.</p>
+<p>The <code>id</code>, is a value from the <code>code</code> column of the table of contents (<code><a href='get_eurostat_toc.html'>get_eurostat_toc</a></code>), and can be searched 
+for with the <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> function. The id value can be retrieved from the <a href='http://ec.europa.eu/eurostat/data/database'>Eurostat database</a>
+ as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.</p>
 <p>Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like <code><a href='https://rdrr.io/r/base/c.html'>c("AT$","Belgium","persons","Total")</a></code>. Be careful that the filter is case sensitive, if you do not know exactly you can use the option <code>ignore.case=TRUE</code>, but it can include unwanted elements as well. 
-We do not have to worry about the correct order it will be put in the correct place based on the DSD. In the <code>filters</code> parameter regular expressions can be used as well.</p>
-<p>The <code>date_filter</code> shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
+If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like <code><a href='https://rdrr.io/r/base/c.html'>c("AT$","Belgium","persons","Total")</a></code>. 
+Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option <code>ignore.case=TRUE</code> and <code>exact_match=FALSE</code>, 
+but in this case the results may include unwanted elements as well. In the <code>filters</code> parameter regular expressions can be used as well. 
+We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD.</p>
+    <p>The <code>date_filter</code> shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "&lt;" or "&gt;" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
 A single date range can be defined as well by concatenating two dates with the ":", e.g. <code>"2016-08:2017-03-15"</code>. As seen in the exemple the dates can have different length: one defined only at year/month level, the other by day level. 
 If a date range is defined with ":", it is not possible to use the "&lt;" or "&gt;" characters in the date filter.
@@ -243,7 +245,8 @@ If there are multiple dates which is not a continuous range, it can be put in ve
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span>()
+<span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)</div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='st'>"/tmp"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
@@ -252,9 +255,11 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>date_filter</span><span class='kw'>=</span><span class='fl'>2008</span>,<span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"BE$"</span>,
+                      <span class='kw'>exact_match</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span>),
                       <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"Q"</span>,
-                      <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+                      <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+                      <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span>),
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='st'>"2007-06&lt;"</span>,
@@ -262,6 +267,9 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_a10_e"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span>),
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span>:<span class='fl'>2018</span>))
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"vit_t3"</span>,
+                      <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"EU28"</span>,<span class='no'>eu</span>$<span class='no'>EA15</span>,<span class='st'>"HU$"</span>),
+                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2015"</span>,<span class='fl'>2007</span>))
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span>),

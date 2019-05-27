@@ -13,6 +13,7 @@ if (!is.null(xml_toc)&!is.null(txt_toc)){
   test_that("test of the get_eurostat_toc function", {
     expect_equal(ncol(xml_toc),14)
     expect_equal(ncol(txt_toc),8)
+    expect_equal(nrow(xml_toc),nrow(txt_toc))
     expect_error(get_eurostat_toc(mode="text"))
     expect_true(exists("toc.xml.en", envir = .restatapi_env))
     expect_true(exists("toc.txt.en", envir = .restatapi_env))
@@ -46,16 +47,18 @@ if (!is.null(xml_toc)){
 }
 
 context("test of the search_eurostat_dsd function")
-id<-"ei_bsfs_q"
+id<-"NAMA_10_GDP"
 dsd<-get_eurostat_dsd(id,verbose=TRUE)
+eu<-get("cc",envir=.restatapi_env)
 pattern<-"EU"
 if (!is.null(dsd)){
   test_that("test of the search_eurostat_dsd function", {
     expect_error(search_eurostat_dsd(dsd,pattern))
-    expect_equal(search_eurostat_dsd("blabla",dsd),F)
+    expect_equal(search_eurostat_dsd("blabla",dsd),FALSE)
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),9)
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=FALSE)),5)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),19)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),15)
+    expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE))),41)
   })
 }
 
@@ -90,10 +93,10 @@ if (!is.null(tmp)&is.data.frame(tmp)){
 dsd1<-get_eurostat_dsd("agr_r_milkpr")
 dsd2<-get_eurostat_dsd("avia_par_me")
 if (!is.null(dsd1)&is.data.frame(dsd1)){
-  dt3<-get_eurostat_data("agr_r_milkpr",filters="AT$")
+  dt3<-get_eurostat_data("agr_r_milkpr",filters="AT",verbose=TRUE)
   nc3<-ncol(dt3)
   nr3<-nrow(dt3)
-  dt4<-get_eurostat_data("agr_r_milkpr",filters="AT",keep_flags=TRUE)
+  dt4<-get_eurostat_data("agr_r_milkpr",filters="AT",exact_match=FALSE,keep_flags=TRUE,verbose=TRUE)
   nc4<-ncol(dt4)
   nr4<-nrow(dt4)
   if (!is.null(dt3)&!is.null(dt4)&is.data.frame(dt3)&is.data.frame(dt4)){
@@ -109,7 +112,7 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
       expect_equal(nr5,nr6)
     })
   }
-  nr7<-nrow(get_eurostat_data("agr_r_milkpr",filters="AT",ignore.case=TRUE,keep_flags=TRUE,verbose=TRUE))
+  nr7<-nrow(get_eurostat_data("agr_r_milkpr",filters="AT",exact_match=FALSE,keep_flags=TRUE,verbose=TRUE,ignore.case=TRUE))
   nr8<-nrow(get_eurostat_data("agr_r_milkpr",filters="AT",verbose=TRUE))
   if (!is.null(nr7)&!is.null(nr8)){
     test_that("test filtering in the get_eurostat_data function", {
@@ -122,19 +125,19 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
       expect_equal(nr9,2)
     })
   }
-  nr10<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE$",date_filter="<2008"))
+  nr10<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter="<2008"))
   if (!is.null(nr10)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(nr10,14)
     })
   }  
-  nr11<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE$",date_filter=c(2002,"2008",2015:2017),verbose=TRUE))
+  nr11<-nrow(get_eurostat_data("agr_r_milkpr",filters="^BE$",date_filter=c(2002,"2008",2015:2017),verbose=TRUE))
   if (!is.null(nr11)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_true(nr11<=5)
     })
   }
-  nr12<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE$",date_filter=c(2008,"2002",2015:2017),verbose=TRUE))
+  nr12<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter=c(2008,"2002",2015:2017),verbose=TRUE))
   if (!is.null(nr11)&!is.null(nr12)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(nr11,nr12)
@@ -143,7 +146,7 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
 }
 dsd2<-get_eurostat_dsd("avia_par_me")
 if (!is.null(dsd2)){
-  nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,verbose=FALSE))
+  nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,verbose=FALSE))
   if (!is.null(nr13)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(nr13,72)
@@ -155,15 +158,15 @@ if (!is.null(dsd2)){
       expect_equal(nr14,4860)
     })
   }
-  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M"))
+  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",verbose=TRUE))
   if (!is.null(nr15)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(nr15,216)
     })
   }  
-  dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE)
+  dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE,verbose=TRUE)
   dt6<-get_eurostat_data("avia_par_me",filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
-  dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=TRUE)
+  dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"),stringsAsFactors=TRUE,verbose=TRUE)
   if (!is.null(dt5)&!is.null(dt6)&!is.null(dt7)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(dt5,dt7)

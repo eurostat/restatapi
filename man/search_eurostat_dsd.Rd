@@ -4,14 +4,18 @@
 \alias{search_eurostat_dsd}
 \title{Search the downloaded Data Structure Definition of a dataset}
 \usage{
-search_eurostat_dsd(pattern, dsd = NULL, ignore.case = TRUE)
+search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, ...)
 }
 \arguments{
 \item{pattern}{a character string or a vector of character string.}
 
 \item{dsd}{a table with the character string with the id of the dataset.}
 
-\item{ignore.case}{a boolean if the pattern is case sensitive or not. The default is \code{TRUE}.}
+\item{name}{a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
+If the value \code{FALSE}, only the in the 'code' column of the DSD will be  searched.}
+
+\item{...}{additional arguments to the \code{grep} fuynction like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+The default value for \code{ignore.case} is \code{FALSE}.}
 }
 \value{
 If the pattern found then the function returns table with the 4 columns:
@@ -24,7 +28,9 @@ If the pattern found then the function returns table with the 4 columns:
    Otherwise returns the value \code{FALSE}.
 }
 \description{
-Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} function.
+Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 
+             the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} 
+             function.
 }
 \details{
 The function returns the line(s) where the searched pattern appears in the code or in the name column.
@@ -41,7 +47,8 @@ rav<-get("rav",envir=.restatapi_env)
 }
 dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 search_eurostat_dsd("EU",dsd_example)
-search_eurostat_dsd("EU",dsd_example,ignore.case=FALSE)
+search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
+search_eurostat_dsd("EU",dsd_example,name=FALSE)
 
 }
 \seealso{

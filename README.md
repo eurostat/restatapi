@@ -29,6 +29,7 @@ The package contains 5 main functions and several other sub functions:
 
 Detailed documentation of the functions is in the package.
 
+Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
 ## examples
 
@@ -41,6 +42,7 @@ Detailed documentation of the functions is in the package.
 > 
 > dsd<-get_eurostat_dsd("ei_bsfs_q")
 > search_eurostat_dsd("EU",dsd)
+> search_eurostat_dsd("EU",dsd,name=FALSE)
 > 
 > get_eurostat_data("NAMA_10_GDP")
 > get_eurostat_data("nama_10_gdp",update_cache=TRUE)
@@ -56,7 +58,8 @@ Detailed documentation of the functions is in the package.
 >                        date_filter=c("2017-03",2016,"2017-07-01",2012:2014),
 >                        select_freq="Q",
 >                        label=TRUE,
->                        verbose=TRUE)
+>                        verbose=TRUE,
+>                        name=FALSE)
 > options(restatapi_cache_dir=tempdir())
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters=c("BE$","Hungary"),
@@ -64,11 +67,21 @@ Detailed documentation of the functions is in the package.
 >                       keep_flags=TRUE)
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters="BE",
+>                       exact_match=FALSE,
 >                       date_filter="2006-02:2008-06-05",
->                       ignore.case=TRUE,
+>                       keep_flags=TRUE,
+>                       stringsAsFactors=FALSE,
+>                       label=TRUE,
+>                       ignore.case=TRUE)
+>
+> eu<-get("cc",envir=.restatapi_env)
+> dt<-get_eurostat_data("agr_r_milkpr",
+>                       filters=eu$NMS10,
+>                       date_filter="2009-03-01:2011-06-05",
 >                       keep_flags=TRUE,
 >                       stringsAsFactors=FALSE,
 >                       label=TRUE)
+>
 > dt<-get_eurostat_data("nama_10_a10_e",
 >                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
 >                       date_filter=c("2008",2002,"2005-01",2013:2018))

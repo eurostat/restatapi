@@ -23,12 +23,12 @@
 #' load_cfg()
 #' load_cfg(parallel=FALSE)
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
-#' eu<-get("cc",envir=.restatapi_env)
-#' eu$EU28
-#' eu$EA15
 #' }
 #' \dontshow{
 #' load_cfg()
+#' eu<-get("cc",envir=.restatapi_env)
+#' eu$EU28
+#' eu$EA15
 #' }
 #' 
 

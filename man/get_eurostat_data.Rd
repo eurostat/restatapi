@@ -4,7 +4,7 @@
 \alias{get_eurostat_data}
 \title{Download/extract Eurostat Data}
 \usage{
-get_eurostat_data(id, filters = NULL, ignore.case = FALSE,
+get_eurostat_data(id, filters = NULL, exact_match = TRUE,
   date_filter = NULL, label = FALSE, select_freq = NULL,
   cache = TRUE, update_cache = FALSE, cache_dir = NULL,
   compress_file = TRUE, stringsAsFactors = default.stringsAsFactors(),
@@ -20,7 +20,7 @@ any words, Eurostat variable codes, and values available in the DSD \code{\link{
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
 If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data.}
 
-\item{ignore.case}{a boolean with the default value \code{FALSE}, if the strings provided in \code{filters} shall be matched as is or the case can be ignored.}
+\item{exact_match}{a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern.}
 
 \item{date_filter}{a vector which can be numeric or character containing dates to filter the dataset.
 If date filter applied only part of the dataset is downloaded through the API. 
@@ -63,7 +63,8 @@ can be removed. Default is \code{FALSE}. For flag values see:
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{further argument for \code{\link{load_cfg}} function.}
+\item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function like \code{ignore.case} 
+with the default value \code{FALSE}, if the strings provided in \code{filters} shall be matched as is or the case can be ignored.}
 }
 \value{
 a data.table. One column for each dimension in the data,
@@ -87,14 +88,16 @@ By default all datasets cached as they are often rather large.
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 
-The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
- as well. The Eurostat
-database gives codes in the Data Navigation Tree after every dataset
-in parenthesis.
+The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched 
+for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+ as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
 
 Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. Be careful that the filter is case sensitive, if you do not know exactly you can use the option \code{ignore.case=TRUE}, but it can include unwanted elements as well. 
-We do not have to worry about the correct order it will be put in the correct place based on the DSD. In the \code{filters} parameter regular expressions can be used as well. 
+If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. 
+Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option \code{ignore.case=TRUE} and \code{exact_match=FALSE}, 
+but in this case the results may include unwanted elements as well. In the \code{filters} parameter regular expressions can be used as well. 
+We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD. 
+
 
 The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "<" or ">" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
@@ -103,6 +106,9 @@ If a date range is defined with ":", it is not possible to use the "<" or ">" ch
 If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.
 }
 \examples{
+load_cfg()
+eu<-get("cc",envir=.restatapi_env)
+
 \dontshow{
 if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
    options(restatapi_cores=1)
@@ -120,9 +126,11 @@ dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
 dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 dt<-get_eurostat_data("avia_par_me",
                       filters="BE$",
+                      exact_match=FALSE,
                       date_filter=c(2016,"2017-03","2017-07-01"),
                       select_freq="Q",
-                      label=TRUE)
+                      label=TRUE,
+                      name=FALSE)
 dt<-get_eurostat_data("agr_r_milkpr",
                       filters=c("BE$","Hungary"),
                       date_filter="2007-06<",
@@ -130,6 +138,9 @@ dt<-get_eurostat_data("agr_r_milkpr",
 dt<-get_eurostat_data("nama_10_a10_e",
                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
                       date_filter=c("2008",2002,2013:2018))
+dt<-get_eurostat_data("vit_t3",
+                      filters=c("EU28",eu$EA15,"HU$"),
+                      date_filter=c("2015",2007))
 dt<-get_eurostat_data("avia_par_me",
                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
                       date_filter=c("2016-08","2017-07-01"),

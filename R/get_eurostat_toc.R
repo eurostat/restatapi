@@ -81,6 +81,7 @@ get_eurostat_toc<-function(mode="xml",cache=TRUE,update_cache=FALSE,cache_dir=NU
         toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
         toc<-toc[toc$type!="folder",]
+        toc$title<-sub("^\\s*","",toc$title)
       }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
@@ -112,6 +113,9 @@ get_eurostat_toc<-function(mode="xml",cache=TRUE,update_cache=FALSE,cache_dir=NU
       stop('Incorrect mode is given. It should be either "xml" or "txt".')
     } 
     toc<-toc[!duplicated(toc[,c(1:8)]),]
+    toc$values<-as.numeric(toc$values)
+    toc$lastUpdate<-as.Date(toc$lastUpdate,"%d.%m.%y")
+    toc$lastModified<-as.Date(toc$lastModified,"%d.%m.%y")
   }  
   if (cache){
     name<-paste0("toc.",mode,".",lang)
