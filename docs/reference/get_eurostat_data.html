@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -201,8 +201,10 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     </tr>
     <tr>
       <th>...</th>
-      <td><p>further arguments to the for <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code> function like <code>ignore.case</code> 
-with the default value <code>FALSE</code>, if the strings provided in <code>filters</code> shall be matched as is or the case can be ignored.</p></td>
+      <td><p>further arguments to the for <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code> function, e.g.: <code>ignore.case</code> or <code>name</code>. 
+If the <code>ignore.case</code> has the default value <code>FALSE</code>, then the strings provided in <code>filters</code> are matched as is, 
+otherwise the case of the letters is ignored. If the <code>name=FALSE</code> then the pattern(s) provided in the <code>filters</code>
+argument is only searched in the code column of the DSD, and the names of the codes will not be searched.</p></td>
     </tr>
     </table>
     

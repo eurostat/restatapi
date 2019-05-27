@@ -39,8 +39,10 @@
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
-#' @param ... further arguments to the for \code{\link{search_eurostat_dsd}} function like \code{ignore.case} 
-#'        with the default value \code{FALSE}, if the strings provided in \code{filters} shall be matched as is or the case can be ignored. 
+#' @param ... further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
+#'        If the \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 
+#'        otherwise the case of the letters is ignored. If the \code{name=FALSE} then the pattern(s) provided in the \code{filters}
+#'        argument is only searched in the code column of the DSD, and the names of the codes will not be searched. 
 #' @export
 #' 
 #' @details Data sets are downloaded from the Eurostat Web Services 
@@ -258,7 +260,7 @@ get_eurostat_data <- function(id,
     if (verbose){message(filters,"-",date_filter)}
     if (is.null(filters) & is.null(date_filter)){
       message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
-      restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
+      restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
     } else {
       base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
       data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters,"/",date_filter),perl=TRUE)
@@ -289,7 +291,7 @@ get_eurostat_data <- function(id,
       if (!is.null(restat)){
         if ((nrow(restat)==0)){
           message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
-          restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
+          restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
         } else {
           if (length(unique(restat$FREQ))==1){
             drop<-c(drop,"FREQ")
@@ -366,7 +368,7 @@ get_eurostat_data <- function(id,
       if ((!is.null(restat))&(verbose)) {message("The data was loaded from cache.")}  
     }
     if ((!cache)|(is.null(restat))|(update_cache)){
-        restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose,...)
+        restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
     }
     if (cache){
       toc<-get_eurostat_toc(verbose=verbose)

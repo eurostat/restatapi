@@ -63,8 +63,10 @@ can be removed. Default is \code{FALSE}. For flag values see:
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function like \code{ignore.case} 
-with the default value \code{FALSE}, if the strings provided in \code{filters} shall be matched as is or the case can be ignored.}
+\item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
+If the \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 
+otherwise the case of the letters is ignored. If the \code{name=FALSE} then the pattern(s) provided in the \code{filters}
+argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }
 \value{
 a data.table. One column for each dimension in the data,

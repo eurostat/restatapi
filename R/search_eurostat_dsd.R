@@ -5,7 +5,7 @@
 #' @param pattern a character string or a vector of character string.
 #' @param dsd a table with the character string with the id of the dataset. 
 #' @param name a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
-#'             If the value \code{FALSE}, only the in the 'code' column of the DSD will be  searched.
+#'             If the value \code{FALSE}, then only the 'code' column of the DSD will be  searched.
 #' @param ... additional arguments to the \code{grep} fuynction like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
 #'            The default value for \code{ignore.case} is \code{FALSE}. 
 #' @return If the pattern found then the function returns table with the 4 columns:
