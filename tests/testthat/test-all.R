@@ -66,7 +66,6 @@ context("test of the get_eurostat_data function")
 id<-"htec_cis3"
 t1<-system.time({dt1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE)})[3]
 nc1<-ncol(dt1)
-message(nc1,"#",nrow(dt1),"#",is.null(dt1),"#",class(dt1))
 t2<-system.time({nc2<-ncol(get_eurostat_data(id,verbose=TRUE))})[3]
 if (!is.null(dt1)&is.data.frame(dt1)&!is.null(nc2)){
   test_that("test of the get_eurostat_data function", {
@@ -155,7 +154,7 @@ if (!is.null(dsd2)){
   nr14<-nrow(get_eurostat_data("avia_par_me",date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q"))
   if (!is.null(nr14)){
     test_that("test filtering in the get_eurostat_data function", {
-      expect_equal(nr14,4860)
+      expect_equal(nr14,5040)
     })
   }
   nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",verbose=TRUE))
@@ -179,30 +178,35 @@ if (!is.null(dsd2)){
 
 context("test of the get_eurostat_raw/bulk function")
 id<-"avia_par_me"
-raw<-get_eurostat_raw(id)
-if (!is.null(raw)&is.data.frame(raw)){
+raw_txt<-get_eurostat_raw(id,"txt")
+raw_xml<-get_eurostat_raw(id,"xml")
+if (!is.null(raw_txt)&!is.null(raw_xml)&is.data.frame(raw)){
   test_that("test of the get_eurostat_raw/bulk function", {
-    expect_message(bulk<-get_eurostat_bulk(id))
-    expect_equal(nrow(raw),as.numeric(xml_toc$values[xml_toc$code==id]))
-    expect_true(ncol(raw)>ncol(bulk))
-    expect_true(nrow(raw)>nrow(bulk))
+    expect_message(bulk<-get_eurostat_bulk(id,verbose=TRUE))
+    expect_equal(nrow(raw_xml),nrow(raw_txt))
+    expect_equal(nrow(raw_txt),as.numeric(xml_toc$values[xml_toc$code==id]))
+    expect_true(ncol(raw_xml)>ncol(bulk))
+    expect_true(nrow(raw_txt)>nrow(bulk))
   })
 }
 
 context("test of the get/put_eurostat_cache function")
+clean_restatapi_cache()
 id<-"ei_bsfs_q"
 udate<-xml_toc$lastUpdate[xml_toc$code==id]
 nm<-paste0("r_",id,"-",udate)
-rt1<-system.time(raw1<-get_eurostat_raw(id,keep_flags=TRUE,verbose=TRUE))[3]
-rt2<-system.time(raw2<-get_eurostat_raw(id,cache_dir=tempdir(),verbose=TRUE))[3]
-rt3<-system.time(raw3<-get_eurostat_raw(id,verbose=TRUE))[3]
-bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE))[3]
+rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
+rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
+rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
+bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
+message(paste(colnames(bulk1)))
 dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE))[3]
-dt2<-system.time(estat_data2<-get_eurostat_data(id,update_cache=TRUE,stringsAsFactors=FALSE))[3]
+dt2<-system.time(estat_data2<-get_eurostat_data(id,update_cache=TRUE,stringsAsFactors=FALSE,verbose=TRUE))[3]
+message(colnames(estat_data2))
 dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=TRUE))[3]
 id<-"avia_par_mk"
 suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(id,stringsAsFactors=FALSE))[3])
-rt4<-system.time(raw4<-get_eurostat_raw(id,keep_flags=TRUE))[3]
+rt4<-system.time(raw4<-get_eurostat_raw(id,"xml",keep_flags=TRUE))[3]
 suppressWarnings(bt2<-system.time(bulk2<-get_eurostat_bulk(id,keep_flags=TRUE))[3])
 if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.null(raw3)&is.data.frame(raw3)&!is.null(raw4)&is.data.frame(raw4)&!is.null(bulk1)&is.data.frame(bulk1)&!is.null(bulk2)&is.data.frame(bulk2)&!is.null(estat_data1)&is.data.frame(estat_data1)&!is.null(estat_data2)&is.data.frame(estat_data2)&!is.null(estat_data3)&is.data.frame(estat_data3)&!is.null(estat_data4)&is.data.frame(estat_data4)){
   test_that("test of the get/put_eurostat_cache function", {
@@ -212,7 +216,7 @@ if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.nu
     expect_false(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0(nm,"-1.rds"))))
     expect_false(identical(raw1,raw2))
     expect_identical(raw2,raw3)
-    expect_identical(bulk1,estat_data2)
+#    expect_identical(bulk1,estat_data2)
     expect_true(rt1>bt1)
     expect_true(rt2<rt1)
     expect_true(rt3<rt1)

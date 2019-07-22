@@ -4,14 +4,17 @@
 \alias{get_eurostat_raw}
 \title{Get Eurostat data as it is}
 \usage{
-get_eurostat_raw(id, cache = TRUE, update_cache = FALSE,
-  cache_dir = NULL, compress_file = TRUE,
+get_eurostat_raw(id, mode = "txt", cache = TRUE,
+  update_cache = FALSE, cache_dir = NULL, compress_file = TRUE,
   stringsAsFactors = default.stringsAsFactors(), keep_flags = FALSE,
   verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
+
+\item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for TSV 
+(Tab Separated Values), or \code{xml} for the SDMX version.}
 
 \item{cache}{a logical whether to do caching. Default is \code{TRUE}.}
 
