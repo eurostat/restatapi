@@ -193,16 +193,21 @@ if (!is.null(raw_txt)&!is.null(raw_xml)&is.data.frame(raw)){
 context("test of the get/put_eurostat_cache function")
 clean_restatapi_cache()
 id<-"ei_bsfs_q"
+xml_toc<-get_eurostat_toc(verbose=TRUE)
 udate<-xml_toc$lastUpdate[xml_toc$code==id]
 nm<-paste0("r_",id,"-",udate)
 rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
 rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
 rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
 bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
-message(paste(colnames(bulk1)))
+nrb1<-nrow(bulk1)
+ncb1<-ncol(bulk1)
+cnb1<-colnames(bulk1)
 dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE))[3]
-dt2<-system.time(estat_data2<-get_eurostat_data(id,update_cache=TRUE,stringsAsFactors=FALSE,verbose=TRUE))[3]
-message(colnames(estat_data2))
+dt2<-system.time(estat_data2<-get_eurostat_data(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
+nrd2<-nrow(estat_data2)
+ncd2<-ncol(estat_data2)
+cnd2<-colnames(estat_data2)
 dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=TRUE))[3]
 id<-"avia_par_mk"
 suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(id,stringsAsFactors=FALSE))[3])
@@ -216,13 +221,15 @@ if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.nu
     expect_false(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0(nm,"-1.rds"))))
     expect_false(identical(raw1,raw2))
     expect_identical(raw2,raw3)
-#    expect_identical(bulk1,estat_data2)
+    expect_identical(bulk1,estat_data2)
+    expect_equal(nrb1,nrd2)
+    expect_equal(ncb1,ncd2)
+    expect_equal(cnb1,cnd2)
     expect_true(rt1>bt1)
     expect_true(rt2<rt1)
     expect_true(rt3<rt1)
-    expect_true(dt1<dt2)
+#    expect_true(dt1<dt2)
     expect_true(dt3<rt1)
-    expect_true(dt2>rt3)
     expect_true(any(sapply(raw1,is.factor)))
     expect_true(any(sapply(raw2,is.factor)))
     expect_true(any(sapply(raw3,is.factor)))

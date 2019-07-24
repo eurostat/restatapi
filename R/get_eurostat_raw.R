@@ -105,22 +105,45 @@ get_eurostat_raw <- function(id,
       }
       if (!is.null(bulk_url)){
         if (mode=="txt"){
+          temp <- tempfile()
           if (verbose){
             message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
-            tryCatch({raw<-data.table::fread(bulk_url,sep='\t',sep2=',',colClasses='character',header=TRUE)},
-                      error = function(e) {
-                      message("Unable to download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
-                      ne<-FALSE
-                    },
-                      warning = function(w) {
-                      message("Unable to download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
-                    })
+            tryCatch({utils::download.file(bulk_url,temp)},
+                     error = function(e) {
+                       message("Unable to download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
+                       ne<-FALSE
+                     },
+                     warning = function(w) {
+                       message("Unable to download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
+                     })
           } else {
-              tryCatch({raw<-data.table::fread(bulk_url,sep='\t',sep2=',',colClasses='character',header=TRUE)},
-                        error = function(e) {ne<-FALSE},
-                        warning = function(w) {})
+            tryCatch({utils::download.file(bulk_url,temp)},
+                     error = function(e) {ne<-FALSE},
+                     warning = function(w) {})
           }
-          if (ne) {
+          if (ne){
+            if (verbose){
+              message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
+              tryCatch({gz<-gzfile(temp, open = "rt")
+                        raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                        close(gz)
+                        unlink(temp)},
+                        error = function(e) {
+                        message("Unable to open the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))
+                        ne2<-FALSE
+                       },
+                       warning = function(w) {
+                         message("Unable to open the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))
+                       })
+            } else {
+              tryCatch({gz<-gzfile(temp, open = "rt")
+                        raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                        close(gz)
+                        unlink(temp)},
+                       error = function(e) {ne2<-FALSE},
+                       warning = function(w) {})
+            }
+          if (ne2) {
             cname<-colnames(raw)[1] 
             if (is.character(cname)){
               cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
@@ -140,6 +163,7 @@ get_eurostat_raw <- function(id,
               message("The file download was not successful. Try again later.")
               restat_raw<-NULL
             }
+          }  
           }
         } else if (mode=="xml"){
           temp <- tempfile()

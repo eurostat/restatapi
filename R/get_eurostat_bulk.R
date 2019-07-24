@@ -102,8 +102,9 @@ get_eurostat_bulk <- function(id,
     restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
     restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
   } 
-  drop=c("FREQ","TIME_FORMAT")
-  if ((is.null(select_freq))){
+  drop=c("FREQ")
+  if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
+  if (is.null(select_freq)){
     if (length(unique(restat_bulk$FREQ))>1){
       st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
       if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
@@ -117,9 +118,9 @@ get_eurostat_bulk <- function(id,
     } else {
      if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
     }
-    restat_bulk[,(drop):=NULL]
     data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
   }
+  restat_bulk[,(drop):=NULL]
   if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
   if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
     oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))

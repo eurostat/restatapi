@@ -144,9 +144,9 @@ get_eurostat_data <- function(id,
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
   if(!is.null(select_freq)){
-    append_sf<-F
+    append_sf<-FALSE
     if (is.null(filters)|(length(filters)>1)) {
-      append_sf<-T
+      append_sf<-TRUE
     } else if (!is.null(filters)) {
       if (grepl("\\.",filters,perl=TRUE)){
         if (grepl("^\\.",filters,perl=TRUE)){
@@ -155,7 +155,7 @@ get_eurostat_data <- function(id,
           filters<-paste0(select_freq,"+",filters)
         }  
       } else {
-        append_sf<-T
+        append_sf<-TRUE
       }
     }
     if (append_sf){
