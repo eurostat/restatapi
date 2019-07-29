@@ -52,9 +52,9 @@
 #' }
 #' \donttest{
 #' dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
-#' dt<-get_eurostat_raw("avia_par_ee",update_cache=TRUE)
+#' dt<-get_eurostat_raw("avia_par_ee",mode="sdmx",update_cache=TRUE)
 #' options(restatapi_update=FALSE)
-#' dt<-get_eurostat_raw("avia_par_me",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+#' dt<-get_eurostat_raw("avia_par_me",mode="txt",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
 #' }
 
 get_eurostat_raw <- function(id, 

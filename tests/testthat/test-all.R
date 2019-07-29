@@ -183,6 +183,7 @@ raw_xml<-get_eurostat_raw(id,"xml")
 if (!is.null(raw_txt)&!is.null(raw_xml)&is.data.frame(raw)){
   test_that("test of the get_eurostat_raw/bulk function", {
     expect_message(bulk<-get_eurostat_bulk(id,verbose=TRUE))
+    expect_message(bulk<-get_eurostat_raw(id,mode="text",verbose=TRUE))
     expect_equal(nrow(raw_xml),nrow(raw_txt))
     expect_equal(nrow(raw_txt),as.numeric(xml_toc$values[xml_toc$code==id]))
     expect_true(ncol(raw_xml)>ncol(bulk))
