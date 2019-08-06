@@ -47,7 +47,13 @@
 #' head(toc_txt)
 #' }
 
-get_eurostat_toc<-function(mode="xml",cache=TRUE,update_cache=FALSE,cache_dir=NULL,compress_file=TRUE,lang="en",verbose=F,...) {
+get_eurostat_toc<-function(mode="xml",
+                           cache=TRUE,
+                           update_cache=FALSE,
+                           cache_dir=NULL,
+                           compress_file=TRUE,
+                           lang="en",
+                           verbose=FALSE,...) {
   toc<-NULL
   ne<-TRUE
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
@@ -101,7 +107,16 @@ get_eurostat_toc<-function(mode="xml",cache=TRUE,update_cache=FALSE,cache_dir=NU
                  warning = function(w) {})
       }
       if ((ne)&!is.null(xml_leafs)){
-        leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+        if (Sys.info()[['sysname']]=='Windows'){
+          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+          parallel::clusterEvalQ(cl,require(xml2))
+          parallel::clusterExport(cl,c("extract_toc"))
+          leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
+          parallel::stopCluster(cl)
+          
+        }else{
+          leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+        }
         toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
         type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
         toc<-cbind(toc,type)

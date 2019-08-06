@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -148,8 +148,8 @@ converted to factors. If <code>FALSE</code> they are returned as a character.</p
 <span class='no'>bulk_url</span><span class='kw'>&lt;-</span><span class='no'>toc</span>$<span class='no'>downloadLink.sdmx</span>[<span class='no'>toc</span>$<span class='no'>code</span><span class='kw'>==</span><span class='no'>id</span>]
 <span class='no'>temp</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
 <span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='no'>bulk_url</span>,<span class='no'>temp</span>)
-<span class='no'>sdmx_xml</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xml2/man/read_xml.html'>read_xml</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/unzip.html'>unzip</a></span>(<span class='no'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>id</span>,<span class='st'>".sdmx.xml"</span>)))
-<span class='no'>xml_leafs</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xml2/man/xml_find_all.html'>xml_find_all</a></span>(<span class='no'>sdmx_xml</span>,<span class='st'>".//data:Series"</span>)
+<span class='no'>sdmx_xml</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_xml</a></span>(<span class='fu'><a href='https://rdrr.io/r/utils/unzip.html'>unzip</a></span>(<span class='no'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='no'>id</span>,<span class='st'>".sdmx.xml"</span>)))
+<span class='no'>xml_leafs</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/xml_find_all.html'>xml_find_all</a></span>(<span class='no'>sdmx_xml</span>,<span class='st'>".//data:Series"</span>)
 <span class='fu'>extract_data</span>(<span class='no'>xml_leafs</span>[<span class='fl'>1</span>])</div><div class='output co'>#&gt;    FREQ milkitem dairyprod geo TIME_FORMAT TIME_PERIOD OBS_VALUE
 #&gt; 1     A      PRO    D1110A  AT         P1Y        1996    2956.6
 #&gt; 2     A      PRO    D1110A  AT         P1Y        1997      3015

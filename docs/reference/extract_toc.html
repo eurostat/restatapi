@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -135,16 +135,16 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>cfg</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cfg"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='no'>rav</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"rav"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
-<span class='no'>toc_endpoint</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span>(<span class='kw'>text</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"cfg$TOC_ENDPOINT$'"</span>,<span class='no'>rav</span>,<span class='st'>"'$ESTAT$xml"</span>)))</div><div class='input'><span class='no'>xml_leafs</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xml2/man/xml_find_all.html'>xml_find_all</a></span>(<span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/xml2/man/read_xml.html'>read_xml</a></span>(<span class='no'>toc_endpoint</span>),<span class='st'>".//nt:leaf"</span>)
+<span class='no'>toc_endpoint</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span>(<span class='kw'>text</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"cfg$TOC_ENDPOINT$'"</span>,<span class='no'>rav</span>,<span class='st'>"'$ESTAT$xml"</span>)))</div><div class='input'><span class='no'>xml_leafs</span><span class='kw'>&lt;-</span><span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/xml_find_all.html'>xml_find_all</a></span>(<span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_xml</a></span>(<span class='no'>toc_endpoint</span>),<span class='st'>".//nt:leaf"</span>)
 <span class='fu'>extract_toc</span>(<span class='no'>xml_leafs</span>[<span class='fl'>1</span>])</div><div class='output co'>#&gt;  [1] "Consumers - monthly data"                                                                                       
 #&gt;  [2] "Consommateurs - données mensuelles"                                                                             
 #&gt;  [3] "Verbraucher - monatliche Daten"                                                                                 
 #&gt;  [4] "ei_bsco_m"                                                                                                      
-#&gt;  [5] "27.06.2019"                                                                                                     
-#&gt;  [6] "27.06.2019"                                                                                                     
+#&gt;  [5] "30.07.2019"                                                                                                     
+#&gt;  [6] "30.07.2019"                                                                                                     
 #&gt;  [7] "1980M01"                                                                                                        
-#&gt;  [8] "2019M06"                                                                                                        
-#&gt;  [9] "270723"                                                                                                         
+#&gt;  [8] "2019M07"                                                                                                        
+#&gt;  [9] "271626"                                                                                                         
 #&gt; [10] ""                                                                                                               
 #&gt; [11] ""                                                                                                               
 #&gt; [12] ""                                                                                                               

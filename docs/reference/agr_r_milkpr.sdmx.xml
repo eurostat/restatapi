@@ -4,7 +4,7 @@
 <ID>agr_r_milkpr</ID>
 <Test>false</Test>
 <Name xml:lang="en">agr_r_milkpr</Name>
-<Prepared>2019-07-12T15:34:54</Prepared>
+<Prepared>2019-08-05T15:34:11</Prepared>
 <Sender id="EUROSTAT">
 <Name xml:lang="en">EUROSTAT</Name>
 </Sender>
@@ -12,7 +12,7 @@
 <Name xml:lang="en">SDMX-ML File</Name>
 </Receiver>
 <DataSetID>agr_r_milkpr</DataSetID>
-<Extracted>2019-07-12T15:34:54</Extracted>
+<Extracted>2019-08-05T15:34:11</Extracted>
 </Header>
 <data:DataSet>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="AT" TIME_FORMAT="P1Y">
@@ -5482,6 +5482,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="11425.94" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="11886.04" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="12198.88" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="12339.75" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITC" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="4984" />
@@ -5505,6 +5506,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="5438.75" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="5729.07" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="5866.44" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="5960.10" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITC1" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="928" />
@@ -5528,6 +5530,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="856.95" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="867.68" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="872.22" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="851.44" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITC2" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="54" />
@@ -5551,6 +5554,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="45.70" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="71.32" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="73.19" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="86.38" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITC3" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="38" />
@@ -5574,6 +5578,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="34.28" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="47.54" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="47.58" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="111.06" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITC4" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="3964" />
@@ -5597,6 +5602,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="4501.82" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="4742.53" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="4873.45" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="4911.22" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITD" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="3487.5" />
@@ -5680,6 +5686,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="799.82" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="820.14" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="852.70" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="888.46" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF1" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="53" />
@@ -5703,6 +5710,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="45.70" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="59.43" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="69.53" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="86.38" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF2" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="82" />
@@ -5726,6 +5734,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="68.56" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="47.54" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="50.02" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="49.36" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF3" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="453" />
@@ -5749,6 +5758,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="308.50" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="309.04" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="317.17" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="296.15" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF4" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="431" />
@@ -5772,6 +5782,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="228.52" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="225.84" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="236.66" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="271.48" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF5" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="316" />
@@ -5795,6 +5806,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="57.13" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="71.32" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="69.53" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="86.38" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITF6" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="117" />
@@ -5818,6 +5830,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="91.41" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="106.97" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="109.79" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="98.72" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITG" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="397.1" />
@@ -5841,6 +5854,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="445.61" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="487.33" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="507.47" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="481.25" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITG1" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="217.4" />
@@ -5864,6 +5878,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="217.09" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="249.61" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="263.50" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="246.80" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITG2" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="179.7" />
@@ -5887,6 +5902,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="228.52" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="237.72" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="243.98" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="234.46" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="2011" OBS_VALUE="4193.36" />
@@ -5896,6 +5912,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="4170.47" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="4290.86" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="4383.06" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="4454.65" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH1" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="342.3" />
@@ -5918,6 +5935,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="388.48" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="416.01" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="420.86" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="444.23" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH2" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="127.2" />
@@ -5940,6 +5958,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="159.96" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="166.41" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="173.22" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="185.10" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH3" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="1162" />
@@ -5962,6 +5981,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="1005.48" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="1057.86" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="1062.52" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="1098.24" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH4" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="321" />
@@ -5984,6 +6004,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="182.82" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="190.18" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="191.52" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="222.12" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITH5" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="2011" OBS_VALUE="2433.15" />
@@ -5993,6 +6014,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="2433.72" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="2460.41" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="2534.93" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="2504.97" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITI" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="2011" OBS_VALUE="637.50" />
@@ -6002,6 +6024,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="571.30" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="558.64" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="589.21" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="555.29" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITI1" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="86" />
@@ -6024,6 +6047,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="68.56" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="83.20" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="95.15" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="86.38" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITI2" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="66" />
@@ -6046,6 +6070,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="57.13" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="47.54" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="53.68" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="74.04" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITI3" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="2011" OBS_VALUE="63.73" />
@@ -6055,6 +6080,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="45.70" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="59.43" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="62.21" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="49.36" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="ITI4" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1996" OBS_VALUE="374" />
@@ -6077,6 +6103,7 @@
 <data:Obs TIME_PERIOD="2015" OBS_VALUE="399.91" />
 <data:Obs TIME_PERIOD="2016" OBS_VALUE="368.47" />
 <data:Obs TIME_PERIOD="2017" OBS_VALUE="378.17" />
+<data:Obs TIME_PERIOD="2018" OBS_VALUE="345.51" />
 </data:Series>
 <data:Series FREQ="A" milkitem="PRO" dairyprod="D1110A" geo="LT" TIME_FORMAT="P1Y">
 <data:Obs TIME_PERIOD="1995" OBS_VALUE="1809.5" />

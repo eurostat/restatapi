@@ -76,7 +76,7 @@ if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
 }
 \donttest{
 dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
-dt<-get_eurostat_raw("avia_par_ee",mode="sdmx",update_cache=TRUE)
+dt<-get_eurostat_raw("avia_par_ee",mode="xml",update_cache=TRUE)
 options(restatapi_update=FALSE)
 dt<-get_eurostat_raw("avia_par_me",mode="txt",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
 }
