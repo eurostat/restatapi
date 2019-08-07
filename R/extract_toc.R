@@ -6,7 +6,7 @@
 #' @return a character vector with all the values of the nodeset.
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
@@ -22,9 +22,6 @@
 #' 
 
 extract_toc<-function(ns){
-  if (Sys.info()[['sysname']]=='Windows'){
-    sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(xml2::as_xml_document(ns))),perl=TRUE))
-  }else{
-    sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(ns)),perl=TRUE))
-  }
+  if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
+  sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(ns)),perl=TRUE))
 }

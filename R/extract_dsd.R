@@ -7,7 +7,7 @@
 #' @return a matrix with 3 columns if the concepts has code list in the DSD file
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
@@ -28,6 +28,7 @@ extract_dsd<-function(concept=NULL,dsd_xml=NULL){
     message("The XML file or the concept is missing.")
     return(NULL)
   } else {
+    if (Sys.info()[['sysname']]=='Windows'){dsd_xml<-xml2::as_xml_document(dsd_xml)}
     xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code')),"id")
     if (length(xml_clc)>0){
       xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code/com:Name')))

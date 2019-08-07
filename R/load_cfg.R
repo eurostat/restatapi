@@ -44,20 +44,16 @@ load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FA
   assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
   rav<-get("rav",envir=.restatapi_env)
   assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
-  if (Sys.info()[['sysname']]=='Windows'){
-    options(restatapi_cores=1)
-  }else{
-    if (parallel) {
-      if (max_cores){
-        options(restatapi_cores=parallel::detectCores()-1)
+  if (parallel) {
+    if (max_cores){
+      options(restatapi_cores=parallel::detectCores()-1)
+    } else {
+      if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
+        options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
+      } else if (parallel::detectCores()>2){
+        options(restatapi_cores=2)
       } else {
-        if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
-          options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
-        } else if (parallel::detectCores()>2){
-          options(restatapi_cores=2)
-        } else {
-          options(restatapi_cores=1)
-        }
+        options(restatapi_cores=1)
       }
     }
   }

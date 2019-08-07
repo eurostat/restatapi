@@ -37,7 +37,7 @@ The function returns the line(s) where the searched pattern appears in the code 
 }
 \examples{
 \dontshow{
-if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)

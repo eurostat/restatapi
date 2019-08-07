@@ -34,7 +34,7 @@
 #' @references For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
@@ -106,23 +106,24 @@ get_eurostat_toc<-function(mode="xml",
                  error = function(e) {ne<-FALSE},
                  warning = function(w) {})
       }
-      if ((ne)&!is.null(xml_leafs)){
-        if (Sys.info()[['sysname']]=='Windows'){
-          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-          parallel::clusterEvalQ(cl,require(xml2))
-          parallel::clusterExport(cl,c("extract_toc"))
-          leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
-          parallel::stopCluster(cl)
-          
-        }else{
-          leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+      if ((ne)){
+        if (!is.null(xml_leafs)){
+          if (Sys.info()[['sysname']]=='Windows'){
+            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+            parallel::clusterEvalQ(cl,require(xml2))
+            parallel::clusterExport(cl,c("extract_toc"))
+            leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
+            parallel::stopCluster(cl)
+          }else{
+            leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+          }
+          toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
+          type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+          toc<-cbind(toc,type)
+          names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
+          toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
+          names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
         }
-        toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
-        type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
-        toc<-cbind(toc,type)
-        names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
-        toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
-        names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
       }
     } else {
       stop('Incorrect mode is given. It should be either "xml" or "txt".')

@@ -44,7 +44,7 @@
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
@@ -200,9 +200,18 @@ get_eurostat_raw <- function(id,
             if (ne2){
               if(exists("sdmx_file")){
                   xml_leafs<-xml2::xml_find_all(xml2::read_xml(sdmx_file),".//data:Series")
+                  if (Sys.info()[['sysname']]=='Windows'){
+                    xml_leafs<-as.character(xml_leafs)
+                    cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+                    parallel::clusterEvalQ(cl,require(xml2))
+                    parallel::clusterExport(cl,c("extract_data"))
+                    restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
+                    parallel::stopCluster(cl)
+                  }else{
+                    restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
+                  }
                   unlink(temp)
                   unlink(paste0(id,".sdmx.xml"))
-                  restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))              
                 }
               } else{
                 message("The data file is missing. Check the file: ",temp)

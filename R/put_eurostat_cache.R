@@ -10,7 +10,7 @@
 #' @return The function returns the place where the object was cached: either it creates an the object in the memory ('.restatapi_env') or creates an RDS-file.  
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)

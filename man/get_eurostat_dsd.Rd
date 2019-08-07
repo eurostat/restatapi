@@ -39,7 +39,7 @@ The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX
 }
 \examples{
 \dontshow{
-if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)

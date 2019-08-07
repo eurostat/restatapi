@@ -21,7 +21,7 @@
 #' @references For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 
 #' \dontshow{
-#' if ((parallel::detectCores()<2)|(Sys.info()[['sysname']]=='Windows')){
+#' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
@@ -69,7 +69,16 @@ get_eurostat_dsd <- function(id,
       }
       if (exists("dsd_xml")){
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-        dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+        if (Sys.info()[['sysname']]=='Windows'){
+          dsd_xml<-as.character(dsd_xml)
+          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+          parallel::clusterEvalQ(cl,require(xml2))
+          parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
+          dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+          parallel::stopCluster(cl)
+        }else{
+          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+        }  
         names(dsd)<-c("concept","code","name")
         if (cache){
           pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
