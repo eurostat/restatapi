@@ -160,19 +160,19 @@ get_eurostat_data <- function(id,
     }
     if (append_sf){
       if(select_freq=="A"){
-        filters<-c(filters,"Annual")
+        filters<-c(filters,"^Annual$","^A$")
       } else if (select_freq=="S") {
-        filters<-c(filters,"Semi-annual")
+        filters<-c(filters,"^Semi-annual$","^S$")
       } else if (select_freq=="H") {
-        filters<-c(filters,"Half-year")
+        filters<-c(filters,"^Half-year$","^H$")
       } else if (select_freq=="Q") {
-        filters<-c(filters,"Quarterly")
+        filters<-c(filters,"^Quarterly$","^Q$")
       } else if (select_freq=="M") {
-        filters<-c(filters,"Monthly")
+        filters<-c(filters,"^Monthly$","^M$")
       } else if (select_freq=="W") {
-        filters<-c(filters,"Weekly")
+        filters<-c(filters,"^Weekly$","^W$")
       } else if (select_freq=="D") {
-        filters<-c(filters,"Daily")
+        filters<-c(filters,"^Daily$","^D$")
       } else {
         select_freq<-NULL
         message("Incorrect frequency selected. It can be 'A', 'S', 'H', 'Q', 'M', 'W' or 'D'. The select_freq parameter will be ignored.")
