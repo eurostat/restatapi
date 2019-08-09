@@ -1,8 +1,8 @@
 Package: restatapi
 Type: Package
 Title: Search and Retrieve Data from Eurostat Database
-Date: 2019-08-08
-Version: 0.3.1
+Date: 2019-08-09
+Version: 0.3.2
 Encoding: UTF-8
 Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
 Description: Eurostat is the statistical office of the European Union and provides high quality statistics for Europe.
@@ -15,6 +15,6 @@ Imports: data.table, rjson, rsdmx, xml2
 Suggests: knitr, rmarkdown, testthat
 LazyData: true
 NeedsCompilation: no
-RoxygenNote: 6.1.1
 URL: https://github.com/eurostat/restatapi
 BugReports: https://github.com/eurostat/restatapi/issues
+RoxygenNote: 6.1.1

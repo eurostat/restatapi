@@ -6,7 +6,7 @@
 #'        converted to factors. If \code{FALSE} they are returned as a character.
 #' @export 
 #' @details It is a subfunction to use in the \code{\link{get_eurostat_data}} function.
-#' @return a data frame with 
+#' @return a data frame containing the values of the SDMX files
 #' @examples 
 #' \dontshow{
 #' if (parallel::detectCores()<=2){

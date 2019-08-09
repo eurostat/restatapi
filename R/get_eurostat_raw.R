@@ -143,83 +143,48 @@ get_eurostat_raw <- function(id,
                        error = function(e) {ne2<-FALSE},
                        warning = function(w) {})
             }
-          if (ne2) {
-            cname<-colnames(raw)[1] 
-            if (is.character(cname)){
-              cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
-              rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
-              data.table::setnames(raw,1,"bdown")
-              raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
-              rm(raw)
-              data.table::setnames(raw_melted,2:3,c(rname,"values"))
-              raw_melted<-raw_melted[raw_melted$values!=":",]
-              restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE))
-              data.table::setnames(restat_raw,cnames)  
-              restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3])
-              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-]',"",restat_raw$values)}
-              restat_raw$values<-gsub('[^0-9\\.-]',"",restat_raw$values)
-              restat_raw<-data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
-            } else {
-              message("The file download was not successful. Try again later.")
-              restat_raw<-NULL
-            }
-          }  
+            if (ne2) {
+              cname<-colnames(raw)[1] 
+              if (is.character(cname)){
+                cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
+                rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
+                data.table::setnames(raw,1,"bdown")
+                raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
+                rm(raw)
+                data.table::setnames(raw_melted,2:3,c(rname,"values"))
+                raw_melted<-raw_melted[raw_melted$values!=":",]
+                restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE))
+                data.table::setnames(restat_raw,cnames)  
+                restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3])
+                if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-]',"",restat_raw$values)}
+                restat_raw$values<-gsub('[^0-9\\.-]',"",restat_raw$values)
+                restat_raw<-data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
+              } else {
+                message("The file download was not successful. Try again later.")
+                restat_raw<-NULL
+              }
+            }  
           }
         } else if (mode=="xml"){
-          temp <- tempfile()
           if (verbose) {
             message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
-            tryCatch({utils::download.file(bulk_url,temp)},
-                     error = function(e) {
-                       message("Unable to download the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
-                       ne<-FALSE
-                     },
-                     warning = function(w) {
-                       message("Unable to download the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
-                     })
-          } else {
-            tryCatch({utils::download.file(bulk_url,temp)},
-                     error = function(e) {ne<-FALSE},
-                     warning = function(w) {})
           }
-          if (ne) {
-            if (verbose) {
-              tryCatch({sdmx_file<-utils::unzip(temp,paste0(id,".sdmx.xml"))},
-                       error = function(e) {
-                         message("Unable to unzip the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
-                         ne2<-FALSE
-                       },
-                       warning = function(w) {
-                         message("Unable to unzip the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
-                       })
-            } else {
-              tryCatch({sdmx_file<-utils::unzip(temp,paste0(id,".sdmx.xml"))},
-                       error = function(e) {ne2<-FALSE},
-                       warning = function(w) {})
-            }
-            if (ne2){
-              if(exists("sdmx_file")){
-                  xml_leafs<-xml2::xml_find_all(xml2::read_xml(sdmx_file),".//data:Series")
-                  if (Sys.info()[['sysname']]=='Windows'){
-                    xml_leafs<-as.character(xml_leafs)
-                    cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-                    parallel::clusterEvalQ(cl,require(xml2))
-                    parallel::clusterExport(cl,c("extract_data"))
-                    restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
-                    parallel::stopCluster(cl)
-                  }else{
-                    restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
-                  }
-                  unlink(temp)
-                  unlink(paste0(id,".sdmx.xml"))
-                }
-              } else{
-                message("The data file is missing. Check the file: ",temp)
-              }
+          sdmx_file<-get_compressed_sdmx(bulk_url,verbose=verbose)
+          if(!is.null(sdmx_file)){
+            xml_leafs<-xml2::xml_find_all(sdmx_file,".//data:Series")
+            if (Sys.info()[['sysname']]=='Windows'){
+              xml_leafs<-as.character(xml_leafs)
+              cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+              parallel::clusterEvalQ(cl,require(xml2))
+              parallel::clusterExport(cl,c("extract_data"))
+              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
+              parallel::stopCluster(cl)
+            }else{
+              restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
             }
           }
         }
-      else{
+      }else{
         message("The download link from the TOC is missing. Try again later.")
       }
     }  
