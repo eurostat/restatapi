@@ -101,6 +101,8 @@ get_eurostat_bulk <- function(id,
   if ((!cache)|(is.null(restat_bulk))|(update_cache)){
     restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
     restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
+    restat_bulk$FREQ[restat_bulk$FREQ==""]<-"A"
+    if (stringsAsFactors) {restat_bulk$FREQ<-as.factor(restat_bulk$FREQ)}
   } 
   drop=c("FREQ")
   if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 

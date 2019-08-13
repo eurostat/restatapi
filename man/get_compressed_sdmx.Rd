@@ -22,7 +22,9 @@ Downloads  andxtracts the data values from the SDMX XML data file
 It is a subfunction to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}}  function.
 }
 \examples{
-url<-"http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"
+base_url<-"http://ec.europa.eu/eurostat/"
+url_end<-"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"
+url<-paste0(base_url,url_end)
 sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE)
 
 }
