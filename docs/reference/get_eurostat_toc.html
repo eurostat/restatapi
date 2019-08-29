@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -191,12 +191,12 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>toc_xml</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>toc_xml</span>)</div><div class='output co'>#&gt;                           title         code    type lastUpdate lastModified
-#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020-07-30   2020-07-30
-#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020-07-30   2020-07-30
-#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020-07-30   2020-07-30
-#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020-07-30   2020-07-30
-#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020-07-30   2020-07-30
-#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020-07-30   2020-07-30
+#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020-08-26   2020-08-26
+#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020-08-26   2020-08-26
+#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020-08-26   2020-08-26
+#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020-08-26   2020-08-26
+#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020-08-26   2020-08-26
+#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020-08-26   2020-08-26
 #&gt;   dataStart dataEnd values unit shortDescription
 #&gt; 1   1980M01 2019M07 271626                      
 #&gt; 2    1990Q1  2019Q3  18384                      
@@ -218,34 +218,34 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 #&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
 #&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
 #&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt;                                                                                            downloadLink.tsv
-#&gt; 1    http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.tsv.gz
-#&gt; 2    http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.tsv.gz
-#&gt; 3 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.tsv.gz
-#&gt; 4 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.tsv.gz
-#&gt; 5 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.tsv.gz
-#&gt; 6 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.tsv.gz
-#&gt;                                                                                             downloadLink.sdmx
-#&gt; 1    http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.sdmx.zip
-#&gt; 2    http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.sdmx.zip
-#&gt; 3 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.sdmx.zip
-#&gt; 4 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.sdmx.zip
-#&gt; 5 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.sdmx.zip
-#&gt; 6 http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</div><div class='input'><span class='no'>toc_txt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>, <span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>)
+#&gt;                                                                                             downloadLink.tsv
+#&gt; 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.tsv.gz
+#&gt; 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.tsv.gz
+#&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.tsv.gz
+#&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.tsv.gz
+#&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.tsv.gz
+#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.tsv.gz
+#&gt;                                                                                              downloadLink.sdmx
+#&gt; 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.sdmx.zip
+#&gt; 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.sdmx.zip
+#&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.sdmx.zip
+#&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.sdmx.zip
+#&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.sdmx.zip
+#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</div><div class='input'><span class='no'>toc_txt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>, <span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>toc_txt</span>)</div><div class='output co'>#&gt;                                   title         code    type lastUpdate
-#&gt; 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2020-07-30
-#&gt; 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2020-07-30
-#&gt; 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2020-07-30
-#&gt; 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2020-07-30
-#&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2020-07-30
-#&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2020-07-30
+#&gt; 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2020-08-26
+#&gt; 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2020-08-26
+#&gt; 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2020-08-26
+#&gt; 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2020-08-26
+#&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2020-08-26
+#&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2020-08-26
 #&gt;    lastModified dataStart dataEnd values
-#&gt; 6    2020-07-30   1980M01 2019M07     NA
-#&gt; 7    2020-07-30    1990Q1  2019Q3     NA
-#&gt; 9    2020-07-30   1980M01 2019M07     NA
-#&gt; 10   2020-07-30    1980Q1  2019Q3     NA
-#&gt; 11   2020-07-30   1980M01 2019M07     NA
-#&gt; 12   2020-07-30    1981Q1  2019Q3     NA</div></pre>
+#&gt; 6    2020-08-26   1980M01 2019M07     NA
+#&gt; 7    2020-08-26    1990Q1  2019Q3     NA
+#&gt; 9    2020-08-26   1980M01 2019M07     NA
+#&gt; 10   2020-08-26    1980Q1  2019Q3     NA
+#&gt; 11   2020-08-26   1980M01 2019M07     NA
+#&gt; 12   2020-08-26    1981Q1  2019Q3     NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
