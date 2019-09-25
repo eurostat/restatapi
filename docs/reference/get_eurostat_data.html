@@ -8,11 +8,13 @@
 
 <title>Download/extract Eurostat Data — get_eurostat_data • restatapi</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Download/extract Eurostat Data — get_eurostat_data" />
 
+<meta property="og:title" content="Download/extract Eurostat Data — get_eurostat_data" />
 <meta property="og:description" content="Download full or partial data set from Eurostat database." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -81,7 +85,6 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/eurostat/restatapi">
@@ -96,6 +99,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -107,9 +111,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Download full or partial data set from <a href='https://ec.europa.eu/eurostat/'>Eurostat</a> database.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>get_eurostat_data</span>(<span class='no'>id</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -117,7 +119,7 @@
   <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(),
   <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -207,7 +209,7 @@ otherwise the case of the letters is ignored. If the <code>name=FALSE</code> the
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a data.table. One column for each dimension in the data,
@@ -215,7 +217,6 @@ argument is only searched in the code column of the DSD, and the names of the co
         the values column for numerical values and the flags column if the <code>keep_flags=TRUE</code>.
         Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
         on particular time.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Data sets are downloaded from the Eurostat Web Services 
@@ -235,20 +236,29 @@ If we do not know the codes we can filter based on words or by the mix of the tw
 Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option <code>ignore.case=TRUE</code> and <code>exact_match=FALSE</code>, 
 but in this case the results may include unwanted elements as well. In the <code>filters</code> parameter regular expressions can be used as well. 
 We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD.</p>
-    <p>The <code>date_filter</code> shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
+
+<p>The <code>date_filter</code> shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "&lt;" or "&gt;" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
 A single date range can be defined as well by concatenating two dates with the ":", e.g. <code>"2016-08:2017-03-15"</code>. As seen in the exemple the dates can have different length: one defined only at year/month level, the other by day level. 
 If a date range is defined with ":", it is not possible to use the "&lt;" or "&gt;" characters in the date filter.
 If there are multiple dates which is not a continuous range, it can be put in vector in any order like <code><a href='https://rdrr.io/r/base/c.html'>c("2016-08",2013:2015,"2017-07-01")</a></code>. In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>,<code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span>()
-<span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)</div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
+<span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
+
+<span class='co'># \dontshow{</span>
+<span class='kw'>if</span> (<span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()<span class='kw'>&lt;=</span><span class='fl'>2</span>){
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>1</span>)
+}<span class='kw'>else</span>{
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>2</span>)
+}
+<span class='co'># }</span>
+<span class='co'># \donttest{</span>
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='st'>"/tmp"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
@@ -275,24 +285,22 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span>),
-                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)</div></pre>
+                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -300,13 +308,16 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -53,12 +53,14 @@ eu<-get("cc",envir=.restatapi_env)
 pattern<-"EU"
 if (!is.null(dsd)){
   test_that("test of the search_eurostat_dsd function", {
-    expect_error(search_eurostat_dsd(dsd,pattern))
+    expect_warning(search_eurostat_dsd(dsd,pattern))
     expect_equal(search_eurostat_dsd("blabla",dsd),FALSE)
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),19)
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),15)
-    expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE))),41)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),21)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),17)
+    expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE,exact_match=TRUE))),34)
+    expect_warning(search_eurostat_dsd(eu$NMS2,dsd))
+    expect_equal(nrow(do.call(rbind,lapply(eu$NMS2,search_eurostat_dsd,dsd=dsd,exact_match=TRUE,ignore.case=TRUE))),2)
   })
 }
 

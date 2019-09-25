@@ -9,7 +9,7 @@
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the table of contents. The default is \code{en} - English.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
-#' @param ... other parameters to pass to the \code{grep} function.
+#' @param ... other parameters to pass to the \code{grepl} function.
 #' @return A table with the following columns:
 #'    \tabular{ll}{
 #'      \code{title} \tab The name of dataset/table in the language provided by the \code{lang} parameter \cr

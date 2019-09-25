@@ -4,7 +4,8 @@
 \alias{search_eurostat_dsd}
 \title{Search the downloaded Data Structure Definition of a dataset}
 \usage{
-search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, ...)
+search_eurostat_dsd(pattern, dsd = NULL, name = TRUE,
+  exact_match = FALSE, ...)
 }
 \arguments{
 \item{pattern}{a character string or a vector of character string.}
@@ -14,7 +15,9 @@ search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, ...)
 \item{name}{a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
 If the value \code{FALSE}, then only the 'code' column of the DSD will be  searched.}
 
-\item{...}{additional arguments to the \code{grep} fuynction like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+\item{exact_match}{a boolean with the default value \code{FALSE}, if the strings provided in \code{pattern} shall be matched exactly as it is or as a pattern.}
+
+\item{...}{additional arguments to the \code{grep} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
 The default value for \code{ignore.case} is \code{FALSE}.}
 }
 \value{
@@ -49,6 +52,7 @@ dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 search_eurostat_dsd("EU",dsd_example)
 search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
 search_eurostat_dsd("EU",dsd_example,name=FALSE)
+search_eurostat_dsd("EU",dsd_example,exact_match=TRUE)
 
 }
 \seealso{

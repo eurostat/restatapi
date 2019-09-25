@@ -188,11 +188,7 @@ get_eurostat_data <- function(id,
       } else {
         dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
         if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1)){
-          if (exact_match){
-            filters<-paste0("^",filters,"$")
-            filters<-sub("^\\^{2}","\\^",sub("\\${2}$","\\$",filters))
-          }
-          ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,...))
+          ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
           if ((ncol(ft)>1)){
             ft<-ft[ft$code!=FALSE,2:3]
             ft<-ft[order(match(ft$concept, dsdorder)),]

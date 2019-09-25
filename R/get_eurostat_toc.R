@@ -58,6 +58,7 @@ get_eurostat_toc<-function(mode="xml",
   ne<-TRUE
   if (!(exists(".restatapi_env"))) {load_cfg(...)}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
+  if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if ((cache) & (!update_cache)) {
     toc<-get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)

@@ -8,11 +8,13 @@
 
 <title>Search the downloaded Data Structure Definition of a dataset — search_eurostat_dsd • restatapi</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Search the downloaded Data Structure Definition of a dataset — search_eurostat_dsd" />
 
+<meta property="og:title" content="Search the downloaded Data Structure Definition of a dataset — search_eurostat_dsd" />
 <meta property="og:description" content="Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 
              the rows where the pattern appears in the code and name column of the output of the get_eurostat_dsd 
              function." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -49,6 +52,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -67,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -83,7 +87,6 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/eurostat/restatapi">
@@ -98,6 +101,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -109,15 +113,14 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 
              the rows where the pattern appears in the code and name column of the output of the <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code> 
              function.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>search_eurostat_dsd</span>(<span class='no'>pattern</span>, <span class='kw'>dsd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>search_eurostat_dsd</span>(<span class='no'>pattern</span>, <span class='kw'>dsd</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -135,12 +138,16 @@
 If the value <code>FALSE</code>, then only the 'code' column of the DSD will be  searched.</p></td>
     </tr>
     <tr>
+      <th>exact_match</th>
+      <td><p>a boolean with the default value <code>FALSE</code>, if the strings provided in <code>pattern</code> shall be matched exactly as it is or as a pattern.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>additional arguments to the <code>grep</code> fuynction like <code>ignore.case=TRUE</code> if the pattern should be searched case sensitive or not. 
+      <td><p>additional arguments to the <code>grep</code> function like <code>ignore.case=TRUE</code> if the pattern should be searched case sensitive or not. 
 The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>If the pattern found then the function returns table with the 4 columns:</p><table class='table'>
@@ -150,33 +157,41 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 <tr><td><code>name</code></td><td>The name/description of the code where the pattern found, or the name of the code where the pattern appears</td></tr>
 </table>
 <p>Otherwise returns the value <code>FALSE</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function returns the line(s) where the searched pattern appears in the code or in the name column.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code>, <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
+    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
+<span class='kw'>if</span> (<span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()<span class='kw'>&lt;=</span><span class='fl'>2</span>){
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>1</span>)
+}<span class='kw'>else</span>{
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>2</span>)
+}
+<span class='no'>cfg</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cfg"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
+<span class='no'>rav</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"rav"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
+<span class='co'># }</span>
+<span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
 #&gt; 1       EU    UNIT      PC_EU28_MEUR_CP
 #&gt; 2       EU    UNIT PC_EU27_2019_MEUR_CP
 #&gt; 3       EU    UNIT      PC_EU28_MPPS_CP
 #&gt; 4       EU    UNIT PC_EU27_2019_MPPS_CP
 #&gt; 5       EU    UNIT              CP_MEUR
 #&gt; 6       EU    UNIT    CP_MPPS_EU27_2019
-#&gt; 7       EU    UNIT           CLV05_MEUR
+#&gt; 7       EU    UNIT           CLV15_MEUR
 #&gt; 8       EU    UNIT           CLV10_MEUR
-#&gt; 9       EU    UNIT             PYP_MEUR
-#&gt; 10      EU    UNIT             PD10_EUR
-#&gt; 11      EU    UNIT             PD05_EUR
-#&gt; 12      EU    UNIT       PD_PCH_PRE_EUR
-#&gt; 13      EU     GEO                 EU28
-#&gt; 14      EU     GEO            EU27_2019
-#&gt; 15      EU     GEO                 EU15
+#&gt; 9       EU    UNIT           CLV05_MEUR
+#&gt; 10      EU    UNIT             PYP_MEUR
+#&gt; 11      EU    UNIT             PD15_EUR
+#&gt; 12      EU    UNIT             PD10_EUR
+#&gt; 13      EU    UNIT             PD05_EUR
+#&gt; 14      EU    UNIT       PD_PCH_PRE_EUR
+#&gt; 15      EU     GEO                 EU28
+#&gt; 16      EU     GEO            EU27_2019
+#&gt; 17      EU     GEO                 EU15
 #&gt;                                                                                                  name
 #&gt; 1                                    Percentage of EU28 total (based on million euro), current prices
 #&gt; 2                        Percentage of EU27 (from 2019) total (based on million euro), current prices
@@ -184,34 +199,38 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 4  Percentage of EU27 (from 2019) total (based on million purchasing power standards), current prices
 #&gt; 5                                                                        Current prices, million euro
 #&gt; 6                            Current prices, million purchasing power standards (PPS, EU27 from 2019)
-#&gt; 7                                                           Chain linked volumes (2005), million euro
+#&gt; 7                                                           Chain linked volumes (2015), million euro
 #&gt; 8                                                           Chain linked volumes (2010), million euro
-#&gt; 9                                                                  Previous year prices, million euro
-#&gt; 10                                                    Price index (implicit deflator), 2010=100, euro
-#&gt; 11                                                    Price index (implicit deflator), 2005=100, euro
-#&gt; 12                        Price index (implicit deflator), percentage change on previous period, euro
-#&gt; 13                                                                      European Union - 28 countries
-#&gt; 14                                                          European Union - 27 countries (from 2019)
-#&gt; 15                                                          European Union - 15 countries (1995-2004)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    pattern  concept                 code
+#&gt; 9                                                           Chain linked volumes (2005), million euro
+#&gt; 10                                                                 Previous year prices, million euro
+#&gt; 11                                                    Price index (implicit deflator), 2015=100, euro
+#&gt; 12                                                    Price index (implicit deflator), 2010=100, euro
+#&gt; 13                                                    Price index (implicit deflator), 2005=100, euro
+#&gt; 14                        Price index (implicit deflator), percentage change on previous period, euro
+#&gt; 15                                                                      European Union - 28 countries
+#&gt; 16                                                          European Union - 27 countries (from 2019)
+#&gt; 17                                                          European Union - 15 countries (1995-2004)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    pattern  concept                 code
 #&gt; 1       EU     UNIT      PC_EU28_MEUR_CP
 #&gt; 2       EU     UNIT PC_EU27_2019_MEUR_CP
 #&gt; 3       EU     UNIT      PC_EU28_MPPS_CP
 #&gt; 4       EU     UNIT PC_EU27_2019_MPPS_CP
 #&gt; 5       EU     UNIT              CP_MEUR
 #&gt; 6       EU     UNIT    CP_MPPS_EU27_2019
-#&gt; 7       EU     UNIT           CLV05_MEUR
+#&gt; 7       EU     UNIT           CLV15_MEUR
 #&gt; 8       EU     UNIT           CLV10_MEUR
-#&gt; 9       EU     UNIT             PYP_MEUR
-#&gt; 10      EU     UNIT             PD10_EUR
-#&gt; 11      EU     UNIT             PD05_EUR
-#&gt; 12      EU     UNIT       PD_PCH_PRE_EUR
-#&gt; 13      EU      GEO                 EU28
-#&gt; 14      EU      GEO            EU27_2019
-#&gt; 15      EU      GEO                 EU15
-#&gt; 16      EU      GEO                   EA
-#&gt; 17      EU      GEO                 EA19
-#&gt; 18      EU      GEO                 EA12
-#&gt; 19      EU OBS_FLAG                    s
+#&gt; 9       EU     UNIT           CLV05_MEUR
+#&gt; 10      EU     UNIT             PYP_MEUR
+#&gt; 11      EU     UNIT             PD15_EUR
+#&gt; 12      EU     UNIT             PD10_EUR
+#&gt; 13      EU     UNIT             PD05_EUR
+#&gt; 14      EU     UNIT       PD_PCH_PRE_EUR
+#&gt; 15      EU      GEO                 EU28
+#&gt; 16      EU      GEO            EU27_2019
+#&gt; 17      EU      GEO                 EU15
+#&gt; 18      EU      GEO                   EA
+#&gt; 19      EU      GEO                 EA19
+#&gt; 20      EU      GEO                 EA12
+#&gt; 21      EU OBS_FLAG                    s
 #&gt;                                                                                                  name
 #&gt; 1                                    Percentage of EU28 total (based on million euro), current prices
 #&gt; 2                        Percentage of EU27 (from 2019) total (based on million euro), current prices
@@ -219,34 +238,38 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 4  Percentage of EU27 (from 2019) total (based on million purchasing power standards), current prices
 #&gt; 5                                                                        Current prices, million euro
 #&gt; 6                            Current prices, million purchasing power standards (PPS, EU27 from 2019)
-#&gt; 7                                                           Chain linked volumes (2005), million euro
+#&gt; 7                                                           Chain linked volumes (2015), million euro
 #&gt; 8                                                           Chain linked volumes (2010), million euro
-#&gt; 9                                                                  Previous year prices, million euro
-#&gt; 10                                                    Price index (implicit deflator), 2010=100, euro
-#&gt; 11                                                    Price index (implicit deflator), 2005=100, euro
-#&gt; 12                        Price index (implicit deflator), percentage change on previous period, euro
-#&gt; 13                                                                      European Union - 28 countries
-#&gt; 14                                                          European Union - 27 countries (from 2019)
-#&gt; 15                                                          European Union - 15 countries (1995-2004)
-#&gt; 16      Euro area (EA11-2000, EA12-2006, EA13-2007, EA15-2008, EA16-2010, EA17-2013, EA18-2014, EA19)
-#&gt; 17                                                                           Euro area (19 countries)
-#&gt; 18                                                                           Euro area (12 countries)
-#&gt; 19                                                                     Eurostat estimate (phased out)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;    pattern concept                 code
+#&gt; 9                                                           Chain linked volumes (2005), million euro
+#&gt; 10                                                                 Previous year prices, million euro
+#&gt; 11                                                    Price index (implicit deflator), 2015=100, euro
+#&gt; 12                                                    Price index (implicit deflator), 2010=100, euro
+#&gt; 13                                                    Price index (implicit deflator), 2005=100, euro
+#&gt; 14                        Price index (implicit deflator), percentage change on previous period, euro
+#&gt; 15                                                                      European Union - 28 countries
+#&gt; 16                                                          European Union - 27 countries (from 2019)
+#&gt; 17                                                          European Union - 15 countries (1995-2004)
+#&gt; 18      Euro area (EA11-2000, EA12-2006, EA13-2007, EA15-2008, EA16-2010, EA17-2013, EA18-2014, EA19)
+#&gt; 19                                                                           Euro area (19 countries)
+#&gt; 20                                                                           Euro area (12 countries)
+#&gt; 21                                                                     Eurostat estimate (phased out)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;    pattern concept                 code
 #&gt; 1       EU    UNIT      PC_EU28_MEUR_CP
 #&gt; 2       EU    UNIT PC_EU27_2019_MEUR_CP
 #&gt; 3       EU    UNIT      PC_EU28_MPPS_CP
 #&gt; 4       EU    UNIT PC_EU27_2019_MPPS_CP
 #&gt; 5       EU    UNIT              CP_MEUR
 #&gt; 6       EU    UNIT    CP_MPPS_EU27_2019
-#&gt; 7       EU    UNIT           CLV05_MEUR
+#&gt; 7       EU    UNIT           CLV15_MEUR
 #&gt; 8       EU    UNIT           CLV10_MEUR
-#&gt; 9       EU    UNIT             PYP_MEUR
-#&gt; 10      EU    UNIT             PD10_EUR
-#&gt; 11      EU    UNIT             PD05_EUR
-#&gt; 12      EU    UNIT       PD_PCH_PRE_EUR
-#&gt; 13      EU     GEO                 EU28
-#&gt; 14      EU     GEO            EU27_2019
-#&gt; 15      EU     GEO                 EU15
+#&gt; 9       EU    UNIT           CLV05_MEUR
+#&gt; 10      EU    UNIT             PYP_MEUR
+#&gt; 11      EU    UNIT             PD15_EUR
+#&gt; 12      EU    UNIT             PD10_EUR
+#&gt; 13      EU    UNIT             PD05_EUR
+#&gt; 14      EU    UNIT       PD_PCH_PRE_EUR
+#&gt; 15      EU     GEO                 EU28
+#&gt; 16      EU     GEO            EU27_2019
+#&gt; 17      EU     GEO                 EU15
 #&gt;                                                                                                  name
 #&gt; 1                                    Percentage of EU28 total (based on million euro), current prices
 #&gt; 2                        Percentage of EU27 (from 2019) total (based on million euro), current prices
@@ -254,33 +277,32 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 4  Percentage of EU27 (from 2019) total (based on million purchasing power standards), current prices
 #&gt; 5                                                                        Current prices, million euro
 #&gt; 6                            Current prices, million purchasing power standards (PPS, EU27 from 2019)
-#&gt; 7                                                           Chain linked volumes (2005), million euro
+#&gt; 7                                                           Chain linked volumes (2015), million euro
 #&gt; 8                                                           Chain linked volumes (2010), million euro
-#&gt; 9                                                                  Previous year prices, million euro
-#&gt; 10                                                    Price index (implicit deflator), 2010=100, euro
-#&gt; 11                                                    Price index (implicit deflator), 2005=100, euro
-#&gt; 12                        Price index (implicit deflator), percentage change on previous period, euro
-#&gt; 13                                                                      European Union - 28 countries
-#&gt; 14                                                          European Union - 27 countries (from 2019)
-#&gt; 15                                                          European Union - 15 countries (1995-2004)</div><div class='input'>
+#&gt; 9                                                           Chain linked volumes (2005), million euro
+#&gt; 10                                                                 Previous year prices, million euro
+#&gt; 11                                                    Price index (implicit deflator), 2015=100, euro
+#&gt; 12                                                    Price index (implicit deflator), 2010=100, euro
+#&gt; 13                                                    Price index (implicit deflator), 2005=100, euro
+#&gt; 14                        Price index (implicit deflator), percentage change on previous period, euro
+#&gt; 15                                                                      European Union - 28 countries
+#&gt; 16                                                          European Union - 27 countries (from 2019)
+#&gt; 17                                                          European Union - 15 countries (1995-2004)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>exact_match</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -288,13 +310,16 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

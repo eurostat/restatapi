@@ -14,7 +14,7 @@ search_eurostat_toc(pattern, lang = "en", verbose = FALSE, ...)
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{other parameters to pass to the \code{grep} function.}
+\item{...}{other parameters to pass to the \code{grepl} function.}
 }
 \value{
 A table with the following columns:

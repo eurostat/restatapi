@@ -6,7 +6,8 @@
 #' @param dsd a table with the character string with the id of the dataset. 
 #' @param name a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
 #'             If the value \code{FALSE}, then only the 'code' column of the DSD will be  searched.
-#' @param ... additional arguments to the \code{grep} fuynction like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+#' @param exact_match a boolean with the default value \code{FALSE}, if the strings provided in \code{pattern} shall be matched exactly as it is or as a pattern. 
+#' @param ... additional arguments to the \code{grep} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
 #'            The default value for \code{ignore.case} is \code{FALSE}. 
 #' @return If the pattern found then the function returns table with the 4 columns:
 #'    \tabular{ll}{
@@ -34,16 +35,24 @@
 #' search_eurostat_dsd("EU",dsd_example)
 #' search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
 #' search_eurostat_dsd("EU",dsd_example,name=FALSE)
+#' search_eurostat_dsd("EU",dsd_example,exact_match=TRUE)
 #' 
 
 
-search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,...) {
+search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,exact_match=FALSE,...) {
   if (is.null(dsd)){
     message('No DSD were provided.')
     sr<-FALSE
   } else if (is.null(pattern)) {
     sr<-FALSE
+  } else if (length(pattern)>1){
+    warning("The 'pattern' has length > 1. In this case use something like 'do.call(rbind,lapply(pattern,search_eurostat_dsd,dsd=dsd))'.")
+    sr<-FALSE
   } else {
+    if (exact_match){
+      pattern<-paste0("^",pattern,"$")
+      pattern<-sub("^\\^{2}","\\^",sub("\\${2}$","\\$",pattern))
+    }
     if (all(c("concept","code","name") %in% colnames(dsd))){
       if (!name) {
         rn<-unique(c(grep(pattern,dsd$code,...)))
@@ -51,12 +60,13 @@ search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,...) {
         rn<-unique(c(grep(pattern,dsd$code,...),grep(pattern,dsd$name,...)))
       }
       if (length(rn>0)){
-        sr<-data.frame(pattern,dsd[rn, ],stringsAsFactors=FALSE)  
+        sr<-data.frame(pattern,dsd[rn,],stringsAsFactors=FALSE)  
       }else{
         sr<-FALSE
       }
     }else{
-      stop("The DSD does not contain all the columns.")      
+      warning("The DSD does not contain all the columns.")
+      sr<-FALSE
     }
   }
   sr
