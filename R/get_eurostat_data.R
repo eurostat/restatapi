@@ -288,7 +288,7 @@ get_eurostat_data <- function(id,
         if ((nrow(restat)==0)){
           message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
           restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
-        } else {
+        } else if (!is.null(restat)) {
           if (length(unique(restat$FREQ))==1){
             drop<-c(drop,"FREQ")
           }
@@ -366,7 +366,7 @@ get_eurostat_data <- function(id,
     if ((!cache)|(is.null(restat))|(update_cache)){
         restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
     }
-    if (cache){
+    if (cache&!is.null(restat)){
       toc<-get_eurostat_toc(verbose=verbose)
       oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
       pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)

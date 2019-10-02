@@ -90,44 +90,50 @@ get_eurostat_bulk <- function(id,
   if ((cache)&(!update_cache)) {
     nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
-    if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
-      col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
-      restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
-    }
-    if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
-      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
+    if (!is.null(restat_bulk)){
+      if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
+        col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
+        restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+      }
+      if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
+        restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
+      }  
     }
   }
   if ((!cache)|(is.null(restat_bulk))|(update_cache)){
     restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
-    restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
-    restat_bulk$FREQ[restat_bulk$FREQ==""]<-"A"
-    if (stringsAsFactors) {restat_bulk$FREQ<-as.factor(restat_bulk$FREQ)}
-  } 
-  drop=c("FREQ")
-  if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
-  if (is.null(select_freq)){
-    if (length(unique(restat_bulk$FREQ))>1){
-      st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
-      if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
-      message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+    if (!is.null(restat_bulk)){
+      restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
+      restat_bulk$FREQ[restat_bulk$FREQ==""]<-"A"
+      if (stringsAsFactors) {restat_bulk$FREQ<-as.factor(restat_bulk$FREQ)}  
+    }  
+  }
+  if (!is.null(restat_bulk)){
+      drop=c("FREQ")
+      if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
+      if (is.null(select_freq)){
+        if (length(unique(restat_bulk$FREQ))>1){
+          st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
+          if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
+          message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+        } 
+      }
+      if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
+      if ("OBS_VALUE" %in% colnames(restat_bulk)) {
+        if (keep_flags){
+          data.table::setnames(restat_bulk,"OBS_STATUS","flags")
+        } else {
+          if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
+        }
+        data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
+      }
+      restat_bulk[,(drop):=NULL]
+      if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
+      if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
+        oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+        pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
+        if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
+      }
     } 
-  }
-  if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
-  if ("OBS_VALUE" %in% colnames(restat_bulk)) {
-    if (keep_flags){
-      data.table::setnames(restat_bulk,"OBS_STATUS","flags")
-    } else {
-     if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
-    }
-    data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
-  }
-  restat_bulk[,(drop):=NULL]
-  if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
-  if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
-    oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-    pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
-  }
   return(restat_bulk)
 }

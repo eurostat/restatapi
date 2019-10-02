@@ -34,8 +34,8 @@
 #' dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 #' search_eurostat_dsd("EU",dsd_example)
 #' search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
-#' search_eurostat_dsd("EU",dsd_example,name=FALSE)
-#' search_eurostat_dsd("EU",dsd_example,exact_match=TRUE)
+#' search_eurostat_dsd("EU27_2019",dsd_example,name=FALSE)
+#' search_eurostat_dsd("EU27_2019",dsd_example,exact_match=TRUE)
 #' 
 
 

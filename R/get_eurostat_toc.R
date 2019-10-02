@@ -70,7 +70,7 @@ get_eurostat_toc<-function(mode="xml",
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp <- tempfile()
       if (verbose) {
-        message(toc_endpoint)
+        message("Downloading ",toc_endpoint)
         tryCatch({utils::download.file(toc_endpoint,temp)},
                  error = function(e) {
                    message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
@@ -93,7 +93,7 @@ get_eurostat_toc<-function(mode="xml",
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
       if (verbose) {
-        message(toc_endpoint)
+        message("Downloading ",toc_endpoint)
         tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
                  error = function(e) {
                    message("Unable to download the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
