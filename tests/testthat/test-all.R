@@ -65,11 +65,13 @@ if (!is.null(dsd)){
 }
 
 context("test of the get_eurostat_data function")
+clean_restatapi_cache()
 id<-"htec_cis3"
 t1<-system.time({dt1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE)})[3]
 nc1<-ncol(dt1)
-t2<-system.time({nc2<-ncol(get_eurostat_data(id,verbose=TRUE))})[3]
-if (!is.null(dt1)&is.data.frame(dt1)&!is.null(nc2)){
+t2<-system.time({dt2<-get_eurostat_data(id,verbose=TRUE)})[3]
+nc2<-ncol(dt2)
+if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
   test_that("test of the get_eurostat_data function", {
     expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==id]))
     expect_equal(nc2+1,nc1)

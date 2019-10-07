@@ -39,7 +39,8 @@ get_eurostat_dsd <- function(id,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(id)){
-    stop('No dataset id were provided.')
+    warning('No dataset id were provided.')
+    dsd<-NULL
   } else {
     dsd<-NULL
     if (!(exists(".restatapi_env"))) {load_cfg(...)}
@@ -52,10 +53,11 @@ get_eurostat_dsd <- function(id,
       rav<-get("rav",envir=.restatapi_env)
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
       if (verbose) {
-        message(dsd_endpoint)
+        message("Trying to download the DSD from: ",dsd_endpoint)
         tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
                  error = function(e) {
                    message("Unable to download the DSD:",'\n',paste(unlist(e),collapse="\n"))
+                   dsd_xml<-NULL
                  },
                  warning = function(w) {
                    message("Unable to download the DSD:",'\n',paste(unlist(w),collapse="\n"))
@@ -63,27 +65,35 @@ get_eurostat_dsd <- function(id,
       } else {
         tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
                  error = function(e) {
+                   dsd_xml<-NULL
                  },
                  warning = function(w) {
                  })
       }
       if (exists("dsd_xml")){
-        concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-        if (Sys.info()[['sysname']]=='Windows'){
-          dsd_xml<-as.character(dsd_xml)
-          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-          parallel::clusterEvalQ(cl,require(xml2))
-          parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
-          dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
-          parallel::stopCluster(cl)
-        }else{
-          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
-        }  
-        names(dsd)<-c("concept","code","name")
-        if (cache){
-          pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
-          if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
-        } 
+        if (!is.null("dsd_xml")){
+          concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
+          if (Sys.info()[['sysname']]=='Windows'){
+            dsd_xml<-as.character(dsd_xml)
+            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+            parallel::clusterEvalQ(cl,require(xml2))
+            parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
+            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+            parallel::stopCluster(cl)
+          }else{
+            dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+          }  
+          names(dsd)<-c("concept","code","name")
+          if (cache){
+            pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
+            if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
+          }  
+        } else {
+          dsd<-NULL
+          if (verbose) {
+            message("The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
+          }
+        }
       } else {
         dsd<-NULL
       }
@@ -91,7 +101,8 @@ get_eurostat_dsd <- function(id,
     if (!is.null(dsd)){
       data.table::as.data.table(dsd)
     } else {
-      NULL
+      dsd<-NULL
     }
-  }    
+  }
+  return(dsd)
 }

@@ -184,21 +184,21 @@ get_eurostat_data <- function(id,
       dsd<-get_eurostat_dsd(id,verbose=verbose)
       if (is.null(dsd)){
         message("Could not download the DSD. The filter is ignored")
-        filters<-NULL
+        filters_url<-NULL
       } else {
         dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
         if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1)){
           ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
           if ((ncol(ft)>1)){
-            ft<-ft[ft$code!=FALSE,2:3]
+            ft<-unique(ft[ft$code!=FALSE,2:3])
             ft<-ft[order(match(ft$concept, dsdorder)),]
-            filters<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")  
+            filters_url<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")  
           } else {
-            filters<-NULL
+            filters_url<-NULL
           }
-        }
+        } else {filters_url<-filters}
       }
-    }
+    } else {filters_url<-NULL}
     if (!is.null(date_filter)){
       date_filter<-as.character(date_filter)
       if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=TRUE))){
@@ -253,13 +253,13 @@ get_eurostat_data <- function(id,
         }
       }
     } 
-    if (verbose){message(filters,"-",date_filter)}
-    if (is.null(filters) & is.null(date_filter)){
+    if (verbose){message(filters_url,"-",date_filter)}
+    if (is.null(filters_url) & is.null(date_filter)){
       message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
       restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
     } else {
       base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
-      data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters,"/",date_filter),perl=TRUE)
+      data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
       if (verbose) {
         restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
           message(x)
@@ -374,11 +374,14 @@ get_eurostat_data <- function(id,
     }
   }
   if (label & !is.null(restat)){
+    if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat))}
     dsd<-get_eurostat_dsd(id,verbose=verbose)
     if (!is.null(dsd)){
+      if (verbose) {message("dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
       cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
       restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
-      sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=FALSE])))]
+      if (verbose) {message(nrow(restat),ncol(restat),cn)}
+      sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=FALSE]))),]
       sub_dsd<-data.table::setorder(sub_dsd,concept,code)
       for (x in cn){
         levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]

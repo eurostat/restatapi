@@ -109,7 +109,8 @@ get_eurostat_bulk <- function(id,
     }  
   }
   if (!is.null(restat_bulk)){
-      drop=c("FREQ")
+      drop<-NULL
+      if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
       if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
       if (is.null(select_freq)){
         if (length(unique(restat_bulk$FREQ))>1){
@@ -127,7 +128,7 @@ get_eurostat_bulk <- function(id,
         }
         data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
       }
-      restat_bulk[,(drop):=NULL]
+      if(!is.null(drop)) {restat_bulk[,(drop):=NULL]}
       if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
       if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
         oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
