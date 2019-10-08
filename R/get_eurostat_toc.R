@@ -68,7 +68,7 @@ get_eurostat_toc<-function(mode="xml",
     rav<-get("rav",envir=.restatapi_env)
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
-      temp <- tempfile()
+      temp<-tempfile()
       if (verbose) {
         message("Downloading ",toc_endpoint)
         tryCatch({utils::download.file(toc_endpoint,temp)},
@@ -86,6 +86,7 @@ get_eurostat_toc<-function(mode="xml",
       }
       if (ne) {
         toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
+        unlink(temp)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
         toc<-toc[toc$type!="folder",]
         toc$title<-sub("^\\s*","",toc$title)

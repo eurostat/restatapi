@@ -38,6 +38,7 @@ get_eurostat_dsd <- function(id,
                              compress_file=TRUE,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
+  ne<-TRUE
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -52,24 +53,45 @@ get_eurostat_dsd <- function(id,
       cfg<-get("cfg",envir=.restatapi_env) 
       rav<-get("rav",envir=.restatapi_env)
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
+      temp<-tempfile()
       if (verbose) {
         message("Trying to download the DSD from: ",dsd_endpoint)
-        tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
+        tryCatch({utils::download.file(dsd_endpoint,temp)},
                  error = function(e) {
-                   message("Unable to download the DSD:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Unable to download the DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   ne<-FALSE
+                 },
+                 warning = function(w) {
+                   message("Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
+                 })
+        if (ne) {
+          message("Trying to extract the DSD from: ",dsd_endpoint)
+          tryCatch({dsd_xml<-xml2::read_xml(temp)},
+                 error = function(e) {
+                   message("Unable to extract the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
-                   message("Unable to download the DSD:",'\n',paste(unlist(w),collapse="\n"))
+                   message("There is warning by the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(w),collapse="\n"))
                  })
+        }
       } else {
-        tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
+        tryCatch({utils::download.file(dsd_endpoint,temp)},
+                 error = function(e) {
+                   ne<-FALSE
+                 },
+                 warning = function(w) {
+                 })
+        if (ne) {
+          tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
                  error = function(e) {
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
                  })
+        }
       }
+      unlink(temp)
       if (exists("dsd_xml")){
         if (!is.null("dsd_xml")){
           concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
