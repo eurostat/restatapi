@@ -56,7 +56,7 @@ get_eurostat_dsd <- function(id,
       temp<-tempfile()
       if (verbose) {
         message("Trying to download the DSD from: ",dsd_endpoint)
-        tryCatch({utils::download.file(dsd_endpoint,temp)},
+        tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env))},
                  error = function(e) {
                    message("Unable to download the DSD file:",'\n',paste(unlist(e),collapse="\n"))
                    ne<-FALSE
@@ -76,7 +76,7 @@ get_eurostat_dsd <- function(id,
                  })
         }
       } else {
-        tryCatch({utils::download.file(dsd_endpoint,temp)},
+        tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                  error = function(e) {
                    ne<-FALSE
                  },

@@ -35,15 +35,22 @@
 load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   assign(".restatapi_env",new.env(),envir=baseenv())
+  cfg_source<-"GitHub"
   tryCatch(
     {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
     error = function(e) 
       {if (verbose) {warning("The configuration file could not be downloaded from GitHub, the preinstalled file in the package is used.")}
-      assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)})
+      assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
+      cfg_source<-"the file installed locally"})
   cfg<-get("cfg",envir=.restatapi_env)
   assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
   rav<-get("rav",envir=.restatapi_env)
   assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
+  if (capabilities("libcurl")){
+    assign("dmethod","libcurl",envir=.restatapi_env)
+  }else{
+    assign("dmethod","auto",envir=.restatapi_env)
+  }
   if (parallel) {
     if (max_cores){
       options(restatapi_cores=parallel::detectCores()-1)
@@ -58,9 +65,9 @@ load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FA
     }
   }
   if (getOption("restatapi_cores")<2){
-    parallel_text<-"No parallel computing."
+    parallel_text<-"no parallel computing."
   } else{
     parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing.")    
   }
-  if (verbose) {message("restatapi: The 'current' API version number is ",cfg$API_VERSIONING$current,". Loaded config file with the API version number ",rav,"\n           ",parallel_text,"\n")}
+  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download.")}
 }

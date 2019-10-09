@@ -23,7 +23,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
   } else {
     temp<-tempfile()
     if (verbose) {
-      tryCatch({utils::download.file(url,temp)},
+      tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env))},
                error = function(e) {
                  message("Unable to download the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  ne<-FALSE
@@ -32,7 +32,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
                  message("Unable to download the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                })
     } else {
-      tryCatch({utils::download.file(url,temp)},
+      tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                error = function(e) {ne<-FALSE},
                warning = function(w) {})
     }

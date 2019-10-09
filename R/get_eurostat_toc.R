@@ -66,12 +66,13 @@ get_eurostat_toc<-function(mode="xml",
   if ((!cache)|(is.null(toc))|(update_cache)){
     cfg<-get("cfg",envir=.restatapi_env) 
     rav<-get("rav",envir=.restatapi_env)
+    method<-get("dmethod",envir=.restatapi_env)
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
       if (verbose) {
         message("Downloading ",toc_endpoint)
-        tryCatch({utils::download.file(toc_endpoint,temp)},
+        tryCatch({utils::download.file(toc_endpoint,temp,method)},
                  error = function(e) {
                    message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
                    ne<-FALSE
@@ -80,16 +81,16 @@ get_eurostat_toc<-function(mode="xml",
                    message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
-        tryCatch({utils::download.file(toc_endpoint,temp)},
+        tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=TRUE)},
                  error = function(e) {ne<-FALSE},
                  warning = function(w) {})
       }
       if (ne) {
         toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
-        unlink(temp)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
         toc<-toc[toc$type!="folder",]
         toc$title<-sub("^\\s*","",toc$title)
+        unlink(temp)
       }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))

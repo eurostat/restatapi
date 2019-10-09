@@ -109,7 +109,7 @@ get_eurostat_raw <- function(id,
             temp <- tempfile()
             if (verbose){
               message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
-              tryCatch({utils::download.file(bulk_url,temp)},
+              tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
                        error = function(e) {
                          message("Unable to download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
                          ne<-FALSE
@@ -118,7 +118,7 @@ get_eurostat_raw <- function(id,
                          message("Unable to download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
                        })
             } else {
-              tryCatch({utils::download.file(bulk_url,temp)},
+              tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                        error = function(e) {ne<-FALSE},
                        warning = function(w) {})
             }

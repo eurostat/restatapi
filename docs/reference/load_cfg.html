@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.10</span>
       </span>
     </div>
 
@@ -160,8 +160,9 @@ The number of cores used for parallel computing can be changed any time with <co
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'>load_cfg</span>()
 <span class='fu'>load_cfg</span>(<span class='kw'>parallel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'>load_cfg</span>(<span class='kw'>api_version</span><span class='kw'>=</span><span class='st'>"test"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>max_cores</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>restatapi: The 'current' API version number is 1. Loaded config file with the API version number 3</span>
-#&gt; <span class='message'>           2 from the 4 cores are used for parallel computing.</span></div><div class='input'><span class='co'># }</span>
+<span class='fu'>load_cfg</span>(<span class='kw'>api_version</span><span class='kw'>=</span><span class='st'>"test"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>max_cores</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>restatapi: - config file with the API version 3 loaded from GitHub (the 'current' API version number is 1).</span>
+#&gt; <span class='message'>           - 2 from the 4 cores are used for parallel computing.</span>
+#&gt; <span class='message'>           - 'libcurl' will be used for file download.</span></div><div class='input'><span class='co'># }</span>
 <span class='co'># \dontshow{</span>
 <span class='fu'>load_cfg</span>()
 <span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
