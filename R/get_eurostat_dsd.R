@@ -37,8 +37,8 @@ get_eurostat_dsd <- function(id,
                              cache_dir=NULL,
                              compress_file=TRUE,
                              verbose=FALSE,...) {
-  verbose<-verbose|getOption("restatapi_verbose",FALSE)
   ne<-TRUE
+  verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -59,12 +59,11 @@ get_eurostat_dsd <- function(id,
         tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env))},
                  error = function(e) {
                    message("Unable to download the DSD file:",'\n',paste(unlist(e),collapse="\n"))
-                   ne<-FALSE
                  },
                  warning = function(w) {
                    message("Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
-                 })
-        if (ne) {
+                  })
+        if (file.size(temp)!=0) {
           message("Trying to extract the DSD from: ",dsd_endpoint)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
@@ -74,56 +73,53 @@ get_eurostat_dsd <- function(id,
                  warning = function(w) {
                    message("There is warning by the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(w),collapse="\n"))
                  })
+        } else {
+          dsd_xml<-NULL
         }
       } else {
         tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                  error = function(e) {
-                   ne<-FALSE
                  },
                  warning = function(w) {
                  })
-        if (ne) {
-          tryCatch({dsd_xml<-xml2::read_xml(dsd_endpoint)},
+        if (file.size(temp)!=0) {
+          tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
                  })
+        } else {
+          dsd_xml<-NULL
         }
       }
       unlink(temp)
-      if (exists("dsd_xml")){
-        if (!is.null("dsd_xml")){
-          concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-          if (Sys.info()[['sysname']]=='Windows'){
-            dsd_xml<-as.character(dsd_xml)
-            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-            parallel::clusterEvalQ(cl,require(xml2))
-            parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
-            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
-            parallel::stopCluster(cl)
-          }else{
-            dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
-          }  
-          names(dsd)<-c("concept","code","name")
-          if (cache){
-            pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
-            if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
-          }  
-        } else {
-          dsd<-NULL
-          if (verbose) {
-            message("The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
-          }
-        }
+      if (!is.null(dsd_xml)){
+        concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
+        if (Sys.info()[['sysname']]=='Windows'){
+          dsd_xml<-as.character(dsd_xml)
+          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+          parallel::clusterEvalQ(cl,require(xml2))
+          parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
+          dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+          parallel::stopCluster(cl)
+        }else{
+          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+        }  
+        names(dsd)<-c("concept","code","name")
+        if (cache){
+          pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
+          if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
+        }  
       } else {
         dsd<-NULL
+        if (verbose) {
+          message("The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
+        }
       }
     }
     if (!is.null(dsd)){
       data.table::as.data.table(dsd)
-    } else {
-      dsd<-NULL
     }
   }
   return(dsd)

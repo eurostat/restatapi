@@ -380,7 +380,7 @@ get_eurostat_data <- function(id,
       if (verbose) {message("dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
       cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
       restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
-      if (verbose) {message(nrow(restat),ncol(restat),cn)}
+      if (verbose) {message("data - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",cn)}
       sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=FALSE]))),]
       sub_dsd<-data.table::setorder(sub_dsd,concept,code)
       for (x in cn){
