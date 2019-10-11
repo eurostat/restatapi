@@ -56,7 +56,7 @@ get_eurostat_toc<-function(mode="xml",
                            verbose=FALSE,...) {
   toc<-NULL
   ne<-TRUE
-  if (!(exists(".restatapi_env"))) {load_cfg(...)}
+  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
@@ -111,32 +111,38 @@ get_eurostat_toc<-function(mode="xml",
       }
       if ((ne)){
         if (!is.null(xml_leafs)){
-          if (Sys.info()[['sysname']]=='Windows'){
-            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-            parallel::clusterEvalQ(cl,require(xml2))
-            parallel::clusterExport(cl,c("extract_toc"))
-            leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
-            parallel::stopCluster(cl)
-          }else{
-            leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
-          }
-          toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
-          type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
-          toc<-cbind(toc,type)
-          names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
-          toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
-          names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+          if (length(xml_leafs)>0){
+            if (Sys.info()[['sysname']]=='Windows'){
+              cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+              parallel::clusterEvalQ(cl,require(xml2))
+              parallel::clusterExport(cl,c("extract_toc"))
+              leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
+              parallel::stopCluster(cl)
+            }else{
+              leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+            }
+            toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
+            type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+            toc<-cbind(toc,type)
+            names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
+            toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
+            names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+          } 
         }
       }
     } else {
       stop('Incorrect mode is given. It should be either "xml" or "txt".')
     } 
-    toc<-toc[!duplicated(toc[,c(1:8)]),]
-    toc$values<-as.numeric(toc$values)
-    toc$lastUpdate<-as.Date(toc$lastUpdate,"%d.%m.%y")
-    toc$lastModified<-as.Date(toc$lastModified,"%d.%m.%y")
+    if (!is.null(toc)){
+      toc<-toc[!duplicated(toc[,c(1:8)]),]
+      toc$values<-as.numeric(toc$values)
+      toc$lastUpdate<-as.Date(toc$lastUpdate,"%d.%m.%Y")
+      toc$lastModified<-as.Date(toc$lastModified,"%d.%m.%Y")  
+    } else{
+      if (verbose) {message("The TOC is empty. Please check the download link form the line above in a web browser.")}
+    }
   }  
-  if (cache){
+  if (!is.null(toc)&cache){
     name<-paste0("toc.",mode,".",lang)
     pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
     if (verbose){message("The TOC was cached ",pl,".\n")}

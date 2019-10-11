@@ -27,7 +27,7 @@
 #'    options(restatapi_cores=2)
 #' }
 #' }
-#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE)
+#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE,verbose=TRUE)
 #' head(dsd)
 #' 
 
@@ -44,7 +44,7 @@ get_eurostat_dsd <- function(id,
     dsd<-NULL
   } else {
     dsd<-NULL
-    if (!(exists(".restatapi_env"))) {load_cfg(...)}
+    if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
     update_cache <- update_cache | getOption("restatapi_update", FALSE)
     if ((cache) & (!update_cache)) {
       dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
@@ -95,16 +95,13 @@ get_eurostat_dsd <- function(id,
       }
       unlink(temp)
       if (!is.null(dsd_xml)){
-        if (verbose) {message(paste(class(dsd_xml),sep=";"),"",length(dsd_xml))}
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-        if (verbose) {message(paste(concepts,sep=" "))}
         if (Sys.info()[['sysname']]=='Windows'){
           dsd_xml<-as.character(dsd_xml)
-          if (verbose) {message(dsd_xml)}
           cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
           parallel::clusterEvalQ(cl,require(xml2))
-          if (verbose) {message(exists("dsd_xml"))}
-          parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
+          parallel::clusterExport(cl,c("extract_dsd"))
+          parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
           dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
           parallel::stopCluster(cl)
         }else{

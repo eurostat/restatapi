@@ -10,8 +10,8 @@ load_cfg(api_version = "current", parallel = TRUE, max_cores = TRUE,
 \arguments{
 \item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current".}
 
-\item{parallel}{A boolean with the default value \code{TRUE}. If the system is not Windows and there are multiple cores/logical processors then part of the data 
-extraction is made in parallel reducing significantly the time needed. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.}
+\item{parallel}{A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
+extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.}
 
 \item{max_cores}{A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
 The default value \code{TRUE}, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
@@ -38,11 +38,8 @@ Loads configuration data from a JSON file. The function first tries to load the 
 }
 \examples{
 \donttest{
-load_cfg()
 load_cfg(parallel=FALSE)
 load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
-}
-\dontshow{
 load_cfg()
 eu<-get("cc",envir=.restatapi_env)
 eu$EU28

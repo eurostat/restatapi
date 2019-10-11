@@ -14,7 +14,8 @@ search_eurostat_toc(pattern, lang = "en", verbose = FALSE, ...)
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{other parameters to pass to the \code{grepl} function.}
+\item{...}{other additional parameters to pass to the \code{grepl} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+The default value for \code{ignore.case} is \code{FALSE}.}
 }
 \value{
 A table with the following columns:
@@ -55,8 +56,10 @@ if (parallel::detectCores()<=2){
 }    
 }
 \donttest{
-  head(search_eurostat_toc("energy"))
+  head(search_eurostat_toc("energy",verbose=TRUE))
+  nrow(search_eurostat_toc("energy"))
   head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
+  nrow(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
 }
 }
 \seealso{

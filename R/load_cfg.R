@@ -1,8 +1,8 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
-#' @param parallel A boolean with the default value \code{TRUE}. If the system is not Windows and there are multiple cores/logical processors then part of the data 
-#'        extraction is made in parallel reducing significantly the time needed. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
+#' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
+#'        extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
 #' @param max_cores A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
 #'        The default value \code{TRUE}, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
 #'        then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} and there are more than 2 cores/logical processors then the option \code{restatapi_cores} are set to 2. 
@@ -20,11 +20,8 @@
 #'          the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
-#' load_cfg()
 #' load_cfg(parallel=FALSE)
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
-#' }
-#' \dontshow{
 #' load_cfg()
 #' eu<-get("cc",envir=.restatapi_env)
 #' eu$EU28

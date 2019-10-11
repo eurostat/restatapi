@@ -48,7 +48,7 @@ if (!is.null(xml_toc)){
 
 context("test of the search_eurostat_dsd function")
 id<-"NAMA_10_GDP"
-dsd<-get_eurostat_dsd(id,verbose=TRUE)
+dsd<-get_eurostat_dsd(id,verbose=TRUE,parallel=FALSE)
 eu<-get("cc",envir=.restatapi_env)
 pattern<-"EU"
 if (!is.null(dsd)){
@@ -79,6 +79,16 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
     
   })
 }
+xml_toc<-get_eurostat_toc()
+if (!is.null(xml_toc)){
+  id<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)][1]
+  test_that("test of the get_eurostat_data function", {
+      expect_message(dt3<-get_eurostat_data(id,verbose=FALSE),NULL)
+      expect_equal(dt3,NULL)
+  })
+} 
+
+
 
 context("test filtering in the get_eurostat_data function")
 test_that("test filtering in the get_eurostat_data function", {

@@ -9,7 +9,8 @@
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the table of contents. The default is \code{en} - English.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
-#' @param ... other parameters to pass to the \code{grepl} function.
+#' @param ... other additional parameters to pass to the \code{grepl} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
+#'            The default value for \code{ignore.case} is \code{FALSE}.
 #' @return A table with the following columns:
 #'    \tabular{ll}{
 #'      \code{title} \tab The name of dataset/table in the language provided by the \code{lang} parameter \cr
@@ -39,12 +40,19 @@
 #' }    
 #' }
 #' \donttest{
-#'   head(search_eurostat_toc("energy"))
+#'   head(search_eurostat_toc("energy",verbose=TRUE))
+#'   nrow(search_eurostat_toc("energy"))
 #'   head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
+#'   nrow(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
 #' }
 
 
 search_eurostat_toc <- function(pattern,lang="en",verbose=FALSE,...) {
   tmp<-get_eurostat_toc(lang=lang,verbose=verbose)
-  tmp[grepl(pattern,tmp$title,...)|grepl(pattern,tmp$unit,...)|grepl(pattern,tmp$shortDescription,...), ]
+  if (!is.null(tmp)){
+    tmp[grepl(pattern,tmp$title,...)|grepl(pattern,tmp$unit,...)|grepl(pattern,tmp$shortDescription,...), ]  
+  } else {
+    NULL
+  }
+  
 }

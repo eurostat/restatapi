@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -126,8 +126,8 @@
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>A boolean with the default value <code>TRUE</code>. If the system is not Windows and there are multiple cores/logical processors then part of the data 
-extraction is made in parallel reducing significantly the time needed. If the value is <code>FALSE</code> the option <code>restatapi_cores</code> set to 1.</p></td>
+      <td><p>A boolean with the default value <code>TRUE</code>. If there are multiple cores/logical processors then part of the data 
+extraction is made in parallel reducing significantly the time needed for large datasets. If the value is <code>FALSE</code> the option <code>restatapi_cores</code> set to 1.</p></td>
     </tr>
     <tr>
       <th>max_cores</th>
@@ -158,13 +158,10 @@ The number of cores used for parallel computing can be changed any time with <co
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>load_cfg</span>()
 <span class='fu'>load_cfg</span>(<span class='kw'>parallel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'>load_cfg</span>(<span class='kw'>api_version</span><span class='kw'>=</span><span class='st'>"test"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>max_cores</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>restatapi: - config file with the API version 3 loaded from GitHub (the 'current' API version number is 1).</span>
 #&gt; <span class='message'>           - 2 from the 4 cores are used for parallel computing.</span>
-#&gt; <span class='message'>           - 'libcurl' will be used for file download.</span></div><div class='input'><span class='co'># }</span>
-<span class='co'># \dontshow{</span>
-<span class='fu'>load_cfg</span>()
+#&gt; <span class='message'>           - 'libcurl' will be used for file download.</span></div><div class='input'><span class='fu'>load_cfg</span>()
 <span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='no'>eu</span>$<span class='no'>EU28</span></div><div class='output co'>#&gt;  [1] "BE" "BG" "CZ" "DK" "DE" "EE" "IE" "EL" "ES" "FR" "HR" "IT" "CY" "LV" "LT"
 #&gt; [16] "LU" "HU" "MT" "NL" "AT" "PL" "PT" "RO" "SI" "SK" "FI" "SE" "UK"</div><div class='input'><span class='no'>eu</span>$<span class='no'>EA15</span></div><div class='output co'>#&gt;  [1] "BE" "DE" "IE" "EL" "ES" "FR" "IT" "CY" "LU" "MT" "NL" "AT" "PT" "SI" "FI"</div><div class='input'># }

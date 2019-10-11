@@ -70,7 +70,7 @@ pattern in the title, units or short description." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -136,7 +136,8 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters to pass to the <code>grepl</code> function.</p></td>
+      <td><p>other additional parameters to pass to the <code>grepl</code> function like <code>ignore.case=TRUE</code> if the pattern should be searched case sensitive or not. 
+The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -178,7 +179,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 }
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energy"</span>))</div><div class='output co'>#&gt;                                                                                                                  title
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energy"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='output co'>#&gt; <span class='message'>The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span></div><div class='output co'>#&gt;                                                                                                                  title
 #&gt; 665                                                                                          Primary energy production
 #&gt; 666                                                                       Secondary energy production (transformation)
 #&gt; 695                                                               Candidate countries and potential candidates: energy
@@ -186,12 +187,12 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 #&gt; 1262 Psychological well-being (energy and vitality index) by sex, age and educational attainment level (average score)
 #&gt; 3913             Multi-yearly enterprise statistics - purchases of energy products (NACE Rev. 1.1, C, D, F, 1997-2001)
 #&gt;               code    type lastUpdate lastModified dataStart dataEnd values
-#&gt; 665       med_eg10 dataset 2020-02-06   2020-01-04      2005    2017    367
-#&gt; 666       med_eg20 dataset 2020-10-28   2020-05-07      2000    2015    776
-#&gt; 695     cpc_energy dataset 2020-10-11   2020-05-18      2000    2015    926
-#&gt; 722    enpr_energy dataset 2020-01-04   2020-01-04      2005    2017    239
-#&gt; 1262 hlth_ehis_st8 dataset 2020-03-20   2020-12-11      2008    2008   1455
-#&gt; 3913  sbs_pu_2l_97 dataset 2020-03-26   2020-06-03      1997    2001  77962
+#&gt; 665       med_eg10 dataset 2019-02-06   2019-01-04      2005    2017    367
+#&gt; 666       med_eg20 dataset 2016-10-28   2018-05-07      2000    2015    776
+#&gt; 695     cpc_energy dataset 2016-10-11   2018-05-18      2000    2015    926
+#&gt; 722    enpr_energy dataset 2019-01-04   2019-01-04      2005    2017    239
+#&gt; 1262 hlth_ehis_st8 dataset 2014-03-20   2012-12-11      2008    2008   1455
+#&gt; 3913  sbs_pu_2l_97 dataset 2009-03-26   2019-06-03      1997    2001  77962
 #&gt;      unit shortDescription
 #&gt; 665                       
 #&gt; 666                       
@@ -226,7 +227,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 #&gt; 695     https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip
 #&gt; 722    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enpr_energy.sdmx.zip
 #&gt; 1262 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/hlth_ehis_st8.sdmx.zip
-#&gt; 3913  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/sbs_pu_2l_97.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energie"</span>,<span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                                                                     title
+#&gt; 3913  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/sbs_pu_2l_97.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energy"</span>))</div><div class='output co'>#&gt; [1] 94</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energie"</span>,<span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                                                                     title
 #&gt; 35                                             Energie - monatliche Daten
 #&gt; 665                                               Primäre Energierzeugung
 #&gt; 666                                 Sekundäre Energierzeugung (Umsetzung)
@@ -234,12 +235,12 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 #&gt; 668 Energie - historische daten (2004-2007, ehemalige Methode und Quelle)
 #&gt; 695                 Kandidaten- und potentielle Kandidatenländer: Energie
 #&gt;           code    type lastUpdate lastModified dataStart dataEnd values unit
-#&gt; 35   ei_isen_m dataset 2020-09-12   2020-09-12   2008M01 2019M07  44227     
-#&gt; 665   med_eg10 dataset 2020-02-06   2020-01-04      2005    2017    367     
-#&gt; 666   med_eg20 dataset 2020-10-28   2020-05-07      2000    2015    776     
-#&gt; 667   med_eg30 dataset 2020-02-06   2020-01-04      2005    2017    164     
-#&gt; 668 med_eg_all dataset 2020-12-08   2020-12-08      1990    2011    935     
-#&gt; 695 cpc_energy dataset 2020-10-11   2020-05-18      2000    2015    926     
+#&gt; 35   ei_isen_m dataset 2019-09-12   2019-09-12   2008M01 2019M07  44227     
+#&gt; 665   med_eg10 dataset 2019-02-06   2019-01-04      2005    2017    367     
+#&gt; 666   med_eg20 dataset 2016-10-28   2018-05-07      2000    2015    776     
+#&gt; 667   med_eg30 dataset 2019-02-06   2019-01-04      2005    2017    164     
+#&gt; 668 med_eg_all dataset 2014-12-08   2014-12-08      1990    2011    935     
+#&gt; 695 cpc_energy dataset 2016-10-11   2018-05-18      2000    2015    926     
 #&gt;     shortDescription
 #&gt; 35                  
 #&gt; 665                 
@@ -274,7 +275,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 #&gt; 666   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip
 #&gt; 667   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg30.sdmx.zip
 #&gt; 668 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg_all.sdmx.zip
-#&gt; 695 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip</div><div class='input'># }
+#&gt; 695 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='fu'>search_eurostat_toc</span>(<span class='st'>"energie"</span>,<span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 109</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

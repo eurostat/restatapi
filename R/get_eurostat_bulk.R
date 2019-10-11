@@ -81,7 +81,7 @@ get_eurostat_bulk <- function(id,
   FREQ<-N<-restat_bulk<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
-  if (!(exists(".restatapi_env"))) {load_cfg(...)}
+  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)

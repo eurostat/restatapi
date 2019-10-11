@@ -71,7 +71,7 @@ get_eurostat_raw <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   ne<-ne2<-ne3<-TRUE
-  if (!(exists(".restatapi_env"))) {load_cfg(...)}
+  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
@@ -124,7 +124,6 @@ get_eurostat_raw <- function(id,
             }
             if (ne){
               if (verbose){
-                message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
                 tryCatch({gz<-gzfile(temp, open = "rt")
                 raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
                 close(gz)
@@ -159,7 +158,7 @@ get_eurostat_raw <- function(id,
                   restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3])
                   if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-]',"",restat_raw$values)}
                   restat_raw$values<-gsub('[^0-9\\.-]',"",restat_raw$values)
-                  restat_raw<-data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
+                  restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
                 } else {
                   message("The file download was not successful. Try again later.")
                   restat_raw<-NULL
