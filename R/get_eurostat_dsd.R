@@ -64,7 +64,7 @@ get_eurostat_dsd <- function(id,
                    message("Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
                   })
         if (file.size(temp)!=0) {
-          message("Trying to extract the DSD from: ",dsd_endpoint)
+          message("Trying to extract the DSD from: ",temp)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
                    message("Unable to extract the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
@@ -95,11 +95,15 @@ get_eurostat_dsd <- function(id,
       }
       unlink(temp)
       if (!is.null(dsd_xml)){
+        if (verbose) {message(paste(class(dsd_xml),sep=";"),"",length(dsd_xml))}
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
+        if (verbose) {message(paste(concepts,sep=" "))}
         if (Sys.info()[['sysname']]=='Windows'){
           dsd_xml<-as.character(dsd_xml)
+          if (verbose) {message(dsd_xml)}
           cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
           parallel::clusterEvalQ(cl,require(xml2))
+          if (verbose) {message(exists("dsd_xml"))}
           parallel::clusterExport(cl,c("extract_dsd","dsd_xml"))
           dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
           parallel::stopCluster(cl)
@@ -112,7 +116,7 @@ get_eurostat_dsd <- function(id,
           if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
         }  
       } else {
-        dsd<-NULL
+#       dsd<-NULL
         if (verbose) {
           message("The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
         }
