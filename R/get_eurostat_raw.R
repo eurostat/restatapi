@@ -111,11 +111,11 @@ get_eurostat_raw <- function(id,
               message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])
               tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
                        error = function(e) {
-                         message("Unable to download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
+                         message("Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
                          ne<-FALSE
                        },
                        warning = function(w) {
-                         message("Unable to download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
+                         message("Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
                        })
             } else {
               tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
@@ -129,11 +129,11 @@ get_eurostat_raw <- function(id,
                 close(gz)
                 unlink(temp)},
                 error = function(e) {
-                  message("Unable to open the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))
+                  message("Error by the opening the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))
                   ne2<-FALSE
                 },
                 warning = function(w) {
-                  message("Unable to open the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))
+                  message("Warning by the opening the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))
                 })
               } else {
                 tryCatch({gz<-gzfile(temp, open = "rt")

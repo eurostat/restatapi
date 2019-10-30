@@ -1,6 +1,8 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
+#' @param load_toc The default value \code{FALSE}, which means that the Table of contents (TOC) will not be downloaded and 
+#'        cached automatically in the '.restatapi_env' when the package is loaded.
 #' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
 #'        extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
 #' @param max_cores A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
@@ -29,7 +31,7 @@
 #' }
 #' 
 
-load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FALSE){
+load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=TRUE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   assign(".restatapi_env",new.env(),envir=baseenv())
   cfg_source<-"GitHub"
@@ -43,11 +45,26 @@ load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FA
   assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
   rav<-get("rav",envir=.restatapi_env)
   assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
+  
   if (capabilities("libcurl")){
     assign("dmethod","libcurl",envir=.restatapi_env)
   }else{
     assign("dmethod","auto",envir=.restatapi_env)
   }
+
+  if (load_toc){
+    options(restatapi_cores=1)
+    toc<-get_eurostat_toc(verbose=FALSE)
+    if (!is.null(toc)){
+      assign("toc.xml",toc,envir=.restatapi_env)
+      msg_end<-"\n           - the Table of contents (TOC) successfully cached in '.restatapi_env'."
+    } else{
+      msg_end<-"\n           - the download and caching of the Table of contents (TOC) were unsuccessful."
+    }
+  } else{
+    msg_end<-"\n           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env')."
+  }
+  
   if (parallel) {
     if (max_cores){
       options(restatapi_cores=parallel::detectCores()-1)
@@ -61,10 +78,12 @@ load_cfg<-function(api_version="current",parallel=TRUE,max_cores=TRUE,verbose=FA
       }
     }
   }
+  
   if (getOption("restatapi_cores")<2){
     parallel_text<-"no parallel computing."
   } else{
     parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing.")    
   }
-  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download.")}
+  
+  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download.",msg_end)}
 }

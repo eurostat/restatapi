@@ -25,11 +25,11 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
     if (verbose) {
       tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env))},
                error = function(e) {
-                 message("Unable to download the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                 message("Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  ne<-FALSE
                },
                warning = function(w) {
-                 message("Unable to download the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                 message("Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                })
     } else {
       tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
@@ -45,10 +45,10 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       if (verbose) {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},
                  error = function(e) {
-                   message("Unable to unzip the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
-                   message("Unable to unzip the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},

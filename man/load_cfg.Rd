@@ -4,11 +4,14 @@
 \alias{load_cfg}
 \title{Load configuration data from JSON}
 \usage{
-load_cfg(api_version = "current", parallel = TRUE, max_cores = TRUE,
-  verbose = FALSE)
+load_cfg(api_version = "current", load_toc = FALSE, parallel = TRUE,
+  max_cores = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current".}
+
+\item{load_toc}{The default value \code{FALSE}, which means that the Table of contents (TOC) will not be downloaded and 
+cached automatically in the '.restatapi_env' when the package is loaded.}
 
 \item{parallel}{A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
 extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.}

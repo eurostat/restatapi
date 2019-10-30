@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -114,8 +114,8 @@
     <p>Load the configuration information to the '.restatapi_env' from the JSON configuration file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>load_cfg</span>(<span class='kw'>api_version</span> <span class='kw'>=</span> <span class='st'>"current"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>max_cores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>load_cfg</span>(<span class='kw'>api_version</span> <span class='kw'>=</span> <span class='st'>"current"</span>, <span class='kw'>load_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>max_cores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,6 +123,11 @@
     <tr>
       <th>api_version</th>
       <td><p>It can be either "old", "new", "test" or "current". The default value is "current".</p></td>
+    </tr>
+    <tr>
+      <th>load_toc</th>
+      <td><p>The default value <code>FALSE</code>, which means that the Table of contents (TOC) will not be downloaded and 
+cached automatically in the '.restatapi_env' when the package is loaded.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -161,7 +166,8 @@ The number of cores used for parallel computing can be changed any time with <co
 <span class='fu'>load_cfg</span>(<span class='kw'>parallel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'>load_cfg</span>(<span class='kw'>api_version</span><span class='kw'>=</span><span class='st'>"test"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>max_cores</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>restatapi: - config file with the API version 3 loaded from GitHub (the 'current' API version number is 1).</span>
 #&gt; <span class='message'>           - 2 from the 4 cores are used for parallel computing.</span>
-#&gt; <span class='message'>           - 'libcurl' will be used for file download.</span></div><div class='input'><span class='fu'>load_cfg</span>()
+#&gt; <span class='message'>           - 'libcurl' will be used for file download.</span>
+#&gt; <span class='message'>           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env').</span></div><div class='input'><span class='fu'>load_cfg</span>()
 <span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='no'>eu</span>$<span class='no'>EU28</span></div><div class='output co'>#&gt;  [1] "BE" "BG" "CZ" "DK" "DE" "EE" "IE" "EL" "ES" "FR" "HR" "IT" "CY" "LV" "LT"
 #&gt; [16] "LU" "HU" "MT" "NL" "AT" "PL" "PT" "RO" "SI" "SK" "FI" "SE" "UK"</div><div class='input'><span class='no'>eu</span>$<span class='no'>EA15</span></div><div class='output co'>#&gt;  [1] "BE" "DE" "IE" "EL" "ES" "FR" "IT" "CY" "LU" "MT" "NL" "AT" "PT" "SI" "FI"</div><div class='input'># }

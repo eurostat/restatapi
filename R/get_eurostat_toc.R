@@ -54,7 +54,7 @@ get_eurostat_toc<-function(mode="xml",
                            compress_file=TRUE,
                            lang="en",
                            verbose=FALSE,...) {
-  toc<-NULL
+  toc<-xml_leafs<-NULL
   ne<-TRUE
   if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
@@ -74,11 +74,11 @@ get_eurostat_toc<-function(mode="xml",
         message("Downloading ",toc_endpoint)
         tryCatch({utils::download.file(toc_endpoint,temp,method)},
                  error = function(e) {
-                   message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
                    ne<-FALSE
                  },
                  warning = function(w) {
-                   message("Unable to download the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=TRUE)},
@@ -98,11 +98,11 @@ get_eurostat_toc<-function(mode="xml",
         message("Downloading ",toc_endpoint)
         tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
                  error = function(e) {
-                   message("Unable to download the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
                    ne<-FALSE
                  },
                  warning = function(w) {
-                   message("Unable to download the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},

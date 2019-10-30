@@ -58,7 +58,7 @@ get_eurostat_dsd <- function(id,
         message("Trying to download the DSD from: ",dsd_endpoint)
         tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env))},
                  error = function(e) {
-                   message("Unable to download the DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Error by the download of the DSD file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
                    message("Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
@@ -67,7 +67,7 @@ get_eurostat_dsd <- function(id,
           message("Trying to extract the DSD from: ",temp)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
-                   message("Unable to extract the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("Error during the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
