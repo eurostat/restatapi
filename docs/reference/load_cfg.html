@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -150,16 +150,20 @@ The number of cores used for parallel computing can be changed any time with <co
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>it returns 2 objects in the '.restatapi_env'</p><ul>
+    <p>it returns 4 objects in the '.restatapi_env'</p><ul>
 <li><p><code>cfg</code> a list with all the configuration data</p></li>
-<li><p><code>rav</code> a character string with a number defining the API_VERSION from the config file to be used later. It is determined based on the <code>api_version</code> parameter.</p></li>
+<li><p><code>rav</code> a character string with a number defining the API_VERSION from the config file to be used later. It is 
+             determined based on the <code>api_version</code> parameter.</p></li>
+<li><p><code>cc</code> a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).</p></li>
+<li><p><code>dmethod</code> the download method to be used to access Eurostat database. If the 'libcurl' method exists then 
+             it will be the method for file download otherwise it will be 'auto'.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
-         If it is not possible it loads from  By this way different version of the API can be tested. In addition, 
-         the list of country codes are loaded to the variable <code>cc</code> (country codes), based on the  <a href='https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC'>Eurostat standard code list</a></p>
+         If it is not possible it loads from the file delivered with the package.By this way different version of the API can be tested. 
+         In addition, the list of country codes are loaded to the variable <code>cc</code> (country codes), based on the  <a href='https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC'>Eurostat standard code list</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>

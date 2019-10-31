@@ -25,10 +25,14 @@ The number of cores used for parallel computing can be changed any time with \co
 \item{verbose}{A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. Can be set also with \code{options(restatapi_verbose=TRUE)}}
 }
 \value{
-it returns 2 objects in the '.restatapi_env'  
+it returns 4 objects in the '.restatapi_env'  
 \itemize{
  \item \code{cfg} a list with all the configuration data
- \item \code{rav} a character string with a number defining the API_VERSION from the config file to be used later. It is determined based on the \code{api_version} parameter.   
+ \item \code{rav} a character string with a number defining the API_VERSION from the config file to be used later. It is 
+             determined based on the \code{api_version} parameter.   
+ \item \code{cc} a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).   
+ \item \code{dmethod} the download method to be used to access Eurostat database. If the 'libcurl' method exists then 
+             it will be the method for file download otherwise it will be 'auto'.
  }
 }
 \description{
@@ -36,8 +40,8 @@ Load the configuration information to the '.restatapi_env' from the JSON configu
 }
 \details{
 Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
-         If it is not possible it loads from  By this way different version of the API can be tested. In addition, 
-         the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
+         If it is not possible it loads from the file delivered with the package.By this way different version of the API can be tested. 
+         In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 }
 \examples{
 \donttest{

@@ -329,48 +329,52 @@ get_eurostat_data <- function(id,
     }
   }else{
     toc<-get_eurostat_toc(verbose=verbose)
-    if ((cache)&(!update_cache)) {
-      udate<-toc$lastUpdate[toc$code==id]
-      restat<-get_eurostat_cache(paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq))),cache_dir,verbose=verbose)
-      if (!is.null(restat)){
-        drop=c("FREQ","TIME_FORMAT")
-        if ((is.null(select_freq))){
-          if (length(unique(restat$FREQ))>1){
-            st<-data.table::setorder(restat[,.N,by=FREQ],-N)[1,1]
-            if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{as.character(st$FREQ)}
-            warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
-          } 
-        }
-        if (!(is.null(select_freq))){restat<-restat[FREQ==select_freq]}
-        if ("OBS_VALUE" %in% colnames(restat)) {
-          if (keep_flags){
-            data.table::setnames(restat,"OBS_STATUS","flags")
+    if (id %in% toc$code){
+      if ((cache)&(!update_cache)) {
+        udate<-toc$lastUpdate[toc$code==id]
+        restat<-get_eurostat_cache(paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq))),cache_dir,verbose=verbose)
+        if (!is.null(restat)){
+          drop=c("FREQ","TIME_FORMAT")
+          if ((is.null(select_freq))){
+            if (length(unique(restat$FREQ))>1){
+              st<-data.table::setorder(restat[,.N,by=FREQ],-N)[1,1]
+              if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{as.character(st$FREQ)}
+              warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+            } 
           } else {
-            if ("OBS_STATUS" %in% colnames(restat)) {drop<-c(drop,"OBS_STATUS")}    
+            restat<-restat[FREQ==select_freq]
           }
-          restat[,(drop):=NULL]
-          data.table::setnames(restat,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
-        } 
-        if (("flags" %in% colnames(restat))&(!keep_flags)){restat[,("flags"):=NULL]}
-        if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
+          if ("OBS_VALUE" %in% colnames(restat)) {
+            if (keep_flags){
+              data.table::setnames(restat,"OBS_STATUS","flags")
+            } else {
+              if ("OBS_STATUS" %in% colnames(restat)) {drop<-c(drop,"OBS_STATUS")}    
+            }
+            restat[,(drop):=NULL]
+            data.table::setnames(restat,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
+          } 
+          if (("flags" %in% colnames(restat))&(!keep_flags)){restat[,("flags"):=NULL]}
+          if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
+          if (verbose) {message("The data was loaded from cache.")} 
+          if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
+            col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
+            restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
+          }
+          if (!any(sapply(restat,is.factor))&(stringsAsFactors)) {
+            restat<-data.table::data.table(restat,stringsAsFactors=TRUE)
+          }
+        }
       }
-      if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
-        col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
-        restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
-      }
-      if (!any(sapply(restat,is.factor))&(stringsAsFactors)&(!is.null(restat))) {
-        restat<-data.table::data.table(restat,stringsAsFactors=TRUE)
-      }
-      if ((!is.null(restat))&(verbose)) {message("The data was loaded from cache.")}  
-    }
-    if ((!cache)|(is.null(restat))|(update_cache)){
+      if ((!cache)|(is.null(restat))|(update_cache)){
         restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
-    }
-    if (cache&!is.null(restat)){
-      toc<-get_eurostat_toc(verbose=verbose)
-      oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-      pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
-      if (verbose){message("The data was cached ",pl,".\n")}
+      }
+      if (cache&(!is.null(restat))){
+        oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+        pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
+        if (verbose){message("The data was cached ",pl,".\n")}
+      }
+    } else {
+      message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
     }
   }
   if (label & !is.null(restat)){

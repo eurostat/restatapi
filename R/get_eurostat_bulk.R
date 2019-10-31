@@ -82,33 +82,32 @@ get_eurostat_bulk <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
-  cfg<-get("cfg",envir=.restatapi_env) 
-  rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
   
   toc<-get_eurostat_toc(verbose=verbose)
-  if ((cache)&(!update_cache)) {
-    nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-    restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
-    if (!is.null(restat_bulk)){
-      if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
-        col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
-        restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+  if (id %in% toc$code){
+    if ((cache)&(!update_cache)) {
+      nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+      restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
+      if (!is.null(restat_bulk)){
+        if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
+          col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
+          restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+        }
+        if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
+          restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
+        }  
       }
-      if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
-        restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
+    }
+    if ((!cache)|(is.null(restat_bulk))|(update_cache)){
+      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
+      if (!is.null(restat_bulk)){
+        restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
+        restat_bulk$FREQ[restat_bulk$FREQ==""]<-"A"
+        if (stringsAsFactors) {restat_bulk$FREQ<-as.factor(restat_bulk$FREQ)}  
       }  
     }
-  }
-  if ((!cache)|(is.null(restat_bulk))|(update_cache)){
-    restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
     if (!is.null(restat_bulk)){
-      restat_bulk$FREQ<-gsub('[0-9\\.-]',"",restat_bulk$time)
-      restat_bulk$FREQ[restat_bulk$FREQ==""]<-"A"
-      if (stringsAsFactors) {restat_bulk$FREQ<-as.factor(restat_bulk$FREQ)}  
-    }  
-  }
-  if (!is.null(restat_bulk)){
       drop<-NULL
       if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
       if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
@@ -136,5 +135,8 @@ get_eurostat_bulk <- function(id,
         if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
       }
     } 
+  } else {
+    message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
+  }
   return(restat_bulk)
 }
