@@ -5,7 +5,7 @@
 \title{Extract data values from SDMX XML}
 \usage{
 extract_data(xml_lf, keep_flags = FALSE,
-  stringsAsFactors = default.stringsAsFactors())
+  stringsAsFactors = default.stringsAsFactors(), bulk = TRUE)
 }
 \arguments{
 \item{xml_lf}{an XML leaf with data series from an SDMX XML file}
@@ -14,6 +14,9 @@ extract_data(xml_lf, keep_flags = FALSE,
 
 \item{stringsAsFactors}{if \code{TRUE} (the default) the columns are
 converted to factors. If \code{FALSE} they are returned as a character.}
+
+\item{bulk}{a boolean with default value \code{TRUE} if the input SDMX XML file is for the bulk download containing all the observations. 
+If the input file has pre-filtered values then the \code{FALSE} should be used.}
 }
 \value{
 a data frame containing the values of the SDMX files

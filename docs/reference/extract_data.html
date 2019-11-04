@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>extract_data</span>(<span class='no'>xml_lf</span>, <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>())</pre>
+  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(), <span class='kw'>bulk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,6 +132,11 @@
       <th>stringsAsFactors</th>
       <td><p>if <code>TRUE</code> (the default) the columns are
 converted to factors. If <code>FALSE</code> they are returned as a character.</p></td>
+    </tr>
+    <tr>
+      <th>bulk</th>
+      <td><p>a boolean with default value <code>TRUE</code> if the input SDMX XML file is for the bulk download containing all the observations. 
+If the input file has pre-filtered values then the <code>FALSE</code> should be used.</p></td>
     </tr>
     </table>
 

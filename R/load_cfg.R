@@ -6,7 +6,7 @@
 #' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
 #'        extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
 #' @param max_cores A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
-#'        The default value \code{TRUE}, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
+#'        If the default value is used, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
 #'        then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} and there are more than 2 cores/logical processors then the option \code{restatapi_cores} are set to 2. 
 #'        Otherwise the parallel processing turned off by setting the option \code{restatapi_cores} to 1.
 #'        The number of cores used for parallel computing can be changed any time with \code{options(restatapi_cores=...)}     

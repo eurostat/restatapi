@@ -318,7 +318,7 @@ get_eurostat_data <- function(id,
           restat[,(drop):=NULL]
           data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
           data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
-          restat<-data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
+          restat<-data.table::data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
           restat<-unique(restat)
           restat[order("time"),]
         }

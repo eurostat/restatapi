@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ extraction is made in parallel reducing significantly the time needed for large 
     <tr>
       <th>max_cores</th>
       <td><p>A boolean with the default value <code>TRUE</code>. If the parameter 'parallel' is <code>TRUE</code> then this parameter is taken into account otherwise it is ignored.
-The default value <code>TRUE</code>, in this case the maximum minus one cores/logical processors are used for parallel computing. If the parameter <code>FALSE</code>, 
+If the default value is used, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter <code>FALSE</code>, 
 then the default value of <code><a href='https://rdrr.io/r/base/options.html'>getOption("mc.cores")</a></code> is used, if it is defined. If <code>mc.cores</code> is <code>NULL</code> and there are more than 2 cores/logical processors then the option <code>restatapi_cores</code> are set to 2. 
 Otherwise the parallel processing turned off by setting the option <code>restatapi_cores</code> to 1.
 The number of cores used for parallel computing can be changed any time with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_cores=...)</a></code></p></td>

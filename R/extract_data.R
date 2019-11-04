@@ -4,6 +4,8 @@
 #' @param keep_flags a boolean if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}
 #' @param stringsAsFactors if \code{TRUE} (the default) the columns are
 #'        converted to factors. If \code{FALSE} they are returned as a character.
+#' @param bulk a boolean with default value \code{TRUE} if the input SDMX XML file is for the bulk download containing all the observations. 
+#'        If the input file has pre-filtered values then the \code{FALSE} should be used.  
 #' @export 
 #' @details It is a subfunction to use in the \code{\link{get_eurostat_data}} function.
 #' @return a data frame containing the values of the SDMX files
@@ -27,17 +29,47 @@
 #' }
 #' 
 
-extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsAsFactors()){
-  if (keep_flags){
-    cn<-c("TIME_PERIOD","OBS_VALUE","OBS_STATUS")
-  } else {
-    cn<-c("TIME_PERIOD","OBS_VALUE")
-  }
+extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsAsFactors(),bulk=TRUE){
   if (Sys.info()[['sysname']]=='Windows'){xml_lf<-xml2::as_xml_document(xml_lf)}
-  bd<-t(as.data.frame(xml2::xml_attrs(xml_lf)))
-  rownames(bd)<-NULL
-  dv<-xml2::xml_attrs(xml2::xml_children(xml_lf))
-  df<-do.call(rbind, lapply(lapply(dv, unlist),"[", cn))
-  colnames(df)<-cn
-  data.frame(bd,df,stringsAsFactors=stringsAsFactors)
+  if(bulk){
+    bd<-t(as.data.frame(xml2::xml_attrs(xml_lf)))
+    rownames(bd)<-NULL
+    dv<-xml2::xml_attrs(xml2::xml_children(xml_lf))
+    if (keep_flags){
+      cn<-c("TIME_PERIOD","OBS_VALUE","OBS_STATUS")
+    } else {
+      cn<-c("TIME_PERIOD","OBS_VALUE")
+    }
+    df<-do.call(rbind, lapply(lapply(dv, unlist),"[", cn))
+    colnames(df)<-cn
+    out<-data.frame(bd,df,stringsAsFactors=stringsAsFactors)  
+  } else {
+    tmp<-as.data.frame(xml2::xml_attrs(xml2::xml_children(xml2::xml_find_all(xml_lf,".//generic:SeriesKey"))),stringsAsFactors=FALSE)
+    bd<-as.data.frame(tmp[2,],stringsAsFactors=stringsAsFactors)
+    colnames(bd)<-tmp[1,]
+    rownames(bd)<-NULL
+    obs<-xml2::xml_find_all(xml_lf,".//generic:Obs")
+    cn<-c("obsTime","obsValue") 
+    df<-data.table::rbindlist(lapply(obs, function(x) {dr<-as.data.frame(t(unlist(xml2::xml_attrs(xml2::xml_children(x),"value"))),stringsAsFactors=FALSE)
+                                                rownames(dr)<-NULL
+                                                colnames(dr)<-cn
+                                                if ((keep_flags)){
+                                                  f<-xml2::xml_attr(xml2::xml_children(xml2::xml_children(x)),"value")
+                                                  if(length(f)==0){
+                                                    dr$OBS_STATUS<-NA
+                                                  } else{
+                                                    dr$OBS_STATUS<-f
+                                                  }
+                                                }
+                                                return(as.data.frame(dr))
+      }), fill=TRUE)
+    df$obsValue<-as.numeric(df$obsValue)
+    df$obsValue[df$obsValue=="NaN"]<-NA
+    if (keep_flags){
+      out<-data.frame(bd,df,stringsAsFactors=stringsAsFactors)  
+    } else{
+      out<-data.frame(bd,df[,1:2],stringsAsFactors=stringsAsFactors)
+    }
+  }
+  return(out)
 }
