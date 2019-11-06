@@ -56,7 +56,17 @@ get_eurostat_toc<-function(mode="xml",
                            verbose=FALSE,...) {
   toc<-xml_leafs<-NULL
   ne<-TRUE
-  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
+  if((!exists(".restatapi_env")|(length(list(...))>0))){
+    if ((length(list(...))>0)) {
+      if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
+        load_cfg(...)  
+      } else {
+        load_cfg()
+      }
+    } else {
+      load_cfg()
+    }  
+  }
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)

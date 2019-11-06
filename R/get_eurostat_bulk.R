@@ -81,7 +81,17 @@ get_eurostat_bulk <- function(id,
   FREQ<-N<-restat_bulk<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
-  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
+  if((!exists(".restatapi_env")|(length(list(...))>0))){
+    if ((length(list(...))>0)) {
+      if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
+        load_cfg(...)  
+      } else {
+        load_cfg()
+      }
+    } else {
+      load_cfg()
+    }  
+  }
   id<-tolower(id)
   
   toc<-get_eurostat_toc(verbose=verbose)

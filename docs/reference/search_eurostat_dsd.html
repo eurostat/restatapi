@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 <span class='no'>cfg</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cfg"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='no'>rav</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"rav"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='co'># }</span>
-<span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>Trying to extract the DSD from: /tmp/Rtmpe92Eh2/file4f613ad143e3</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
+<span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>Trying to extract the DSD from: /tmp/RtmpLmGhbw/file1d386f796572</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
 #&gt; 12      EU    UNIT      PC_EU28_MEUR_CP
 #&gt; 13      EU    UNIT PC_EU27_2019_MEUR_CP
 #&gt; 14      EU    UNIT      PC_EU28_MPPS_CP

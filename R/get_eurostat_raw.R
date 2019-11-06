@@ -71,7 +71,18 @@ get_eurostat_raw <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   ne<-ne2<-ne3<-TRUE
-  if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
+  if((!exists(".restatapi_env")|(length(list(...))>0))){
+    if ((length(list(...))>0)) {
+      if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
+        load_cfg(...)  
+      } else {
+        load_cfg()
+      }
+    } else {
+      load_cfg()
+    }  
+  }
+  
   id<-tolower(id)
   
   toc<-get_eurostat_toc(verbose=verbose)
@@ -124,7 +135,11 @@ get_eurostat_raw <- function(id,
               if (ne){
                 if (verbose){
                   tryCatch({gz<-gzfile(temp, open = "rt")
-                  raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
+                    raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  } else{
+                    raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  }
                   close(gz)
                   unlink(temp)},
                   error = function(e) {
@@ -136,7 +151,11 @@ get_eurostat_raw <- function(id,
                   })
                 } else {
                   tryCatch({gz<-gzfile(temp, open = "rt")
-                  raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
+                    raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  } else{
+                    raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE)
+                  }
                   close(gz)
                   unlink(temp)},
                   error = function(e) {ne2<-FALSE},

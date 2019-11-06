@@ -37,14 +37,23 @@ get_eurostat_dsd <- function(id,
                              cache_dir=NULL,
                              compress_file=TRUE,
                              verbose=FALSE,...) {
-  ne<-TRUE
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
   } else {
     dsd<-NULL
-    if ((!exists(".restatapi_env"))|(length(list(...))>0)) {load_cfg(...)}
+    if((!exists(".restatapi_env")|(length(list(...))>0))){
+      if ((length(list(...))>0)) {
+        if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
+          load_cfg(...)  
+        } else {
+          load_cfg()
+        }
+      } else {
+        load_cfg()
+      }  
+    }
     update_cache <- update_cache | getOption("restatapi_update", FALSE)
     if ((cache) & (!update_cache)) {
       dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
