@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.7</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
     <pre class="usage"><span class='fu'>get_eurostat_raw</span>(<span class='no'>id</span>, <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"txt"</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(), <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,8 +129,8 @@ See <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> for 
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>defines the format of the downloaded dataset. It can be <code>txt</code> (the default value) for TSV 
-(Tab Separated Values), or <code>xml</code> for the SDMX version.</p></td>
+      <td><p>defines the format of the downloaded dataset. It can be <code>txt</code> (the default value) for 
+Tab Separated Values (TSV), or <code>xml</code> for the SDMX version.</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -167,6 +167,13 @@ can be removed. Default is <code>FALSE</code>. For flag values see:
 <a href='http://ec.europa.eu/eurostat/data/database/information'>http://ec.europa.eu/eurostat/data/database/information</a>.</p></td>
     </tr>
     <tr>
+      <th>check_toc</th>
+      <td><p>a boolean whether to check the provided <code>id</code> in the Table of Contents (TOC) or not. The default value 
+<code>FALSE</code>, in this case the base URL for the download link is retrieved from the configuration file. 
+If the value is <code>TRUE</code> then the TOC is downloaded and the <code>id</code> is checked in it. If it found then the download link 
+is retrieved form the TOC.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
@@ -179,22 +186,28 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.table. One column for each dimension in the data,
-        the time column for a time dimension, 
-        the values column for numerical values and the flags column if the <code>keep_flags=TRUE</code>.
-        Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
+    <p>a data.table with the following columns:</p><table class='table'>
+<tr><td><code>FREQ</code></td><td>The frequency of the data (<strong>A</strong>nnual, <strong>S</strong>emi-annual, <strong>H</strong>alf-year, <strong>Q</strong>uarterly, <strong>M</strong>onthly, <strong>W</strong>eekly, <strong>D</strong>aily)</td></tr>
+<tr><td>dimension names</td><td>One column for each dimension in the data</td></tr>
+<tr><td><code>TIME_FORMAT</code></td><td>A column for the time format, if the source file SDMX (this column is missing if the source file is TSV)</td></tr>
+<tr><td><code>time/TIME_PERIOD</code></td><td>A column for the time dimension, where the name of the column depends on the source file (TSV/SDMX)</td></tr>
+<tr><td><code>values/OBS_VALUE</code></td><td>A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)</td></tr>
+<tr><td><code>flags/OBS_STATUS</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)</td></tr>
+</table>
+<p>, 
+        The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
         on particular time.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Data sets are downloaded from <a href='http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing'>the Eurostat bulk download facility</a> 
-in SDMX format.</p>
-<p>By default all datasets cached as they are often rather large. 
+in TSV or SDMX format.</p>
+
+<p>The <code>id</code>, should be a value from the <code>code</code> column of the table of contents (<code><a href='get_eurostat_toc.html'>get_eurostat_toc</a></code>), and can be searched for with the <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> function. The id value can be retrieved from the <a href='http://ec.europa.eu/eurostat/data/database'>Eurostat database</a>
+ as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
+By default all datasets downloaded in TSV format and cached as they are often rather large. 
 The datasets cached in memory (default) or can be stored in a temporary directory if <code>cache_dir</code> or <code><a href='https://rdrr.io/r/base/options.html'>option(restatpi_cache_dir)</a></code> is defined.
-The cache can be emptied with <code><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></code>.</p>
-<p>The <code>id</code>, is a value from the <code>code</code> column of the table of contents (<code><a href='get_eurostat_toc.html'>get_eurostat_toc</a></code>), and can be searched for with the <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> function. The id value can be retrieved from the <a href='http://ec.europa.eu/eurostat/data/database'>Eurostat database</a>
- as well. The Eurostat
-database gives codes in the Data Navigation Tree after every dataset
-in parenthesis.</p>
+The cache can be emptied with <code><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></code>.
+If the <code>id</code> is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code></p></div>
@@ -211,9 +224,7 @@ in parenthesis.</p>
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"avia_par_ee"</span>,<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"xml"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"avia_par_me"</span>,<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='kw'>compress_file</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The 'toc.xml.en' was loaded from 'toc.xml.en' in '.restatapi_env'.</span></div><div class='output co'>#&gt; <span class='message'>The TOC was cached previously in the file /tmp/RtmpLmGhbw/restatapi/toc.xml.en.rds.</span></div><div class='output co'>#&gt; <span class='message'>TOC rows: 6321</span>
-#&gt; <span class='message'>bulk url: https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span>
-#&gt; <span class='message'>data rowcount: 12842</span></div><div class='input'># }
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"avia_par_me"</span>,<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='kw'>compress_file</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

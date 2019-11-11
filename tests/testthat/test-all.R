@@ -196,16 +196,19 @@ if (!is.null(dsd2)){
 }  
 
 context("test of the get_eurostat_raw/bulk function")
+clean_restatapi_cache()
 id<-"avia_par_me"
-raw_txt<-get_eurostat_raw(id,"txt")
+rt1<-system.time(raw_txt<-get_eurostat_raw(id,"txt"))[3]
 raw_xml<-get_eurostat_raw(id,"xml")
-if (!is.null(raw_txt)&!is.null(raw_xml)&is.data.frame(raw)){
+rt2<-system.time(raw_txt_check<-get_eurostat_raw(id,"txt",check_toc=TRUE))
+if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_txt_check)){
   test_that("test of the get_eurostat_raw/bulk function", {
     expect_message(bulk<-get_eurostat_bulk(id,verbose=TRUE))
-    expect_message(bulk<-get_eurostat_raw(id,mode="text",verbose=TRUE))
+    expect_message(raw<-get_eurostat_raw(id,mode="text",verbose=TRUE))
     expect_equal(nrow(raw_xml),nrow(raw_txt))
     expect_equal(nrow(raw_txt),as.numeric(xml_toc$values[xml_toc$code==id]))
     expect_true(ncol(raw_xml)>ncol(bulk))
+    expect_true(nrow(raw_txt)>nrow(bulk))
     expect_true(nrow(raw_txt)>nrow(bulk))
   })
 }
@@ -214,7 +217,8 @@ context("test of the get/put_eurostat_cache function")
 clean_restatapi_cache()
 id<-"ei_bsfs_q"
 xml_toc<-get_eurostat_toc(verbose=TRUE)
-udate<-xml_toc$lastUpdate[xml_toc$code==id]
+udate2<-xml_toc$lastUpdate[xml_toc$code==id]
+udate<-Sys.Date()
 nm<-paste0("r_",id,"-",udate)
 rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
 rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
@@ -223,7 +227,7 @@ bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE
 nrb1<-nrow(bulk1)
 ncb1<-ncol(bulk1)
 cnb1<-colnames(bulk1)
-dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE))[3]
+dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE))[3]
 dt2<-system.time(estat_data2<-get_eurostat_data(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
 nrd2<-nrow(estat_data2)
 ncd2<-ncol(estat_data2)
@@ -232,7 +236,7 @@ dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=TRUE))[3]
 id<-"avia_par_mk"
 suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(id,stringsAsFactors=FALSE))[3])
 rt4<-system.time(raw4<-get_eurostat_raw(id,"xml",keep_flags=TRUE))[3]
-suppressWarnings(bt2<-system.time(bulk2<-get_eurostat_bulk(id,keep_flags=TRUE))[3])
+suppressWarnings(bt2<-system.time(bulk2<-get_eurostat_bulk(id,keep_flags=TRUE,verbose=TRUE))[3])
 if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.null(raw3)&is.data.frame(raw3)&!is.null(raw4)&is.data.frame(raw4)&!is.null(bulk1)&is.data.frame(bulk1)&!is.null(bulk2)&is.data.frame(bulk2)&!is.null(estat_data1)&is.data.frame(estat_data1)&!is.null(estat_data2)&is.data.frame(estat_data2)&!is.null(estat_data3)&is.data.frame(estat_data3)&!is.null(estat_data4)&is.data.frame(estat_data4)){
   test_that("test of the get/put_eurostat_cache function", {
     expect_true(exists(paste0(nm,"-1"),envir=.restatapi_env))

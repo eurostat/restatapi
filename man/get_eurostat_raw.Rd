@@ -7,14 +7,14 @@
 get_eurostat_raw(id, mode = "txt", cache = TRUE,
   update_cache = FALSE, cache_dir = NULL, compress_file = TRUE,
   stringsAsFactors = default.stringsAsFactors(), keep_flags = FALSE,
-  verbose = FALSE, ...)
+  check_toc = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
 
-\item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for TSV 
-(Tab Separated Values), or \code{xml} for the SDMX version.}
+\item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for 
+Tab Separated Values (TSV), or \code{xml} for the SDMX version.}
 
 \item{cache}{a logical whether to do caching. Default is \code{TRUE}.}
 
@@ -38,16 +38,27 @@ they are returned as a characters.}
 can be removed. Default is \code{FALSE}. For flag values see: 
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
 
+\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+is retrieved form the TOC.}
+
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
 \item{...}{further argument for the \code{load_cfg} function}
 }
 \value{
-a data.table. One column for each dimension in the data,
-        the time column for a time dimension, 
-        the values column for numerical values and the flags column if the \code{keep_flags=TRUE}.
-        Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
+a data.table with the following columns:
+ \tabular{ll}{
+     \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
+     dimension names \tab One column for each dimension in the data \cr
+     \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX (this column is missing if the source file is TSV) \cr
+     \code{time/TIME_PERIOD} \tab A column for the time dimension, where the name of the column depends on the source file (TSV/SDMX)\cr
+     \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
+     \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
+   }, 
+        The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
         on particular time.
 }
 \description{
@@ -55,16 +66,15 @@ Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database 
 }
 \details{
 Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
-in SDMX format.
+in TSV or SDMX format.
 
-By default all datasets cached as they are often rather large. 
+
+The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+ as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
+By default all datasets downloaded in TSV format and cached as they are often rather large. 
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 The cache can be emptied with \code{\link{clean_restatapi_cache}}.
-
-The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
- as well. The Eurostat
-database gives codes in the Data Navigation Tree after every dataset
-in parenthesis.
+If the \code{id} is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.
 }
 \examples{
 \dontshow{
