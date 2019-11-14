@@ -24,6 +24,10 @@
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
+#' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
+#'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
+#'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+#'        is retrieved form the TOC.  
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... parameter to pass on the \code{\link{load_cfg}} function        
@@ -61,7 +65,7 @@
 #' \donttest{
 #' dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
 #' options(restatapi_update=TRUE)
-#' dt<-get_eurostat_bulk("avia_par_ee")
+#' dt<-get_eurostat_bulk("avia_par_ee",check_toc=TRUE)
 #' dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
 #' options(restatapi_update=FALSE)
 #' dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
@@ -74,11 +78,13 @@ get_eurostat_bulk <- function(id,
                               compress_file=TRUE,
                               stringsAsFactors=default.stringsAsFactors(),
                               select_freq=NULL,
-                              keep_flags = FALSE,
+                              keep_flags=FALSE,
+                              check_toc=FALSE,
                               verbose=FALSE,...){
   
   .datatable.aware=TRUE 
   FREQ<-N<-restat_bulk<-NULL
+  dc<-TRUE
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if((!exists(".restatapi_env")|(length(list(...))>0))){
@@ -94,54 +100,77 @@ get_eurostat_bulk <- function(id,
   }
   id<-tolower(id)
   
-  toc<-get_eurostat_toc(verbose=verbose)
-  if (id %in% toc$code){
-    if ((cache)&(!update_cache)) {
-      nm<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-      restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
-      if (!is.null(restat_bulk)){
-        if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
-          col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
-          restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
-        }
-        if (!any(sapply(restat_bulk,is.factor))&(stringsAsFactors)&(!is.null(restat_bulk))) {
-          restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=TRUE)
-        }  
+  if (check_toc){
+    toc<-get_eurostat_toc(verbose=verbose)
+    if (is.null(toc)){
+      message("The TOC is missing. Could not get the download link.")
+      dc<-FALSE
+    } else {
+      if (id %in% toc$code){
+        udate<-toc$lastUpdate[toc$code==id]
+        if (verbose) {message("bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[toc$code==id],"\ndata rowcount: ",toc$values[toc$code==id])}
+      } else {
+        message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
+        dc<-FALSE
       }
     }
+  }else{
+    udate<-Sys.Date()
+  }
+  
+  if ((dc)&(cache)&(!update_cache)) {
+    nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+    restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
+  }
+  
+  if (dc){
     if ((!cache)|(is.null(restat_bulk))|(update_cache)){
-      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,verbose,...)
+      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose,...)
     }
-    if (!is.null(restat_bulk)){
-      drop<-NULL
-      if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
-      if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
-      if (is.null(select_freq)){
-        if (length(unique(restat_bulk$FREQ))>1){
-          st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
-          if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
+  }  
+  
+  if (!is.null(restat_bulk)){
+    drop<-NULL
+    if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
+    if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
+    if (is.null(select_freq)){
+      if (length(unique(restat_bulk$FREQ))>1){
+        st<-data.table::setorder(restat_bulk[,.N,by=FREQ],-N)[1,1]
+        if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{select_freq<-as.character(st$FREQ)}
           message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
         } 
+      } 
+    if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
+    if ("OBS_VALUE" %in% colnames(restat_bulk)) {
+      if (keep_flags){
+        data.table::setnames(restat_bulk,"OBS_STATUS","flags")
+      } else {
+        if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
       }
-      if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
-      if ("OBS_VALUE" %in% colnames(restat_bulk)) {
-        if (keep_flags){
-          data.table::setnames(restat_bulk,"OBS_STATUS","flags")
-        } else {
-          if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
-        }
-        data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
-      }
-      if(!is.null(drop)) {restat_bulk[,(drop):=NULL]}
-      if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
-      if (cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
-        oname<-paste0("b_",id,"-",toc$lastUpdate[toc$code==id],"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-        pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
-        if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
-      }
-    } 
-  } else {
-    message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
+      data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
+    }
+    restat_bulk$time<-gsub('[MD]',"-",restat_bulk$time)
+    restat_bulk$time<-gsub('([0-9]{4})([Q|S])',"\\1-\\2",restat_bulk$time,perl=TRUE)
+    if(!is.null(drop)) {restat_bulk[,(drop):=NULL]}
+    if (keep_flags) {
+      restat_bulk$flags<-as.character(restat_bulk$flags)
+      restat_bulk$flags[is.na(restat_bulk$flags)]<-""
+    }
+    if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
+      col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
+      restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+    }
+    if ((!all(sapply(restat_bulk[],is.factor)))&(stringsAsFactors)) {
+      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=stringsAsFactors)
+    }  
+    if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
+  } 
+   
+  if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
+    oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+    pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
+    if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
   }
+  
   return(restat_bulk)
 }

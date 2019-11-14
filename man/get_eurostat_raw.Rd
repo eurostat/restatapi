@@ -46,20 +46,20 @@ is retrieved form the TOC.}
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{further argument for the \code{load_cfg} function}
+\item{...}{further argument for the \code{\link{load_cfg}} function}
 }
 \value{
 a data.table with the following columns:
  \tabular{ll}{
      \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
      dimension names \tab One column for each dimension in the data \cr
-     \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX (this column is missing if the source file is TSV) \cr
+     \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX and the data was not loaded from a prevously cached TSV download (this column is missing if the source file is TSV) \cr
      \code{time/TIME_PERIOD} \tab A column for the time dimension, where the name of the column depends on the source file (TSV/SDMX)\cr
      \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
      \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
-   }, 
-        The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
-        on particular time.
+   }
+The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
+on particular time.
 }
 \description{
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
@@ -86,7 +86,7 @@ if (parallel::detectCores()<=2){
 }
 \donttest{
 dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
-dt<-get_eurostat_raw("avia_par_ee",mode="xml",update_cache=TRUE)
+dt<-get_eurostat_raw("avia_par_ee",mode="xml",check_toc=TRUE,update_cache=TRUE)
 options(restatapi_update=FALSE)
 dt<-get_eurostat_raw("avia_par_me",mode="txt",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
 }

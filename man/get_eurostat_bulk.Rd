@@ -7,7 +7,7 @@
 get_eurostat_bulk(id, cache = TRUE, update_cache = FALSE,
   cache_dir = NULL, compress_file = TRUE,
   stringsAsFactors = default.stringsAsFactors(), select_freq = NULL,
-  keep_flags = FALSE, verbose = FALSE, ...)
+  keep_flags = FALSE, check_toc = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
@@ -41,6 +41,11 @@ If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.}
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is \code{FALSE}. For flag values see: 
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
+
+\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+is retrieved form the TOC.}
 
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
@@ -85,7 +90,7 @@ if (parallel::detectCores()<=2){
 \donttest{
 dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
 options(restatapi_update=TRUE)
-dt<-get_eurostat_bulk("avia_par_ee")
+dt<-get_eurostat_bulk("avia_par_ee",check_toc=TRUE)
 dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
 options(restatapi_update=FALSE)
 dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)

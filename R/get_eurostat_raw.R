@@ -26,7 +26,7 @@
 #'        is retrieved form the TOC.  
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}        
-#' @param ... further argument for the \code{load_cfg} function
+#' @param ... further argument for the \code{\link{load_cfg}} function
 #' @export
 #' 
 #' @details Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
@@ -43,13 +43,13 @@
 #'  \tabular{ll}{
 #'      \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
 #'      dimension names \tab One column for each dimension in the data \cr
-#'      \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX (this column is missing if the source file is TSV) \cr
+#'      \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX and the data was not loaded from a prevously cached TSV download (this column is missing if the source file is TSV) \cr
 #'      \code{time/TIME_PERIOD} \tab A column for the time dimension, where the name of the column depends on the source file (TSV/SDMX)\cr
 #'      \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
 #'      \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
-#'    }, 
-#'         The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
-#'         on particular time. 
+#'    }
+#' The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
+#' on particular time. 
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' \dontshow{
@@ -61,7 +61,7 @@
 #' }
 #' \donttest{
 #' dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
-#' dt<-get_eurostat_raw("avia_par_ee",mode="xml",update_cache=TRUE)
+#' dt<-get_eurostat_raw("avia_par_ee",mode="xml",check_toc=TRUE,update_cache=TRUE)
 #' options(restatapi_update=FALSE)
 #' dt<-get_eurostat_raw("avia_par_me",mode="txt",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
 #' }
@@ -116,7 +116,7 @@ get_eurostat_raw <- function(id,
           message("There is no downloadlink in the TOC for ",id)
           dc<-FALSE
         }
-        if (verbose) {message("TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])}
+        if (verbose) {message("raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])}
       } else {
         message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
         dc<-FALSE
@@ -136,7 +136,7 @@ get_eurostat_raw <- function(id,
     }
   }
   
-  if ((cache)&(!update_cache)) {
+  if ((dc)&(cache)&(!update_cache)) {
     restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose)
     if (!is.null(restat_raw)){
       if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
@@ -207,14 +207,12 @@ get_eurostat_raw <- function(id,
               rm(raw)
               data.table::setnames(raw_melted,2:3,c(rname,"values"))
               raw_melted<-raw_melted[raw_melted$values!=":",]
-              FREQ<-gsub('[0-9\\.-]',"",raw_melted$time)
+              FREQ<-gsub("MD","D",gsub('[0-9\\.-]',"",raw_melted$time))
               FREQ[FREQ==""]<-"A"
               restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE))
               data.table::setnames(restat_raw,cnames)  
               restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3])
               if (stringsAsFactors) {restat_raw$FREQ<-as.factor(restat_raw$FREQ)}
-              restat_raw$time<-gsub('M',"-",restat_raw$time)
-              restat_raw$time<-gsub('Q',"-Q",restat_raw$time)
               if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-]',"",restat_raw$values)}
               restat_raw$values<-gsub('[^0-9\\.-]',"",restat_raw$values)
               restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  

@@ -288,7 +288,7 @@ get_eurostat_data <- function(id,
         if ((nrow(restat)==0)){
           message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
           restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
-        } else if (!is.null(restat)) {
+        } else {
           if (length(unique(restat$FREQ))==1){
             drop<-c(drop,"FREQ")
           }
@@ -318,6 +318,8 @@ get_eurostat_data <- function(id,
           restat[,(drop):=NULL]
           data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
           data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
+          restat$time<-gsub('[MD]',"-",restat$time)
+          restat$time<-gsub('([0-9]{4})Q',"\\1-Q",restat$time,perl=TRUE)
           restat<-data.table::data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
           restat<-unique(restat)
           restat[order("time"),]
@@ -353,6 +355,8 @@ get_eurostat_data <- function(id,
             restat[,(drop):=NULL]
             data.table::setnames(restat,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
           } 
+          restat$time<-gsub('[MD]',"-",restat$time)
+          restat$time<-gsub('([0-9]{4})Q',"\\1-Q",restat$time,perl=TRUE)
           if (("flags" %in% colnames(restat))&(!keep_flags)){restat[,("flags"):=NULL]}
           if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
           if (verbose) {message("The data was loaded from cache.")} 

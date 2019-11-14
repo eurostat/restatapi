@@ -222,13 +222,16 @@ udate<-Sys.Date()
 nm<-paste0("r_",id,"-",udate)
 rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
 rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
-rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
 bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
+rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
 nrb1<-nrow(bulk1)
 ncb1<-ncol(bulk1)
 cnb1<-colnames(bulk1)
 dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE))[3]
 dt2<-system.time(estat_data2<-get_eurostat_data(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(estat_data2,kc)
 nrd2<-nrow(estat_data2)
 ncd2<-ncol(estat_data2)
 cnd2<-colnames(estat_data2)
@@ -244,15 +247,15 @@ if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.nu
     expect_true(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0(nm,"-0.rds"))))
     expect_false(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0(nm,"-1.rds"))))
     expect_false(identical(raw1,raw2))
-    expect_identical(raw2,raw3)
-    expect_identical(bulk1,estat_data2)
+    expect_true(identical(raw2,raw3))
+    expect_true(identical(bulk1,estat_data2))
     expect_equal(nrb1,nrd2)
     expect_equal(ncb1,ncd2)
     expect_equal(cnb1,cnd2)
     expect_true(rt1>bt1)
     expect_true(rt2<rt1)
     expect_true(rt3<rt1)
-#    expect_true(dt1<dt2)
+    expect_true(dt1>dt2)
     expect_true(dt3<rt1)
     expect_true(any(sapply(raw1,is.factor)))
     expect_true(any(sapply(raw2,is.factor)))
