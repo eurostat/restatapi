@@ -212,6 +212,100 @@ if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_txt_check)){
     expect_true(nrow(raw_txt)>nrow(bulk))
   })
 }
+id<-"avia_par_mk"
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,keep_flags=TRUE)
+raw2<-get_eurostat_raw(id,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id,keep_flags=TRUE)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,check_toc=TRUE)
+raw2<-get_eurostat_raw(id,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,check_toc=TRUE,stringsAsFactors=FALSE)
+raw2<-get_eurostat_raw(id,mode="xml",stringsAsFactors=FALSE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id,stringsAsFactors=FALSE)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+id<-"irt_h_eurcoe_d"
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,stringsAsFactors=FALSE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,keep_flags=TRUE)
+raw2<-get_eurostat_raw(id,mode="xml",check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id,keep_flags=TRUE)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,check_toc=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,keep_flags=TRUE)
+raw2<-get_eurostat_raw(id,mode="xml",check_toc=TRUE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id,check_toc=TRUE,keep_flags=TRUE)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+id<-"nrg_pc_205_h"
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,check_toc=TRUE,keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,check_toc=TRUE)
+raw2<-get_eurostat_raw(id,mode="xml",check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
+clean_restatapi_cache()
+raw1<-get_eurostat_raw(id,check_toc=TRUE,update_cache=TRUE)
+bulk1<-get_eurostat_bulk(id,keep_flags=TRUE,check_toc=TRUE,stringsAsFactors=FALSE)
+raw2<-get_eurostat_raw(id,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,check_toc=TRUE,update_cache=TRUE)
+bulk2<-get_eurostat_bulk(id,keep_flags=TRUE,stringsAsFactors=FALSE)
+kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+data.table::setorderv(bulk1,kc)
+data.table::setorderv(bulk2,kc)
+if (!is.null(bulk1)&!is.null(bulk2)){
+  test_that("test of the get_eurostat_raw/bulk function", {
+    expect_true(identical(bulk1,bulk2))
+  })
+}
 
 context("test of the get/put_eurostat_cache function")
 clean_restatapi_cache()

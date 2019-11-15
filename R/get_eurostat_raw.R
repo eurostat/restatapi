@@ -143,7 +143,7 @@ get_eurostat_raw <- function(id,
         col_conv<-colnames(restat_raw)
         restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
       }
-      if (!any(sapply(restat_raw,is.factor))&(stringsAsFactors)&(!is.null(restat_raw))) {
+      if (!(any(sapply(restat_raw,is.factor)))&(stringsAsFactors)) {
         restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=TRUE)
       }
       if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
