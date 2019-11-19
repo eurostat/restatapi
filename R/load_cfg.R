@@ -1,13 +1,13 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
-#' @param load_toc The default value \code{FALSE}, which means that the Table of contents (TOC) will not be downloaded and 
+#' @param load_toc The default value \code{FALSE}, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 #'        cached automatically in the '.restatapi_env' when the package is loaded.
 #' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
 #'        extraction is made in parallel reducing significantly the time needed for large datasets. If the value is \code{FALSE} the option \code{restatapi_cores} set to 1.
-#' @param max_cores A boolean with the default value \code{TRUE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
-#'        If the default value is used, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
-#'        then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} and there are more than 2 cores/logical processors then the option \code{restatapi_cores} are set to 2. 
+#' @param max_cores A boolean with the default value \code{FALSE}. If the parameter 'parallel' is \code{TRUE} then this parameter is taken into account otherwise it is ignored.
+#'        If the value is \code{TRUE}, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter \code{FALSE}, 
+#'        then the default value of \code{getOption("mc.cores")} is used, if it is defined. If \code{mc.cores} is \code{NULL} then depending on the memory size and number of avaialble cores/threads the \code{restatapi_cores} are set to 2 or 4 cores/logical processors. 
 #'        Otherwise the parallel processing turned off by setting the option \code{restatapi_cores} to 1.
 #'        The number of cores used for parallel computing can be changed any time with \code{options(restatapi_cores=...)}     
 #' @param verbose  A boolean if the verbose message about the configuration to be showed or not. The default is \code{FALSE}. Can be set also with \code{options(restatapi_verbose=TRUE)} 
@@ -22,7 +22,11 @@
 #'  } 
 #' @export
 #' @details Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
-#'          If it is not possible it loads from the file delivered with the package.By this way different version of the API can be tested. 
+#'          If it is not possible it loads from the file delivered with the package. By this way different version of the API can be tested. 
+#'          Since in many cases there is http/https redirection in the download which can cause problems with the 'wininet' download method, the 'libcurl' method is used when it is available.
+#'          This configuration code set up the parallel processing to handle large XML files efficiently. By default if there is more then 4 cores/logical processors and at least 32 GB of RAM then
+#'          4 cores are used for parallel computing. If there is more then 2 cores then 2 cores are used. This default configuration can be overwritten if the \code{max_cores=TRUE} parameter is used.
+#'          In this case part of the computation distributed over the maximum number minus one cores, but by using this option there is a higher probability that the program will run out off memory for larger datasets.  
 #'          In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
@@ -35,7 +39,7 @@
 #' }
 #' 
 
-load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=TRUE,verbose=FALSE){
+load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   assign(".restatapi_env",new.env(),envir=baseenv())
   cfg_source<-"GitHub"
@@ -69,14 +73,26 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
     msg_end<-"\n           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env')."
   }
   
+  mem_size<-switch(Sys.info()[['sysname']],
+                   Windows={as.numeric(gsub("[^0-9]","",system("wmic MemoryChip get Capacity", intern = TRUE)[2]))/1024/1024},
+                   Darwin={as.numeric(substring(system("sysctl hw.memsize", intern = TRUE), 13))/1024/1024},
+                   SunOS={as.numeric(gsub("[^0-9]","",system("prtconf | grep Memory", intern = TRUE)))},
+                   Linux={as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo", intern = TRUE))/1024})
+  
   if (parallel) {
     if (max_cores){
       options(restatapi_cores=parallel::detectCores()-1)
     } else {
       if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
         options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
+      } else if (parallel::detectCores()>4){
+        if (mem_size>30000){
+          options(restatapi_cores=4)
+        } else {
+          options(restatapi_cores=2)  
+        }
       } else if (parallel::detectCores()>2){
-        options(restatapi_cores=2)
+        options(restatapi_cores=2)  
       } else {
         options(restatapi_cores=1)
       }

@@ -102,23 +102,23 @@ get_eurostat_raw <- function(id,
       message("The TOC is missing. Could not get the download link.")
       dc<-FALSE
     } else {
-      if (id %in% toc$code){
-        udate<-toc$lastUpdate[toc$code==id]
+      if (any(grepl(id,toc$code,ignore.case=TRUE))){
+        udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
         if (mode=="txt") {
-          bulk_url<-toc$downloadLink.tsv[toc$code==id]
+          bulk_url<-toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)]
         } else if (mode=="xml") {
-          bulk_url<-toc$downloadLink.sdmx[toc$code==id]
+          bulk_url<-toc$downloadLink.sdmx[grepl(id,toc$code,ignore.case=TRUE)]
         } else {
           message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
           dc<-FALSE
         }
-        if (length(bulk_url)==0){
+        if (length(bulk_url)==0|is.na(bulk_url)){
           message("There is no downloadlink in the TOC for ",id)
           dc<-FALSE
         }
-        if (verbose) {message("raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[toc$code==id])}
+        if (verbose) {message("raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
       } else {
-        message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
+        message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
         dc<-FALSE
       }
     }
@@ -197,6 +197,11 @@ get_eurostat_raw <- function(id,
             error = function(e) {ne2<-FALSE},
             warning = function(w) {})
           }
+          if (any(grepl("does not exist",raw))){
+            message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
+            ne2<-FALSE
+          }
+          
           if (ne2) {
             cname<-colnames(raw)[1] 
             if (is.character(cname)){

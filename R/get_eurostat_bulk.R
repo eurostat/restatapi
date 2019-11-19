@@ -110,11 +110,11 @@ get_eurostat_bulk <- function(id,
       message("The TOC is missing. Could not get the download link.")
       dc<-FALSE
     } else {
-      if (id %in% toc$code){
-        udate<-toc$lastUpdate[toc$code==id]
-        if (verbose) {message("bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[toc$code==id],"\ndata rowcount: ",toc$values[toc$code==id])}
+      if (any(grepl(id,toc$code,ignore.case=TRUE))){
+        udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
+        if (verbose) {message("bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
       } else {
-        message(paste0(id," is not in the table of contents. Please check if the 'id' is correctly spelled."))
+        message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
         dc<-FALSE
       }
     }

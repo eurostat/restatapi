@@ -82,11 +82,20 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
 xml_toc<-get_eurostat_toc()
 if (!is.null(xml_toc)){
   id<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)][1]
-  test_that("test of the get_eurostat_data function", {
-      expect_message(dt3<-get_eurostat_data(id,verbose=FALSE),NULL)
-      expect_equal(dt3,NULL)
+  test_that("test of the get_eurostat_raw/bulk/data function", {
+      expect_message(rt1<-get_eurostat_raw(id,verbose=FALSE))
+      expect_equal(rt1,NULL)
+      expect_message(rt2<-get_eurostat_raw(id,check_toc=TRUE,verbose=FALSE))
+      expect_equal(rt2,NULL)
+      expect_message(bt1<-get_eurostat_bulk("blabla",check_toc=TRUE,verbose=FALSE))
+      expect_equal(bt1,NULL)
+      expect_message(dt1<-get_eurostat_data(id,verbose=FALSE))
+      expect_equal(dt1,NULL)
   })
 } 
+
+rt1<-get_eurostat_raw(id,verbose=FALSE)
+rt2<-get_eurostat_raw(id,check_toc=TRUE,verbose=TRUE)
 
 
 
@@ -212,7 +221,7 @@ if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_txt_check)){
     expect_true(nrow(raw_txt)>nrow(bulk))
   })
 }
-id<-"avia_par_mk"
+id<-"avia_par_me"
 clean_restatapi_cache()
 raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE)
 bulk1<-get_eurostat_bulk(id,keep_flags=TRUE)
@@ -279,7 +288,7 @@ if (!is.null(bulk1)&!is.null(bulk2)){
     expect_true(identical(bulk1,bulk2))
   })
 }
-id<-"nrg_pc_205_h"
+id<-"nrg_pc_206_h"
 clean_restatapi_cache()
 raw1<-get_eurostat_raw(id,check_toc=TRUE,keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
 bulk1<-get_eurostat_bulk(id,check_toc=TRUE)

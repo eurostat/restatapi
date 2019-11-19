@@ -8,7 +8,7 @@ get_eurostat_data(id, filters = NULL, exact_match = TRUE,
   date_filter = NULL, label = FALSE, select_freq = NULL,
   cache = TRUE, update_cache = FALSE, cache_dir = NULL,
   compress_file = TRUE, stringsAsFactors = default.stringsAsFactors(),
-  keep_flags = FALSE, verbose = FALSE, ...)
+  keep_flags = FALSE, check_toc = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
@@ -59,6 +59,11 @@ they are returned as a characters.}
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is \code{FALSE}. For flag values see: 
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
+
+\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+is retrieved form the TOC.}
 
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
