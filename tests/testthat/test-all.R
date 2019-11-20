@@ -166,7 +166,6 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
     })
   }
 }
-dsd2<-get_eurostat_dsd("avia_par_me")
 if (!is.null(dsd2)){
   nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,verbose=FALSE))
   if (!is.null(nr13)){
@@ -202,7 +201,16 @@ if (!is.null(dsd2)){
     expect_true(nrow(dt8)<=5040)
     expect_true(ncol(dt8)<=5)
   }
-}  
+} 
+dsd3<-get_eurostat_dsd("avia_par_is")
+if (!is.null(dsd1)&is.data.frame(dsd1)){
+  nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
+  if (!is.null(nr16)){
+    test_that("test filtering in the get_eurostat_data function", {
+      expect_equal(nr16,4374)
+  })
+  }
+}
 
 context("test of the get_eurostat_raw/bulk function")
 clean_restatapi_cache()
@@ -358,7 +366,6 @@ if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.nu
     expect_true(rt1>bt1)
     expect_true(rt2<rt1)
     expect_true(rt3<rt1)
-    expect_true(dt1>dt2)
     expect_true(dt3<rt1)
     expect_true(any(sapply(raw1,is.factor)))
     expect_true(any(sapply(raw2,is.factor)))

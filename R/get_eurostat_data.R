@@ -150,7 +150,7 @@ get_eurostat_data <- function(id,
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
   id<-tolower(id)
-  dc<-TRUE
+  ne<-dc<-TRUE
   
   if (check_toc){
     toc<-get_eurostat_toc(verbose=verbose)
@@ -291,32 +291,58 @@ get_eurostat_data <- function(id,
         if (verbose) {
           restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
             message(x)
-            tryCatch({rdat<-rsdmx::readSDMX(x)},
+            temp <- tempfile()
+            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env))},
                      error = function(e) {
-                       message("Error by retriving data:",'\n',paste(unlist(e),collapse="\n"))
-                       if (!is.null(rdat)) {message(paste(unlist(rdat@footer@messages),collapse="\n"))}
-                       rdat<-NULL
+                       message("Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))
+                       ne<-FALSE
                      },
                      warning = function(w) {
-                       message("Warning during the data retrival:",'\n',paste(unlist(w),collapse="\n"))
-                       if (!is.null(rdat)) {message(paste(unlist(rdat@footer@messages),collapse="\n"))}
-                       rdat<-NULL
+                       message("Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))
                      })
+            if(ne){
+              xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
+              if (Sys.info()[['sysname']]=='Windows'){
+                xml_leafs<-as.character(xml_leafs)
+                cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
+                parallel::clusterEvalQ(cl,require(xml2))
+                parallel::clusterExport(cl,c("extract_data"))
+                rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
+                parallel::stopCluster(cl)
+              }else{
+                rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
+              }
+            }
             if (!is.null(rdat)){data.table::as.data.table(rdat)}
           }),fill=TRUE)
         } else {
           restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
-            tryCatch({rdat<-rsdmx::readSDMX(x)},
-                     error = function(e) {rdat<-NULL},
-                     warning = function(w) {rdat<-NULL })
+            temp <- tempfile()
+            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
+                     error = function(e) {ne<-FALSE},
+                     warning = function(w) {})
+            if(ne){
+              xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
+              if (Sys.info()[['sysname']]=='Windows'){
+                xml_leafs<-as.character(xml_leafs)
+                cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
+                parallel::clusterEvalQ(cl,require(xml2))
+                parallel::clusterExport(cl,c("extract_data"))
+                rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
+                parallel::stopCluster(cl)
+              }else{
+                rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
+              }
+            }
             if (!is.null(rdat)){data.table::as.data.table(rdat)}
           }),fill=TRUE)
         }
         if (!is.null(restat)){
           if ((nrow(restat)==0)){
             message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
-            restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,verbose)
+            restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,check_toc,verbose)
           } else {
+            if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
             if (length(unique(restat$FREQ))==1){
               drop<-c(drop,"FREQ")
             }
@@ -343,7 +369,7 @@ get_eurostat_data <- function(id,
               if ("OBS_STATUS" %in% colnames(restat)){drop<-c(drop,"OBS_STATUS")}
               if ("OBS_FLAG" %in% colnames(restat)){drop<-c(drop,"OBS_FLAG")}
             }    
-            restat[,(drop):=NULL]
+            if(!is.null(drop)) {restat[,(drop):=NULL]}
             data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
             data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
             restat$time<-gsub('[MD]',"-",restat$time)
@@ -352,10 +378,7 @@ get_eurostat_data <- function(id,
             restat<-unique(restat)
             restat[order("time"),]
           }
-        } else {
-          message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download can be used to download the whole dataset.")
-          restat<-NULL
-        }
+        } 
       }
     }else{
       if ((cache)&(!update_cache)) {
@@ -410,8 +433,8 @@ get_eurostat_data <- function(id,
         if (verbose) {message("dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
         cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
         restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
-        if (verbose) {message("data - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",cn)}
-        sub_dsd<-dsd[dsd$code %in% unique(unlist(as.list(restat[,(cn),with=FALSE]))),]
+        if (verbose) {message("data - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(cn,collapse="/"))}
+        sub_dsd<-dsd[dsd$code %in% as.character(levels(unique(unlist(as.list(restat[,(cn),with=FALSE]))))),]
         sub_dsd<-data.table::setorder(sub_dsd,concept,code)
         for (x in cn){
           levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]

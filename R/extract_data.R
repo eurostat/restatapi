@@ -58,7 +58,11 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
                                                   if(length(f)==0){
                                                     dr$OBS_STATUS<-NA
                                                   } else{
-                                                    dr$OBS_STATUS<-f
+                                                    if (f=="na"){
+                                                      dr$OBS_STATUS<-NA
+                                                    } else{
+                                                      dr$OBS_STATUS<-f[f!="na"]
+                                                    }
                                                   }
                                                 }
                                                 return(as.data.frame(dr))
