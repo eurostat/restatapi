@@ -8,7 +8,8 @@ get_eurostat_data(id, filters = NULL, exact_match = TRUE,
   date_filter = NULL, label = FALSE, select_freq = NULL,
   cache = TRUE, update_cache = FALSE, cache_dir = NULL,
   compress_file = TRUE, stringsAsFactors = default.stringsAsFactors(),
-  keep_flags = FALSE, check_toc = FALSE, verbose = FALSE, ...)
+  keep_flags = FALSE, cflags = FALSE, check_toc = FALSE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
@@ -60,6 +61,10 @@ they are returned as a characters.}
 can be removed. Default is \code{FALSE}. For flag values see: 
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
 
+\item{cflags}{a logical whether the missing observations with flag 'c' - "confidential"
+should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+\code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.}
+
 \item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
 If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
@@ -74,11 +79,15 @@ otherwise the case of the letters is ignored. If the \code{name=FALSE} then the 
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }
 \value{
-a data.table. One column for each dimension in the data,
-        the time column for a time dimension, 
-        the values column for numerical values and the flags column if the \code{keep_flags=TRUE}.
-        Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
-        on particular time.
+a data.table.a data.table with the follwing columns: #'  \tabular{ll}{
+     \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for singlke frequency this columns is dropped from the data table \cr
+     dimension names \tab One column for each dimension in the data \cr
+     \code{time} \tab A column for the time dimension\cr
+     \code{values} \tab A column for numerical values\cr
+     \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column is not included in the data table
+   }
+        The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
+        on a particular time.
 }
 \description{
 Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} database.
@@ -88,8 +97,8 @@ Data sets are downloaded from the Eurostat Web Services
 \href{https://ec.europa.eu/eurostat/web/sdmx-web-services}{SDMX API} if there is a filter otherwise the 
 \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} is used.
 If only the table \code{id} is given, the whole table is downloaded from the
-bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX API is
-used. In case after filtering the dataset has more rows than the limitation of the SDMX API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .
+bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX REST API is
+used. In case after filtering the dataset has more rows than the limitation of the SDMX REST API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .
 
 By default all datasets cached as they are often rather large. 
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.

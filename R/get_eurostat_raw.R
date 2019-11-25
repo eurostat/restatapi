@@ -48,8 +48,8 @@
 #'      \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
 #'      \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
 #'    }
-#' The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
-#' on particular time. 
+#' The data does not include all missing values. The missing values are dropped if the value and flags are missing
+#' on a particular time. 
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' \dontshow{
@@ -123,7 +123,7 @@ get_eurostat_raw <- function(id,
       }
     }
   }else{
-    udate<-Sys.Date()
+    udate<-format(Sys.Date(),"%Y.%m.%d")
     if (mode=="txt") {
       bulk_url<-paste0(eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT"))),"?file=data/",id,".tsv.gz")
       if (verbose) {message("bulk url: ",bulk_url)}
@@ -136,21 +136,10 @@ get_eurostat_raw <- function(id,
     }
   }
   
-  if ((dc)&(cache)&(!update_cache)) {
-    restat_raw<-get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose)
-    if (!is.null(restat_raw)){
-      if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
-        col_conv<-colnames(restat_raw)
-        restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv]
-      }
-      if (!(any(sapply(restat_raw,is.factor)))&(stringsAsFactors)) {
-        restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=TRUE)
-      }
-      if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
+  if (dc){
+    if ((cache)&(!update_cache)) {
+      restat_raw<-data.table::copy(get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
     }
-  }
-  
-  if(dc){ 
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
       if (mode=="txt"){
         temp<-tempfile()
@@ -218,8 +207,8 @@ get_eurostat_raw <- function(id,
               data.table::setnames(restat_raw,cnames)  
               restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3])
               if (stringsAsFactors) {restat_raw$FREQ<-as.factor(restat_raw$FREQ)}
-              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-]',"",restat_raw$values)}
-              restat_raw$values<-gsub('[^0-9\\.-]',"",restat_raw$values)
+              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-\\s:]',"",restat_raw$values)}
+              restat_raw$values<-gsub('[^0-9\\.]',"",restat_raw$values)
               restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
             } else {
               message("The file download was not successful. Try again later.")
@@ -242,6 +231,17 @@ get_eurostat_raw <- function(id,
           }
         }
       }
+    }
+    if (!is.null(restat_raw)){
+      restat_raw[]
+      if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
+        col_conv<-colnames(restat_raw)
+        restat_raw[,col_conv]<-restat_raw[,lapply(.SD,as.character),.SDcols=col_conv][]
+      }
+      if (!(any(sapply(restat_raw,is.factor)))&(stringsAsFactors)) {
+        restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=TRUE)
+      }
+      if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
     }
     if ((!is.null(restat_raw))&cache&all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))

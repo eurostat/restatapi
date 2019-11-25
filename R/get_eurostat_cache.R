@@ -28,10 +28,22 @@ get_eurostat_cache<-function(oname,cache_dir=NULL,verbose=FALSE){
   obj<-oname_p<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(cache_dir)){cache_dir <- getOption("restatapi_cache_dir", NULL)}
-  oname_all<-unique(c(oname,sub("-0$","-1",oname),sub("-0-","-1-",oname),sub("^b_","r_",oname,perl=TRUE)))
+  oname_all<-unique(c(oname,
+                      sub("-0-0$","-1-1",oname),
+                      sub("-0-0$","-1-0",oname),
+                      sub("-1-0$","-1-1",oname),
+                      sub("-0-0-","-1-1-",oname),
+                      sub("-0-0-","-1-0-",oname),
+                      sub("-1-0-","-1-1-",oname),
+                      sub("(.*\\.\\d\\d)-0$","\\1-1",oname)))
   if(length(gregexpr("-", oname)[[1]])>2){
     oname_p<-sapply(c(1:(length(gregexpr("-", oname)[[1]])-2)),FUN=pgen,oname=oname)
-    oname_p<-unique(c(oname_p,sub("-0$","-1",oname_p),sub("-0-","-1-",oname_p),sub("^b_","r_",oname_p,perl=TRUE)))
+    oname_p<-unique(c(oname_p,
+                      sub("^b(.*\\.\\d\\d)-0$","r\\1-1",oname_p),
+                      sub("-0-0$","-1-1",oname_p),
+                      sub("-0-0$","-1-0",oname_p),
+                      sub("-1-0$","-1-1",oname_p),
+                      sub("^b(.*\\.\\d\\d-[0|1])$","r\\1",oname_p,perl=TRUE)))
   }
   oname_all<-unique(c(oname_all,oname_p))
   if (any(sapply(oname_all,exists,envir=.restatapi_env))){
@@ -42,13 +54,13 @@ get_eurostat_cache<-function(oname,cache_dir=NULL,verbose=FALSE){
       fname<-file.path(sub("[\\/]$","",cache_dir,perl=TRUE),paste0(oname_all,".rds"))
       if (any(file.exists(fname))){
         if (verbose) {message("The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
-        return(readRDS(fname[file.exists(fname)][1]))  
+        return(readRDS(fname[file.exists(fname)][1])[])  
       } 
     } else {
       fname<-file.path(tempdir(),"restatapi",paste0(oname_all,".rds"))
       if (any(file.exists(fname))){
         if (verbose) {message("The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
-        return(readRDS(fname[file.exists(fname)][1]))
+        return(readRDS(fname[file.exists(fname)][1])[])
       } else {
         return(NULL)
       }

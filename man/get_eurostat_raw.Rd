@@ -58,8 +58,8 @@ a data.table with the following columns:
      \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
      \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
    }
-The data does not include all missing values. The missing values are dropped if the data for all dimensions are missing
-on particular time.
+The data does not include all missing values. The missing values are dropped if the value and flags are missing
+on a particular time.
 }
 \description{
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .

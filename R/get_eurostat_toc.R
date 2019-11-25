@@ -146,8 +146,8 @@ get_eurostat_toc<-function(mode="xml",
     if (!is.null(toc)){
       toc<-toc[!duplicated(toc[,c(1:8)]),]
       toc$values<-as.numeric(toc$values)
-      toc$lastUpdate<-as.Date(toc$lastUpdate,"%d.%m.%Y")
-      toc$lastModified<-as.Date(toc$lastModified,"%d.%m.%Y")  
+      toc$lastUpdate<-format(as.Date(toc$lastUpdate,"%d.%m.%Y"),"%Y.%m.%d")
+      toc$lastModified<-format(as.Date(toc$lastModified,"%d.%m.%Y"),"%Y.%m.%d")  
     } else{
       if (verbose) {message("The TOC is empty. Please check the download link form the line above in a web browser.")}
     }

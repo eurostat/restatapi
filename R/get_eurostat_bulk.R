@@ -24,6 +24,9 @@
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
+#' @param cflags a logical whether the missing observations with flag 'c' - "confidential"
+#'        should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+#'        \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.  
 #' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
 #'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
@@ -55,8 +58,8 @@
 #'      \code{values} \tab A column for numerical values\cr
 #'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table
 #'    }
-#'         Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
-#'         on particular time. 
+#'   The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
+#'         on a particular time.
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_raw}}
 #' @examples 
 #' \dontshow{
@@ -83,6 +86,7 @@ get_eurostat_bulk <- function(id,
                               stringsAsFactors=default.stringsAsFactors(),
                               select_freq=NULL,
                               keep_flags=FALSE,
+                              cflags=FALSE,
                               check_toc=FALSE,
                               verbose=FALSE,...){
   
@@ -91,6 +95,7 @@ get_eurostat_bulk <- function(id,
   dc<-TRUE
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
+  if(cflags){keep_flags<-cflags}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -119,21 +124,22 @@ get_eurostat_bulk <- function(id,
       }
     }
   }else{
-    udate<-Sys.Date()
+    udate<-format(Sys.Date(),"%Y.%m.%d")
   }
   
-  if ((dc)&(cache)&(!update_cache)) {
-    nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-    restat_bulk<-get_eurostat_cache(nm,cache_dir,verbose=verbose)
-  }
-  
-  if (dc){
-    if ((!cache)|(is.null(restat_bulk))|(update_cache)){
-      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose,...)
+  if (dc) {
+    if ((cache)&(!update_cache)) {
+      nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+      restat_bulk<-data.table::copy(get_eurostat_cache(nm,cache_dir,verbose=verbose))
+    }
+
+    if ((!cache)|is.null(restat_bulk)|(update_cache)){
+      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose=verbose)
     }
   }  
   
   if (!is.null(restat_bulk)){
+    restat_bulk[]
     drop<-NULL
     if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
     if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
@@ -144,37 +150,37 @@ get_eurostat_bulk <- function(id,
           message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
         } 
       } 
-    if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,]}
+    if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,][]}
     if ("OBS_VALUE" %in% colnames(restat_bulk)) {
       if (keep_flags){
-        data.table::setnames(restat_bulk,"OBS_STATUS","flags")
+        data.table::setnames(restat_bulk,"OBS_STATUS","flags")[]
       } else {
         if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
       }
-      data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))
+      data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))[]
     }
     restat_bulk$time<-gsub('[MD]',"-",restat_bulk$time)
     restat_bulk$time<-gsub('([0-9]{4})([Q|S])',"\\1-\\2",restat_bulk$time,perl=TRUE)
-   
     if (keep_flags) {
       restat_bulk$flags<-as.character(restat_bulk$flags)
       restat_bulk$flags[is.na(restat_bulk$flags)]<-""
+      if (!cflags) {restat_bulk<-restat_bulk[restat_bulk$flags!="c"][]}
     } else if ("flags" %in% colnames(restat_bulk)){
       drop<-c(drop,"flags")
     }
-    if(!is.null(drop)) {restat_bulk[,(drop):=NULL]}
+    if(!is.null(drop)) {restat_bulk[,(drop):=NULL][]}
     if (any(sapply(restat_bulk,is.factor))&(!stringsAsFactors)) {
       col_conv<-colnames(restat_bulk)[!(colnames(restat_bulk) %in% c("values"))]
-      restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv]
+      restat_bulk[,col_conv]<-restat_bulk[,lapply(.SD,as.character),.SDcols=col_conv][]
     }
     if (any(!sapply(restat_bulk[],is.factor))&(stringsAsFactors)) {
-      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=stringsAsFactors)
+      restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=stringsAsFactors)[]
     }  
     if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
   } 
    
   if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
-    oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),sub("-$","",paste0("-",select_freq),perl=TRUE))
+    oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
     if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
   }

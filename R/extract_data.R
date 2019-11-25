@@ -56,10 +56,10 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
                                                 if ((keep_flags)){
                                                   f<-xml2::xml_attr(xml2::xml_children(xml2::xml_children(x)),"value")
                                                   if(length(f)==0){
-                                                    dr$OBS_STATUS<-NA
+                                                    dr$OBS_STATUS<-""
                                                   } else{
                                                     if (f=="na"){
-                                                      dr$OBS_STATUS<-NA
+                                                      dr$OBS_STATUS<-""
                                                     } else{
                                                       dr$OBS_STATUS<-f[f!="na"]
                                                     }

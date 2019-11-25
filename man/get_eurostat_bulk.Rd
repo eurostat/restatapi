@@ -7,7 +7,8 @@
 get_eurostat_bulk(id, cache = TRUE, update_cache = FALSE,
   cache_dir = NULL, compress_file = TRUE,
   stringsAsFactors = default.stringsAsFactors(), select_freq = NULL,
-  keep_flags = FALSE, check_toc = FALSE, verbose = FALSE, ...)
+  keep_flags = FALSE, cflags = FALSE, check_toc = FALSE,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.
@@ -42,6 +43,10 @@ If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.}
 can be removed. Default is \code{FALSE}. For flag values see: 
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
 
+\item{cflags}{a logical whether the missing observations with flag 'c' - "confidential"
+should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+\code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.}
+
 \item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
 If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
@@ -59,8 +64,8 @@ a data.table with the follwing columns: #'  \tabular{ll}{
      \code{values} \tab A column for numerical values\cr
      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table
    }
-        Eurostat data does not include all missing values. The missing values are dropped if all dimensions are missing
-        on particular time.
+  The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
+        on a particular time.
 }
 \description{
 Download data sets from \href{https://ec.europa.eu/eurostat/}{Eurostat} database and put in a standardized format.

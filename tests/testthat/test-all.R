@@ -67,7 +67,7 @@ if (!is.null(dsd)){
 context("test of the get_eurostat_data function")
 clean_restatapi_cache()
 id<-"htec_cis3"
-t1<-system.time({dt1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE)})[3]
+t1<-system.time({dt1<-get_eurostat_data(id,keep_flags=TRUE,cflags=TRUE,verbose=TRUE)})[3]
 nc1<-ncol(dt1)
 t2<-system.time({dt2<-get_eurostat_data(id,verbose=TRUE)})[3]
 nc2<-ncol(dt2)
@@ -94,8 +94,14 @@ if (!is.null(xml_toc)){
   })
 } 
 
-rt1<-get_eurostat_raw(id,verbose=FALSE)
-rt2<-get_eurostat_raw(id,check_toc=TRUE,verbose=TRUE)
+rt<-get_eurostat_raw("agr_r_milkpr",mode="xml",keep_flags=TRUE,verbose=TRUE)
+bt<-get_eurostat_data("agr_r_milkpr",keep_flags=TRUE,stringsAsFactors=FALSE,verbose=TRUE)
+dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE,verbose=TRUE)
+if (!is.null(bt)&!is.null(dt)){
+  test_that("test of the get_eurostat_raw/bulk/data function", {
+    expect_true(all.equal(bt[time==2008,],dt,check.attributes=FALSE))
+  })
+}
 
 
 
@@ -106,7 +112,7 @@ test_that("test filtering in the get_eurostat_data function", {
   expect_message(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter="<2006<"))
   expect_message(get_eurostat_data("avia_par_me",filters="HU",date_filter="2017-03",select_freq="Q",label=TRUE))
 })
-tmp<-get_eurostat_data("agr_r_milkpr",filters="2018")
+tmp<-get_eurostat_data("agr_r_milkpr",filters="2018",cflags=TRUE,verbose=TRUE)
 if (!is.null(tmp)&is.data.frame(tmp)){
   test_that("test filtering in the get_eurostat_data function", {
     expect_equal(nrow(tmp),as.numeric(xml_toc$values[xml_toc$code=="agr_r_milkpr"]))
@@ -147,10 +153,10 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
       expect_equal(nr9,2)
     })
   }
-  nr10<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter="<2008"))
+  nr10<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter="<2008",cflags=TRUE))
   if (!is.null(nr10)){
     test_that("test filtering in the get_eurostat_data function", {
-      expect_equal(nr10,14)
+      expect_equal(nr10,11)
     })
   }  
   nr11<-nrow(get_eurostat_data("agr_r_milkpr",filters="^BE$",date_filter=c(2002,"2008",2015:2017),verbose=TRUE))
@@ -167,22 +173,22 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
   }
 }
 if (!is.null(dsd2)){
-  nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,verbose=FALSE))
+  nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,cflags=TRUE,verbose=FALSE))
   if (!is.null(nr13)){
     test_that("test filtering in the get_eurostat_data function", {
-      expect_equal(nr13,72)
+      expect_equal(nr13,24)
     })
   }
-  nr14<-nrow(get_eurostat_data("avia_par_me",date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q"))
+  nr14<-nrow(get_eurostat_data("avia_par_me",date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
   if (!is.null(nr14)){
     test_that("test filtering in the get_eurostat_data function", {
-      expect_equal(nr14,5040)
+      expect_equal(nr14,1152)
     })
   }
-  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",verbose=TRUE))
+  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",cflags=TRUE,verbose=TRUE))
   if (!is.null(nr15)){
     test_that("test filtering in the get_eurostat_data function", {
-      expect_equal(nr15,216)
+      expect_equal(nr15,60)
     })
   }  
   dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE,verbose=TRUE)
@@ -231,8 +237,8 @@ if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_txt_check)){
 }
 id<-"avia_par_me"
 clean_restatapi_cache()
-raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE)
-bulk1<-get_eurostat_bulk(id,keep_flags=TRUE)
+raw1<-get_eurostat_raw(id,keep_flags=TRUE,update_cache=TRUE,verbose=TRUE)
+bulk1<-get_eurostat_bulk(id,keep_flags=TRUE,verbose=TRUE)
 raw2<-get_eurostat_raw(id,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
 bulk2<-get_eurostat_bulk(id,keep_flags=TRUE)
 kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
@@ -329,15 +335,15 @@ clean_restatapi_cache()
 id<-"ei_bsfs_q"
 xml_toc<-get_eurostat_toc(verbose=TRUE)
 udate2<-xml_toc$lastUpdate[xml_toc$code==id]
-udate<-Sys.Date()
+udate<-format(Sys.Date(),"%Y.%m.%d")
 nm<-paste0("r_",id,"-",udate)
 rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
 rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
 bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
-rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
 nrb1<-nrow(bulk1)
 ncb1<-ncol(bulk1)
 cnb1<-colnames(bulk1)
+rt3<-system.time(raw3<-get_eurostat_raw(id,"xml",verbose=TRUE))[3]
 dt1<-system.time(estat_data1<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE))[3]
 dt2<-system.time(estat_data2<-get_eurostat_data(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
 kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
@@ -346,7 +352,7 @@ data.table::setorderv(estat_data2,kc)
 nrd2<-nrow(estat_data2)
 ncd2<-ncol(estat_data2)
 cnd2<-colnames(estat_data2)
-dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=TRUE))[3]
+dt3<-system.time(estat_data3<-get_eurostat_data(id,keep_flags=TRUE,verbose=TRUE))[3]
 id<-"avia_par_mk"
 suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(id,stringsAsFactors=FALSE))[3])
 rt4<-system.time(raw4<-get_eurostat_raw(id,"xml",keep_flags=TRUE))[3]
@@ -359,7 +365,7 @@ if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.nu
     expect_false(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0(nm,"-1.rds"))))
     expect_false(identical(raw1,raw2))
     expect_true(identical(raw2,raw3))
-    expect_true(identical(bulk1,estat_data2))
+    expect_true(all.equal(bulk1,estat_data2,check.attributes=FALSE))
     expect_equal(nrb1,nrd2)
     expect_equal(ncb1,ncd2)
     expect_equal(cnb1,cnd2)
