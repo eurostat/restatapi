@@ -1,9 +1,9 @@
 #' @title Extract values from XML 
 #' @description Extracts the values of a node from the Eurostat XML Table of contents (TOC) file
-#' @param ns An XML nodeset from the XML TOC file 
+#' @param ns An XML node set from the XML TOC file 
 #' @export
-#' @details It is a subfunction to use in the \code{\link{get_eurostat_toc}} function.
-#' @return a character vector with all the values of the nodeset.
+#' @details It is a sub-function to use in the \code{\link{get_eurostat_toc}} function.
+#' @return a character vector with all the values of the node set.
 #' @examples 
 #' \dontshow{
 #' if (parallel::detectCores()<=2){

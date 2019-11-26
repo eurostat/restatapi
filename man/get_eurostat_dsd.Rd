@@ -8,7 +8,7 @@ get_eurostat_dsd(id, cache = TRUE, update_cache = FALSE,
   cache_dir = NULL, compress_file = TRUE, verbose = FALSE, ...)
 }
 \arguments{
-\item{id}{a character string with the id of the dataset. It is the value from the codename column of the \code{get_eurostat_toc} function.}
+\item{id}{a character string with the id of the dataset. It is the value from the codename column of the \code{\link{get_eurostat_toc}} function.}
 
 \item{cache}{a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.}
 

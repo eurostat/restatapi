@@ -18,7 +18,7 @@ a matrix with 3 columns if the concepts has code list in the DSD file
 Extracts the values from the XML Data Structure Definition (DSD) file
 }
 \details{
-It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
+It is a sub-function to use in the \code{\link{get_eurostat_dsd}} function.
 }
 \examples{
 \dontshow{

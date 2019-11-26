@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ extraction is made in parallel reducing significantly the time needed for large 
       <th>max_cores</th>
       <td><p>A boolean with the default value <code>FALSE</code>. If the parameter 'parallel' is <code>TRUE</code> then this parameter is taken into account otherwise it is ignored.
 If the value is <code>TRUE</code>, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter <code>FALSE</code>, 
-then the default value of <code><a href='https://rdrr.io/r/base/options.html'>getOption("mc.cores")</a></code> is used, if it is defined. If <code>mc.cores</code> is <code>NULL</code> then depending on the memory size and number of avaialble cores/threads the <code>restatapi_cores</code> are set to 2 or 4 cores/logical processors. 
+then the default value of <code><a href='https://rdrr.io/r/base/options.html'>getOption("mc.cores")</a></code> is used, if it is defined. If <code>mc.cores</code> is <code>NULL</code> then depending on the memory size and number of available cores/threads the <code>restatapi_cores</code> are set to 2 or 4 cores/logical processors. 
 Otherwise the parallel processing turned off by setting the option <code>restatapi_cores</code> to 1.
 The number of cores used for parallel computing can be changed any time with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_cores=...)</a></code></p></td>
     </tr>
@@ -152,7 +152,7 @@ The number of cores used for parallel computing can be changed any time with <co
 
     <p>it returns 4 objects in the '.restatapi_env'</p><ul>
 <li><p><code>cfg</code> a list with all the configuration data</p></li>
-<li><p><code>rav</code> a character string with a number defining the API_VERSION from the config file to be used later. It is 
+<li><p><code>rav</code> a character string with a number defining the API_VERSION from the configuration file to be used later. It is 
              determined based on the <code>api_version</code> parameter.</p></li>
 <li><p><code>cc</code> a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).</p></li>
 <li><p><code>dmethod</code> the download method to be used to access Eurostat database. If the 'libcurl' method exists then 
@@ -164,9 +164,9 @@ The number of cores used for parallel computing can be changed any time with <co
     <p>Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
          If it is not possible it loads from the file delivered with the package. By this way different version of the API can be tested. 
          Since in many cases there is http/https redirection in the download which can cause problems with the 'wininet' download method, the 'libcurl' method is used when it is available.
-         This configuration code set up the parallel processing to handle large XML files efficiently. By default if there is more then 4 cores/logical processors and at least 32 GB of RAM then
-         4 cores are used for parallel computing. If there is more then 2 cores then 2 cores are used. This default configuration can be overwritten if the <code>max_cores=TRUE</code> parameter is used.
-         In this case part of the computation distributed over the maximum number minus one cores, but by using this option there is a higher probability that the program will run out off memory for larger datasets.  
+         This configuration code sets up the parallel processing to handle large XML files efficiently. By default if there is more then 4 cores/logical processors and at least 32 GB of RAM then
+         4 cores are used for parallel computing. If there is more then 2 cores then 2 cores are used. This default configuration can be overwritten with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_cores=...)</a></code> or with the <code>max_cores=TRUE</code> parameter.
+         In the second case part of the computation distributed over the maximum number minus one cores. By using the <code>max_cores=TRUE</code> option there is a higher probability that the program will run out off memory for larger datasets.  
          In addition, the list of country codes are loaded to the variable <code>cc</code> (country codes), based on the  <a href='https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC'>Eurostat standard code list</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

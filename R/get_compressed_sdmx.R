@@ -1,10 +1,10 @@
 #' @title Download and extract compressed SDMX XML 
-#' @description Downloads  andxtracts the data values from the SDMX XML data file
+#' @description Downloads  and extracts the data values from the SDMX XML data file
 #' @param url an XML leaf with data series from an SDMX XML file
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}        
 #' @export 
-#' @details It is a subfunction to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}}  function.
+#' @details It is a sub-function to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}} functions.
 #' @return an xml file with SDMX tags 
 #' @examples 
 #' base_url<-"https://ec.europa.eu/eurostat/"
@@ -30,11 +30,12 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
                },
                warning = function(w) {
                  message("Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                 ne<-FALSE
                })
     } else {
       tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                error = function(e) {ne<-FALSE},
-               warning = function(w) {})
+               warning = function(w) {ne<-FALSE})
     }
     if (ne) {
       if (grepl("Bulk",url)){

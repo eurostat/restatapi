@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
     <tr>
       <th>mode</th>
       <td><p>a character string either <code>xml</code> or <code>txt</code> defining the download mode. Depending on the mode the 'xml' version or the 'text' version of the TOC is downloaded.
-The deafult value is <code>xml</code> as it provides more information (e.g. number of values, short description and  download links in diffrent format)</p></td>
+The deafult value is <code>xml</code> as it provides more information (e.g. number of values, short description and  download links in different formats (SDMX, TSV))</p></td>
     </tr>
     <tr>
       <th>cache</th>
@@ -159,33 +159,34 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A table with the following columns:</p><table class='table'>
+    <p>A data table with the following columns:</p><table class='table'>
 <tr><td><code>title</code></td><td>The name of dataset/table in the language provided by the <code>lang</code> parameter</td></tr>
-<tr><td><code>code</code></td><td>The codename of dataset/table which can be used by the <code>get_eurostat</code> function</td></tr>
+<tr><td><code>code</code></td><td>The codename of dataset/table which can be used as <code>id</code> in other functions</td></tr>
 <tr><td><code>type</code></td><td>The type of information: 'dataset' or 'table'</td></tr>
 <tr><td><code>lastUpdate</code></td><td>The date when the data was last time updated for tables and datasets</td></tr>
 <tr><td><code>lastModified</code></td><td>The date when the structure of the dataset/table was last time modified</td></tr>
 <tr><td><code>dataStart</code></td><td>The start date of the data in the dataset/table</td></tr>
 <tr><td><code>dataEnd</code></td><td>The end date of the data in the dataset/table</td></tr>
-<tr><td><code>values</code></td><td>The number of values in the dataset/table. It is filled only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter. For dataset it is empty. The column exists only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the <code>lang</code> parameter. For dataset it is empty. The column exists only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>metadata.html</code></td><td>The link to the metadata in html format. The column exists only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format. The column exists only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk download facility. The column exists only if the download <code>mode</code> is "xml"</td></tr>
-<tr><td><code>downloadLink.sdmx</code></td><td>The link to the whole dataset/table in SDMX format in the bulk download facility. The column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>values</code></td><td>The number of values in the dataset/table, and it is filled only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter, for dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the <code>lang</code> parameter, for dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>metadata.html</code></td><td>The link to the metadata in html format, and this column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format, and this column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk download facility and this column exists only if the download <code>mode</code> is "xml"</td></tr>
+<tr><td><code>downloadLink.sdmx</code></td><td>The link to the whole dataset/table in SDMX format in the bulk download facility and this column exists only if the download <code>mode</code> is "xml"</td></tr>
 </table>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The TOC is downloaded from Eurostat websites through the REST API for the <code>xml</code> (default) version or from the bulk download facilities for <code>txt</code> version.</p>
+    <p>The TOC is downloaded from Eurostat websites through the REST API for the <code>xml</code> (default) version or from the bulk download facilities for <code>txt</code> version.
+         From the downloaded TOC the values in the 'code' column can be used as <code>id</code> in the <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code>, <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code>, and <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> functions.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>For more technical information see the detailed documentation of the <a href='https://ec.europa.eu/eurostat/data/web-services'>API</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>, <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code>, <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code>, <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>

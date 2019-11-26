@@ -71,7 +71,7 @@ t1<-system.time({dt1<-get_eurostat_data(id,keep_flags=TRUE,cflags=TRUE,verbose=T
 nc1<-ncol(dt1)
 t2<-system.time({dt2<-get_eurostat_data(id,verbose=TRUE)})[3]
 nc2<-ncol(dt2)
-if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
+if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)&!is.null(xml_toc)){
   test_that("test of the get_eurostat_data function", {
     expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==id]))
     expect_equal(nc2+1,nc1)
@@ -79,7 +79,6 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
     
   })
 }
-xml_toc<-get_eurostat_toc()
 if (!is.null(xml_toc)){
   id<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)][1]
   test_that("test of the get_eurostat_raw/bulk/data function", {

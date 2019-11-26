@@ -3,7 +3,7 @@
 #' @param concept a character vector with concept ids  
 #' @param dsd_xml an XML file with DSD content
 #' @export 
-#' @details It is a subfunction to use in the \code{\link{get_eurostat_dsd}} function.
+#' @details It is a sub-function to use in the \code{\link{get_eurostat_dsd}} function.
 #' @return a matrix with 3 columns if the concepts has code list in the DSD file
 #' @examples 
 #' \dontshow{

@@ -1,5 +1,5 @@
-#' @title Clean restatapi Cache
-#' @description Remove all objects from the .restatapi_env except the configuration file, API version number andthe country codes.
+#' @title Clean restatapi cache
+#' @description Remove all objects from the .restatapi_env except the configuration file, API version number, download method and the country codes.
 #'              In addition, it deletes all the .rds files from the default and selected cache directory.
 #'              See \code{\link{get_eurostat_data}} for more on cache.
 #' @param cache_dir A path to cache directory. If \code{NULL} (default)

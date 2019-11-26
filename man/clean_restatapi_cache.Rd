@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_restatapi_cache.R
 \name{clean_restatapi_cache}
 \alias{clean_restatapi_cache}
-\title{Clean restatapi Cache}
+\title{Clean restatapi cache}
 \usage{
 clean_restatapi_cache(cache_dir = NULL, verbose = FALSE)
 }
@@ -14,7 +14,7 @@ tries to clean default temporary cache directory. Directory can also be set with
 \code{options(restatapi_verbose=TRUE)}}
 }
 \description{
-Remove all objects from the .restatapi_env except the configuration file, API version number andthe country codes.
+Remove all objects from the .restatapi_env except the configuration file, API version number, download method and the country codes.
              In addition, it deletes all the .rds files from the default and selected cache directory.
              See \code{\link{get_eurostat_data}} for more on cache.
 }

@@ -38,7 +38,7 @@
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
 #' @param cflags a logical whether the missing observations with flag 'c' - "confidential"
-#'        should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+#'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 #'        \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.
 #' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
@@ -76,12 +76,12 @@
 #' 
 #' The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 #' The string can be extended by adding the "<" or ">" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
-#' A single date range can be defined as well by concatenating two dates with the ":", e.g. \code{"2016-08:2017-03-15"}. As seen in the exemple the dates can have different length: one defined only at year/month level, the other by day level. 
+#' A single date range can be defined as well by concatenating two dates with the ":", e.g. \code{"2016-08:2017-03-15"}. As seen in the example the dates can have different length: one defined only at year/month level, the other by day level. 
 #' If a date range is defined with ":", it is not possible to use the "<" or ">" characters in the date filter.
 #' If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.      
 #'   
-#' @return a data.table.a data.table with the follwing columns: #'  \tabular{ll}{
-#'      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for singlke frequency this columns is dropped from the data table \cr
+#' @return a data.table.a data.table with the following columns: #'  \tabular{ll}{
+#'      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for single frequency this columns is dropped from the data table \cr
 #'      dimension names \tab One column for each dimension in the data \cr
 #'      \code{time} \tab A column for the time dimension\cr
 #'      \code{values} \tab A column for numerical values\cr
@@ -309,6 +309,7 @@ get_eurostat_data <- function(id,
                      },
                      warning = function(w) {
                        message("Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))
+                       ne<-FALSE
                      })
             if(ne){
               xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
@@ -330,7 +331,7 @@ get_eurostat_data <- function(id,
             temp <- tempfile()
             tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                      error = function(e) {ne<-FALSE},
-                     warning = function(w) {})
+                     warning = function(w) {ne<-FALSE})
             if(ne){
               xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
               if (Sys.info()[['sysname']]=='Windows'){

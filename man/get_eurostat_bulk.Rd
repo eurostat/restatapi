@@ -44,7 +44,7 @@ can be removed. Default is \code{FALSE}. For flag values see:
 \url{http://ec.europa.eu/eurostat/data/database/information}.}
 
 \item{cflags}{a logical whether the missing observations with flag 'c' - "confidential"
-should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.}
 
 \item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
@@ -58,7 +58,7 @@ Can be set also with \code{options(restatapi_verbose=TRUE)}}
 \item{...}{other parameter(s) to pass on the \code{\link{load_cfg}} function}
 }
 \value{
-a data.table with the follwing columns: #'  \tabular{ll}{
+a data.table with the following columns: #'  \tabular{ll}{
      dimension names \tab One column for each dimension in the data \cr
      \code{time} \tab A column for the time dimension\cr
      \code{values} \tab A column for numerical values\cr

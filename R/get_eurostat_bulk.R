@@ -25,7 +25,7 @@
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
 #' @param cflags a logical whether the missing observations with flag 'c' - "confidential"
-#'        should be kept or not. Default is \code{FALSE}, in this case these observations droped from the dataset. If this parameter 
+#'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 #'        \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.  
 #' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
@@ -52,7 +52,7 @@
 #' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset
 #' in parenthesis.
-#' @return a data.table with the follwing columns: #'  \tabular{ll}{
+#' @return a data.table with the following columns: #'  \tabular{ll}{
 #'      dimension names \tab One column for each dimension in the data \cr
 #'      \code{time} \tab A column for the time dimension\cr
 #'      \code{values} \tab A column for numerical values\cr

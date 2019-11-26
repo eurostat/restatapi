@@ -16,10 +16,10 @@ Can be set also with \code{options(restatapi_verbose=TRUE)}}
 an xml file with SDMX tags
 }
 \description{
-Downloads  andxtracts the data values from the SDMX XML data file
+Downloads  and extracts the data values from the SDMX XML data file
 }
 \details{
-It is a subfunction to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}}  function.
+It is a sub-function to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}} functions.
 }
 \examples{
 base_url<-"https://ec.europa.eu/eurostat/"

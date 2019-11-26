@@ -20,13 +20,13 @@
 #'      \code{lastModified}\tab The date when the structure of the dataset/table was last time modified\cr
 #'      \code{dataStart}\tab The start date of the data in the dataset/table\cr
 #'      \code{dataEnd}\tab The end date of the data in the dataset/table\cr
-#'      \code{values}\tab The number of values in the dataset/table.\cr
-#'      \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter. For dataset it is empty. \cr
-#'      \code{shortDescription}\tab The short description of the values for tables in the language provided by the \code{lang} parameter. For dataset it is empty.\cr
-#'      \code{metadata.html}\tab The link to the metadata in html format.\cr
-#'      \code{metadata.sdmx}\tab The link to the metadata in SDMX format.\cr
-#'      \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk download facility. \cr
-#'      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility.
+#'      \code{values}\tab The number of values in the dataset/table\cr
+#'      \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter, if the \code{type} 'dataset' this column is empty \cr
+#'      \code{shortDescription}\tab The short description of the values for tables in the language provided by the \code{lang} parameterif the \code{type} 'dataset' this column is empty\cr
+#'      \code{metadata.html}\tab The link to the metadata in html format\cr
+#'      \code{metadata.sdmx}\tab The link to the metadata in SDMX format\cr
+#'      \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk download facility \cr
+#'      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility
 #'    }
 #'    The value in the \code{code} column can be used as an id in the \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_raw}} and \code{\link{get_eurostat_dsd}} functions.
 #' @export

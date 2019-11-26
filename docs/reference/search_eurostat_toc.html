@@ -70,7 +70,7 @@ pattern in the title, units or short description." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -151,13 +151,13 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 <tr><td><code>lastModified</code></td><td>The date when the structure of the dataset/table was last time modified</td></tr>
 <tr><td><code>dataStart</code></td><td>The start date of the data in the dataset/table</td></tr>
 <tr><td><code>dataEnd</code></td><td>The end date of the data in the dataset/table</td></tr>
-<tr><td><code>values</code></td><td>The number of values in the dataset/table.</td></tr>
-<tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter. For dataset it is empty.</td></tr>
-<tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the <code>lang</code> parameter. For dataset it is empty.</td></tr>
-<tr><td><code>metadata.html</code></td><td>The link to the metadata in html format.</td></tr>
-<tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format.</td></tr>
-<tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk download facility.</td></tr>
-<tr><td><code>downloadLink.sdmx</code></td><td>The link to the whole dataset/table in SDMX format in the bulk download facility.</td></tr>
+<tr><td><code>values</code></td><td>The number of values in the dataset/table</td></tr>
+<tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter, if the <code>type</code> 'dataset' this column is empty</td></tr>
+<tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the <code>lang</code> parameterif the <code>type</code> 'dataset' this column is empty</td></tr>
+<tr><td><code>metadata.html</code></td><td>The link to the metadata in html format</td></tr>
+<tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format</td></tr>
+<tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk download facility</td></tr>
+<tr><td><code>downloadLink.sdmx</code></td><td>The link to the whole dataset/table in SDMX format in the bulk download facility</td></tr>
 </table>
 <p>The value in the <code>code</code> column can be used as an id in the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code>, <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> and <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code> functions.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>

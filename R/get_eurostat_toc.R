@@ -1,7 +1,7 @@
 #' @title Download the Table of Contents of Eurostat datasets
 #' @description Download Table of Contents (TOC) of Eurostat datasets if it is not cached previously. 
 #' @param mode a character string either \code{xml} or \code{txt} defining the download mode. Depending on the mode the 'xml' version or the 'text' version of the TOC is downloaded.
-#' The deafult value is \code{xml} as it provides more information (e.g. number of values, short description and  download links in diffrent format) 
+#' The deafult value is \code{xml} as it provides more information (e.g. number of values, short description and  download links in different formats (SDMX, TSV)) 
 #' @param cache a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.
 #' @param update_cache a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}
 #' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS- file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.
@@ -10,27 +10,27 @@
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... parameter to pass on the \code{load_cfg} function
-#' @return A table with the following columns:
+#' @return A data table with the following columns:
 #'    \tabular{ll}{
 #'      \code{title} \tab The name of dataset/table in the language provided by the \code{lang} parameter \cr
-#'      \code{code} \tab The codename of dataset/table which can be used by the \code{get_eurostat} function \cr
+#'      \code{code} \tab The codename of dataset/table which can be used as \code{id} in other functions \cr
 #'      \code{type} \tab The type of information: 'dataset' or 'table' \cr
 #'      \code{lastUpdate} \tab The date when the data was last time updated for tables and datasets\cr
 #'      \code{lastModified}\tab The date when the structure of the dataset/table was last time modified\cr
 #'      \code{dataStart}\tab The start date of the data in the dataset/table\cr
 #'      \code{dataEnd}\tab The end date of the data in the dataset/table\cr
-#'      \code{values}\tab The number of values in the dataset/table. It is filled only if the download \code{mode} is "xml"\cr
-#'      \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter. For dataset it is empty. The column exists only if the download \code{mode} is "xml"\cr
-#'      \code{shortDescription}\tab The short description of the values for tables in the language provided by the \code{lang} parameter. For dataset it is empty. The column exists only if the download \code{mode} is "xml"\cr
-#'      \code{metadata.html}\tab The link to the metadata in html format. The column exists only if the download \code{mode} is "xml"\cr
-#'      \code{metadata.sdmx}\tab The link to the metadata in SDMX format. The column exists only if the download \code{mode} is "xml"\cr
-#'      \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk download facility. The column exists only if the download \code{mode} is "xml"\cr
-#'      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility. The column exists only if the download \code{mode} is "xml"
+#'      \code{values}\tab The number of values in the dataset/table, and it is filled only if the download \code{mode} is "xml"\cr
+#'      \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter, for dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
+#'      \code{shortDescription}\tab The short description of the values for tables in the language provided by the \code{lang} parameter, for dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
+#'      \code{metadata.html}\tab The link to the metadata in html format, and this column exists only if the download \code{mode} is "xml"\cr
+#'      \code{metadata.sdmx}\tab The link to the metadata in SDMX format, and this column exists only if the download \code{mode} is "xml"\cr
+#'      \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk download facility and this column exists only if the download \code{mode} is "xml"\cr
+#'      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility and this column exists only if the download \code{mode} is "xml"
 #'    }
 #' @export
-#' @seealso \code{\link{get_eurostat_data}}, \code{\link{search_eurostat_toc}}.
+#' @seealso \code{\link{search_eurostat_toc}}, \code{\link{get_eurostat_dsd}}, \code{\link{get_eurostat_raw}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_data}}.
 #' @details The TOC is downloaded from Eurostat websites through the REST API for the \code{xml} (default) version or from the bulk download facilities for \code{txt} version.
-#'  
+#'          From the downloaded TOC the values in the 'code' column can be used as \code{id} in the \code{\link{get_eurostat_dsd}}, \code{\link{get_eurostat_raw}}, \code{\link{get_eurostat_bulk}}, and \code{\link{get_eurostat_data}} functions.
 #' @references For more technical information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 
 #' \dontshow{

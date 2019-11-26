@@ -7,16 +7,16 @@
 extract_toc(ns)
 }
 \arguments{
-\item{ns}{An XML nodeset from the XML TOC file}
+\item{ns}{An XML node set from the XML TOC file}
 }
 \value{
-a character vector with all the values of the nodeset.
+a character vector with all the values of the node set.
 }
 \description{
 Extracts the values of a node from the Eurostat XML Table of contents (TOC) file
 }
 \details{
-It is a subfunction to use in the \code{\link{get_eurostat_toc}} function.
+It is a sub-function to use in the \code{\link{get_eurostat_toc}} function.
 }
 \examples{
 \dontshow{

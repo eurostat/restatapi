@@ -8,24 +8,24 @@ extract_data(xml_lf, keep_flags = FALSE,
   stringsAsFactors = default.stringsAsFactors(), bulk = TRUE)
 }
 \arguments{
-\item{xml_lf}{an XML leaf with data series from an SDMX XML file}
+\item{xml_lf}{an input XML leaf with data series from an SDMX XML file to extract the value and dimension from it}
 
 \item{keep_flags}{a boolean if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}}
 
 \item{stringsAsFactors}{if \code{TRUE} (the default) the columns are
 converted to factors. If \code{FALSE} they are returned as a character.}
 
-\item{bulk}{a boolean with default value \code{TRUE} if the input SDMX XML file is for the bulk download containing all the observations. 
+\item{bulk}{a boolean with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
 If the input file has pre-filtered values then the \code{FALSE} should be used.}
 }
 \value{
-a data frame containing the values of the SDMX files
+a data frame containing the values of an SDMX node, (the dimensions, value and optional the flag(s))
 }
 \description{
 Extracts the data values from the SDMX XML data file
 }
 \details{
-It is a subfunction to use in the \code{\link{get_eurostat_data}} function.
+It is a sub-function to use in the \code{\link{get_eurostat_data}} and the \code{\link{get_eurostat_raw}} functions.
 }
 \examples{
 \dontshow{
