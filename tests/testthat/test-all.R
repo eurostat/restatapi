@@ -184,15 +184,15 @@ if (!is.null(dsd2)){
       expect_equal(nr14,1152)
     })
   }
-  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",cflags=TRUE,verbose=TRUE))
+  nr15<-nrow(get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",cflags=TRUE))
   if (!is.null(nr15)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(nr15,60)
     })
   }  
-  dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE,verbose=TRUE)
+  dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE)
   dt6<-get_eurostat_data("avia_par_me",filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
-  dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"),stringsAsFactors=TRUE,verbose=TRUE)
+  dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"),stringsAsFactors=TRUE)
   if (!is.null(dt5)&!is.null(dt6)&!is.null(dt7)){
     test_that("test filtering in the get_eurostat_data function", {
       expect_equal(dt5,dt7)

@@ -64,11 +64,9 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
                                                   if(length(f)==0){
                                                     dr$OBS_STATUS<-""
                                                   } else{
-                                                    if (f=="na"){
-                                                      dr$OBS_STATUS<-""
-                                                    } else{
-                                                      dr$OBS_STATUS<-f[f!="na"]
-                                                    }
+                                                    message(paste(f,collapse=";"))
+                                                    f<-gsub("na","",f)
+                                                    dr$OBS_STATUS<-paste0(f,collapse="")
                                                   }
                                                 }
                                                 return(as.data.frame(dr))
