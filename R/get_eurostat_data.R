@@ -384,7 +384,6 @@ get_eurostat_data <- function(id,
             if(!is.null(drop)) {restat[,(drop):=NULL]}
             data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
             data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
-            message("done")
             dsd<-get_eurostat_dsd(id,verbose=verbose)
             dsdorder<-tolower(unique(dsd$concept)[1:length(unique(dsd$concept))])
             co<-dsdorder[dsdorder %in% colnames(restat)]
