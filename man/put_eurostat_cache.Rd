@@ -25,7 +25,7 @@ The function returns the place where the object was cached: either it creates an
 Save the object (dataset/toc/DSD) to cache
 }
 \details{
-Saves a given object in cache. This can be the memory \code{.restatapi_env} or on the hards disk. If the given \code{cache_dir} does not exist then the file is saved in the R temp directory (\code{tempdir()}. If the file or object with the \code{oname} exists in the cache, then the object is not cached.
+Saves a given object in cache. This can be the memory \code{.restatapi_env} or on the hards disk. If the given \code{cache_dir} does not exist then the file is saved in the R temp directory (\code{tempdir()}). If the file or object with the \code{oname} exists in the cache, then the object is not cached.
 }
 \examples{
 \dontshow{
@@ -39,5 +39,7 @@ options(restatapi_cache_dir=NULL)
 dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
 put_eurostat_cache(dt,"teszt")
 get("teszt",envir=.restatapi_env)
+put_eurostat_cache(dt,"teszt",cache_dir=tempdir())
+readRDS(file.path(tempdir(),"teszt.rds"))
 
 }

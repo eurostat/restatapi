@@ -103,8 +103,8 @@
 #' }
 #' \donttest{
 #' dt<-get_eurostat_data("NAMA_10_GDP")
-#' dt<-get_eurostat_data("nama_10_gdp",update_cache=TRUE)
-#' dt<-get_eurostat_data("nama_10_gdp",cache_dir="/tmp")
+#' dt<-get_eurostat_data("htec_cis3",update_cache=TRUE,check_toc=TRUE)
+#' dt<-get_eurostat_data("agr_r_milkpr",cache_dir="/tmp",cflags=TRUE)
 #' options(restatapi_update=FALSE)
 #' options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 #' dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
@@ -130,6 +130,9 @@
 #'                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
 #'                       date_filter=c("2016-08","2017-07-01"),
 #'                       select_freq="M")
+#' dt<-get_eurostat_data("htec_cis3",
+#'                        filters="lu",
+#'                        ignore.case=TRUE)          
 #' }
 
 get_eurostat_data <- function(id,
@@ -159,7 +162,11 @@ get_eurostat_data <- function(id,
   
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
-  if (!is.null(id)){id<-tolower(id)} else {}
+  if (!is.null(id)){id<-tolower(id)} else {
+    dc<-FALSE
+    check_toc<-FALSE
+    message("The dataset 'id' is missing.")
+  }
   
   if (check_toc){
     toc<-get_eurostat_toc(verbose=verbose)

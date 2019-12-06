@@ -45,8 +45,8 @@ Next to the functions the package contains a list of country codes for different
 > search_eurostat_dsd("EU",dsd,name=FALSE)
 > 
 > get_eurostat_data("NAMA_10_GDP")
-> get_eurostat_data("nama_10_gdp",update_cache=TRUE)
-> get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE)
+> get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
+> get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
 >
 > options(restatapi_update=TRUE)
 > options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))

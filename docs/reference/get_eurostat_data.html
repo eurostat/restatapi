@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
       </span>
     </div>
 
@@ -277,8 +277,8 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='st'>"/tmp"</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>check_toc</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='st'>"/tmp"</span>,<span class='kw'>cflags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='st'>"restatapi"</span>))
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_gonc"</span>,<span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"A"</span>,<span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
@@ -304,6 +304,9 @@ If there are multiple dates which is not a continuous range, it can be put in ve
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span>),
                       <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,
+                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"lu"</span>,
+                       <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
