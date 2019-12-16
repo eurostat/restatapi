@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -131,11 +131,12 @@ See <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> for 
     </tr>
     <tr>
       <th>filters</th>
-      <td><p>a string or a character vector containing words to filter by the different concepts or geographical location.
+      <td><p>a string, a character vector or named list containing words to filter by the different concepts or geographical location.
 If filter applied only part of the dataset is downloaded through the API. The words can be  
-any words, Eurostat variable codes, and values available in the DSD <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>. 
+any word, Eurostat variable code, and value which are in the DSD <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>. 
+If a named list is used, then the name of the list elements should be the concepts and values are the values to filter out from the dataset.
 The default is <code>NULL</code>, in this case the whole dataset is returned via the bulk download. To filter by time see <code>date_filter</code> below.
-If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data.</p></td>
+If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the whole dataset.</p></td>
     </tr>
     <tr>
       <th>exact_match</th>
@@ -307,6 +308,16 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,
                        <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"lu"</span>,
                        <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"bop_its6_det"</span>,
+                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>bop_item</span><span class='kw'>=</span><span class='st'>"SC"</span>,
+                                    <span class='kw'>currency</span><span class='kw'>=</span><span class='st'>"MIO_EUR"</span>,
+                                    <span class='kw'>partner</span><span class='kw'>=</span><span class='st'>"EXT_EU28"</span>,
+                                    <span class='kw'>geo</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"EU28"</span>,<span class='st'>"HU"</span>),
+                                    <span class='kw'>stk_flow</span><span class='kw'>=</span><span class='st'>"BAL"</span>),
+                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='st'>"2010:2012"</span>,
+                       <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"A"</span>,
+                       <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+                       <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

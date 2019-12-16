@@ -28,7 +28,7 @@ If the pattern found then the function returns table with the 4 columns:
      \code{code} \tab The list of codes where the pattern was found, or the code of a name where the pattern appears \cr
      \code{name} \tab The name/description of the code where the pattern found, or the name of the code where the pattern appears 
    }
-   Otherwise returns the value \code{FALSE}.
+   Otherwise returns the value \code{NULL}.
 }
 \description{
 Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 

@@ -53,13 +53,13 @@ eu<-get("cc",envir=.restatapi_env)
 pattern<-"EU"
 if (!is.null(dsd)){
   test_that("test of the search_eurostat_dsd function", {
-    expect_warning(search_eurostat_dsd(dsd,pattern))
-    expect_equal(search_eurostat_dsd("blabla",dsd),FALSE)
+    expect_message(search_eurostat_dsd(dsd,pattern))
+    expect_equal(search_eurostat_dsd("blabla",dsd),NULL)
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)
     expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),21)
     expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),17)
     expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE,exact_match=TRUE))),34)
-    expect_warning(search_eurostat_dsd(eu$NMS2,dsd))
+    expect_message(search_eurostat_dsd(eu$NMS2,dsd))
     expect_equal(nrow(do.call(rbind,lapply(eu$NMS2,search_eurostat_dsd,dsd=dsd,exact_match=TRUE,ignore.case=TRUE))),2)
   })
 }
@@ -270,7 +270,7 @@ if (all) {
     }
   } 
   dsd3<-get_eurostat_dsd("avia_par_is")
-  if (!is.null(dsd1)&is.data.frame(dsd1)){
+  if (!is.null(dsd3)&is.data.frame(dsd3)){
     nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr16)){
       test_that("test filtering in the get_eurostat_data function", {
@@ -278,6 +278,18 @@ if (all) {
       })
     }
   }
+  dsd4<-get_eurostat_dsd("bop_its6_det")
+  if (!is.null(dsd4)&is.data.frame(dsd4)){
+    nr17<-nrow(get_eurostat_data("bop_its6_det",filters=list(bop_item="SC",currency="MIO_EUR",partner="EXT_EU28",geo=c("EU28","HU"),time="2010:2017",stk_flow="BAL"),date_filter="2010:2012",select_freq="A",label=TRUE,name=FALSE))
+    if (!is.null(nr17)){
+      test_that("test filtering in the get_eurostat_data function", {
+        expect_equal(nr17,6)
+      })
+    }
+  }
+  
+  
+  
   
   context("additional tests for the get_eurostat_raw/bulk function")
   clean_restatapi_cache()

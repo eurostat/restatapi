@@ -2,11 +2,12 @@
 #' @description Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} database.
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
-#' @param filters a string or a character vector containing words to filter by the different concepts or geographical location.
+#' @param filters a string, a character vector or named list containing words to filter by the different concepts or geographical location.
 #'        If filter applied only part of the dataset is downloaded through the API. The words can be  
-#'        any words, Eurostat variable codes, and values available in the DSD \code{\link{search_eurostat_dsd}}. 
+#'        any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}. 
+#'        If a named list is used, then the name of the list elements should be the concepts and values are the values to filter out from the dataset.
 #'        The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
-#'        If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data. 
+#'        If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the whole dataset. 
 #' @param exact_match a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern. 
 #' @param date_filter a vector which can be numeric or character containing dates to filter the dataset.
 #'        If date filter applied only part of the dataset is downloaded through the API. 
@@ -132,7 +133,17 @@
 #'                       select_freq="M")
 #' dt<-get_eurostat_data("htec_cis3",
 #'                        filters="lu",
-#'                        ignore.case=TRUE)          
+#'                        ignore.case=TRUE) 
+#' dt<-get_eurostat_data("bop_its6_det",
+#'                        filters=list(bop_item="SC",
+#'                                     currency="MIO_EUR",
+#'                                     partner="EXT_EU28",
+#'                                     geo=c("EU28","HU"),
+#'                                     stk_flow="BAL"),
+#'                        date_filter="2010:2012",
+#'                        select_freq="A",
+#'                        label=TRUE,
+#'                        name=FALSE)         
 #' }
 
 get_eurostat_data <- function(id,
@@ -232,8 +243,15 @@ get_eurostat_data <- function(id,
         } else {
           dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
           if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1)){
-            ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
-            if ((ncol(ft)>1)){
+            if (is.null(names(filters))){
+              ft<-do.call(rbind,lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
+            } else{
+              concepts<-names(filters)
+              ft<-data.table::rbindlist(lapply(1:length(filters),function (x,f,d){
+                do.call(rbind,lapply(unlist(f[x]),search_eurostat_dsd,dsd=d[d$concept==toupper(concepts[x]),],exact_match=exact_match,...))
+              },f=filters,d=dsd))
+            }
+            if (!is.null(ft)){
               ft<-unique(ft[ft$code!=FALSE,2:3])
               ft<-ft[order(match(ft$concept, dsdorder)),]
               filters_url<-paste0(sapply(dsdorder,gen_ft,ft),collapse=".")  

@@ -15,11 +15,12 @@ get_eurostat_data(id, filters = NULL, exact_match = TRUE,
 \item{id}{A code name for the dataset of interest.
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
 
-\item{filters}{a string or a character vector containing words to filter by the different concepts or geographical location.
+\item{filters}{a string, a character vector or named list containing words to filter by the different concepts or geographical location.
 If filter applied only part of the dataset is downloaded through the API. The words can be  
-any words, Eurostat variable codes, and values available in the DSD \code{\link{search_eurostat_dsd}}. 
+any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}. 
+If a named list is used, then the name of the list elements should be the concepts and values are the values to filter out from the dataset.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
-If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data.}
+If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the whole dataset.}
 
 \item{exact_match}{a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern.}
 
@@ -163,7 +164,17 @@ dt<-get_eurostat_data("avia_par_me",
                       select_freq="M")
 dt<-get_eurostat_data("htec_cis3",
                        filters="lu",
-                       ignore.case=TRUE)          
+                       ignore.case=TRUE) 
+dt<-get_eurostat_data("bop_its6_det",
+                       filters=list(bop_item="SC",
+                                    currency="MIO_EUR",
+                                    partner="EXT_EU28",
+                                    geo=c("EU28","HU"),
+                                    stk_flow="BAL"),
+                       date_filter="2010:2012",
+                       select_freq="A",
+                       label=TRUE,
+                       name=FALSE)         
 }
 }
 \seealso{

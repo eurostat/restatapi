@@ -16,7 +16,7 @@
 #'      \code{code} \tab The list of codes where the pattern was found, or the code of a name where the pattern appears \cr
 #'      \code{name} \tab The name/description of the code where the pattern found, or the name of the code where the pattern appears 
 #'    }
-#'    Otherwise returns the value \code{FALSE}.
+#'    Otherwise returns the value \code{NULL}.
 #' @export
 #' @seealso \code{\link{get_eurostat_dsd}}, \code{\link{search_eurostat_toc}}.
 #' @details The function returns the line(s) where the searched pattern appears in the code or in the name column.
@@ -42,12 +42,12 @@
 search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,exact_match=FALSE,...) {
   if (is.null(dsd)){
     message('No DSD were provided.')
-    sr<-FALSE
+    sr<-NULL
   } else if (is.null(pattern)) {
-    sr<-FALSE
+    sr<-NULL
   } else if (length(pattern)>1){
-    warning("The 'pattern' has length > 1. In this case use something like 'do.call(rbind,lapply(pattern,search_eurostat_dsd,dsd=dsd))'.")
-    sr<-FALSE
+    message("The 'pattern' (",paste(pattern,collapse=", "),") has length > 1. In this case use something like 'do.call(rbind,lapply(pattern,search_eurostat_dsd,dsd=dsd))'.")
+    sr<-NULL
   } else {
     if (exact_match){
       pattern<-paste0("^",pattern,"$")
@@ -62,11 +62,11 @@ search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,exact_match=FALSE,...
       if (length(rn>0)){
         sr<-data.frame(pattern,dsd[rn,],stringsAsFactors=FALSE)  
       }else{
-        sr<-FALSE
+        sr<-NULL
       }
     }else{
-      warning("The DSD does not contain all the columns.")
-      sr<-FALSE
+      message("The DSD does not contain all the columns.")
+      sr<-NULL
     }
   }
   sr

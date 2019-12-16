@@ -60,6 +60,17 @@ Next to the functions the package contains a list of country codes for different
 >                        label=TRUE,
 >                        verbose=TRUE,
 >                        name=FALSE)
+> dt<-get_eurostat_data("bop_its6_det",
+>                        filters=list(bop_item="SC",
+>                                     currency="MIO_EUR",
+>                                     partner="EXT_EU28",
+>                                     geo=c("EU28","HU"),
+>                                     stk_flow="BAL"),
+>                        date_filter="2010:2012",
+>                        select_freq="A",
+>                        label=TRUE,
+>                        name=FALSE,
+>                        ignore.case=TRUE)     
 > options(restatapi_cache_dir=tempdir())
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters=c("BE$","Hungary"),
