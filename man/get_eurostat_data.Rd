@@ -18,7 +18,7 @@ See \code{\link{search_eurostat_toc}} for details how to get an id.}
 \item{filters}{a string, a character vector or named list containing words to filter by the different concepts or geographical location.
 If filter applied only part of the dataset is downloaded through the API. The words can be  
 any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}. 
-If a named list is used, then the name of the list elements should be the concepts and values are the values to filter out from the dataset.
+If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
 If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the whole dataset.}
 
