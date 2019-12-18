@@ -323,19 +323,26 @@ get_eurostat_data <- function(id,
       } else {
         base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
         data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
-        if (verbose) {
-          restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
-            message(x)
+        restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
+            if (verbose) {message(x)}
             temp <- tempfile()
-            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env))},
+            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quite=!verbose)},
                      error = function(e) {
-                       message("Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))
+                       if (verbose) {message("Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
                        ne<-FALSE
                      },
                      warning = function(w) {
-                       message("Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))
+                       if(verbose){message("Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))}
                        ne<-FALSE
                      })
+            xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")
+            if (length(xml_foot)>0){
+              code<-xml2::xml_attr(xml_foot,"code")
+              severity<-xml2::xml_attr(xml_foot,"severity")
+              fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
+              message(code," - ",severity,"\n",paste(fmsg,collapse="\n"))
+              ne<-FALSE
+            }
             if(ne){
               xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
               if (Sys.info()[['sysname']]=='Windows'){
@@ -350,32 +357,10 @@ get_eurostat_data <- function(id,
               }
             }
             if (!is.null(rdat)){data.table::as.data.table(rdat)}
-          }),fill=TRUE)
-        } else {
-          restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
-            temp <- tempfile()
-            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
-                     error = function(e) {ne<-FALSE},
-                     warning = function(w) {ne<-FALSE})
-            if(ne){
-              xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
-              if (Sys.info()[['sysname']]=='Windows'){
-                xml_leafs<-as.character(xml_leafs)
-                cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
-                parallel::clusterEvalQ(cl,require(xml2))
-                parallel::clusterExport(cl,c("extract_data"))
-                rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
-                parallel::stopCluster(cl)
-              }else{
-                rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
-              }
-            }
-            if (!is.null(rdat)){data.table::as.data.table(rdat)}
-          }),fill=TRUE)
-        }
+        }),fill=TRUE)
         if (!is.null(restat)){
           if ((nrow(restat)==0)){
-            message("There is no data with the given filter(s) or still too many observations after filtering. The bulk download is used to download the whole dataset.")
+            message("As no data retrieved for the given filter(s) the bulk download is used to download the whole dataset.")
             restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)
           } else {
             sc<-FALSE
