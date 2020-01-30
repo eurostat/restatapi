@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>background</h2>
-<p>This package is similar to other packages like the <a href="https://cran.r-project.org/package=eurostat">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX">RJSDMX</a> or <a href="https://cran.r-project.org/package=TSsdmx">TSsdmx</a> which can be used to download data from Eurostat database. The difference is that <code>restatapi</code> is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separeted values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The <code>restatapi</code> package provides flexible filtering options, data caching, and uses the <code>parallel</code> and <code>data.table</code> package to handle large dataset in an efficient way.</p>
+<p>This package is similar to other packages like the <a href="https://cran.r-project.org/package=eurostat">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX">RJSDMX</a>, <a href="https://cran.r-project.org/package=TSsdmx">TSsdmx</a> or <a href="https://github.com/alekrutkowski/eurodata">eurodata</a> which can be used to download data from Eurostat database. The difference is that <code>restatapi</code> is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The <code>restatapi</code> package provides flexible filtering options, data caching, and uses the <code>parallel</code> and <code>data.table</code> package to handle large dataset in an efficient way.</p>
 </div>
 <div id="content" class="section level2">
 <h2 class="hasAnchor">
@@ -99,7 +99,7 @@
 <li>the <code>get_eurostat_data</code> function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied.</li>
 </ul>
 <p>Detailed documentation of the functions is in the package.</p>
-<p>Next to the functions the package contains a list of country codes for different groups of European countries based on the <a href="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC">Eurostat standard code list</a>, e.g.: European Union (EU28, …, EU6), Euro Area (EA19, …, EA11) or New Member States (NMS13, …, NMS2).</p>
+<p>Next to the functions the package contains a list of country codes in <a href="https://ec.europa.eu/eurostat/statistics-explained/index.php/Tutorial:Country_codes_and_protocol_order#Codes.2C_names_and_protocol_order_of_European_Union_.28EU.29_Member_States">protocol order</a> for different groups of European countries based on the <a href="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC">Eurostat standard code list</a>, e.g.: European Union (EU28, …, EU6), Euro Area (EA19, …, EA11) or New Member States (NMS13, …, NMS2).</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
