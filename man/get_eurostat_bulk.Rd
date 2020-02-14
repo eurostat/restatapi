@@ -4,11 +4,20 @@
 \alias{get_eurostat_bulk}
 \title{Get Eurostat data in a standardized format}
 \usage{
-get_eurostat_bulk(id, cache = TRUE, update_cache = FALSE,
-  cache_dir = NULL, compress_file = TRUE,
-  stringsAsFactors = default.stringsAsFactors(), select_freq = NULL,
-  keep_flags = FALSE, cflags = FALSE, check_toc = FALSE,
-  verbose = FALSE, ...)
+get_eurostat_bulk(
+  id,
+  cache = TRUE,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE,
+  stringsAsFactors = default.stringsAsFactors(),
+  select_freq = NULL,
+  keep_flags = FALSE,
+  cflags = FALSE,
+  check_toc = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.

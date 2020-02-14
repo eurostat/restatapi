@@ -80,21 +80,15 @@ get_eurostat_toc<-function(mode="xml",
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
-      if (verbose) {
-        message("Downloading ",toc_endpoint)
-        tryCatch({utils::download.file(toc_endpoint,temp,method)},
+      if (verbose) {message("Downloading ",toc_endpoint)}
+      tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=!verbose)},
                  error = function(e) {
-                   message("Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
-                   ne<-FALSE
-                 },
-                 warning = function(w) {
-                   message("Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
-                 })
-      } else {
-        tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=TRUE)},
-                 error = function(e) {ne<-FALSE},
-                 warning = function(w) {})
-      }
+                 if (verbose) {message("Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 ne<-FALSE
+               },
+               warning = function(w) {
+                 if (verbose) {message("Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+               })
       if (ne) {
         toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
@@ -104,21 +98,15 @@ get_eurostat_toc<-function(mode="xml",
       }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
-      if (verbose) {
-        message("Downloading ",toc_endpoint)
-        tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
-                 error = function(e) {
-                   message("Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))
-                   ne<-FALSE
-                 },
-                 warning = function(w) {
-                   message("Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))
-                 })
-      } else {
-        tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")},
-                 error = function(e) {ne<-FALSE},
-                 warning = function(w) {})
-      }
+      if (verbose) {message("Downloading ",toc_endpoint)}
+      tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint,verbose=verbose),".//nt:leaf")},
+               error = function(e) {
+                 if (verbose) {message("Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 ne<-FALSE
+               },
+               warning = function(w) {
+                 if (verbose) {message("Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+               })
       if ((ne)){
         if (!is.null(xml_leafs)){
           if (length(xml_leafs)>0){

@@ -4,8 +4,12 @@
 \alias{extract_data}
 \title{Extract data values from SDMX XML}
 \usage{
-extract_data(xml_lf, keep_flags = FALSE,
-  stringsAsFactors = default.stringsAsFactors(), bulk = TRUE)
+extract_data(
+  xml_lf,
+  keep_flags = FALSE,
+  stringsAsFactors = default.stringsAsFactors(),
+  bulk = TRUE
+)
 }
 \arguments{
 \item{xml_lf}{an input XML leaf with data series from an SDMX XML file to extract the value and dimension from it}

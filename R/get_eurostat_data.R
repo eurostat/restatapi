@@ -326,7 +326,7 @@ get_eurostat_data <- function(id,
         restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
             if (verbose) {message(x)}
             temp <- tempfile()
-            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quite=!verbose)},
+            tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quiet=!verbose)},
                      error = function(e) {
                        if (verbose) {message("Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
                        ne<-FALSE

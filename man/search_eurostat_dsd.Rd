@@ -4,8 +4,7 @@
 \alias{search_eurostat_dsd}
 \title{Search the downloaded Data Structure Definition of a dataset}
 \usage{
-search_eurostat_dsd(pattern, dsd = NULL, name = TRUE,
-  exact_match = FALSE, ...)
+search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, exact_match = FALSE, ...)
 }
 \arguments{
 \item{pattern}{a character string or a vector of character string.}

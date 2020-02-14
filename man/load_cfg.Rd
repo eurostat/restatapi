@@ -4,8 +4,13 @@
 \alias{load_cfg}
 \title{Load configuration data from JSON}
 \usage{
-load_cfg(api_version = "current", load_toc = FALSE, parallel = TRUE,
-  max_cores = FALSE, verbose = FALSE)
+load_cfg(
+  api_version = "current",
+  load_toc = FALSE,
+  parallel = TRUE,
+  max_cores = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current".}

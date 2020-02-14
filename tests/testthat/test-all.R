@@ -4,7 +4,7 @@ if (parallel::detectCores()<=2){
   options(restatapi_cores=2)
 }    
 
-all<-getOption("restatapi_test_all",FALSE)
+
 
 clean_restatapi_cache()
 context("test of the get_eurostat_toc function")
@@ -215,7 +215,7 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(r
 
 
 
-if (all) {
+if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   id<-"NAMA_10_GDP"
   context("additional test of the get_eurostat_dsd function") 
   test_that("additional test of the get_eurostat_dsd function", {
@@ -274,7 +274,7 @@ if (all) {
     nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr16)){
       test_that("test filtering in the get_eurostat_data function", {
-        expect_equal(nr16,4374)
+        expect_equal(nr16,4758)
       })
     }
   }

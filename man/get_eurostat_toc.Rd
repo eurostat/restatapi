@@ -4,9 +4,16 @@
 \alias{get_eurostat_toc}
 \title{Download the Table of Contents of Eurostat datasets}
 \usage{
-get_eurostat_toc(mode = "xml", cache = TRUE, update_cache = FALSE,
-  cache_dir = NULL, compress_file = TRUE, lang = "en",
-  verbose = FALSE, ...)
+get_eurostat_toc(
+  mode = "xml",
+  cache = TRUE,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE,
+  lang = "en",
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{mode}{a character string either \code{xml} or \code{txt} defining the download mode. Depending on the mode the 'xml' version or the 'text' version of the TOC is downloaded.

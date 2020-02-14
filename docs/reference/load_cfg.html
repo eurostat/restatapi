@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.9</span>
       </span>
     </div>
 
@@ -114,8 +114,13 @@
     <p>Load the configuration information to the '.restatapi_env' from the JSON configuration file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>load_cfg</span>(<span class='kw'>api_version</span> <span class='kw'>=</span> <span class='st'>"current"</span>, <span class='kw'>load_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>max_cores</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>load_cfg</span>(
+  <span class='kw'>api_version</span> <span class='kw'>=</span> <span class='st'>"current"</span>,
+  <span class='kw'>load_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>max_cores</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

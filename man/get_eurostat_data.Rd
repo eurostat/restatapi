@@ -4,12 +4,24 @@
 \alias{get_eurostat_data}
 \title{Download/extract Eurostat Data}
 \usage{
-get_eurostat_data(id, filters = NULL, exact_match = TRUE,
-  date_filter = NULL, label = FALSE, select_freq = NULL,
-  cache = TRUE, update_cache = FALSE, cache_dir = NULL,
-  compress_file = TRUE, stringsAsFactors = default.stringsAsFactors(),
-  keep_flags = FALSE, cflags = FALSE, check_toc = FALSE,
-  verbose = FALSE, ...)
+get_eurostat_data(
+  id,
+  filters = NULL,
+  exact_match = TRUE,
+  date_filter = NULL,
+  label = FALSE,
+  select_freq = NULL,
+  cache = TRUE,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE,
+  stringsAsFactors = default.stringsAsFactors(),
+  keep_flags = FALSE,
+  cflags = FALSE,
+  check_toc = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.

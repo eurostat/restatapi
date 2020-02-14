@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.9</span>
       </span>
     </div>
 
@@ -114,12 +114,24 @@
     <p>Download full or partial data set from <a href='https://ec.europa.eu/eurostat/'>Eurostat</a> database.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_data</span>(<span class='no'>id</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>date_filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>select_freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(),
-  <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cflags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_eurostat_data</span>(
+  <span class='no'>id</span>,
+  <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>date_filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>select_freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>default.stringsAsFactors</a></span>(),
+  <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cflags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

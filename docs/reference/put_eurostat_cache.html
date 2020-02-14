@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.9</span>
       </span>
     </div>
 
@@ -114,8 +114,13 @@
     <p>Save the object (dataset/toc/DSD) to cache</p>
     </div>
 
-    <pre class="usage"><span class='fu'>put_eurostat_cache</span>(<span class='no'>obj</span>, <span class='no'>oname</span>, <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>put_eurostat_cache</span>(
+  <span class='no'>obj</span>,
+  <span class='no'>oname</span>,
+  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +167,7 @@
 <span class='fu'>put_eurostat_cache</span>(<span class='no'>dt</span>,<span class='st'>"teszt"</span>)</div><div class='output co'>#&gt; [1] "in memory ('teszt' in '.restatapi_env')"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"teszt"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)</div><div class='output co'>#&gt;   txt nr
 #&gt; 1   a  1
 #&gt; 2   b  2
-#&gt; 3   c  3</div><div class='input'><span class='fu'>put_eurostat_cache</span>(<span class='no'>dt</span>,<span class='st'>"teszt"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</div><div class='output co'>#&gt; [1] "in the file /tmp/RtmpOhN5lV/teszt.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='st'>"teszt.rds"</span>))</div><div class='output co'>#&gt;   txt nr
+#&gt; 3   c  3</div><div class='input'><span class='fu'>put_eurostat_cache</span>(<span class='no'>dt</span>,<span class='st'>"teszt"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</div><div class='output co'>#&gt; [1] "in the file /tmp/RtmppJtsMd/teszt.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='st'>"teszt.rds"</span>))</div><div class='output co'>#&gt;   txt nr
 #&gt; 1   a  1
 #&gt; 2   b  2
 #&gt; 3   c  3</div><div class='input'>

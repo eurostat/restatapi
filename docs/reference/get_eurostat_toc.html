@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.9</span>
       </span>
     </div>
 
@@ -114,9 +114,16 @@
     <p>Download Table of Contents (TOC) of Eurostat datasets if it is not cached previously.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_toc</span>(<span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"xml"</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_eurostat_toc</span>(
+  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"xml"</span>,
+  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,12 +205,12 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='no'>toc_xml</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>toc_xml</span>)</div><div class='output co'>#&gt;                           title         code    type lastUpdate lastModified
-#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020.01.30   2020.01.30
-#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020.01.30   2020.01.30
-#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020.01.30   2020.01.30
-#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020.01.30   2020.01.30
-#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020.01.30   2020.01.30
-#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020.01.30   2020.01.30
+#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020.01.30   2020.01.31
+#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020.01.30   2020.01.31
+#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020.01.30   2020.01.31
+#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020.01.30   2020.01.31
+#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020.01.30   2020.01.31
+#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020.01.30   2020.01.31
 #&gt;   dataStart dataEnd values unit shortDescription
 #&gt; 1   1980M01 2020M01 277280                      
 #&gt; 2    1990Q1  2020Q1  18864                      
@@ -247,12 +254,12 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 #&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2020.01.30
 #&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2020.01.30
 #&gt;    lastModified dataStart dataEnd values
-#&gt; 6    2020.01.30   1980M01 2020M01     NA
-#&gt; 7    2020.01.30    1990Q1  2020Q1     NA
-#&gt; 9    2020.01.30   1980M01 2020M01     NA
-#&gt; 10   2020.01.30    1980Q1  2020Q1     NA
-#&gt; 11   2020.01.30   1980M01 2020M01     NA
-#&gt; 12   2020.01.30    1981Q1  2020Q1     NA</div><div class='input'># }
+#&gt; 6    2020.01.31   1980M01 2020M01     NA
+#&gt; 7    2020.01.31    1990Q1  2020Q1     NA
+#&gt; 9    2020.01.31   1980M01 2020M01     NA
+#&gt; 10   2020.01.31    1980Q1  2020Q1     NA
+#&gt; 11   2020.01.31   1980M01 2020M01     NA
+#&gt; 12   2020.01.31    1981Q1  2020Q1     NA</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

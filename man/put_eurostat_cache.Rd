@@ -4,8 +4,13 @@
 \alias{put_eurostat_cache}
 \title{Put an object to cache}
 \usage{
-put_eurostat_cache(obj, oname, update_cache = FALSE, cache_dir = NULL,
-  compress_file = TRUE)
+put_eurostat_cache(
+  obj,
+  oname,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE
+)
 }
 \arguments{
 \item{obj}{an object (toc, dataset, DSD)}

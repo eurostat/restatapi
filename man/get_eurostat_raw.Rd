@@ -4,10 +4,19 @@
 \alias{get_eurostat_raw}
 \title{Get Eurostat data as it is}
 \usage{
-get_eurostat_raw(id, mode = "txt", cache = TRUE,
-  update_cache = FALSE, cache_dir = NULL, compress_file = TRUE,
-  stringsAsFactors = default.stringsAsFactors(), keep_flags = FALSE,
-  check_toc = FALSE, verbose = FALSE, ...)
+get_eurostat_raw(
+  id,
+  mode = "txt",
+  cache = TRUE,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE,
+  stringsAsFactors = default.stringsAsFactors(),
+  keep_flags = FALSE,
+  check_toc = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{id}{A code name for the dataset of interest.

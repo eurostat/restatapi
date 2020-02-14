@@ -4,8 +4,15 @@
 \alias{get_eurostat_dsd}
 \title{Download the Data Structure Definition of a dataset}
 \usage{
-get_eurostat_dsd(id, cache = TRUE, update_cache = FALSE,
-  cache_dir = NULL, compress_file = TRUE, verbose = FALSE, ...)
+get_eurostat_dsd(
+  id,
+  cache = TRUE,
+  update_cache = FALSE,
+  cache_dir = NULL,
+  compress_file = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{id}{a character string with the id of the dataset. It is the value from the codename column of the \code{\link{get_eurostat_toc}} function.}
