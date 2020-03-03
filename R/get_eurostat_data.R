@@ -32,8 +32,7 @@
 #' @param compress_file a logical whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
 #' @param stringsAsFactors if \code{TRUE} (the default) the non-numeric columns are
-#'        converted to factors. If the value \code{FALSE}
-#'        they are returned as a characters.
+#'        converted to factors. If the value \code{FALSE} they are returned as characters.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
@@ -156,7 +155,7 @@ get_eurostat_data <- function(id,
                          update_cache=FALSE,
                          cache_dir=NULL,
                          compress_file=TRUE,
-                         stringsAsFactors=default.stringsAsFactors(),
+                         stringsAsFactors=TRUE,
                          keep_flags=FALSE,
                          cflags=FALSE,
                          check_toc=FALSE,
@@ -366,10 +365,13 @@ get_eurostat_data <- function(id,
             if (all(getOption("code_opt",NULL)==500)){
               message("500 - No data with the given filter(s)")
               restat<-NULL
-            } else{
-              message("As no data retrieved for the given filter(s) the bulk download is used to download the whole dataset.")
+            } else {
+              message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the bulk download. You can apply the filters locally.")
               restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)  
             }
+          } else if (any(getOption("code_opt",NULL)==413)){
+              message("Some of the filter(s) resulted too large datatset to download through the REST API. The whole dataset is downloaded through the bulk download. You can apply the filters locally.")
+              restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)  
           } else {
             sc<-FALSE
             if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}

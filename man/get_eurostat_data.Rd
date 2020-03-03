@@ -15,7 +15,7 @@ get_eurostat_data(
   update_cache = FALSE,
   cache_dir = NULL,
   compress_file = TRUE,
-  stringsAsFactors = default.stringsAsFactors(),
+  stringsAsFactors = TRUE,
   keep_flags = FALSE,
   cflags = FALSE,
   check_toc = FALSE,
@@ -66,8 +66,7 @@ under the temporary directory from \code{tempdir()}. Directory can also be set w
 RDS-file in caching. Default is \code{TRUE}.}
 
 \item{stringsAsFactors}{if \code{TRUE} (the default) the non-numeric columns are
-converted to factors. If the value \code{FALSE}
-they are returned as a characters.}
+converted to factors. If the value \code{FALSE} they are returned as characters.}
 
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they

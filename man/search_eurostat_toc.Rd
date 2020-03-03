@@ -36,6 +36,7 @@ A table with the following columns:
      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility
    }
    The value in the \code{code} column can be used as an id in the \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_raw}} and \code{\link{get_eurostat_dsd}} functions.
+   If there is no hit for the search query it returns \code{NULL}.
 }
 \description{
 Lists names of dataset from Eurostat with the particular

@@ -91,7 +91,7 @@ if (!is.null(xml_toc)){
     expect_equal(dt3,NULL)
   })
 } 
-rt3<-get_eurostat_raw("agr_r_milkpr",mode="xml",keep_flags=TRUE)
+rt3<-get_eurostat_raw("agr_r_milkpr",mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
 bt2<-get_eurostat_data("agr_r_milkpr",keep_flags=TRUE,stringsAsFactors=FALSE)
 dt4<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
 if (!is.null(bt2)&!is.null(dt4)){
@@ -100,9 +100,9 @@ if (!is.null(bt2)&!is.null(dt4)){
   })
 }
 id<-"irt_h_eurcoe_d"
-rt4<-get_eurostat_raw(id,stringsAsFactors=FALSE,update_cache=TRUE)
+rt4<-get_eurostat_raw(id,update_cache=TRUE)
 bt3<-get_eurostat_bulk(id,keep_flags=TRUE)
-rt5<-get_eurostat_raw(id,mode="xml",check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
+rt5<-get_eurostat_raw(id,mode="xml",stringsAsFactors=TRUE,check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
 bt4<-get_eurostat_bulk(id,keep_flags=TRUE)
 kc<-colnames(bt3)[1:(ncol(bt3)-1)]
 data.table::setorderv(bt3,kc)
@@ -252,9 +252,9 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
         expect_equal(nr14,1152)
       })
     }
-    dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M",stringsAsFactors=TRUE)
+    dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M")
     dt6<-get_eurostat_data("avia_par_me",filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
-    dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"),stringsAsFactors=TRUE)
+    dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"))
     if (!is.null(dt5)&!is.null(dt6)&!is.null(dt7)){
       test_that("test filtering in the get_eurostat_data function", {
         expect_equal(dt5,dt7)
@@ -401,7 +401,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   udate2<-xml_toc$lastUpdate[xml_toc$code==id]
   udate<-format(Sys.Date(),"%Y.%m.%d")
   nm<-paste0("r_",id,"-",udate)
-  rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,verbose=TRUE))[3]
+  rt1<-system.time(raw1<-get_eurostat_raw(id,"xml",keep_flags=TRUE,stringsAsFactors=TRUE,verbose=TRUE))[3]
   rt2<-system.time(raw2<-get_eurostat_raw(id,"xml",cache_dir=tempdir(),verbose=TRUE))[3]
   bt1<-system.time(bulk1<-get_eurostat_bulk(id,stringsAsFactors=FALSE,verbose=TRUE))[3]
   nrb1<-nrow(bulk1)
@@ -438,9 +438,9 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
       expect_true(rt3<rt1)
       expect_true(dt3<rt1)
       expect_true(any(sapply(raw1,is.factor)))
-      expect_true(any(sapply(raw2,is.factor)))
-      expect_true(any(sapply(raw3,is.factor)))
-      expect_true(any(sapply(raw4,is.factor)))
+      expect_false(any(sapply(raw2,is.factor)))
+      expect_false(any(sapply(raw3,is.factor)))
+      expect_false(any(sapply(raw4,is.factor)))
       expect_false(any(sapply(bulk1,is.factor)))
       expect_true(any(sapply(bulk2,is.factor)))
       expect_true(any(sapply(estat_data1,is.factor)))

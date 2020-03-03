@@ -10,7 +10,7 @@ get_eurostat_bulk(
   update_cache = FALSE,
   cache_dir = NULL,
   compress_file = TRUE,
-  stringsAsFactors = default.stringsAsFactors(),
+  stringsAsFactors = TRUE,
   select_freq = NULL,
   keep_flags = FALSE,
   cflags = FALSE,
@@ -36,9 +36,8 @@ under the temporary directory from \code{tempdir()}. Directory can also be set w
 \item{compress_file}{a logical whether to compress the
 RDS-file in caching. Default is \code{TRUE}.}
 
-\item{stringsAsFactors}{if \code{TRUE} (the default) variables are not numeric then they are
-converted to factors. If the value \code{FALSE}
-they are returned as a characters.}
+\item{stringsAsFactors}{the default is \code{TRUE}, in this case the columns are converted to factors.  If \code{FALSE}, 
+the strings are returned as character.}
 
 \item{select_freq}{a character symbol for a time frequency when a dataset has multiple time
 frequencies. Possible values are:

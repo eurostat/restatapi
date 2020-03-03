@@ -11,9 +11,8 @@
 #'        \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
-#' @param stringsAsFactors if \code{TRUE} (the default) variables are not numeric then they are
-#'        converted to factors. If the value \code{FALSE}
-#'        they are returned as a characters.
+#' @param stringsAsFactors the default is \code{TRUE}, in this case the columns are converted to factors.  If \code{FALSE}, 
+#'        the strings are returned as character.
 #' @param select_freq a character symbol for a time frequency when a dataset has multiple time
 #'        frequencies. Possible values are:
 #'    	  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
@@ -83,7 +82,7 @@ get_eurostat_bulk <- function(id,
                               update_cache=FALSE,
                               cache_dir=NULL,
                               compress_file=TRUE,
-                              stringsAsFactors=default.stringsAsFactors(),
+                              stringsAsFactors=TRUE,
                               select_freq=NULL,
                               keep_flags=FALSE,
                               cflags=FALSE,

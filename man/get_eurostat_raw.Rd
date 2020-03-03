@@ -11,7 +11,7 @@ get_eurostat_raw(
   update_cache = FALSE,
   cache_dir = NULL,
   compress_file = TRUE,
-  stringsAsFactors = default.stringsAsFactors(),
+  stringsAsFactors = FALSE,
   keep_flags = FALSE,
   check_toc = FALSE,
   verbose = FALSE,
@@ -38,9 +38,8 @@ under the temporary directory from \code{tempdir()}. Directory can also be set w
 \item{compress_file}{a logical whether to compress the
 RDS-file in caching. Default is \code{TRUE}.}
 
-\item{stringsAsFactors}{if \code{TRUE} (the default) variables are not numeric then they are
-converted to factors. If the value \code{FALSE}
-they are returned as a characters.}
+\item{stringsAsFactors}{if \code{TRUE} the variables which are not numeric are
+converted to factors. The defaulft value \code{FALSE}, in this case they are returned as characters.}
 
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they

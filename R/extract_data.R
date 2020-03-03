@@ -2,8 +2,8 @@
 #' @description Extracts the data values from the SDMX XML data file
 #' @param xml_lf an input XML leaf with data series from an SDMX XML file to extract the value and dimension from it
 #' @param keep_flags a boolean if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}
-#' @param stringsAsFactors if \code{TRUE} (the default) the columns are
-#'        converted to factors. If \code{FALSE} they are returned as a character.
+#' @param stringsAsFactors if \code{TRUE} the columns are converted to factors. The default is \code{FALSE}, 
+#'        in this case the strings are returned as a character.
 #' @param bulk a boolean with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
 #'        If the input file has pre-filtered values then the \code{FALSE} should be used.  
 #' @export 
@@ -29,7 +29,7 @@
 #' }
 #' 
 
-extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsAsFactors(),bulk=TRUE){
+extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE){
   prefix<-NULL
   if (Sys.info()[['sysname']]=='Windows'){
     xml_lf<-gsub("generic:","",xml_lf)
@@ -38,7 +38,7 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
     prefix<-"generic:"
   }
   if(bulk){
-    bd<-t(as.data.frame(xml2::xml_attrs(xml_lf)))
+    bd<-t(as.data.frame(xml2::xml_attrs(xml_lf),stringsAsFactors=FALSE))
     rownames(bd)<-NULL
     dv<-xml2::xml_attrs(xml2::xml_children(xml_lf))
     if (keep_flags){
@@ -48,10 +48,10 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
     }
     df<-do.call(rbind, lapply(lapply(dv, unlist),"[", cn))
     colnames(df)<-cn
-    out<-data.frame(bd,df,stringsAsFactors=stringsAsFactors)  
+    out<-data.frame(bd,df,stringsAsFactors=FALSE)  
   } else {
     tmp<-as.data.frame(xml2::xml_attrs(xml2::xml_children(xml2::xml_find_all(xml_lf,paste0(".//",prefix,"SeriesKey")))),stringsAsFactors=FALSE)
-    bd<-as.data.frame(tmp[2,],stringsAsFactors=stringsAsFactors)
+    bd<-as.data.frame(tmp[2,],stringsAsFactors=FALSE)
     colnames(bd)<-tmp[1,]
     rownames(bd)<-NULL
     obs<-xml2::xml_find_all(xml_lf,paste0(".//",prefix,"Obs"))
@@ -68,7 +68,7 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=default.stringsA
                                                     dr$OBS_STATUS<-paste0(f,collapse="")
                                                   }
                                                 }
-                                                return(as.data.frame(dr))
+                                                return(as.data.frame(dr,stringsAsFactors=FALSE))
       }), fill=TRUE)
     df$obsValue<-as.numeric(df$obsValue)
     df$obsValue[df$obsValue=="NaN"]<-NA

@@ -13,9 +13,8 @@
 #'        \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
-#' @param stringsAsFactors if \code{TRUE} (the default) variables are not numeric then they are
-#'        converted to factors. If the value \code{FALSE}
-#'        they are returned as a characters.
+#' @param stringsAsFactors if \code{TRUE} the variables which are not numeric are
+#'        converted to factors. The defaulft value \code{FALSE}, in this case they are returned as characters.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
@@ -72,7 +71,7 @@ get_eurostat_raw <- function(id,
                              update_cache=FALSE,
                              cache_dir=NULL,
                              compress_file=TRUE,
-                             stringsAsFactors=default.stringsAsFactors(),
+                             stringsAsFactors=FALSE,
                              keep_flags=FALSE,
                              check_toc=FALSE,
                              verbose=FALSE,...){
