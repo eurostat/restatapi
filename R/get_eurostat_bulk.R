@@ -150,7 +150,7 @@ get_eurostat_bulk <- function(id,
           message("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
         } 
       } 
-    if (!(is.null(select_freq))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,][]}
+    if ((!(is.null(select_freq)))&("FREQ" %in% colnames(restat_bulk))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,][]}
     if ("OBS_VALUE" %in% colnames(restat_bulk)) {
       if (keep_flags){
         data.table::setnames(restat_bulk,"OBS_STATUS","flags")[]

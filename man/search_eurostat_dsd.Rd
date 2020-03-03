@@ -20,7 +20,7 @@ If the value \code{FALSE}, then only the 'code' column of the DSD will be  searc
 The default value for \code{ignore.case} is \code{FALSE}.}
 }
 \value{
-If the pattern found then the function returns table with the 4 columns:
+If the pattern found then the function returns a data.frame with the 4 columns:
    \tabular{ll}{
      \code{pattern} \tab The pattern which was searched \cr
      \code{concept} \tab The name of the concepts in the data structure \cr

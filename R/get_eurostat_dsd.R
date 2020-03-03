@@ -129,7 +129,7 @@ get_eurostat_dsd <- function(id,
       }
     }
     if (!is.null(dsd)){
-      data.table::as.data.table(dsd)
+      data.table::as.data.table(dsd,stringsAsFactors=FALSE)
     }
   }
   return(dsd)

@@ -125,7 +125,7 @@ test_that("test filtering in the get_eurostat_data function", {
   expect_false(any(sapply(dt5,is.factor)))
   expect_true(any(sapply(dt6,is.factor)))
   expect_true(any(sapply(dt7,is.factor)))
-  expect_true(any(sapply(dt8,is.factor)))
+  expect_true(is.null(dt8))
 })
 dt9<-get_eurostat_data("agr_r_milkpr",filters="2018",cflags=TRUE)
 if (!is.null(dt9)&is.data.frame(dt9)){
@@ -186,7 +186,7 @@ udate<-format(Sys.Date(),"%Y.%m.%d")
 udate2<-xml_toc$lastUpdate[xml_toc$code==id]
 if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(rt4)&is.data.frame(rt4)&!is.null(rt5)&is.data.frame(rt5)&!is.null(bt2)&is.data.frame(bt2)&!is.null(bt3)&is.data.frame(bt3)){
   test_that("test of the get/put_eurostat_cache function", {
-    expect_true(exists(paste0("b_avia_par_me-",udate,"-0-0-Q"),envir=.restatapi_env))
+    expect_false(exists(paste0("b_avia_par_me-",udate,"-0-0-Q"),envir=.restatapi_env))
     expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate,"-0"),envir=.restatapi_env))
     expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate2,"-1"),envir=.restatapi_env))
     expect_true(exists(paste0("b_agr_r_milkpr-",udate,"-0-0"),envir=.restatapi_env))
@@ -232,7 +232,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
         expect_true(nr11<=5)
       })
     }
-    nr12<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter=c(2008,"2002",2015:2017),))
+    nr12<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter=c(2008,"2002",2015:2017)))
     if (!is.null(nr11)&!is.null(nr12)){
       test_that("test filtering in the get_eurostat_data function", {
         expect_equal(nr11,nr12)
@@ -267,6 +267,11 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     if (!is.null(dt8)){
       expect_true(nrow(dt8)<=5040)
       expect_true(ncol(dt8)<=5)
+    }
+    dt9<-get_eurostat_data("avia_par_ee",select_freq="Q")
+    dt10<-get_eurostat_data("avia_par_ee",select_freq="Q")
+    if (!is.null(dt9)&!is.null(dt10)){
+      expect_true(identical(dt9,dt10))
     }
   } 
   dsd3<-get_eurostat_dsd("avia_par_is")

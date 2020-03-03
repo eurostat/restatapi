@@ -9,7 +9,7 @@
 #' @param exact_match a boolean with the default value \code{FALSE}, if the strings provided in \code{pattern} shall be matched exactly as it is or as a pattern. 
 #' @param ... additional arguments to the \code{grep} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
 #'            The default value for \code{ignore.case} is \code{FALSE}. 
-#' @return If the pattern found then the function returns table with the 4 columns:
+#' @return If the pattern found then the function returns a data.frame with the 4 columns:
 #'    \tabular{ll}{
 #'      \code{pattern} \tab The pattern which was searched \cr
 #'      \code{concept} \tab The name of the concepts in the data structure \cr

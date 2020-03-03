@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.11</span>
       </span>
     </div>
 
@@ -149,7 +149,7 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If the pattern found then the function returns table with the 4 columns:</p><table class='table'>
+    <p>If the pattern found then the function returns a data.frame with the 4 columns:</p><table class='table'>
 <tr><td><code>pattern</code></td><td>The pattern which was searched</td></tr>
 <tr><td><code>concept</code></td><td>The name of the concepts in the data structure</td></tr>
 <tr><td><code>code</code></td><td>The list of codes where the pattern was found, or the code of a name where the pattern appears</td></tr>
@@ -173,13 +173,13 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 <span class='no'>cfg</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cfg"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='no'>rav</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"rav"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
 <span class='co'># }</span>
-<span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>Trying to extract the DSD from: /tmp/RtmppJtsMd/file57651f5502d8</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
-#&gt; 12      EU    UNIT      PC_EU28_MEUR_CP
-#&gt; 13      EU    UNIT PC_EU27_2019_MEUR_CP
-#&gt; 14      EU    UNIT      PC_EU28_MPPS_CP
-#&gt; 15      EU    UNIT PC_EU27_2019_MPPS_CP
+<span class='no'>dsd_example</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='st'>"nama_10_gdp"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span></div><div class='output co'>#&gt; <span class='message'>Trying to extract the DSD from: /tmp/RtmpcFxGMd/file5b42b5a0b69</span></div><div class='output co'>#&gt; <span class='message'>The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span></div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>)</div><div class='output co'>#&gt;    pattern concept                 code
+#&gt; 12      EU    UNIT PC_EU27_2020_MEUR_CP
+#&gt; 13      EU    UNIT      PC_EU28_MEUR_CP
+#&gt; 14      EU    UNIT PC_EU27_2020_MPPS_CP
+#&gt; 15      EU    UNIT      PC_EU28_MPPS_CP
 #&gt; 16      EU    UNIT              CP_MEUR
-#&gt; 19      EU    UNIT    CP_MPPS_EU27_2019
+#&gt; 19      EU    UNIT    CP_MPPS_EU27_2020
 #&gt; 20      EU    UNIT           CLV15_MEUR
 #&gt; 21      EU    UNIT           CLV10_MEUR
 #&gt; 22      EU    UNIT           CLV05_MEUR
@@ -188,14 +188,14 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 31      EU    UNIT             PD10_EUR
 #&gt; 32      EU    UNIT             PD05_EUR
 #&gt; 36      EU    UNIT       PD_PCH_PRE_EUR
-#&gt; 77      EU     GEO                 EU28
-#&gt; 78      EU     GEO            EU27_2019
+#&gt; 77      EU     GEO            EU27_2020
+#&gt; 78      EU     GEO                 EU28
 #&gt; 79      EU     GEO                 EU15
 #&gt;                                                                                                  name
-#&gt; 12                       Percentage of EU28 (2013-2020) total (based on million euro), current prices
-#&gt; 13                       Percentage of EU27 (from 2020) total (based on million euro), current prices
-#&gt; 14 Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices
-#&gt; 15 Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices
+#&gt; 12                       Percentage of EU27 (from 2020) total (based on million euro), current prices
+#&gt; 13                       Percentage of EU28 (2013-2020) total (based on million euro), current prices
+#&gt; 14 Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices
+#&gt; 15 Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices
 #&gt; 16                                                                       Current prices, million euro
 #&gt; 19                           Current prices, million purchasing power standards (PPS, EU27 from 2020)
 #&gt; 20                                                          Chain linked volumes (2015), million euro
@@ -206,15 +206,15 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 31                                                    Price index (implicit deflator), 2010=100, euro
 #&gt; 32                                                    Price index (implicit deflator), 2005=100, euro
 #&gt; 36                        Price index (implicit deflator), percentage change on previous period, euro
-#&gt; 77                                                          European Union - 28 countries (2013-2020)
-#&gt; 78                                                          European Union - 27 countries (from 2020)
+#&gt; 77                                                          European Union - 27 countries (from 2020)
+#&gt; 78                                                          European Union - 28 countries (2013-2020)
 #&gt; 79                                                          European Union - 15 countries (1995-2004)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU"</span>,<span class='no'>dsd_example</span>,<span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     pattern  concept                 code
-#&gt; 12       EU     UNIT      PC_EU28_MEUR_CP
-#&gt; 13       EU     UNIT PC_EU27_2019_MEUR_CP
-#&gt; 14       EU     UNIT      PC_EU28_MPPS_CP
-#&gt; 15       EU     UNIT PC_EU27_2019_MPPS_CP
+#&gt; 12       EU     UNIT PC_EU27_2020_MEUR_CP
+#&gt; 13       EU     UNIT      PC_EU28_MEUR_CP
+#&gt; 14       EU     UNIT PC_EU27_2020_MPPS_CP
+#&gt; 15       EU     UNIT      PC_EU28_MPPS_CP
 #&gt; 16       EU     UNIT              CP_MEUR
-#&gt; 19       EU     UNIT    CP_MPPS_EU27_2019
+#&gt; 19       EU     UNIT    CP_MPPS_EU27_2020
 #&gt; 20       EU     UNIT           CLV15_MEUR
 #&gt; 21       EU     UNIT           CLV10_MEUR
 #&gt; 22       EU     UNIT           CLV05_MEUR
@@ -223,18 +223,18 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 31       EU     UNIT             PD10_EUR
 #&gt; 32       EU     UNIT             PD05_EUR
 #&gt; 36       EU     UNIT       PD_PCH_PRE_EUR
-#&gt; 77       EU      GEO                 EU28
-#&gt; 78       EU      GEO            EU27_2019
+#&gt; 77       EU      GEO            EU27_2020
+#&gt; 78       EU      GEO                 EU28
 #&gt; 79       EU      GEO                 EU15
 #&gt; 80       EU      GEO                   EA
 #&gt; 81       EU      GEO                 EA19
 #&gt; 82       EU      GEO                 EA12
 #&gt; 126      EU OBS_FLAG                    s
 #&gt;                                                                                                   name
-#&gt; 12                        Percentage of EU28 (2013-2020) total (based on million euro), current prices
-#&gt; 13                        Percentage of EU27 (from 2020) total (based on million euro), current prices
-#&gt; 14  Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices
-#&gt; 15  Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices
+#&gt; 12                        Percentage of EU27 (from 2020) total (based on million euro), current prices
+#&gt; 13                        Percentage of EU28 (2013-2020) total (based on million euro), current prices
+#&gt; 14  Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices
+#&gt; 15  Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices
 #&gt; 16                                                                        Current prices, million euro
 #&gt; 19                            Current prices, million purchasing power standards (PPS, EU27 from 2020)
 #&gt; 20                                                           Chain linked volumes (2015), million euro
@@ -245,23 +245,13 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></td>
 #&gt; 31                                                     Price index (implicit deflator), 2010=100, euro
 #&gt; 32                                                     Price index (implicit deflator), 2005=100, euro
 #&gt; 36                         Price index (implicit deflator), percentage change on previous period, euro
-#&gt; 77                                                           European Union - 28 countries (2013-2020)
-#&gt; 78                                                           European Union - 27 countries (from 2020)
+#&gt; 77                                                           European Union - 27 countries (from 2020)
+#&gt; 78                                                           European Union - 28 countries (2013-2020)
 #&gt; 79                                                           European Union - 15 countries (1995-2004)
 #&gt; 80  Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015)
 #&gt; 81                                                               Euro area - 19 countries  (from 2015)
 #&gt; 82                                                                Euro area - 12 countries (2001-2006)
-#&gt; 126                                                                     Eurostat estimate (phased out)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU27_2019"</span>,<span class='no'>dsd_example</span>,<span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;      pattern concept                 code
-#&gt; 13 EU27_2019    UNIT PC_EU27_2019_MEUR_CP
-#&gt; 15 EU27_2019    UNIT PC_EU27_2019_MPPS_CP
-#&gt; 19 EU27_2019    UNIT    CP_MPPS_EU27_2019
-#&gt; 78 EU27_2019     GEO            EU27_2019
-#&gt;                                                                                                  name
-#&gt; 13                       Percentage of EU27 (from 2020) total (based on million euro), current prices
-#&gt; 15 Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices
-#&gt; 19                           Current prices, million purchasing power standards (PPS, EU27 from 2020)
-#&gt; 78                                                          European Union - 27 countries (from 2020)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU27_2019"</span>,<span class='no'>dsd_example</span>,<span class='kw'>exact_match</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;        pattern concept      code                                      name
-#&gt; 78 ^EU27_2019$     GEO EU27_2019 European Union - 27 countries (from 2020)</div><div class='input'>
+#&gt; 126                                                                     Eurostat estimate (phased out)</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU27_2019"</span>,<span class='no'>dsd_example</span>,<span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'>search_eurostat_dsd</span>(<span class='st'>"EU27_2019"</span>,<span class='no'>dsd_example</span>,<span class='kw'>exact_match</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -323,6 +323,7 @@ get_eurostat_data <- function(id,
       } else {
         base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
         data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
+        options(code_opt=NULL)
         restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
             if (verbose) {message(x)}
             temp <- tempfile()
@@ -340,7 +341,9 @@ get_eurostat_data <- function(id,
               code<-xml2::xml_attr(xml_foot,"code")
               severity<-xml2::xml_attr(xml_foot,"severity")
               fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
-              message(code," - ",severity,"\n",paste(fmsg,collapse="\n"))
+              if (verbose){message(x,"\n",code," - ",severity,"\n",paste(fmsg,collapse="\n"))}
+              code<-c(getOption("code_opt",NULL),code)
+              options(code_opt=code)
               ne<-FALSE
             }
             if(ne){
@@ -356,12 +359,17 @@ get_eurostat_data <- function(id,
                 rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
               }
             }
-            if (!is.null(rdat)){data.table::as.data.table(rdat)}
+            if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}  
         }),fill=TRUE)
         if (!is.null(restat)){
           if ((nrow(restat)==0)){
-            message("As no data retrieved for the given filter(s) the bulk download is used to download the whole dataset.")
-            restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)
+            if (all(getOption("code_opt",NULL)==500)){
+              message("500 - No data with the given filter(s)")
+              restat<-NULL
+            } else{
+              message("As no data retrieved for the given filter(s) the bulk download is used to download the whole dataset.")
+              restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)  
+            }
           } else {
             sc<-FALSE
             if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
@@ -455,7 +463,7 @@ get_eurostat_data <- function(id,
         restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
       }
       if (!any(sapply(restat,is.factor))&(stringsAsFactors)) {
-        restat<-data.table::data.table(restat,stringsAsFactors=TRUE)
+        restat<-data.table::data.table(restat,stringsAsFactors=stringsAsFactors)
       }
       if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
     }
@@ -470,7 +478,7 @@ get_eurostat_data <- function(id,
       if (!is.null(dsd)){
         if (verbose) {message("dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
         cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
-        restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
+        restat<-data.table::data.table(restat,stringsAsFactors=stringsAsFactors) 
         if (verbose) {message("data - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(cn,collapse="/"))}
         sub_dsd<-dsd[dsd$code %in% as.character(levels(unique(unlist(as.list(restat[,(cn),with=FALSE]))))),]
         sub_dsd<-data.table::setorder(sub_dsd,concept,code)
