@@ -165,7 +165,7 @@ get_eurostat_data <- function(id,
   restat<-rdat<-drop<-concept<-code<-FREQ<-N<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
-  ne<-dc<-sc<-TRUE
+  tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
   if(cflags){keep_flags<-cflags}
   
   if (!(exists(".restatapi_env"))) {load_cfg()}
@@ -173,7 +173,7 @@ get_eurostat_data <- function(id,
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
   if (!is.null(id)){id<-tolower(id)} else {
-    dc<-FALSE
+    tbc<-FALSE
     check_toc<-FALSE
     message("The dataset 'id' is missing.")
   }
@@ -182,21 +182,21 @@ get_eurostat_data <- function(id,
     toc<-get_eurostat_toc(verbose=verbose)
     if (is.null(toc)){
       message("The TOC is missing. Could not get the download link.")
-      dc<-FALSE
+      tbc<-FALSE
     } else {
       if (any(grepl(id,toc$code,ignore.case=TRUE))){
         udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
         if (verbose) {message("data TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
       } else {
         message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
-        dc<-FALSE
+        tbc<-FALSE
       }
     }
   }else{
     udate<-format(Sys.Date(),"%Y.%m.%d")
   }
   
-  if (dc){
+  if (tbc){
     if(!is.null(select_freq)){
       append_sf<-FALSE
       if (is.null(filters)|(length(filters)>1)) {
@@ -313,6 +313,11 @@ get_eurostat_data <- function(id,
             }
           }
         }
+      if(!(is.null(date_filter))){
+        dft<-data.table::data.table(sd=c(),ed=c())
+        dft$sd<-gsub('.startPeriod=([\\d\\-]{4,})',"\\1",gsub("\\&.*","",date_filter),perl=TRUE)
+        dft$ed<-gsub('.*endPeriod=([\\d\\-]{4,})',"\\1",date_filter,perl=TRUE)
+      }
       } 
       if (verbose){message(filters_url,"-",date_filter)}
       if (is.null(filters_url)&(is.null(date_filter))){
@@ -329,23 +334,26 @@ get_eurostat_data <- function(id,
             tryCatch({utils::download.file(x,temp,get("dmethod",envir=.restatapi_env),quiet=!verbose)},
                      error = function(e) {
                        if (verbose) {message("Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
-                       ne<-FALSE
+                       tbc<-FALSE
                      },
                      warning = function(w) {
                        if(verbose){message("Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))}
-                       ne<-FALSE
+                       tbc<-FALSE
                      })
-            xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")
-            if (length(xml_foot)>0){
-              code<-xml2::xml_attr(xml_foot,"code")
-              severity<-xml2::xml_attr(xml_foot,"severity")
-              fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
-              if (verbose){message(x,"\n",code," - ",severity,"\n",paste(fmsg,collapse="\n"))}
-              code<-c(getOption("code_opt",NULL),code)
-              options(code_opt=code)
-              ne<-FALSE
+            if (length(temp)==0) {tbc<-FALSE}
+            if (tbc){
+              xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")
+              if (length(xml_foot)>0){
+                code<-xml2::xml_attr(xml_foot,"code")
+                severity<-xml2::xml_attr(xml_foot,"severity")
+                fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
+                if (verbose){message(x,"\n",code," - ",severity,"\n",paste(fmsg,collapse="\n"))}
+                code<-c(getOption("code_opt",NULL),code)
+                options(code_opt=code)
+                tbc<-FALSE
+              }  
             }
-            if(ne){
+            if(tbc){
               xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
               if (Sys.info()[['sysname']]=='Windows'){
                 xml_leafs<-as.character(xml_leafs)
@@ -366,14 +374,19 @@ get_eurostat_data <- function(id,
               message("500 - No data with the given filter(s)")
               restat<-NULL
             } else {
-              message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the bulk download. You can apply the filters locally.")
-              restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)  
+              message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download. You can apply the filters locally.")
+              #restat<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
+              restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)
+              if (verbose) {print(ft)}
+              
             }
           } else if (any(getOption("code_opt",NULL)==413)){
-              message("Some of the filter(s) resulted too large datatset to download through the REST API. The whole dataset is downloaded through the bulk download. You can apply the filters locally.")
+              message("Some of the filter(s) resulted too large datatset to download through the REST API. The whole dataset is downloaded through the raw download. You can apply the filters locally.")
+              #restat<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
               restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose)  
+              if (verbose) {print(ft)}
           } else {
-            sc<-FALSE
+            cr<-FALSE # do not cahce filtered data only bulk datasets
             if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
             if (length(unique(restat$FREQ))==1){
               drop<-c(drop,"FREQ")
@@ -469,7 +482,7 @@ get_eurostat_data <- function(id,
       }
       if (is.factor(restat$values)){restat$values<-as.numeric(levels(restat$values))[restat$values]} else{restat$values<-as.numeric(restat$values)}
     }
-    if (sc&cache&(!is.null(restat))){
+    if (cr&cache&(!is.null(restat))){
       force(oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE)))
       pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
       if (verbose){message("The data was cached ",pl,".\n")}

@@ -73,6 +73,7 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
     msg_end<-"\n           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env')."
   }
   
+  mem_size<-0
   suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
                    Windows={tryCatch({as.numeric(gsub("[^0-9]","",system("wmic MemoryChip get Capacity", intern = TRUE)[2]))/1024/1024},error=function(e){0},warning=function(w){0})},
                    # Darwin={tryCatch({as.numeric(substring(system('system_profiler SPHardwareDataType | grep "  Memory:"', intern = TRUE), 13))},error=function(e){0},warning=function(w){0})},
