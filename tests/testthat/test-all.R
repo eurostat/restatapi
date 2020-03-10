@@ -263,7 +263,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
         expect_true(any(sapply(dt7,is.factor)))
       })
     }
-    dt8<-get_eurostat_data("avia_par_me",filters="BE$",date_filter=c("2017-03",2016,"2017-07-01",2012:2014),select_freq="Q",label=TRUE,verbose=TRUE,name=FALSE)
+    dt8<-get_eurostat_data("avia_par_me",filters="BE$",date_filter=c("2017-03",2016,"2017-07-01",2012:2014),select_freq="Q",label=TRUE,verbose=FALSE,name=FALSE)
     if (!is.null(dt8)){
       expect_true(nrow(dt8)<=5040)
       expect_true(ncol(dt8)<=5)

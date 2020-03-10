@@ -55,7 +55,7 @@ get_eurostat_toc<-function(mode="xml",
                            lang="en",
                            verbose=FALSE,...) {
   toc<-xml_leafs<-NULL
-  ne<-TRUE
+  tbc<-TRUE
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -84,12 +84,13 @@ get_eurostat_toc<-function(mode="xml",
       tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=!verbose)},
                  error = function(e) {
                  if (verbose) {message("Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
-                 ne<-FALSE
+                 tbc<-FALSE
                },
                warning = function(w) {
                  if (verbose) {message("Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 tbc<-FALSE
                })
-      if (ne) {
+      if (tbc) {
         toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
         names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
         toc<-toc[toc$type!="folder",]
@@ -102,29 +103,44 @@ get_eurostat_toc<-function(mode="xml",
       tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint,verbose=verbose),".//nt:leaf")},
                error = function(e) {
                  if (verbose) {message("Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
-                 ne<-FALSE
+                 tbc<-FALSE
                },
                warning = function(w) {
                  if (verbose) {message("Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 tbc<-FALSE
                })
-      if ((ne)){
+      if ((tbc)){
         if (!is.null(xml_leafs)){
           if (length(xml_leafs)>0){
             if (Sys.info()[['sysname']]=='Windows'){
-              cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-              parallel::clusterEvalQ(cl,require(xml2))
-              parallel::clusterExport(cl,c("extract_toc"))
-              leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
-              parallel::stopCluster(cl)
+              tryCatch({cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+                parallel::clusterEvalQ(cl,require(xml2))
+                parallel::clusterExport(cl,c("extract_toc"))
+                leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
+                parallel::stopCluster(cl)},
+                error = function(e) {
+                  if (verbose) {message("Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
+                },
+                warning = function(w) {
+                  if (verbose) {message("Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
+                })
             }else{
-              leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))
+              tryCatch({leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))},
+                       error = function(e) {
+                         if (verbose) {message("Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
+                       },
+                       warning = function(w) {
+                         if (verbose) {message("Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
+                       })
             }
-            toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
-            type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
-            toc<-cbind(toc,type)
-            names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
-            toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
-            names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+            if (exists("leafs")){
+              toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
+              type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+              toc<-cbind(toc,type)
+              names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
+              toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
+              names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+            }
           } 
         }
       }

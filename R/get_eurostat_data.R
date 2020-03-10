@@ -162,7 +162,7 @@ get_eurostat_data <- function(id,
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
-  restat<-rdat<-drop<-concept<-code<-FREQ<-N<-NULL
+  restat<-rdat<-drop<-concept<-code<-FREQ<-N<-sd<-ed<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
@@ -261,64 +261,127 @@ get_eurostat_data <- function(id,
         }
       } else {filters_url<-NULL}
       if (!is.null(date_filter)){
-        date_filter<-as.character(date_filter)
-        if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=TRUE))){
-          date_filter<-NULL
-          message("The date filter has invalid character (not 0-9, '-', '<', '>' or ':'). The date filter is ignored.")
-        } else if (length(date_filter)==1)  {
-          if (grepl(":",date_filter,perl=TRUE)){
-            dates<-unlist(strsplit(date_filter,":"))
-            if (length(dates)!=2){
-              date_filter<-NULL
-              message("Could not parse date range (more than one ':'). The date filter is ignored.")
-            } else if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
-              if ((as.numeric(gsub("-","",dates[2]))*(10^(8-nchar(as.numeric(gsub("-","",dates[2]))))))>(as.numeric(gsub("-","",dates[1]))*(10^(8-nchar(as.numeric(gsub("-","",dates[1]))))))){
-                date_filter<-paste0("?startPeriod=",dates[1],"&endPeriod=",dates[2])
+        df<-as.character(substitute(date_filter))
+        if (df[1]=="c"){
+          df<-df[2:length(df)]
+        } else {
+          df<-as.character(parse(text=deparse(date_filter)))
+        }
+        if (any(grepl("[^0-9\\-\\:<>]",df,perl=TRUE))){
+          df<-gsub("[^0-9\\-\\:<>]","",df,perl=TRUE)
+          df<-df[df!=""]
+          message("The date filter had invalid character (not 0-9, '-', '<', '>' or ':'). Those charcters removed from the date filter.")
+        } 
+        if (verbose){message(paste(df,collapse=", ")," date filter length: ",length(df),", nchar date_filter: ",paste(nchar(df),collapse=","))}
+        dft<-data.table::rbindlist(lapply(df, function(sdf) {
+          if (nchar(gsub("[^:<>]","",sdf,perl=TRUE))>1){
+            res<-NULL
+            if(verbose){message(paste0("Could not parse date filter: '",sdf,"'. This date filter is ignored."))}
+          } else {
+            if (grepl(":",sdf,perl=TRUE)){
+              dates<-unlist(strsplit(sdf,":"))
+              if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$")))){
+                res<-list(sd=min(dates),ed=max(dates))
+              } else{
+                res<-NULL
+                if(verbose){message(paste0("Could not parse date filter: '",paste0(dates,collapse=":"),"' (at least one date not in yyyy[-mm][-dd] format). The date filter is ignored."))}
+              }
+            } else if (grepl("<|>",sdf,perl=TRUE)){
+              if(check_tf(gsub("<|>","",sdf,perl=TRUE),c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
+                if (grepl("^<|>$",sdf,perl=TRUE)){
+                  res<-list(sd=0,ed=gsub("<|>","",sdf,perl=TRUE))  
+                } else if (grepl("^>|<$",sdf,perl=TRUE)){
+                  res<-list(sd=gsub("<|>","",sdf,perl=TRUE),ed=Inf)
+                } else {
+                  res<-NULL
+                  if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
+                }
               } else {
-                date_filter<-paste0("?startPeriod=",dates[2],"&endPeriod=",dates[1])
+                res<-NULL
+                if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format). The date filter is ignored."))}
               }
             } else{
-              date_filter<-NULL
-              message("The date range has invalid character (only 0-9 and '-' can be used). The date filter is ignored.")
-            }
-          } else if (check_tf(date_filter,c("^[<>]?[0-9]{4}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}-[0-9]{2}[<>]?$"))){
-            if (grepl("^<[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
-              date_filter<-paste0("?endPeriod=",sub("^<","",date_filter,perl=TRUE))
-            } else if (grepl("^[0-9\\-]{4,10}<$",date_filter,perl=TRUE)){
-              date_filter<-paste0("?startPeriod=",sub("<$","",date_filter,perl=TRUE))
-            } else if (grepl("^>[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
-              date_filter<-paste0("?startPeriod=",sub("^>","",date_filter,perl=TRUE))
-            } else if (grepl("^[0-9\\-]{4,10}>$",date_filter,perl=TRUE)){
-              date_filter<-paste0("?endPeriod=",sub(">$","",date_filter,perl=TRUE))
-            } else if (grepl("^[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
-              date_filter<-paste0("?startPeriod=",date_filter,"&endPeriod=",date_filter)
-            } else{
-              date_filter<-NULL
-              message("Could not parse date filter (it can be more than '<','>'; or not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
-            }
-          } else {
-            date_filter<-NULL
-            message("Could not parse date filter (not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
-          }  
-        } else {
-          if ((any(grepl("[^0-9\\-]",date_filter,perl=TRUE)))){
-            date_filter<-NULL
-            message("The date filter has invalid character (there are more more than 2 date periods: in this case only 0-9 and '-' can be used, no ':','<' or '>'). The date filter is ignored.")
-          } else {
-            if(all(sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
-              date_filter<-sapply(date_filter,function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
-            } else {
-              message("Some of the date filter has invalid format (not in yyyy[-mm][-dd]). The wrong formatted date filter is ignored.")
-              date_filter<-sapply(date_filter[sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$"))],function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
-            }
+              if(check_tf(sdf,c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
+                res<-list(sd=sdf,ed=sdf)  
+              } else {
+                res<-NULL
+                if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
+              }
+            }  
           }
+          return(res)
+        }),fill=TRUE)
+        if(!is.null(dft)){
+          if(nrow(dft)>0){
+            dft<-dft[order(sd,ed)]
+            dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) > utils::head(ed, -1))))]
+            date_filter<-apply(dft,1,function (x) {paste0("?",if(x[1]!=0){paste0("startPeriod=",x[1])},if(x[1]!=0&x[2]!=Inf){paste0("&endPeriod=",x[2])},if(x[1]==0&x[2]!=Inf){paste0("endPeriod=",x[2])})})  
+          } else {
+            date_filter<-NULL
+          }  
+        } else{
+          date_filter<-NULL
         }
-      if(!(is.null(date_filter))){
-        dft<-data.table::data.table(sd=c(),ed=c())
-        dft$sd<-gsub('.startPeriod=([\\d\\-]{4,})',"\\1",gsub("\\&.*","",date_filter),perl=TRUE)
-        dft$ed<-gsub('.*endPeriod=([\\d\\-]{4,})',"\\1",date_filter,perl=TRUE)
       }
-      } 
+      # if (!is.null(date_filter)){
+      #   date_filter<-as.character(date_filter)
+      #   if (any(grepl("[^0-9\\-\\:<>]",date_filter,perl=TRUE))){
+      #     date_filter<-NULL
+      #     message("The date filter has invalid character (not 0-9, '-', '<', '>' or ':'). The date filter is ignored.")
+      #   } else if (length(date_filter)==1)  {
+      #     if (grepl(":",date_filter,perl=TRUE)){
+      #       dates<-unlist(strsplit(date_filter,":"))
+      #       if (length(dates)!=2){
+      #         date_filter<-NULL
+      #         message("Could not parse date range (more than one ':'). The date filter is ignored.")
+      #       } else if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
+      #         if ((as.numeric(gsub("-","",dates[2]))*(10^(8-nchar(as.numeric(gsub("-","",dates[2]))))))>(as.numeric(gsub("-","",dates[1]))*(10^(8-nchar(as.numeric(gsub("-","",dates[1]))))))){
+      #           date_filter<-paste0("?startPeriod=",dates[1],"&endPeriod=",dates[2])
+      #         } else {
+      #           date_filter<-paste0("?startPeriod=",dates[2],"&endPeriod=",dates[1])
+      #         }
+      #       } else{
+      #         date_filter<-NULL
+      #         message("The date range has invalid character (only 0-9 and '-' can be used). The date filter is ignored.")
+      #       }
+      #     } else if (check_tf(date_filter,c("^[<>]?[0-9]{4}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}[<>]?$","^[<>]?[0-9]{4}-[0-9]{2}-[0-9]{2}[<>]?$"))){
+      #       if (grepl("^<[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
+      #         date_filter<-paste0("?endPeriod=",sub("^<","",date_filter,perl=TRUE))
+      #       } else if (grepl("^[0-9\\-]{4,10}<$",date_filter,perl=TRUE)){
+      #         date_filter<-paste0("?startPeriod=",sub("<$","",date_filter,perl=TRUE))
+      #       } else if (grepl("^>[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
+      #         date_filter<-paste0("?startPeriod=",sub("^>","",date_filter,perl=TRUE))
+      #       } else if (grepl("^[0-9\\-]{4,10}>$",date_filter,perl=TRUE)){
+      #         date_filter<-paste0("?endPeriod=",sub(">$","",date_filter,perl=TRUE))
+      #       } else if (grepl("^[0-9\\-]{4,10}$",date_filter,perl=TRUE)){
+      #         date_filter<-paste0("?startPeriod=",date_filter,"&endPeriod=",date_filter)
+      #       } else{
+      #         date_filter<-NULL
+      #         message("Could not parse date filter (it can be more than '<','>'; or not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
+      #       }
+      #     } else {
+      #       date_filter<-NULL
+      #       message("Could not parse date filter (not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored.")
+      #     }  
+      #   } else {
+      #     if ((any(grepl("[^0-9\\-]",date_filter,perl=TRUE)))){
+      #       date_filter<-NULL
+      #       message("The date filter has invalid character (there are more more than 2 date periods: in this case only 0-9 and '-' can be used, no ':','<' or '>'). The date filter is ignored.")
+      #     } else {
+      #       if(all(sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$")))){
+      #         date_filter<-sapply(date_filter,function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
+      #       } else {
+      #         message("Some of the date filter has invalid format (not in yyyy[-mm][-dd]). The wrong formatted date filter is ignored.")
+      #         date_filter<-sapply(date_filter[sapply(date_filter,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-9]{2}$","^[0-9]{4}-[0-9]{2}-[0-9]{2}$"))],function(x) paste0("?startPeriod=",x,"&endPeriod=",x))
+      #       }
+      #     }
+      #   }
+      #   if(!(is.null(date_filter))){
+      #     dft<-data.table::data.table(sd=c(),ed=c())
+      #     dft$sd<-gsub('.startPeriod=([\\d\\-]{4,})',"\\1",gsub("\\&.*","",date_filter),perl=TRUE)
+      #     dft$ed<-gsub('.*endPeriod=([\\d\\-]{4,})',"\\1",date_filter,perl=TRUE)
+      #   }
+      # } 
       if (verbose){message(filters_url,"-",date_filter)}
       if (is.null(filters_url)&(is.null(date_filter))){
         message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
