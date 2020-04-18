@@ -75,6 +75,8 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)&!is.null(x
   test_that("test of the get_eurostat_data function", {
     expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==id]))
     expect_equal(nc2+1,nc1)
+    expect_true(all(is.numeric(dt1$values)))
+    expect_true(all(is.numeric(dt2$values)))
   })
 }
 context("test of the get_eurostat_raw/bulk/data functions")
@@ -393,6 +395,17 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
       expect_true(identical(bulk1,bulk2))
     })
   }
+  id<-"tus_00age"
+  bulk3<-get_eurostat_bulk(id,keep_flags=TRUE,stringsAsFactors=TRUE)
+  bulk4<-get_eurostat_bulk(id,stringsAsFactors=FALSE,update_cache=TRUE)
+  if (!is.null(bulk3)&!is.null(bulk4)){
+    test_that("test of the get_eurostat_raw/bulk function", {
+      expect_true(all(is.character(bulk3$values)))
+      expect_true(all(is.character(bulk4$values)))
+    })
+  }
+  
+  
   
   context("additional tests of the get/put_eurostat_cache function")
   clean_restatapi_cache()

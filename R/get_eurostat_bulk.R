@@ -91,7 +91,7 @@ get_eurostat_bulk <- function(id,
   
   .datatable.aware=TRUE 
   FREQ<-N<-restat_bulk<-NULL
-  dc<-TRUE
+  dc<-TRUE #do calculation
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if(cflags){keep_flags<-cflags}
@@ -106,7 +106,11 @@ get_eurostat_bulk <- function(id,
       load_cfg()
     }  
   }
-  id<-tolower(id)
+  if (!is.null(id)){id<-tolower(id)} else {
+    dc<-FALSE
+    check_toc<-FALSE
+    message("The dataset 'id' is missing.")
+  }
   
   if (check_toc){
     toc<-get_eurostat_toc(verbose=verbose)
@@ -175,7 +179,14 @@ get_eurostat_bulk <- function(id,
     if (any(!sapply(restat_bulk[],is.factor))&(stringsAsFactors)) {
       restat_bulk<-data.table::data.table(restat_bulk,stringsAsFactors=stringsAsFactors)[]
     }  
-    if (is.factor(restat_bulk$values)){restat_bulk$values<-as.numeric(levels(restat_bulk$values))[restat_bulk$values]} else{restat_bulk$values<-as.numeric(restat_bulk$values)}
+    if (is.factor(restat_bulk$values)){
+      if (any(grepl('\\d+\\:\\d+',restat_bulk$values))){
+        restat_bulk$values<-as.character(levels(restat_bulk$values))[restat_bulk$values]
+        restat_bulk$values[grepl('^\\:$',restat_bulk$values)]<-NA
+      } else {
+        restat_bulk$values<-suppressWarnings(as.numeric(levels(restat_bulk$values))[restat_bulk$values])        
+      }
+    } 
   } 
    
   if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){

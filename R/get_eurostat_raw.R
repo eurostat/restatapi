@@ -206,8 +206,9 @@ get_eurostat_raw <- function(id,
               restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
               data.table::setnames(restat_raw,cnames)  
               restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-\\s:]',"",restat_raw$values)}
-              restat_raw$values<-gsub('[^0-9\\.]',"",restat_raw$values)
+              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-\\s\\:]',"",restat_raw$values)}
+              restat_raw$values<-gsub('^\\:$',"",restat_raw$values)
+              restat_raw$values<-gsub('[^0-9\\.\\:]',"",restat_raw$values)
               restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
             } else {
               message("The file download was not successful. Try again later.")
