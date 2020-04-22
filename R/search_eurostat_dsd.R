@@ -3,7 +3,7 @@
 #'              the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} 
 #'              function. 
 #' @param pattern a character string or a vector of character string.
-#' @param dsd a table with the character string with the id of the dataset. 
+#' @param dsd a table containing Data Structure Definition (DSD) of a Eurostat dataset which can be retreived by the \code{\link{get_eurostat_dsd}} function. 
 #' @param name a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
 #'             If the value \code{FALSE}, then only the 'code' column of the DSD will be  searched.
 #' @param exact_match a boolean with the default value \code{FALSE}, if the strings provided in \code{pattern} shall be matched exactly as it is or as a pattern. 

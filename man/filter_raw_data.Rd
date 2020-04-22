@@ -22,16 +22,16 @@ Filter downloaded full raw dataset on local computer if the \code{\link{get_euro
 }
 \details{
 It is a sub-function to use in the \code{\link{get_eurostat_data}} to filter data if the direct response from REST API did not provide data because of to large data set. 
-         The \code{filter_table} contains always two columns. In case if \code{date_filter=TRUE} then the two columns with the following names:
+         The \code{filter_table} contains always at least two columns. In case if \code{date_filter=TRUE} then the two columns should have the following names:
          \tabular{ll}{
-           sd \tab starting date to be included, where date is formatted yyyy[-mm][-dd] \cr
-           ed \tab end date of the period to be included in the dataset formatted yyyy[-mm][-dd] 
+           \code{sd} \tab Starting date to be included, where date is formatted yyyy[-mm][-dd] \cr
+           \code{ed} \tab End date of the period to be included in the dataset formatted yyyy[-mm][-dd] 
            }  
          In this case these conditions are applied to the time column of the the \code{raw_data} data.table. 
-         In case if \code{date_filter=FALSE} then the columns have the following names:
+         In case if \code{date_filter=FALSE} then the columns should have the following names:
          \tabular{ll}{
-           concept \tab containing concept names, which is a column name in the \code{raw_data} data.table \cr
-           code \tab a possible code under the given concept, which is a value in the column of the \code{raw_data} data.table defined by the concept in the \code{filter_table}   
+           \code{concept} \tab Eontaining concept names, which is a column name in the \code{raw_data} data.table \cr
+           \code{code} \tab A possible code under the given concept, which is a value in the column of the \code{raw_data} data.table defined by the concept in the \code{filter_table}   
            }
 }
 \examples{
@@ -39,10 +39,14 @@ It is a sub-function to use in the \code{\link{get_eurostat_data}} to filter dat
 
 }
 \donttest{
-
+id<-"tus_00age"
+rd<-get_eurostat_raw(id)
+dsd<-get_eurostat_dsd(id)
+ft<-create_filter_table(c("TIME_SP","Hungary",'T'),FALSE,dsd)
+filter_raw_data(rd,ft)
 }
 
 }
 \seealso{
-\code{\link{search_eurostat_raw}}, \code{\link{search_eurostat_dsd}}, \code{\link{search_eurostat_data}}
+\code{\link{get_eurostat_raw}}, \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{create_filter_table}}
 }

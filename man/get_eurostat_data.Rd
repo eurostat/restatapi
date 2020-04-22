@@ -34,14 +34,15 @@ If filter applied only part of the dataset is downloaded through the API. The wo
 any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}. 
 If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
-If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the whole dataset.}
+If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the whole dataset and apply the filter on the local computer. This option can be disabled with the \code{local_filter=FALSE} parameter.}
 
 \item{exact_match}{a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern.}
 
-\item{date_filter}{a vector which can be numeric or character containing dates to filter the dataset.
+\item{date_filter}{a vector which can be numeric or character containing dates to filter the dataset. If date is defined as character string it should follow the format yyyy[-mm][-dd], where the month and the day part is optional. 
 If date filter applied only part of the dataset is downloaded through the API. 
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download.
-If after filtering still the dataset has more observations than the limit per query via the API, then the bulk download is used to retrieve the data.}
+If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the data and apply the filter on the local computer. 
+This option can be disabled with the \code{local_filter=FALSE} parameter.}
 
 \item{label}{a boolean with the default \code{FALSE}. If it is \code{TRUE} then the code values are replaced by the name from the Data Structure Definition (DSD) \code{\link{get_eurostat_dsd}}.
 For example instead of "D1110A", "Raw cows' milk from farmtype" is used or "HU32" is replaced by "Észak-Alföld".}
@@ -84,11 +85,16 @@ should be kept or not. Default is \code{FALSE}, in this case these observations 
 If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
 is retrieved form the TOC.}
 
+\item{local_filter}{a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations 
+than the limit per query via the API would allow to download. The default is \code{TRUE}. In this case}
+
+\item{force_local_filter}{=FALSE,}
+
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
 \item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
-If the \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 
+The \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 
 otherwise the case of the letters is ignored. If the \code{name=FALSE} then the pattern(s) provided in the \code{filters}
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }

@@ -9,7 +9,7 @@ search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, exact_match = FALSE, ...)
 \arguments{
 \item{pattern}{a character string or a vector of character string.}
 
-\item{dsd}{a table with the character string with the id of the dataset.}
+\item{dsd}{a table containing Data Structure Definition (DSD) of a Eurostat dataset which can be retreived by the \code{\link{get_eurostat_dsd}} function.}
 
 \item{name}{a boolean with the default value \code{TRUE}, if the search shall look for the pattern in the name of the code.
 If the value \code{FALSE}, then only the 'code' column of the DSD will be  searched.}

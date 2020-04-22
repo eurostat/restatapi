@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.12</span>
       </span>
     </div>
 
@@ -140,28 +140,42 @@ in this case the filters applied to the other columns of <code>raw_data</code>.<
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a sub-function to use in the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> to filter data if the direct response from REST API did not provide data because of to large data set. 
-         The <code>filter_table</code> contains always two columns. In case if <code>date_filter=TRUE</code> then the two columns with the following names:</p><table class='table'>
-<tr><td>sd</td><td>starting date to be included, where date is formatted yyyy[-mm][-dd]</td></tr>
-<tr><td>ed</td><td>end date of the period to be included in the dataset formatted yyyy[-mm][-dd]</td></tr>
+         The <code>filter_table</code> contains always at least two columns. In case if <code>date_filter=TRUE</code> then the two columns should have the following names:</p><table class='table'>
+<tr><td><code>sd</code></td><td>Starting date to be included, where date is formatted yyyy[-mm][-dd]</td></tr>
+<tr><td><code>ed</code></td><td>End date of the period to be included in the dataset formatted yyyy[-mm][-dd]</td></tr>
 </table>
 <p>In this case these conditions are applied to the time column of the the <code>raw_data</code> data.table. 
-         In case if <code>date_filter=FALSE</code> then the columns have the following names:</p><table class='table'>
-<tr><td>concept</td><td>containing concept names, which is a column name in the <code>raw_data</code> data.table</td></tr>
-<tr><td>code</td><td>a possible code under the given concept, which is a value in the column of the <code>raw_data</code> data.table defined by the concept in the <code>filter_table</code></td></tr>
+         In case if <code>date_filter=FALSE</code> then the columns should have the following names:</p><table class='table'>
+<tr><td><code>concept</code></td><td>Eontaining concept names, which is a column name in the <code>raw_data</code> data.table</td></tr>
+<tr><td><code>code</code></td><td>A possible code under the given concept, which is a value in the column of the <code>raw_data</code> data.table defined by the concept in the <code>filter_table</code></td></tr>
 </table>
 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>search_eurostat_raw</code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>, <code>search_eurostat_data</code></p></div>
+    <div class='dont-index'><p><code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>, <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='create_filter_table.html'>create_filter_table</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># \dontshow{
+    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
 
-# }
-# \donttest{
-
-# }
+<span class='co'># }</span>
+<span class='co'># \donttest{</span>
+<span class='no'>id</span><span class='kw'>&lt;-</span><span class='st'>"tus_00age"</span>
+<span class='no'>rd</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_raw.html'>get_eurostat_raw</a></span>(<span class='no'>id</span>)
+<span class='no'>dsd</span><span class='kw'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span>(<span class='no'>id</span>)
+<span class='no'>ft</span><span class='kw'>&lt;-</span><span class='fu'><a href='create_filter_table.html'>create_filter_table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TIME_SP"</span>,<span class='st'>"Hungary"</span>,<span class='st'>'T'</span>),<span class='fl'>FALSE</span>,<span class='no'>dsd</span>)
+<span class='fu'>filter_raw_data</span>(<span class='no'>rd</span>,<span class='no'>ft</span>)</div><div class='output co'>#&gt;      freq    unit sex    age acl00 geo time values
+#&gt;   1:    A TIME_SP   T  TOTAL   AC0  HU 2010  11:32
+#&gt;   2:    A TIME_SP   T  TOTAL  AC01  HU 2010   8:34
+#&gt;   3:    A TIME_SP   T  TOTAL  AC02  HU 2010   1:42
+#&gt;   4:    A TIME_SP   T  TOTAL  AC03  HU 2010   1:16
+#&gt;   5:    A TIME_SP   T  TOTAL  AC1A  HU 2010   2:23
+#&gt;  ---                                              
+#&gt; 388:    A TIME_SP   T Y_GE65  AC9A  HU 2010   0:36
+#&gt; 389:    A TIME_SP   T Y_GE65  AC9B  HU 2010   0:00
+#&gt; 390:    A TIME_SP   T Y_GE65  AC9C  HU 2010   0:01
+#&gt; 391:    A TIME_SP   T Y_GE65  AC9D  HU 2010   0:09
+#&gt; 392:    A TIME_SP   T Y_GE65 TOTAL  HU 2010  24:00</div><div class='input'># }
 
 </div></pre>
   </div>
