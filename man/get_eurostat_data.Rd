@@ -19,6 +19,8 @@ get_eurostat_data(
   keep_flags = FALSE,
   cflags = FALSE,
   check_toc = FALSE,
+  local_filter = TRUE,
+  force_local_filter = FALSE,
   verbose = FALSE,
   ...
 )
@@ -189,5 +191,5 @@ dt<-get_eurostat_data("bop_its6_det",
 }
 }
 \seealso{
-\code{\link{search_eurostat_toc}},\code{\link{search_eurostat_dsd}}
+\code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}
 }

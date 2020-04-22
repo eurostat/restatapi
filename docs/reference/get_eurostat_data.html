@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.11</span>
       </span>
     </div>
 
@@ -129,6 +129,8 @@
   <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>cflags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>local_filter</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>force_local_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -274,7 +276,7 @@ If a date range is defined with ":", it is not possible to use the "&lt;" or "&g
 If there are multiple dates which is not a continuous range, it can be put in vector in any order like <code><a href='https://rdrr.io/r/base/c.html'>c("2016-08",2013:2015,"2017-07-01")</a></code>. In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>,<code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code></p></div>
+    <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span>()

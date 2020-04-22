@@ -119,7 +119,7 @@ if (!is.null(bt3)&!is.null(bt4)){
 
 context("test filtering in the get_eurostat_data function")
 test_that("test filtering in the get_eurostat_data function", {
-  expect_message(dt5<-get_eurostat_data("agr_r_milkpr",filters="2018",stringsAsFactors=FALSE))
+  expect_message(dt5<-get_eurostat_data("agr_r_milkpr",filters="2018",stringsAsFactors=FALSE)) #incorrectly date_filter value used for filters, whole dataset download
   expect_message(dt6<-get_eurostat_data("agr_r_milkpr",date_filter=22020))
   expect_message(dt7<-get_eurostat_data("agr_r_milkpr",date_filter="<2006<",cache_dir=tempdir()))
   expect_true(identical(dt6,dt7))
@@ -270,20 +270,20 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
       expect_true(nrow(dt8)<=5040)
       expect_true(ncol(dt8)<=5)
     }
-    dt9<-get_eurostat_data("avia_par_ee",select_freq="Q")
-    dt10<-get_eurostat_data("avia_par_ee",select_freq="Q")
-    if (!is.null(dt9)&!is.null(dt10)){
-      expect_true(identical(dt9,dt10))
-    }
+#    dt9<-get_eurostat_data("avia_par_ee",select_freq="Q")
+#    dt10<-get_eurostat_data("avia_par_ee",select_freq="Q")
+#    if (!is.null(dt9)&!is.null(dt10)){
+#      expect_true(identical(dt9,dt10))
+#    }
   } 
   dsd3<-get_eurostat_dsd("avia_par_is")
   if (!is.null(dsd3)&is.data.frame(dsd3)){
-    nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
-    if (!is.null(nr16)){
-      test_that("test filtering in the get_eurostat_data function", {
-        expect_equal(nr16,4758)
-      })
-    }
+#    nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
+#    if (!is.null(nr16)){
+#      test_that("test filtering in the get_eurostat_data function", {
+#        expect_equal(nr16,4758)
+#      })
+#    }
   }
   dsd4<-get_eurostat_dsd("bop_its6_det")
   if (!is.null(dsd4)&is.data.frame(dsd4)){
