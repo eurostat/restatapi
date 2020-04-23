@@ -70,7 +70,16 @@ rav<-get("rav",envir=.restatapi_env)
 dsd<-get_eurostat_dsd("avia_par_me") 
 create_filter_table(c("KYIV","hu","Quarterly"),dsd=dsd,exact_match=FALSE,ignore.case=TRUE)
 create_filter_table(c("KYIV","LHBP","Monthly"),dsd=dsd,exact_match=FALSE,name=FALSE)
-create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013"),
+create_filter_table(c("2017-03",
+                      "2001-03:2005",
+                      "<2000-07-01",
+                      2012:2014,
+                      "2018<",
+                      20912,
+                      "<3452<",
+                      ":2018-04>",
+                      "2<034v",
+                      "2008:2013"),
                     date_filter=TRUE,
                     verbose=TRUE)
 

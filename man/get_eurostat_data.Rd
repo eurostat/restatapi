@@ -51,7 +51,7 @@ For example instead of "D1110A", "Raw cows' milk from farmtype" is used or "HU32
 frequencies. Possible values are:
   A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
   The default is \code{NULL} as most datasets have just one time
-frequency and in this case if there are multiple frequencies, then only the most common frequency kept.
+frequency and in case there are multiple frequencies, then only the most common frequency kept.
 If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.}
 
 \item{cache}{a logical whether to do caching. Default is \code{TRUE}. Affects 
@@ -86,9 +86,12 @@ If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is chec
 is retrieved form the TOC.}
 
 \item{local_filter}{a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations 
-than the limit per query via the API would allow to download. The default is \code{TRUE}. In this case}
+than the limit per query via the API would allow to download. The default is \code{TRUE}, in this case if the response footer contains information 
+that the result cannot be downloaded becuase it is too large, then the whole raw dataset is downloaded and filtered on the local computer.}
 
-\item{force_local_filter}{=FALSE,}
+\item{force_local_filter}{a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local 
+computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
+but it is fully listed in the raw dataset.}
 
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}

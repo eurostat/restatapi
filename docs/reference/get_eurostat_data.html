@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ For example instead of "D1110A", "Raw cows' milk from farmtype" is used or "HU32
 frequencies. Possible values are:
   A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
   The default is <code>NULL</code> as most datasets have just one time
-frequency and in this case if there are multiple frequencies, then only the most common frequency kept.
+frequency and in case there are multiple frequencies, then only the most common frequency kept.
 If all the frequencies needed the <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> can be used.</p></td>
     </tr>
     <tr>
@@ -228,11 +228,14 @@ is retrieved form the TOC.</p></td>
     <tr>
       <th>local_filter</th>
       <td><p>a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations 
-than the limit per query via the API would allow to download. The default is <code>TRUE</code>. In this case</p></td>
+than the limit per query via the API would allow to download. The default is <code>TRUE</code>, in this case if the response footer contains information 
+that the result cannot be downloaded becuase it is too large, then the whole raw dataset is downloaded and filtered on the local computer.</p></td>
     </tr>
     <tr>
       <th>force_local_filter</th>
-      <td><p>=FALSE,</p></td>
+      <td><p>a boolean with the default value <code>FALSE</code>. In case, if there are existing filter conditions, then it will do the filtering on the local 
+computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
+but it is fully listed in the raw dataset.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -313,18 +316,22 @@ If there are multiple dates which is not a continuous range, it can be put in ve
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span>),
                       <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"Q"</span>,
                       <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                      <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those charcters removed from the date filter.</span></div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,
+                      <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span>),
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='st'>"2007-06&lt;"</span>,
                       <span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_a10_e"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span>),
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span>:<span class='fl'>2018</span>))</div><div class='output co'>#&gt; <span class='message'>The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those charcters removed from the date filter.</span></div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"vit_t3"</span>,
+                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span>:<span class='fl'>2018</span>))
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"vit_t3"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"EU28"</span>,<span class='no'>eu</span>$<span class='no'>EA15</span>,<span class='st'>"HU$"</span>),
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2015"</span>,<span class='fl'>2007</span>))</div><div class='output co'>#&gt; <span class='message'>The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those charcters removed from the date filter.</span></div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
+                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2015"</span>,<span class='fl'>2007</span>))
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span>),
-                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)</div><div class='output co'>#&gt; <span class='message'>The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those charcters removed from the date filter.</span></div><div class='input'><span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,
+                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)
+<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,
                        <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"lu"</span>,
                        <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"bop_its6_det"</span>,

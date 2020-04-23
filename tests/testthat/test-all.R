@@ -117,9 +117,9 @@ if (!is.null(bt3)&!is.null(bt4)){
   })
 }
 
-context("test filtering in the get_eurostat_data function")
-test_that("test filtering in the get_eurostat_data function", {
-  expect_message(dt5<-get_eurostat_data("agr_r_milkpr",filters="2018",stringsAsFactors=FALSE)) #incorrectly date_filter value used for filters, whole dataset download
+context("test of filtering in the get_eurostat_data function")
+test_that("test of filtering in the get_eurostat_data function", {
+  expect_message(dt5<-get_eurostat_data("agr_r_milkpr",filters="2018",stringsAsFactors=FALSE)) # date_filter value used for filters incorrectly => whole dataset downloaded
   expect_message(dt6<-get_eurostat_data("agr_r_milkpr",date_filter=22020))
   expect_message(dt7<-get_eurostat_data("agr_r_milkpr",date_filter="<2006<",cache_dir=tempdir()))
   expect_true(identical(dt6,dt7))
@@ -215,6 +215,42 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(r
   })
 }
 
+context("test of the create_filter_table function")
+dft2<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2016<",20912,"<3452<",":2018-04>","2<034","2008:2013"),TRUE)
+test_that("test of the create_filter_table function", {
+  expect_message(dft1<-create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013"),TRUE,verbose=TRUE))
+  expect_equal(ncol(dft1),ncol(dft2))
+  expect_equal(ncol(dft1),2)
+  expect_equal(nrow(dft1),5)
+  expect_equal(nrow(dft2),3)
+})
+id<-"avia_par_me"
+dsd<-get_eurostat_dsd(id) 
+if (!is.null(dsd)){
+  ft1<-create_filter_table(c("KYIV","DE","Quarterly"),dsd=dsd,exact_match=FALSE,name=FALSE)
+  ft2<-create_filter_table(c("flight","Monthly"),dsd=dsd,exact_match=TRUE,name=TRUE,ignore.case=TRUE)  
+  test_that("test of the create_filter_table function", {
+    expect_equal(ncol(ft1),4)
+    expect_equal(ncol(ft1),ncol(ft2))
+    expect_equal(nrow(ft1),8)
+    expect_equal(nrow(ft2),2)
+  })
+} 
+
+
+context("test of the filter_raw_data function")
+id<-"tus_00age"
+rd<-get_eurostat_raw(id)
+dsd<-get_eurostat_dsd(id)
+if (!is.null(dsd)&!is.null(rd)){
+  ft<-create_filter_table(c("TIME_SP","Hungary",'T'),FALSE,dsd)
+  frd<-filter_raw_data(rd,ft)
+  test_that("test of the filter_raw_data function", {
+    expect_equal(ncol(frd),8)
+    expect_equal(nrow(ft),3)
+    expect_equal(nrow(frd),392)
+  })
+}
 
 
 if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
@@ -231,7 +267,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     nr11<-nrow(get_eurostat_data("agr_r_milkpr",filters="^BE$",date_filter=c(2002,"2008",2015:2017)))
     if (!is.null(nr11)){
       test_that("test filtering in the get_eurostat_data function", {
-        # expect_true(nr11<=5)
+        expect_true(nr11<=5)
       })
     }
     nr12<-nrow(get_eurostat_data("agr_r_milkpr",filters="BE",date_filter=c(2008,"2002",2015:2017)))
@@ -245,23 +281,23 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     nr13<-nrow(get_eurostat_data("avia_par_me",filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,cflags=TRUE,verbose=FALSE))
     if (!is.null(nr13)){
       test_that("test filtering in the get_eurostat_data function", {
-        # expect_equal(nr13,24)
+        expect_equal(nr13,24)
       })
     }
     nr14<-nrow(get_eurostat_data("avia_par_me",date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
     if (!is.null(nr14)){
       test_that("test filtering in the get_eurostat_data function", {
-        # expect_equal(nr14,1152)
+        expect_equal(nr14,1152)
       })
     }
     dt5<-get_eurostat_data("avia_par_me",filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M")
-    # dt6<-get_eurostat_data("avia_par_me",filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
-    dt7<-get_eurostat_data("avia_par_me",filters=c("KYIV","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"))
+    dt6<-get_eurostat_data("avia_par_me",filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
+    dt7<-get_eurostat_data("avia_par_me",filters=c("ZHULIANY","BUDAPEST","Quarterly","Monthly"),exact_match=FALSE,date_filter=c("2016-08","2017-07-01"),name=TRUE)
     if (!is.null(dt5)&!is.null(dt7)){ #&!is.null(dt6)
       test_that("test filtering in the get_eurostat_data function", {
-        # expect_equal(dt5,dt7)
+        expect_equal(dt5,dt7)
         expect_true(any(sapply(dt5,is.factor)))
-        # expect_false(any(sapply(dt6,is.factor)))
+        expect_false(any(sapply(dt6,is.factor)))
         expect_true(any(sapply(dt7,is.factor)))
       })
     }
@@ -270,20 +306,20 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
       expect_true(nrow(dt8)<=5040)
       expect_true(ncol(dt8)<=5)
     }
-#    dt9<-get_eurostat_data("avia_par_ee",select_freq="Q")
-#    dt10<-get_eurostat_data("avia_par_ee",select_freq="Q")
-#    if (!is.null(dt9)&!is.null(dt10)){
-#      expect_true(identical(dt9,dt10))
-#    }
+   dt9<-get_eurostat_data("avia_par_ee",select_freq="Q")
+   dt10<-get_eurostat_data("avia_par_ee",select_freq="Q")
+   if (!is.null(dt9)&!is.null(dt10)){
+     expect_true(identical(dt9,dt10))
+   }
   } 
   dsd3<-get_eurostat_dsd("avia_par_is")
   if (!is.null(dsd3)&is.data.frame(dsd3)){
-#    nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
-#    if (!is.null(nr16)){
-#      test_that("test filtering in the get_eurostat_data function", {
-#        expect_equal(nr16,4758)
-#      })
-#    }
+   nr16<-nrow(get_eurostat_data("avia_par_is",filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
+   if (!is.null(nr16)){
+     test_that("test filtering in the get_eurostat_data function", {
+       expect_equal(nr16,4374)
+     })
+   }
   }
   dsd4<-get_eurostat_dsd("bop_its6_det")
   if (!is.null(dsd4)&is.data.frame(dsd4)){

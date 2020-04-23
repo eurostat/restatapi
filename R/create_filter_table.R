@@ -45,7 +45,16 @@
 #' dsd<-get_eurostat_dsd("avia_par_me") 
 #' create_filter_table(c("KYIV","hu","Quarterly"),dsd=dsd,exact_match=FALSE,ignore.case=TRUE)
 #' create_filter_table(c("KYIV","LHBP","Monthly"),dsd=dsd,exact_match=FALSE,name=FALSE)
-#' create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013"),
+#' create_filter_table(c("2017-03",
+#'                       "2001-03:2005",
+#'                       "<2000-07-01",
+#'                       2012:2014,
+#'                       "2018<",
+#'                       20912,
+#'                       "<3452<",
+#'                       ":2018-04>",
+#'                       "2<034v",
+#'                       "2008:2013"),
 #'                     date_filter=TRUE,
 #'                     verbose=TRUE)
 #' 
@@ -53,12 +62,23 @@
 create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=TRUE,verbose=FALSE,...) {
   .datatable.aware=TRUE
   ft<-sd<-ed<-NULL
+  verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (date_filter) {
-    df<-as.character(substitute(filters))
+    if (verbose) {message("filters: ",filters,"; is numeric: ",is.numeric(filters),"; call parents: ",length(sys.calls())-1)}
+    if (length(sys.calls())>1){
+      if (any(grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE))){
+        df<-as.character(filters)
+      } else{
+        df<-as.character(substitute(filters))
+      }
+    } else {
+      df<-as.character(substitute(filters))
+    }
+    if (verbose) {message("length df: ",length(df)," -*- df: ",paste(df,collapse=", "))}
     if (df[1]=="c"){
       df<-df[2:length(df)]
     } else {
-      df<-as.character(parse(text=deparse(filters)))
+    # df<-as.character(parse(text=deparse(filters)))
     }
     if (any(grepl("[^0-9\\-\\:<>]",df,perl=TRUE))){
       df<-gsub("[^0-9\\-\\:<>]","",df,perl=TRUE)
@@ -107,8 +127,11 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
     if(!is.null(dft)){
       if(nrow(dft)>0){
         dft<-dft[order(sd,ed)]
-        ft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) > utils::head(ed, -1))))]
+        ft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) >= utils::head(ed, -1))))]
         ft<-ft[,c("sd","ed")]
+        # while(any(utils::tail(ft$sd, -1) >= utils::head(ft$ed, -1))){
+        #   ft<-ft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) >= utils::head(ed, -1))))][,c("sd","ed")]
+        # }
       }
     }
     
@@ -125,7 +148,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
       },f=filters,d=dsd))
     }
   }
-  ft
+  ft[]
 }
 
 check_tf<-function(x,tf){

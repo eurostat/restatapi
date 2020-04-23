@@ -20,7 +20,7 @@
 #'        frequencies. Possible values are:
 #'    	  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
 #'    	  The default is \code{NULL} as most datasets have just one time
-#'        frequency and in this case if there are multiple frequencies, then only the most common frequency kept.
+#'        frequency and in case there are multiple frequencies, then only the most common frequency kept.
 #'        If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.
 #' @param cache a logical whether to do caching. Default is \code{TRUE}. Affects 
 #'        only queries without filtering. If \code{filters} or \code{date_filter} is used then there is no caching.
@@ -46,8 +46,11 @@
 #'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
 #'        is retrieved form the TOC.  
 #' @param local_filter a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations 
-#'        than the limit per query via the API would allow to download. The default is \code{TRUE}. In this case 
-#' @param force_local_filter =FALSE,
+#'        than the limit per query via the API would allow to download. The default is \code{TRUE}, in this case if the response footer contains information 
+#'        that the result cannot be downloaded becuase it is too large, then the whole raw dataset is downloaded and filtered on the local computer.  
+#' @param force_local_filter a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local 
+#'        computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
+#'        but it is fully listed in the raw dataset. 
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
@@ -206,10 +209,10 @@ get_eurostat_data <- function(id,
     if(!is.null(select_freq)){
       append_sf<-FALSE
       if (is.null(filters)|(length(filters)>1)) {
-        append_sf<-TRUE
-      } else if (!is.null(filters)) {
-        if (grepl("\\.",filters,perl=TRUE)){
-          if (grepl("^\\.",filters,perl=TRUE)){
+        append_sf<-TRUE  # there is already filters defined and the select_freq is appended to the the filters
+      } else if (!is.null(filters)) {  
+        if (grepl("\\.",filters,perl=TRUE)){ #filter is given as a string for the REST API
+          if (grepl("^\\.",filters,perl=TRUE)){ # no FREQ value is given in the filter
             filters<-paste0(select_freq,filters)
           } else{
             filters<-paste0(select_freq,"+",filters)
@@ -266,9 +269,14 @@ get_eurostat_data <- function(id,
             }
           } else {filters_url<-filters}
         }
-      } else {filters_url<-NULL}
+      } else {
+        ft<-NULL
+        filters_url<-NULL
+      }
       if (!is.null(date_filter)){
-        dft<-create_filter_table(date_filter,TRUE)
+        if (verbose) {message("date_filter: ",match.call()$date_filter)}
+        dft<-create_filter_table(match.call()$date_filter,TRUE,verbose=verbose)
+        if (verbose) {message("date_filter: ",paste(date_filter,collapse=", ")," nrow dft: ",nrow(dft))}
         # df<-as.character(substitute(date_filter))
         # if (df[1]=="c"){
         #   df<-df[2:length(df)]
@@ -330,7 +338,7 @@ get_eurostat_data <- function(id,
         } else{
           date_filter<-NULL
         }
-      }
+      }else{dft<-NULL}
       if (verbose){message(filters_url,"-",date_filter)}
       if (is.null(filters_url)&(is.null(date_filter))){
         message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
@@ -339,10 +347,14 @@ get_eurostat_data <- function(id,
       } else  if (force_local_filter){
         message("Forcing to apply filter locally. The whole dataset is downloaded through the raw download and the filters are applied locally.")
         restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-        if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)[]}
         if (verbose) {print(dft)}
-        if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)[]}
+        if (!is.null(dft)){
+          if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)[]}
+        }
         if (verbose) {print(ft)}
+        if (!is.null(dft)){
+          if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)[]}
+        }
         cr<-FALSE
         restat<-restat_raw[]
       } else {
@@ -398,10 +410,14 @@ get_eurostat_data <- function(id,
               if (local_filter){
                 message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
                 restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-                if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
                 if (verbose) {print(dft)}
-                if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
+                if (!is.null(dft)){
+                  if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
+                }
                 if (verbose) {print(ft)}
+                if (!is.null(ft)){
+                  if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
+                }
                 cr<-FALSE
                 restat<-restat_raw
               } else {
@@ -493,6 +509,9 @@ get_eurostat_data <- function(id,
       }
     }
     if (!is.null(restat)){
+      if ("freq" %in% colnames(restat)){
+        if (length(unique(restat$freq))==1){restat[,"freq":=NULL] }
+      }
       restat<-unique(restat)[]
       restat$time<-gsub('[MD]',"-",restat$time)
       restat$time<-gsub('([0-9]{4})Q',"\\1-Q",restat$time,perl=TRUE)
