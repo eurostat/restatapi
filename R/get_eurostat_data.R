@@ -178,10 +178,16 @@ get_eurostat_data <- function(id,
   if(cflags){keep_flags<-cflags}
   
   if (!(exists(".restatapi_env"))) {load_cfg()}
+  if (getOption("restatapi_dev",FALSE)){
+    tryCatch(
+      {logstr<-paste(utils::packageVersion("restatapi"),paste(paste(names(match.call()),match.call(),sep="%3D")[2:length(match.call())],collapse="\t"),sep="\t")
+      utils::download.file(paste0("http://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
+      unlink("resp",force=TRUE)},
+      error=function(e){},
+      warning=function(w){}
+    )  
+  }
   
-  logstr<-paste(utils::packageVersion("restatapi"),paste(paste(names(match.call()),match.call(),sep="%3D")[2:length(match.call())],collapse="\t"),sep="\t")
-  utils::download.file(paste0("http://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
-  unlink("resp",force=TRUE)
   
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
@@ -351,13 +357,13 @@ get_eurostat_data <- function(id,
       } else  if (force_local_filter){
         message("Forcing to apply filter locally. The whole dataset is downloaded through the raw download and the filters are applied locally.")
         restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-        if (verbose) {print(dft)}
-        if (!is.null(dft)){
-          if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)[]}
-        }
         if (verbose) {print(ft)}
         if (!is.null(dft)){
           if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)[]}
+        }
+        if (verbose) {print(dft)}
+        if (!is.null(dft)){
+          if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)[]}
         }
         cr<-FALSE
         restat<-restat_raw[]
@@ -414,13 +420,13 @@ get_eurostat_data <- function(id,
               if (local_filter){
                 message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
                 restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-                if (verbose) {print(dft)}
-                if (!is.null(dft)){
-                  if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
-                }
                 if (verbose) {print(ft)}
                 if (!is.null(ft)){
                   if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
+                }
+                if (verbose) {print(dft)}
+                if (!is.null(dft)){
+                  if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
                 }
                 cr<-FALSE
                 restat<-restat_raw
@@ -432,10 +438,10 @@ get_eurostat_data <- function(id,
             if (local_filter){
               message("One or some of the filter(s) resulted too large datatset to download through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
               restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-              if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
-              if (verbose) {print(dft)}
-              if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
               if (verbose) {print(ft)}
+              if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
+              if (verbose) {print(dft)}
+              if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
               cr<-FALSE
               restat<-restat_raw
             } else {

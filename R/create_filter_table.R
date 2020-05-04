@@ -62,6 +62,7 @@
 create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=TRUE,verbose=FALSE,...) {
   .datatable.aware=TRUE
   ft<-sd<-ed<-NULL
+  time_formats<-c("^((?:19|20)\\d\\d)$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (date_filter) {
     if (verbose) {message("filters: ",filters,"; is numeric: ",is.numeric(filters),"; call parents: ",length(sys.calls())-1)}
@@ -72,7 +73,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
         df<-as.character(substitute(filters))
       }
     } else {
-      df<-as.character(substitute(filters))
+      df<-as.character(filters)
     }
     if (verbose) {message("length df: ",length(df)," -*- df: ",paste(df,collapse=", "))}
     if (df[1]=="c"){
@@ -83,7 +84,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
     if (any(grepl("[^0-9\\-\\:<>]",df,perl=TRUE))){
       df<-gsub("[^0-9\\-\\:<>]","",df,perl=TRUE)
       df<-df[df!=""]
-      message("The date filter had invalid character (not 0-9, '-', '<', '>' or ':'). Those charcters removed from the date filter.")
+      message("The date filter had invalid character (not 0-9, '-', '<', '>' or ':'). Those characters removed from the date filter.")
     } 
     if (verbose){message(paste(df,collapse=", ")," date filter length: ",length(df),", nchar date_filter: ",paste(nchar(df),collapse=","))}
     dft<-data.table::rbindlist(lapply(df, function(sdf) {
@@ -93,32 +94,32 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
       } else {
         if (grepl(":",sdf,perl=TRUE)){
           dates<-unlist(strsplit(sdf,":"))
-          if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$")))){
+          if (all(sapply(dates,check_tf,tf=time_formats))){
             res<-list(sd=min(dates),ed=max(dates))
           } else{
             res<-NULL
-            if(verbose){message(paste0("Could not parse date filter: '",paste0(dates,collapse=":"),"' (at least one date not in yyyy[-mm][-dd] format). The date filter is ignored."))}
+            if(verbose){message(paste0("Could not parse date filter: '",paste0(dates,collapse=":"),"' (at least one date not in yyyy[-mm][-dd] format or incorrect date value). The date filter is ignored."))}
           }
         } else if (grepl("<|>",sdf,perl=TRUE)){
-          if(check_tf(gsub("<|>","",sdf,perl=TRUE),c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
+          if(check_tf(gsub("<|>","",sdf,perl=TRUE),time_formats)){
             if (grepl("^<|>$",sdf,perl=TRUE)){
               res<-list(sd=0,ed=gsub("<|>","",sdf,perl=TRUE))  
             } else if (grepl("^>|<$",sdf,perl=TRUE)){
               res<-list(sd=gsub("<|>","",sdf,perl=TRUE),ed=Inf)
             } else {
               res<-NULL
-              if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
+              if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value). The date filter is ignored."))}
             }
           } else {
             res<-NULL
-            if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format). The date filter is ignored."))}
+            if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format or incorrect date value). The date filter is ignored."))}
           }
         } else{
-          if(check_tf(sdf,c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
+          if(check_tf(sdf,time_formats)){
             res<-list(sd=sdf,ed=sdf)  
           } else {
             res<-NULL
-            if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
+            if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value). The date filter is ignored."))}
           }
         }  
       }
@@ -126,6 +127,13 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
     }),fill=TRUE)
     if(!is.null(dft)){
       if(nrow(dft)>0){
+        dft[nchar(sd)==4,sd:=paste0(sd,"-01-01")]
+        dft[nchar(ed)==4,ed:=paste0(ed,"-12-31")]
+        dft[nchar(sd)==7,sd:=paste0(sd,"-01")]
+        dft[grepl("^\\d{4}-(01|03|05|07|08|10|12)$",ed),ed:=paste0(ed,"-31")]
+        dft[grepl("^\\d{4}-(04|06|09|11)$",ed),ed:=paste0(ed,"-30")]
+        dft[,sd:=gsub("-02-(29|3[01])$","-02-28",sd)]
+        dft[,ed:=gsub("-02-(29|3[01])$","-02-28",ed)]
         dft<-dft[order(sd,ed)]
         ft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) >= utils::head(ed, -1))))]
         ft<-ft[,c("sd","ed")]
