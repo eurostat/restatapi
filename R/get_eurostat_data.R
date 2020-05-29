@@ -171,23 +171,24 @@ get_eurostat_data <- function(id,
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
-  restat<-rdat<-drop<-concept<-code<-FREQ<-N<-flags<-NULL
+  restat<-rdat<-drop<-concept<-code<-freq<-N<-flags<-ft<-dft<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
+  # options(code_opt=NULL)
   if(cflags){keep_flags<-cflags}
   
   if (!(exists(".restatapi_env"))) {load_cfg()}
   if (getOption("restatapi_dev",FALSE)){
     tryCatch(
       {logstr<-paste(utils::packageVersion("restatapi"),paste(paste(names(match.call()),match.call(),sep="%3D")[2:length(match.call())],collapse="\t"),sep="\t")
+      if(verbose){message(logstr)}
       utils::download.file(paste0("http://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
       unlink("resp",force=TRUE)},
       error=function(e){},
       warning=function(w){}
     )  
   }
-  
   
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
@@ -216,13 +217,17 @@ get_eurostat_data <- function(id,
   }
   
   if (tbc){
-    if(!is.null(select_freq)){
+    if(!is.null(select_freq)){ 
       append_sf<-FALSE
-      if (is.null(filters)|(length(filters)>1)) {
-        append_sf<-TRUE  # there is already filters defined and the select_freq is appended to the the filters
-      } else if (!is.null(filters)) {  
-        if (grepl("\\.",filters,perl=TRUE)){ #filter is given as a string for the REST API
-          if (grepl("^\\.",filters,perl=TRUE)){ # no FREQ value is given in the filter
+      if (is.null(filters)|(length(filters)>1)) # no filter or there is already several filters defined => the select_freq is appended to the the filters
+      {
+        append_sf<-TRUE  
+      } else if (!is.null(filters)) #there is a single filter
+      {  
+        if (grepl("\\.",filters,perl=TRUE)) #filter is given as a string for the REST API
+        { 
+          if (grepl("^\\.",filters,perl=TRUE)) # no FREQ value is given in the filter
+          { 
             filters<-paste0(select_freq,filters)
           } else{
             filters<-paste0(select_freq,"+",filters)
@@ -252,24 +257,18 @@ get_eurostat_data <- function(id,
         }
       }
     }
-    if ((!is.null(filters))|(!is.null(date_filter))) {
-      if (!is.null(filters)){
+    if ((!is.null(filters))|(!is.null(date_filter))) #there is filter/date_filter defined
+    { 
+      if (!is.null(filters))#filter defined => create filter table and filter url
+      { 
         dsd<-get_eurostat_dsd(id,verbose=verbose)
         if (is.null(dsd)){
           message("Could not download the DSD. The filter is ignored")
           filters_url<-NULL
         } else {
           dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
-          if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1)){
+          if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1) | length(filters)>1){
             ft<-create_filter_table(filters,FALSE,dsd,exact_match,...)
-            # if (is.null(names(filters))){
-            #   ft<-data.table::rbindlist(lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
-            # } else{
-            #   concepts<-names(filters)
-            #   ft<-data.table::rbindlist(lapply(1:length(filters),function (x,f,d){
-            #     do.call(rbind,lapply(unlist(f[x]),search_eurostat_dsd,dsd=d[d$concept==toupper(concepts[x]),],exact_match=exact_match,...))
-            #   },f=filters,d=dsd))
-            # }
             if (nrow(ft)>0){
               ft<-unique(ft[ft$code!=FALSE,2:3])
               ft<-ft[order(match(ft$concept, dsdorder)),]
@@ -283,64 +282,13 @@ get_eurostat_data <- function(id,
         ft<-NULL
         filters_url<-NULL
       }
-      if (!is.null(date_filter)){
+      if (!is.null(date_filter)) #date filter defined => create date filter table and url
+      { 
         if (verbose) {message("date_filter: ",match.call()$date_filter)}
         dft<-create_filter_table(match.call()$date_filter,TRUE,verbose=verbose)
         if (verbose) {message("date_filter: ",paste(date_filter,collapse=", ")," nrow dft: ",nrow(dft))}
-        # df<-as.character(substitute(date_filter))
-        # if (df[1]=="c"){
-        #   df<-df[2:length(df)]
-        # } else {
-        #   df<-as.character(parse(text=deparse(date_filter)))
-        # }
-        # if (any(grepl("[^0-9\\-\\:<>]",df,perl=TRUE))){
-        #   df<-gsub("[^0-9\\-\\:<>]","",df,perl=TRUE)
-        #   df<-df[df!=""]
-        #   message("The date filter had invalid character (not 0-9, '-', '<', '>' or ':'). Those charcters removed from the date filter.")
-        # } 
-        # if (verbose){message(paste(df,collapse=", ")," date filter length: ",length(df),", nchar date_filter: ",paste(nchar(df),collapse=","))}
-        # dft<-data.table::rbindlist(lapply(df, function(sdf) {
-        #     if (nchar(gsub("[^:<>]","",sdf,perl=TRUE))>1){
-        #       res<-NULL
-        #       if(verbose){message(paste0("Could not parse date filter: '",sdf,"'. This date filter is ignored."))}
-        #     } else {
-        #     if (grepl(":",sdf,perl=TRUE)){
-        #       dates<-unlist(strsplit(sdf,":"))
-        #       if (all(sapply(dates,check_tf,tf=c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$")))){
-        #         res<-list(sd=min(dates),ed=max(dates))
-        #       } else{
-        #         res<-NULL
-        #         if(verbose){message(paste0("Could not parse date filter: '",paste0(dates,collapse=":"),"' (at least one date not in yyyy[-mm][-dd] format). The date filter is ignored."))}
-        #       }
-        #     } else if (grepl("<|>",sdf,perl=TRUE)){
-        #       if(check_tf(gsub("<|>","",sdf,perl=TRUE),c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
-        #         if (grepl("^<|>$",sdf,perl=TRUE)){
-        #           res<-list(sd=0,ed=gsub("<|>","",sdf,perl=TRUE))  
-        #         } else if (grepl("^>|<$",sdf,perl=TRUE)){
-        #           res<-list(sd=gsub("<|>","",sdf,perl=TRUE),ed=Inf)
-        #         } else {
-        #           res<-NULL
-        #           if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
-        #         }
-        #       } else {
-        #         res<-NULL
-        #         if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format). The date filter is ignored."))}
-        #       }
-        #     } else{
-        #       if(check_tf(sdf,c("^[0-9]{4}$","^[0-9]{4}-[0-1][0-9]$","^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$"))){
-        #         res<-list(sd=sdf,ed=sdf)  
-        #       } else {
-        #         res<-NULL
-        #         if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format). The date filter is ignored."))}
-        #       }
-        #     }  
-        #   }
-        #     return(res)
-        #   }),fill=TRUE)
         if(!is.null(dft)){
           if(nrow(dft)>0){
-            # dft<-dft[order(sd,ed)]
-            # dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) > utils::head(ed, -1))))]
             date_filter<-apply(dft,1,function (x) {paste0("?",if(x[1]!=0){paste0("startPeriod=",x[1])},if(x[1]!=0&x[2]!=Inf){paste0("&endPeriod=",x[2])},if(x[1]==0&x[2]!=Inf){paste0("endPeriod=",x[2])})})  
           } else {
             date_filter<-NULL
@@ -350,24 +298,29 @@ get_eurostat_data <- function(id,
         }
       }else{dft<-NULL}
       if (verbose){message(filters_url,"-",date_filter)}
-      if (is.null(filters_url)&(is.null(date_filter))){
+      if (is.null(filters_url)&(is.null(date_filter))) #after parsing there is no valid filter or it is missing => bulk download
+      { 
         message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
-        if (verbose) {message("cflags:",cflags)}
         restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose=verbose)
-      } else  if (force_local_filter){
+        if (!is.null(restat) & (verbose)) {message("bulk restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"));message("cflags:",cflags)}
+      } else  if (force_local_filter) #there is valid filter but want to filter localy, not using the API and filter url => raw download and filtering
+      { 
         message("Forcing to apply filter locally. The whole dataset is downloaded through the raw download and the filters are applied locally.")
         restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-        if (verbose) {print(ft)}
+        if (!is.null(restat_raw) & (verbose)) {message("raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
+        if (verbose) {message("filter table:");print(ft)}
         if (!is.null(dft)){
           if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)[]}
         }
-        if (verbose) {print(dft)}
+        if (verbose) {message("date filter table:");print(dft)}
         if (!is.null(dft)){
           if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)[]}
         }
         cr<-FALSE
         restat<-restat_raw[]
-      } else {
+        if (!is.null(restat) & (verbose)) {message("local filtered restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+      } else #there is valid filter url => use the REST API with SDMX 
+      { 
         base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
         data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
         options(code_opt=NULL)
@@ -385,181 +338,218 @@ get_eurostat_data <- function(id,
                      })
             if (length(temp)==0) {tbc<-FALSE}
             if (tbc){
-              xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")
-              if (length(xml_foot)>0){
+              xml_foot<-NULL
+              tryCatch({xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")},
+                       error = function(e) {
+                         if (verbose) {message("Error by the extraction of the footer from the xml:",'\n',paste(unlist(e),collapse="\n"))}
+                         tbc<-FALSE
+                       },
+                       warning = function(w) {
+                         if(verbose){message("Warning by the extraction of the footer from the xml:",'\n',paste(unlist(w),collapse="\n"))}
+                         tbc<-FALSE
+                       })
+           } 
+            if (tbc & !is.null(xml_foot)){
                 code<-xml2::xml_attr(xml_foot,"code")
+                if (length(code)!=0 & verbose){
+                  message("The query had a footer message. You can check the details with the verbose=TRUE parameter.")
+                }
                 severity<-xml2::xml_attr(xml_foot,"severity")
                 fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
-                if (verbose){message(x,"\n",code," - ",severity,"\n",paste(fmsg,collapse="\n"))}
-                code<-c(getOption("code_opt",NULL),code)
+                if (verbose){message(x,"\ncode: ",code," - severity:",severity,"\n",paste(fmsg,collapse="\n"))}
+                code<-c(getOption("code_opt",NULL),code) #put the footer code into options in case there are several time filter
                 options(code_opt=code)
-                tbc<-FALSE
-              }  
+            } else {
+              tbc<-FALSE
+              message("Problem by the extraction of the footer information from the xml_file.")
             }
             if(tbc){
-              xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
-              if (Sys.info()[['sysname']]=='Windows'){
-                xml_leafs<-as.character(xml_leafs)
-                cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
-                parallel::clusterEvalQ(cl,require(xml2))
-                parallel::clusterExport(cl,c("extract_data"))
-                rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
-                parallel::stopCluster(cl)
-              }else{
-                rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
-              }
+              tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
+                        if (Sys.info()[['sysname']]=='Windows'){
+                          xml_leafs<-as.character(xml_leafs)
+                          cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
+                          parallel::clusterEvalQ(cl,require(xml2))
+                          parallel::clusterExport(cl,c("extract_data"))
+                          rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
+                          parallel::stopCluster(cl)
+                        }else{
+                          rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
+                        }
+              },
+              error = function(e){rdat<-NULL},
+              warning = function(w){if (verbose){message(w)}}
+              )
             }
             if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}  
         }),fill=TRUE)
-        if (!is.null(restat)){
-          if ((nrow(restat)==0)) {
-            if (all(getOption("code_opt",NULL)==500)){
+        if (!is.null(restat)) #at least one url provided a valid result => check if all the queries with data downloaded
+        {
+          if ((nrow(restat)==0)) #  if there is no data in the results 
+          { 
+            if (all(getOption("code_opt",NULL)==500)) # no data for all the filters => stop processing by restat<-NULL
+            { 
               message("500 - No data with the given filter(s)")
               restat<-NULL
-            } else {
-              if (local_filter){
+            } else #there is some data but was not downloaded
+            {   
+              if (local_filter) #apply filter locally
+              { 
                 message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
                 restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
-                if (verbose) {print(ft)}
+                if (!is.null(restat_raw) & (verbose)) {message("raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
+                if (verbose) {message("filter table:");print(ft)}
                 if (!is.null(ft)){
                   if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
                 }
-                if (verbose) {print(dft)}
+                if (verbose) {message("date filter table:");print(dft)}
                 if (!is.null(dft)){
                   if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
                 }
-                cr<-FALSE
                 restat<-restat_raw
-              } else {
+                if (!is.null(restat) & (verbose)) {message("local filtered restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+              } else #inform that there is data but could not be downloaded immediately 
+              { 
                 message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. You may want to download the whole dataset and apply the filter(s) locally.")
               }
             }
-          } else if (any(getOption("code_opt",NULL)==413)){
-            if (local_filter){
+          } else if (any(getOption("code_opt",NULL)==413)) #if there is some data but for some of the filters there is a warning that could not be downloaded imediately
+          { 
+            if (local_filter) #apply filter locally and replace the data from the REST API
+            { 
               message("One or some of the filter(s) resulted too large datatset to download through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
               restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
+              if (!is.null(restat_raw) & (verbose)) {message("raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
               if (verbose) {print(ft)}
               if (nrow(ft)>0){restat_raw<-filter_raw_data(restat_raw,ft)}
               if (verbose) {print(dft)}
               if (nrow(dft)>0){restat_raw<-filter_raw_data(restat_raw,dft,TRUE)}
-              cr<-FALSE
               restat<-restat_raw
-            } else {
-              message("One or some of the filter(s) resulted too large datatset to download through the REST API.You may want to download the whole dataset and apply the filter(s) locally.")
+              if (!is.null(restat) & (verbose)) {message("local filtered restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+            } else #inform that there is more data but could not be downloaded immediately  
+            { 
+              if (nrow(restat)>0){message("The retrived dataset is partial!!!")}
+              message("One or some of the filter(s) resulted too large datatset to download through the REST API. You may want to download the whole dataset and apply the filter(s) locally.")
             }
-          } else {
-            cr<-FALSE # do not cahce filtered data only bulk datasets
-            if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
-            if (length(unique(restat$FREQ))==1){
-              drop<-c(drop,"FREQ")
-            }
-            if (keep_flags){
-              if ("OBS_STATUS" %in% colnames(restat)){
-                restat$OBS_STATUS[restat$OBS_STATUS=="na"]<-""
-                if (all(is.na(restat$OBS_STATUS)) & ("OBS_FLAG" %in% colnames(restat))){
-                  drop<-c(drop,"OBS_STATUS")
-                  data.table::setnames(restat,"OBS_FLAG","flags")
-                } else {
-                  if ("OBS_FLAG" %in% colnames(restat)){
-                    restat$flags<-paste0(restat$OBS_FLAG,restat$OBS_STATUS)
-                    drop<-c(drop,"OBS_STATUS","OBS_FLAG")
-                  } else {
-                    data.table::setnames(restat,"OBS_STATUS","flags")
-                  }
-                }
-              } else if ("OBS_FLAG" %in% colnames(restat)) {
-                data.table::setnames(restat,"OBS_FLAG","flags")
-              } else {
-                restat$flags<-NA
-              }
-            } else {
-              if ("OBS_STATUS" %in% colnames(restat)){drop<-c(drop,"OBS_STATUS")}
-              if ("OBS_FLAG" %in% colnames(restat)){drop<-c(drop,"OBS_FLAG")}
-            }    
-            if(!is.null(drop)) {restat[,(drop):=NULL]}
-            data.table::setnames(restat,c("obsTime","obsValue"),c("time","values"))
-            data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
-            dsd<-get_eurostat_dsd(id,verbose=verbose)
-            dsdorder<-tolower(unique(dsd$concept)[1:length(unique(dsd$concept))])
-            co<-dsdorder[dsdorder %in% colnames(restat)]
-            data.table::setcolorder(restat,co)  
-          }
-        } 
+          } 
+          cr<-FALSE # do not cahce filtered data only bulk datasets
+        }
       }
-    }else{
-      if ((cache)&(!update_cache)) {
+    }else #no filter is defined => get the whole data set
+    {
+      if (cache&(!update_cache)) #if caching is used and not to update cache => check and retreive data from cache
+      {
         nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq)))
         if (verbose) {message("Trying to get from cache: ",nm)}
         restat<-data.table::copy(get_eurostat_cache(nm,cache_dir,verbose=verbose))
-        if (!is.null(restat)){
-          if (verbose) {message("The data was loaded from cache.\ncached restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
-          if ("FREQ" %in% colnames(restat)) {
-            drop=c("FREQ")
-            if ((is.null(select_freq))){
-              if (length(unique(restat$FREQ))>1){
-                st<-data.table::setorder(restat[,.N,by=FREQ],-N)[1,1]
-                if (stringsAsFactors){select_freq<-as.character(levels(st$FREQ)[st$FREQ[1]])}else{as.character(st$FREQ)}
-                warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+        if (!is.null(restat) & (verbose)) {message("The data was loaded from cache.\ncached restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+      }
+      if ((!cache)|(is.null(restat))|(update_cache)) #no caching or not in the cache or update the cache => bulk download
+      {
+        restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose=verbose)
+        if (!is.null(restat) & (verbose)) {message("The data was downloaded with bulk download.\nbulk restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"));message("cflags:",cflags)}
+      }
+    }
+    
+    # if (verbose) {message("processed restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+    if (!is.null(restat)) #there is data => set column names and format data and flags
+    {
+      if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
+      if (nrow(restat)>0) #there is data, set column names and format data and flags
+      {
+        data.table::setnames(restat,colnames(restat),tolower(colnames(restat)))
+        if ("freq" %in% colnames(restat)){
+          if (length(unique(restat$freq))==1){restat[,"freq":=NULL]} else{
+            if (cr){
+              if (is.null(select_freq)){
+                if (length(unique(restat$freq))>1){
+                  st<-data.table::setorder(restat[,.N,by=freq],-N)[1,1]
+                  if (stringsAsFactors){select_freq<-as.character(levels(st$freq)[st$freq[1]])}else{as.character(st$freq)}
+                  warning("There are multiple frequencies in the dataset. The '", select_freq, "' is selected as it is the most common frequency.")
+                }
               } 
-            } else {
-              restat<-restat[restat$FREQ==select_freq]
+              restat<-restat[restat$freq==select_freq]
+              restat[,"freq":=NULL]
             }
           }
-          if ("TIME_FORMAT" %in% colnames(restat)) {drop<-c(drop,"TIME_FORMAT")} 
-          if ("OBS_STATUS" %in% colnames(restat)) {data.table::setnames(restat,"OBS_STATUS","flags")}
-          if ("TIME_PERIOD" %in% colnames(restat)) {data.table::setnames(restat,"TIME_PERIOD","time")}
-          if ("OBS_VALUE" %in% colnames(restat)) {data.table::setnames(restat,"OBS_VALUE","values")}
-          if(!is.null(drop)){restat[,(drop):=NULL]}
         }
-        if (verbose) {message("processed restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
-      }
-      if ((!cache)|(is.null(restat))|(update_cache)){
-        if (verbose) {message("cflags:",cflags)}
-        restat<-get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose=verbose)
-      }
-    }
-    if (!is.null(restat)){
-      if ("freq" %in% colnames(restat)){
-        if (length(unique(restat$freq))==1){restat[,"freq":=NULL] }
-      }
-      restat<-unique(restat)[]
-      restat$time<-gsub('[MD]',"-",restat$time)
-      restat$time<-gsub('([0-9]{4})Q',"\\1-Q",restat$time,perl=TRUE)
-      if ("flags" %in% colnames(restat)){
-        restat<-restat[!(is.na(restat$values)&(is.na(restat$flags)|restat$flags==""))]
-        if (keep_flags) {
-          restat$flags<-as.character(restat$flags)
-          restat[is.na(flags),flags:=""]
-          if (!cflags) {restat<-restat[restat$flags!="c"]}
-        } else{
-          restat[,"flags":=NULL]
-        }
-      } else {
-        restat<-restat[!(is.na(restat$values))]
-      }  
-      restat<-data.table::data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
-      if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
-        col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
-        restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
-      }
-      if (!any(sapply(restat,is.factor))&(stringsAsFactors)) {
-        restat<-data.table::data.table(restat,stringsAsFactors=stringsAsFactors)
-      }
-      if (is.factor(restat$values)){
-        if (any(grepl('\\d+\\:\\d+',restat$values))){
-          restat$values<-as.character(levels(restat$values))[restat$values]
-          restat$values[grepl('^\\:$',restat$values)]<-NA
+        if ("time_format" %in% colnames(restat)) {drop<-c(drop,"time_format")} 
+        if ("obstime" %in% colnames(restat)){data.table::setnames(restat,c("obstime","obsvalue"),c("time","values"))}
+        if ("time_period" %in% colnames(restat)) {data.table::setnames(restat,"time_period","time")}
+        if ("obs_value" %in% colnames(restat)) {data.table::setnames(restat,"obs_value","values")}
+        restat$time<-gsub('[MD]',"-",restat$time)
+        restat$time<-gsub('([0-9]{4})Q',"\\1-Q",restat$time,perl=TRUE)
+        
+        if (keep_flags){
+          if ("obs_status" %in% colnames(restat)){
+            restat$obs_status<-as.character(restat$obs_status)
+            restat$obs_status[restat$obs_status=="na"]<-""
+            if (all((is.na(restat$obs_status)|(restat$obs_status==""))) & ("obs_flag" %in% colnames(restat))){
+              drop<-c(drop,"obs_status")
+              data.table::setnames(restat,"obs_flag","flags")
+            } else {
+              if ("obs_flag" %in% colnames(restat)){
+                restat$flags<-paste0(restat$obs_flag,restat$obs_status)
+                drop<-c(drop,"obs_status","obs_flag")
+              } else{
+                data.table::setnames(restat,"obs_status","flags")
+              }
+            }
+          } else if ("obs_flag" %in% colnames(restat)) {
+            data.table::setnames(restat,"obs_flag","flags")
+          } 
         } else {
-          restat$values<-suppressWarnings(as.numeric(levels(restat$values))[restat$values])        
+          if ("obs_status" %in% colnames(restat)){drop<-c(drop,"obs_status")}
+          if ("obs_flag" %in% colnames(restat)){drop<-c(drop,"obs_flag")}
         }
-      } 
+        if(!is.null(drop)) {restat[,(drop):=NULL]}
+        if ("flags" %in% colnames(restat)){
+          restat<-restat[!(is.na(restat$values)&(is.na(restat$flags)|restat$flags==""))]
+          if (keep_flags) {
+            restat$flags<-as.character(restat$flags)
+            restat[is.na(flags),flags:=""]
+            if (!cflags) {restat<-restat[restat$flags!="c"]}
+          } else{
+            restat[,"flags":=NULL]
+          }
+        } else {
+          restat<-restat[!(is.na(restat$values))]
+        }
+        restat<-data.table::data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
+        if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
+          col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
+          restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
+        }
+        if (!any(sapply(restat,is.factor))&(stringsAsFactors)) {
+          restat<-data.table::data.table(restat,stringsAsFactors=stringsAsFactors)
+        }
+        if (is.factor(restat$values)){
+          if (any(grepl('\\d+\\:\\d+',restat$values))){
+            restat$values<-as.character(levels(restat$values))[restat$values]
+            restat$values[grepl('^\\:$',restat$values)]<-NA
+          } else {
+            restat$values<-suppressWarnings(as.numeric(levels(restat$values))[restat$values])        
+          }
+        }
+        if (is.character(restat$values)){
+          if (!any(grepl('\\d+\\:\\d+',restat$values))){
+            restat$values<-as.numeric(restat$values)
+          }
+        }
+        restat<-unique(restat)[]
+        #   dsd<-get_eurostat_dsd(id,verbose=verbose)
+        #   dsdorder<-tolower(unique(dsd$concept)[1:length(unique(dsd$concept))])
+        #   co<-dsdorder[dsdorder %in% colnames(restat)]
+        #   data.table::setcolorder(restat,co)  
+      }
     }
-    if (cr&cache&(!is.null(restat))){
+    if (cr&cache&(!is.null(restat))) # cache data if full dataset is downloaded
+    {
       force(oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE)))
       pl<-put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
       if (verbose){message("The data was cached ",pl,".\n")}
     }
-    if (label & !is.null(restat)){
+    if (label & !is.null(restat)) #label data
+    {
       if (verbose) {message("restat - nrow:",nrow(restat),";ncol:",ncol(restat))}
       dsd<-get_eurostat_dsd(id,verbose=verbose)
       if (!is.null(dsd)){

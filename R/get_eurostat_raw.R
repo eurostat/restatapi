@@ -79,7 +79,7 @@ get_eurostat_raw <- function(id,
   restat_raw<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
-  dc<-ne<-ne2<-TRUE
+  tbc<-TRUE #to be continued to the next steps 
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -93,109 +93,99 @@ get_eurostat_raw <- function(id,
   }
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
-  id<-tolower(id)
-  
-  if (check_toc){
-    toc<-get_eurostat_toc(verbose=verbose)
-    if (is.null(toc)){
-      message("The TOC is missing. Could not get the download link.")
-      dc<-FALSE
-    } else {
-      if (any(grepl(id,toc$code,ignore.case=TRUE))){
-        udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-        if (mode=="txt") {
-          bulk_url<-toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)]
-        } else if (mode=="xml") {
-          bulk_url<-toc$downloadLink.sdmx[grepl(id,toc$code,ignore.case=TRUE)]
-        } else {
-          message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
-          dc<-FALSE
-        }
-        if (length(bulk_url)==0|is.na(bulk_url)){
-          message("There is no downloadlink in the TOC for ",id)
-          dc<-FALSE
-        }
-        if (verbose) {message("raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+  if (!is.null(id)){id<-tolower(id)} else {
+    tbc<-FALSE
+    message("The dataset 'id' is missing.")
+  }
+  if (tbc){
+    if (check_toc){
+      toc<-get_eurostat_toc(verbose=verbose)
+      if (is.null(toc)){
+        message("The TOC is missing. Could not get the download link.")
+        tbc<-FALSE
       } else {
-        message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
-        dc<-FALSE
+        if (any(grepl(id,toc$code,ignore.case=TRUE))){
+          udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
+          if (mode=="txt") {
+            bulk_url<-toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)]
+          } else if (mode=="xml") {
+            bulk_url<-toc$downloadLink.sdmx[grepl(id,toc$code,ignore.case=TRUE)]
+          } else {
+            message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
+            tbc<-FALSE
+          }
+          if (length(bulk_url)==0|is.na(bulk_url)){
+            message("There is no downloadlink in the TOC for ",id)
+            tbc<-FALSE
+          }
+          if (verbose) {message("raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+        } else {
+          message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
+          tbc<-FALSE
+        }
       }
-    }
-  }else{
-    udate<-format(Sys.Date(),"%Y.%m.%d")
-    if (mode=="txt") {
-      bulk_url<-paste0(eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT"))),"?file=data/",id,".tsv.gz")
-      if (verbose) {message("bulk url: ",bulk_url)}
-    } else if (mode=="xml") {
-      bulk_url<-paste0(eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT"))),"?file=data/",id,".sdmx.zip")
-      if (verbose) {message("bulk url: ",bulk_url)}
-    } else {
-      message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
-      dc<-FALSE
+    }else{
+      udate<-format(Sys.Date(),"%Y.%m.%d")
+      if (mode=="txt") {
+        bulk_url<-paste0(eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT"))),"?file=data/",id,".tsv.gz")
+        if (verbose) {message("bulk url: ",bulk_url)}
+      } else if (mode=="xml") {
+        bulk_url<-paste0(eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT"))),"?file=data/",id,".sdmx.zip")
+        if (verbose) {message("bulk url: ",bulk_url)}
+      } else {
+        message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
+        tbc<-FALSE
+      }
     }
   }
   
-  if (dc){
+  if (tbc){
     if ((cache)&(!update_cache)) {
       restat_raw<-data.table::copy(get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
     }
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
       if (mode=="txt"){
         temp<-tempfile()
-        if (verbose){
-          tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
+        tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
                    error = function(e) {
-                     message("Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
-                     ne<-FALSE
+                     if (verbose){message("Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     tbc<-FALSE
                    },
                    warning = function(w) {
-                     message("Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
-                     ne<-FALSE
-                   })
-        } else {
-          tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
-                   error = function(e) {ne<-FALSE},
-                   warning = function(w) {ne<-FALSE})
-        }
-        if (ne){
-          if (verbose){
-            tryCatch({gz<-gzfile(temp,open="rt")
-            if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
-              raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
-            } else{
-              raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
-            }
-            close(gz)
-            unlink(temp)},
+                     if (verbose){message("Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                  })
+        if (tbc & (file.info(temp)$size>0)){
+          tryCatch({gz<-gzfile(temp,open="rt")},
             error = function(e) {
-              message("Error by the opening the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))
-              ne2<-FALSE
+              if (verbose){message("Error by the opening the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+              tbc<-FALSE
             },
             warning = function(w) {
-              message("Warning by the opening the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))
+              if (verbose){message("Warning by the opening the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
             })
-          } else {
-            tryCatch({gz<-gzfile(temp,open="rt")
-            if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
-              raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE)
-            } else{
-              raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE)
+          if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
+            raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
+          } else{
+            raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
+          }
+          close(gz)
+          unlink(temp)
+          if(ncol(raw)==1){
+            data.table::setnames(raw,"v1")
+            raw<-as.character(raw$v1)
+            if (any(grepl(paste0(id, ".* does not exist"),raw))){
+              message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
+              tbc<-FALSE
             }
-            close(gz)
-            unlink(temp)},
-            error = function(e) {ne2<-FALSE},
-            warning = function(w) {})
-          }
-          if (any(grepl("does not exist",raw))){
-            message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
-            ne2<-FALSE
-          }
+          } 
           
-          if (ne2) {
+          
+          if (tbc) {
             cname<-colnames(raw)[1] 
             if (is.character(cname)){
               cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
               rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
+              if (verbose) {message("class:",class(raw))}
               data.table::setnames(raw,1,"bdown")
               raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
               rm(raw)

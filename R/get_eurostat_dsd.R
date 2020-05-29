@@ -42,7 +42,7 @@ get_eurostat_dsd <- function(id,
     warning('No dataset id were provided.')
     dsd<-NULL
   } else {
-    dsd<-NULL
+    dsd<-dsd_xml<-NULL
     if((!exists(".restatapi_env")|(length(list(...))>0))){
       if ((length(list(...))>0)) {
         if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){

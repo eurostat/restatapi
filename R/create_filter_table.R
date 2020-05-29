@@ -147,8 +147,17 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
     message('No DSD were provided.')
     ft<-NULL
   } else {
+    dsd<-dsd[!(dsd$concept %in% c("OBS_FLAG","OBS_STATUS")),]
     if (is.null(names(filters))){
-      ft<-data.table::rbindlist(lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
+      if (length(filters)==1 & length(gregexpr("\\.",filters)[[1]])==length(unique(dsd$concept))-1){
+        lfilters<-unlist(strsplit(filters,"\\."))
+        names(lfilters)<-unique(dsd$concept)
+        ft<-data.table::rbindlist(lapply(filters,function (x){
+          data.table::data.table(pattern=unlist(strsplit(x,"\\+")),concept=names(x),code=unlist(strsplit(x,"\\+")),name="")
+        }))
+      } else{
+        ft<-data.table::rbindlist(lapply(filters,search_eurostat_dsd,dsd=dsd,exact_match=exact_match,...))
+      }
     } else{
       concepts<-names(filters)
       ft<-data.table::rbindlist(lapply(1:length(filters),function (x,f,d){

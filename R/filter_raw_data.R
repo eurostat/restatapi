@@ -37,8 +37,11 @@ filter_raw_data<-function(raw_data,filter_table,date_filter=FALSE){
   .datatable.aware=TRUE
   ft<-time<-NULL
   if (date_filter){
+    data.table::setnames(raw_data,colnames(raw_data),tolower(colnames(raw_data)))
+    if ("time_period" %in% colnames(raw_data)){data.table::setnames(raw_data,"time_period","time")} 
+    if ("obstime" %in% colnames(raw_data)){data.table::setnames(raw_data,"obstime","time")}
     raw_data$ft<-as.character(raw_data$time)
-    #raw_data[grepl("^\\d{4}$",time),time:=paste0(time,"-01-01")]
+    raw_data[grepl("^\\d{4}$",time),ft:=paste0(time,"-01-01")]
     raw_data[grepl("[M]\\d\\d$",time),ft:=paste0(gsub('[M]',"-",time),"-01")]
     raw_data[grepl("[MD]",time),ft:=gsub('[MD]',"-",time)]
     raw_data[grepl("Q",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,6,6),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,6,6))-1)*3+1))]

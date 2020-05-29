@@ -91,7 +91,7 @@ get_eurostat_bulk <- function(id,
   
   .datatable.aware=TRUE 
   FREQ<-N<-restat_bulk<-NULL
-  dc<-TRUE #do calculation
+  tbc<-TRUE #to be continued for the next steps
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   if(cflags){keep_flags<-cflags}
@@ -107,30 +107,31 @@ get_eurostat_bulk <- function(id,
     }  
   }
   if (!is.null(id)){id<-tolower(id)} else {
-    dc<-FALSE
-    check_toc<-FALSE
+    tbc<-FALSE
     message("The dataset 'id' is missing.")
   }
   
-  if (check_toc){
-    toc<-get_eurostat_toc(verbose=verbose)
-    if (is.null(toc)){
-      message("The TOC is missing. Could not get the download link.")
-      dc<-FALSE
-    } else {
-      if (any(grepl(id,toc$code,ignore.case=TRUE))){
-        udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-        if (verbose) {message("bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+  if (tbc) {
+    if (check_toc){
+      toc<-get_eurostat_toc(verbose=verbose)
+      if (is.null(toc)){
+        message("The TOC is missing. Could not get the download link.")
+        tbc<-FALSE
       } else {
-        message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
-        dc<-FALSE
+        if (any(grepl(id,toc$code,ignore.case=TRUE))){
+          udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
+          if (verbose) {message("bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+        } else {
+          message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
+          tbc<-FALSE
+        }
       }
+    }else{
+      udate<-format(Sys.Date(),"%Y.%m.%d")
     }
-  }else{
-    udate<-format(Sys.Date(),"%Y.%m.%d")
   }
   
-  if (dc) {
+  if (tbc) {
     if ((cache)&(!update_cache)) {
       nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
       restat_bulk<-data.table::copy(get_eurostat_cache(nm,cache_dir,verbose=verbose))

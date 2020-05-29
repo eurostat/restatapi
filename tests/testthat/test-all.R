@@ -4,9 +4,21 @@ if (parallel::detectCores()<=2){
   options(restatapi_cores=2)
 }    
 
-
+options(restatapi_verbose=TRUE)
 
 clean_restatapi_cache()
+
+# suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
+#                                   Windows={tryCatch({as.numeric(gsub("[^0-9]","",system("wmic MemoryChip get Capacity", intern = TRUE)[2]))/1024/1024},error=function(e){0},warning=function(w){0})},
+#                                   Darwin={tryCatch({as.numeric(substring(system('hwprefs memory_size', intern = TRUE), 13))},error=function(e){0},warning=function(w){0})},
+#                                   SunOS={tryCatch({as.numeric(gsub("[^0-9]","",system("prtconf | grep Memory", intern = TRUE,ignore.stderr=TRUE)))},error=function(e){0},warning=function(w){0})},
+#                                   Linux={tryCatch({as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo",intern=TRUE,ignore.stderr=TRUE))/1024},error=function(e){0},warning=function(w){0})}
+# ))
+# 
+# test_that("test mem_size",{
+#   expect_true(mem_size>1)
+# })
+
 context("test of the get_eurostat_toc function")
 t1<-system.time({xml_toc<-get_eurostat_toc(verbose=TRUE)})[3]
 txt_toc<-get_eurostat_toc(mode="txt")
@@ -94,12 +106,12 @@ if (!is.null(xml_toc)){
   })
 } 
 teszt_id1<-"agr_r_milkpr"
-rt3<-get_eurostat_raw("agr_r_milkpr",mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
+rt3<-get_eurostat_raw(teszt_id1,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
 bt2<-get_eurostat_data(teszt_id1,keep_flags=TRUE,stringsAsFactors=FALSE)
 dt4<-get_eurostat_data(teszt_id1,date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
 if (!is.null(bt2)&!is.null(dt4)){
   test_that("test of the get_eurostat_raw/bulk/data function", {
-    expect_true(all.equal(bt2[time==2008,],dt4,check.attributes=FALSE))
+    expect_true(all.equal(bt2[time==2008,],dt4,check.attributes=FALSE,ignore.row.order=TRUE,ignore.col.order=TRUE))
   })
 }
 id<-"irt_h_eurcoe_d"
