@@ -171,7 +171,7 @@ get_eurostat_data <- function(id,
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
-  restat<-rdat<-drop<-concept<-code<-freq<-N<-flags<-ft<-dft<-NULL
+  restat<-rdat<-drop<-concept<-code<-freq<-N<-flags<-ft<-dft<-to_add<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
@@ -237,23 +237,24 @@ get_eurostat_data <- function(id,
         }
       }
       if (append_sf){
-        if(select_freq=="A"){
-          filters<-c(filters,"^Annual$","^A$")
-        } else if (select_freq=="S") {
-          filters<-c(filters,"^Semi-annual$","^S$")
-        } else if (select_freq=="H") {
-          filters<-c(filters,"^Half-year$","^H$")
-        } else if (select_freq=="Q") {
-          filters<-c(filters,"^Quarterly$","^Q$")
-        } else if (select_freq=="M") {
-          filters<-c(filters,"^Monthly$","^M$")
-        } else if (select_freq=="W") {
-          filters<-c(filters,"^Weekly$","^W$")
-        } else if (select_freq=="D") {
-          filters<-c(filters,"^Daily$","^D$")
-        } else {
+        to_add<-switch(select_freq,
+               A=c("^Annual$","^A$"),
+               S=c("^Semi-annual$","^S$"),
+               H=c("^Half-year$","^H$"),
+               Q=c("^Quarterly$","^Q$"),
+               M=c("^Monthly$","^M$"),
+               W=c("^Weekly$","^W$"),
+               D=c("^Daily$","^D$")
+                 )
+        if (is.null(to_add)){
           select_freq<-NULL
           message("Incorrect frequency selected. It can be 'A', 'S', 'H', 'Q', 'M', 'W' or 'D'. The select_freq parameter will be ignored.")
+        } else if (is.null(names(filters))){
+          filters<-c(filters,to_add)
+        } else if ("freq" %in% tolower(names(filters))){
+          filters$freq<-c(filters$freq,to_add)
+        } else {
+          filters$freq<-to_add
         }
       }
     }
