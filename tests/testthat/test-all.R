@@ -5,7 +5,7 @@ if (parallel::detectCores()<=2){
 }    
 
 options(restatapi_verbose=TRUE)
-
+options(restatapi_log=FALSE)
 clean_restatapi_cache()
 
 # suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
@@ -230,13 +230,15 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(r
 }
 
 context("test of the create_filter_table function")
-dft2<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2016<",20912,"<3452<",":2018-04>","2<034","2008:2013"),TRUE)
+dft2<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013","2019-04-32","2019-02-31"),T,verbose=T)
+dft3<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2016<",20912,"<3452<",":2018-04>","2<034v","2008:2013","2019-04-32","2019-02-31"),T,verbose=T)
 test_that("test of the create_filter_table function", {
   expect_message(dft1<-create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013"),TRUE,verbose=TRUE))
   expect_equal(ncol(dft1),ncol(dft2))
   expect_equal(ncol(dft1),2)
   expect_equal(nrow(dft1),5)
-  expect_equal(nrow(dft2),3)
+  expect_equal(nrow(dft2),2)
+  expect_true(is.null(dft3))
 })
 id<-"avia_par_me"
 dsd<-get_eurostat_dsd(id) 

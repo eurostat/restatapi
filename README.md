@@ -19,27 +19,35 @@ or use the development version from GitHub
 This package is similar to other packages like the [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separeted values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
 
 ## content
-The package contains 5 main functions and several other sub functions: 
+The package contains 8 main functions and several other sub functions in 3 areas.
 
-* the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/data/database),
-* the `search_eurostat_toc` function provides the facility to search for phrase/pattern in the TOC and returns the rows of the TOC where the phrase/pattern found.
-* the `get_eurostat_dsd` function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels. 
-* the `search_eurostat_dsd` function provides the facility to search for phrase/pattern in the DSD and returns the rows of the DSD where the phrase/pattern found.
-* the `get_eurostat_data` function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied.
+1. downloading and filtering the list of avaialble datasets:
+    * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/data/database).
+    * the `search_eurostat_toc` function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.
+2. downloading and searching in the metadata:  
+    * the `get_eurostat_dsd` function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels. 
+    * the `search_eurostat_dsd` function provides the facility to search for phrase, pattern and regular expressions in the DSD and returns the rows of the DSD where the search string(s) found.
+    * the `create_filter_table` function creates a filter table based on the DSD and the search expresssions which can be applied on the local computer to filter out data from whole data tables.
+3. retrieving full or partial datasets:
+    * the `get_eurostat_raw` function downloads the full data table as it is either using the TSV format (default) or the SDMX format keeping all the column names and rows as it is in the original files.
+    * the `get_eurostat_bulk` function downloads the full data set keeping only a unique frequency with standardized column names and removing those columns which do not contain additional information, like frequency and time format.  
+    * the `get_eurostat_data` function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied. If after the filtering the number of observations is to large, then the whole dataset is downloaded and the filter applied on the local computer. If no filter used, it is equivalent with the `get_eurostat_bulk` function, but in this case labels can be applied.
 
-Detailed documentation of the functions is in the package.
+Below there are examples demonstrating the main features, the detailed documentation of the functions is in the package.
 
 Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
 ## examples
+**Example 1:** Setting the number of cores/threads to 3 and download the txt version of the English TOC and search not case sensitive for the word `energie` in the German version of the TOC. 
 
 ```R
 > options(restatapi_cores=3)
 > get_eurostat_toc()
 > get_get_eurostat_toc(mode="txt",verbose=TRUE)
->
 > search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
-> 
+```
+**Other examples:**
+```R
 > dsd<-get_eurostat_dsd("ei_bsfs_q")
 > search_eurostat_dsd("EU",dsd)
 > search_eurostat_dsd("EU",dsd,name=FALSE)

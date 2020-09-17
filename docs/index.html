@@ -6,23 +6,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Search and Retrieve Data from Eurostat Database • restatapi</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Search and Retrieve Data from Eurostat Database">
 <meta property="og:description" content="Eurostat is the statistical office of the European Union and provides high quality statistics for Europe.
              Large set of the data is disseminated through the Eurostat database (&lt;https://ec.europa.eu/eurostat/data/database&gt;). 
              The tools are using the REST API with the Statistical Data and Metadata eXchange (SDMX &lt;https://sdmx.org&gt;) Web Services 
              (&lt;https://ec.europa.eu/eurostat/web/sdmx-web-services/about-this-service&gt;) to search and download data from 
              the Eurostat database using the SDMX standard. ">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.10</span>
       </span>
     </div>
 
@@ -53,7 +53,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/eurostat/restatapi">
+  <a href="https://github.com/eurostat/restatapi/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -78,9 +78,9 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>installation</h2>
 <p>Now ‘restatapi’ is on <a href="https://CRAN.R-project.org/package=restatapi">CRAN</a> so it can be installed by</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"restatapi"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r">&gt; install.packages("restatapi")</pre></div>
 <p>or use the development version from GitHub</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"eurostat/restatapi"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="r">&gt; devtools::install_github("eurostat/restatapi")</pre></div>
 </div>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
@@ -90,103 +90,119 @@
 <div id="content" class="section level2">
 <h2 class="hasAnchor">
 <a href="#content" class="anchor"></a>content</h2>
-<p>The package contains 5 main functions and several other sub functions:</p>
+<p>The package contains 8 main functions and several other sub functions in 3 areas.</p>
+<ol>
+<li>downloading and filtering the list of avaialble datasets:
 <ul>
-<li>the <code>get_eurostat_toc</code> function downloads the Table of Contents (TOC) of all <a href="https://ec.europa.eu/eurostat/data/database">Eurostat datasets</a>,</li>
-<li>the <code>search_eurostat_toc</code> function provides the facility to search for phrase/pattern in the TOC and returns the rows of the TOC where the phrase/pattern found.</li>
-<li>the <code>get_eurostat_dsd</code> function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels.</li>
-<li>the <code>search_eurostat_dsd</code> function provides the facility to search for phrase/pattern in the DSD and returns the rows of the DSD where the phrase/pattern found.</li>
-<li>the <code>get_eurostat_data</code> function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied.</li>
+<li>the <code>get_eurostat_toc</code> function downloads the Table of Contents (TOC) of all <a href="https://ec.europa.eu/eurostat/data/database">Eurostat datasets</a>.</li>
+<li>the <code>search_eurostat_toc</code> function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.</li>
 </ul>
-<p>Detailed documentation of the functions is in the package.</p>
+</li>
+<li>downloading and searching in the metadata:
+<ul>
+<li>the <code>get_eurostat_dsd</code> function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels.</li>
+<li>the <code>search_eurostat_dsd</code> function provides the facility to search for phrase, pattern and regular expressions in the DSD and returns the rows of the DSD where the search string(s) found.</li>
+<li>the <code>create_filter_table</code> function creates a filter table based on the DSD and the search expresssions which can be applied on the local computer to filter out data from whole data tables.</li>
+</ul>
+</li>
+<li>retrieving full or partial datasets:
+<ul>
+<li>the <code>get_eurostat_raw</code> function downloads the full data table as it is either using the TSV format (default) or the SDMX format keeping all the column names and rows as it is in the original files.</li>
+<li>the <code>get_eurostat_bulk</code> function downloads the full data set keeping only a unique frequency with standardized column names and removing those columns which do not contain additional information, like frequency and time format.<br>
+</li>
+<li>the <code>get_eurostat_data</code> function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied. If after the filtering the number of observations is to large, then the whole dataset is downloaded and the filter applied on the local computer. If no filter used, it is equivalent with the <code>get_eurostat_bulk</code> function, but in this case labels can be applied.</li>
+</ul>
+</li>
+</ol>
+<p>Below there are examples demonstrating the main features, the detailed documentation of the functions is in the package.</p>
 <p>Next to the functions the package contains a list of country codes for different groups of European countries based on the <a href="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC">Eurostat standard code list</a>, e.g.: European Union (EU28, …, EU6), Euro Area (EA19, …, EA11) or New Member States (NMS13, …, NMS2).</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>examples</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">restatapi_cores=</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/get_eurostat_toc.html">get_eurostat_toc</a></span>()</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="op">&gt;</span><span class="st"> </span><span class="kw">get_get_eurostat_toc</span>(<span class="dt">mode=</span><span class="st">"txt"</span>,<span class="dt">verbose=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="er">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/search_eurostat_toc.html">search_eurostat_toc</a></span>(<span class="st">"energie"</span>,<span class="dt">lang=</span><span class="st">"de"</span>,<span class="dt">ignore.case=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="op">&gt;</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="er">&gt;</span><span class="st"> </span>dsd&lt;-<span class="kw"><a href="reference/get_eurostat_dsd.html">get_eurostat_dsd</a></span>(<span class="st">"ei_bsfs_q"</span>)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span>(<span class="st">"EU"</span>,dsd)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span>(<span class="st">"EU"</span>,dsd,<span class="dt">name=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="op">&gt;</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="er">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"NAMA_10_GDP"</span>)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"nama_10_gdp"</span>,<span class="dt">update_cache=</span><span class="ot">TRUE</span>,<span class="dt">check_toc=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"nama_10_gdp"</span>,<span class="dt">cache_dir=</span><span class="st">"/tmp"</span>,<span class="dt">stringAsFactors=</span><span class="ot">FALSE</span>,<span class="dt">cflags=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="er">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">restatapi_update=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">restatapi_cache_dir=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="st">"restatapi"</span>))</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="er">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"avia_par_me"</span>,<span class="dt">select_freq=</span><span class="st">"A"</span>,<span class="dt">cache=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"agr_r_milkpr"</span>,<span class="dt">date_filter=</span><span class="dv">2008</span>,<span class="dt">keep_flags=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"avia_par_ee"</span>,</a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">filters=</span><span class="st">"BE$"</span>,</a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">date_filter=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2017-03"</span>,<span class="dv">2016</span>,<span class="st">"2017-07-01"</span>,<span class="dv">2012</span><span class="op">:</span><span class="dv">2014</span>),</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">select_freq=</span><span class="st">"Q"</span>,</a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">label=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">verbose=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">name=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"bop_its6_det"</span>,</a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">filters=</span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">bop_item=</span><span class="st">"SC"</span>,</a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="op">&gt;</span><span class="st">                                     </span><span class="dt">currency=</span><span class="st">"MIO_EUR"</span>,</a>
-<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="op">&gt;</span><span class="st">                                     </span><span class="dt">partner=</span><span class="st">"EXT_EU28"</span>,</a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="op">&gt;</span><span class="st">                                     </span><span class="dt">geo=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"EU28"</span>,<span class="st">"HU"</span>),</a>
-<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="op">&gt;</span><span class="st">                                     </span><span class="dt">stk_flow=</span><span class="st">"BAL"</span>),</a>
-<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">date_filter=</span><span class="st">"2010:2012"</span>,</a>
-<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">select_freq=</span><span class="st">"A"</span>,</a>
-<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">label=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">name=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb3-37" data-line-number="37"><span class="op">&gt;</span><span class="st">                        </span><span class="dt">ignore.case=</span><span class="ot">TRUE</span>)     </a>
-<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">restatapi_cache_dir=</span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"agr_r_milkpr"</span>,</a>
-<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"BE$"</span>,<span class="st">"Hungary"</span>),</a>
-<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="st">"2007-06&lt;"</span>,</a>
-<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">keep_flags=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"agr_r_milkpr"</span>,</a>
-<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span><span class="st">"BE"</span>,</a>
-<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">exact_match=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="st">"2006-02:2008-06-05"</span>,</a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">keep_flags=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">label=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">ignore.case=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="er">&gt;</span><span class="st"> </span>eu&lt;-<span class="kw"><a href="https://rdrr.io/r/base/get.html">get</a></span>(<span class="st">"cc"</span>,<span class="dt">envir=</span>.restatapi_env)</a>
-<a class="sourceLine" id="cb3-53" data-line-number="53"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"agr_r_milkpr"</span>,</a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span>eu<span class="op">$</span>NMS10,</a>
-<a class="sourceLine" id="cb3-55" data-line-number="55"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="st">"2009-03-01:2011-06-05"</span>,</a>
-<a class="sourceLine" id="cb3-56" data-line-number="56"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">keep_flags=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-57" data-line-number="57"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">label=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-59" data-line-number="59"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-60" data-line-number="60"><span class="er">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"nama_10_a10_e"</span>,</a>
-<a class="sourceLine" id="cb3-61" data-line-number="61"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Annual"</span>,<span class="st">"EU28"</span>,<span class="st">"Belgium"</span>,<span class="st">"AT"</span>,<span class="st">"Total"</span>,<span class="st">"EMP_DC"</span>,<span class="st">"person"</span>),</a>
-<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2008"</span>,<span class="dv">2002</span>,<span class="st">"2005-01"</span>,<span class="dv">2013</span><span class="op">:</span><span class="dv">2018</span>))</a>
-<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"avia_par_me"</span>,</a>
-<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span><span class="st">"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,</a>
-<a class="sourceLine" id="cb3-65" data-line-number="65"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2016-08"</span>,<span class="st">"2017-07-01"</span>),</a>
-<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">select_freq=</span><span class="st">"M"</span>) </a>
-<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="op">&gt;</span><span class="st"> </span>dt&lt;-<span class="kw"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span>(<span class="st">"avia_par_me"</span>,</a>
-<a class="sourceLine" id="cb3-68" data-line-number="68"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">filters=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HU"</span>,<span class="st">"Quarterly"</span>,<span class="st">"Monthly"</span>),</a>
-<a class="sourceLine" id="cb3-69" data-line-number="69"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">date_filter=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2016-08"</span>,<span class="st">"2014-03-01"</span>),</a>
-<a class="sourceLine" id="cb3-70" data-line-number="70"><span class="op">&gt;</span><span class="st">                       </span><span class="dt">label=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-71" data-line-number="71"><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb3-72" data-line-number="72"><span class="er">&gt;</span><span class="st"> </span><span class="kw"><a href="reference/clean_restatapi_cache.html">clean_restatapi_cache</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),<span class="dt">verbose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><strong>Example 1:</strong> Setting the number of cores/threads to 3 and download the txt version of the English TOC and search not case sensitive for the word <code>energie</code> in the German version of the TOC.</p>
+<div class="sourceCode" id="cb3"><pre class="r">&gt; options(restatapi_cores=3)
+&gt; get_eurostat_toc()
+&gt; get_get_eurostat_toc(mode="txt",verbose=TRUE)
+&gt; search_eurostat_toc("energie",lang="de",ignore.case=TRUE)</pre></div>
+<p><strong>Other examples:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="r">&gt; dsd&lt;-get_eurostat_dsd("ei_bsfs_q")
+&gt; search_eurostat_dsd("EU",dsd)
+&gt; search_eurostat_dsd("EU",dsd,name=FALSE)
+&gt; 
+&gt; get_eurostat_data("NAMA_10_GDP")
+&gt; get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
+&gt; get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
+&gt;
+&gt; options(restatapi_update=TRUE)
+&gt; options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
+&gt;
+&gt; dt&lt;-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
+&gt; dt&lt;-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
+&gt; dt&lt;-get_eurostat_data("avia_par_ee",
+&gt;                        filters="BE$",
+&gt;                        date_filter=c("2017-03",2016,"2017-07-01",2012:2014),
+&gt;                        select_freq="Q",
+&gt;                        label=TRUE,
+&gt;                        verbose=TRUE,
+&gt;                        name=FALSE)
+&gt; dt&lt;-get_eurostat_data("bop_its6_det",
+&gt;                        filters=list(bop_item="SC",
+&gt;                                     currency="MIO_EUR",
+&gt;                                     partner="EXT_EU28",
+&gt;                                     geo=c("EU28","HU"),
+&gt;                                     stk_flow="BAL"),
+&gt;                        date_filter="2010:2012",
+&gt;                        select_freq="A",
+&gt;                        label=TRUE,
+&gt;                        name=FALSE,
+&gt;                        ignore.case=TRUE)     
+&gt; options(restatapi_cache_dir=tempdir())
+&gt; dt&lt;-get_eurostat_data("agr_r_milkpr",
+&gt;                       filters=c("BE$","Hungary"),
+&gt;                       date_filter="2007-06&lt;",
+&gt;                       keep_flags=TRUE)
+&gt; dt&lt;-get_eurostat_data("agr_r_milkpr",
+&gt;                       filters="BE",
+&gt;                       exact_match=FALSE,
+&gt;                       date_filter="2006-02:2008-06-05",
+&gt;                       keep_flags=TRUE,
+&gt;                       stringsAsFactors=FALSE,
+&gt;                       label=TRUE,
+&gt;                       ignore.case=TRUE)
+&gt;
+&gt; eu&lt;-get("cc",envir=.restatapi_env)
+&gt; dt&lt;-get_eurostat_data("agr_r_milkpr",
+&gt;                       filters=eu$NMS10,
+&gt;                       date_filter="2009-03-01:2011-06-05",
+&gt;                       keep_flags=TRUE,
+&gt;                       stringsAsFactors=FALSE,
+&gt;                       label=TRUE)
+&gt;
+&gt; dt&lt;-get_eurostat_data("nama_10_a10_e",
+&gt;                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
+&gt;                       date_filter=c("2008",2002,"2005-01",2013:2018))
+&gt; dt&lt;-get_eurostat_data("avia_par_me",
+&gt;                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
+&gt;                       date_filter=c("2016-08","2017-07-01"),
+&gt;                       select_freq="M") 
+&gt; dt&lt;-get_eurostat_data("avia_par_me",
+&gt;                       filters=c("HU","Quarterly","Monthly"),
+&gt;                       date_filter=c("2016-08","2014-03-01"),
+&gt;                       label=TRUE)
+&gt;
+&gt; clean_restatapi_cache(tempdir(),verbose=TRUE)</pre></div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=restatapi">https://​cloud.r-project.org/​package=restatapi</a>
 </li>
-<li>Browse source code at <br><a href="https://github.com/eurostat/restatapi">https://​github.com/​eurostat/​restatapi</a>
+<li>Browse source code at <br><a href="https://github.com/eurostat/restatapi/">https://​github.com/​eurostat/​restatapi/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/eurostat/restatapi/issues">https://​github.com/​eurostat/​restatapi/​issues</a>
 </li>
@@ -215,7 +231,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

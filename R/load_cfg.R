@@ -41,7 +41,7 @@
 
 load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
-  options(restatapi_dev=TRUE)
+  options(restatapi_log=TRUE)
   assign(".restatapi_env",new.env(),envir=baseenv())
   cfg_source<-"GitHub"
   tryCatch(
