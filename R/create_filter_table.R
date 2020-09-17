@@ -62,6 +62,7 @@
 create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=TRUE,verbose=FALSE,...) {
   .datatable.aware=TRUE
   ft<-sd<-ed<-NULL
+  # loop<-TRUE
   time_formats<-c("^((?:19|20)\\d\\d)$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (date_filter) {
@@ -108,18 +109,18 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
               res<-list(sd=gsub("<|>","",sdf,perl=TRUE),ed=Inf)
             } else {
               res<-NULL
-              if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value). The date filter is ignored."))}
+              if (verbose) {message(paste0("Could not parse date filter: '", sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value. The date filter is ignored."))}
             }
           } else {
             res<-NULL
-            if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format or incorrect date value). The date filter is ignored."))}
+            if(verbose){message(paste0("Could not parse date filter: '",sdf,"' (not in yyyy[-mm][-dd] format or incorrect date value. The date filter is ignored."))}
           }
         } else{
           if(check_tf(sdf,time_formats)){
             res<-list(sd=sdf,ed=sdf)  
           } else {
             res<-NULL
-            if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value). The date filter is ignored."))}
+            if (verbose) {message(paste0("Could not parse date filter: '",sdf,"' not in [<>]yyyy[-mm][-dd][<>] format or incorrect date value. The date filter is ignored."))}
           }
         }  
       }
@@ -134,15 +135,21 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
         dft[grepl("^\\d{4}-(04|06|09|11)$",ed),ed:=paste0(ed,"-30")]
         dft[,sd:=gsub("-02-(29|3[01])$","-02-28",sd)]
         dft[,ed:=gsub("-02-(29|3[01])$","-02-28",ed)]
+        # dft[]
         dft<-dft[order(sd,ed)]
-        ft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) >= utils::head(ed, -1))))]
-        ft<-ft[,c("sd","ed")]
-        # while(any(utils::tail(ft$sd, -1) >= utils::head(ft$ed, -1))){
-        #   ft<-ft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, utils::tail(sd, -1) >= utils::head(ed, -1))))][,c("sd","ed")]
-        # }
+        dft<-dft[c(TRUE, !(utils::tail(ed, -1) <= utils::head(ed, -1)))]
+        if (nrow(dft)>2){
+          # while(loop){
+            dft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, as.character(as.Date(utils::tail(sd, -1))-1) > utils::head(ed, -1))))][,c("sd","ed")]
+            # if (nrow(dft)==1) {loop=FALSE} else {loop<-any(utils::tail(dft$sd, -1) > as.character(as.Date(utils::head(dft$ed, -1))+1))}
+            # dft[]
+          # }
+        }
+        ft<-dft[, list(sd=min(sd), ed=max(ed)),by=list(group=cumsum(c(1, as.character(as.Date(utils::tail(sd, -1))-1) > utils::head(ed, -1))))][,c("sd","ed")]
+        # ft<-ft[,c("sd","ed")]
       }
     }
-    
+    if (!is.null(ft)){if (nrow(ft)==1 & all(ft$sd==0) & all(ft$ed==Inf)) { ft<-NULL}}
   } else if (is.null(dsd)){
     message('No DSD were provided.')
     ft<-NULL

@@ -179,11 +179,11 @@ get_eurostat_data <- function(id,
   if(cflags){keep_flags<-cflags}
   
   if (!(exists(".restatapi_env"))) {load_cfg()}
-  if (getOption("restatapi_dev",FALSE)){
+  if (getOption("restatapi_log",FALSE)){
     tryCatch(
       {logstr<-paste(utils::packageVersion("restatapi"),paste(paste(names(match.call()),match.call(),sep="%3D")[2:length(match.call())],collapse="\t"),sep="\t")
       if(verbose){message(logstr)}
-      utils::download.file(paste0("http://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
+      utils::download.file(paste0("https://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
       unlink("resp",force=TRUE)},
       error=function(e){},
       warning=function(w){}

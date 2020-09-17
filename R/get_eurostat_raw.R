@@ -191,14 +191,14 @@ get_eurostat_raw <- function(id,
               rm(raw)
               data.table::setnames(raw_melted,2:3,c(rname,"values"))
               raw_melted<-raw_melted[raw_melted$values!=":",]
-              FREQ<-gsub("MD","D",gsub('[0-9\\.-]',"",raw_melted$time))
+              FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
               FREQ[FREQ==""]<-"A"
               restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
               data.table::setnames(restat_raw,cnames)  
               restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.-\\s\\:]',"",restat_raw$values)}
-              restat_raw$values<-gsub('^\\:$',"",restat_raw$values)
-              restat_raw$values<-gsub('[^0-9\\.\\:]',"",restat_raw$values)
+              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
+              restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
+              restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
               restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
             } else {
               message("The file download was not successful. Try again later.")
