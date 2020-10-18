@@ -63,7 +63,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
   .datatable.aware=TRUE
   ft<-sd<-ed<-NULL
   # loop<-TRUE
-  time_formats<-c("^((?:19|20)\\d\\d)$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])$","^^((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
+  time_formats<-c("^((?:19|20|21)\\d\\d)$","^^((?:19|20|21)\\d\\d)-(0[1-9]|1[012])$","^^((?:19|20|21)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (date_filter) {
     if (verbose) {message("filters: ",filters,"; is numeric: ",is.numeric(filters),"; call parents: ",length(sys.calls())-1)}

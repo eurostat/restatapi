@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -85,14 +85,14 @@
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>background</h2>
-<p>This package is similar to other packages like the <a href="https://cran.r-project.org/package=eurostat">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX">RJSDMX</a> or <a href="https://cran.r-project.org/package=TSsdmx">TSsdmx</a> which can be used to download data from Eurostat database. The difference is that <code>restatapi</code> is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separeted values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The <code>restatapi</code> package provides flexible filtering options, data caching, and uses the <code>parallel</code> and <code>data.table</code> package to handle large dataset in an efficient way.</p>
+<p>This package is similar to other packages like the <a href="https://cran.r-project.org/package=eurostat">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX">RJSDMX</a> or <a href="https://cran.r-project.org/package=TSsdmx">TSsdmx</a> which can be used to download data from Eurostat database. The difference is that <code>restatapi</code> is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The <code>restatapi</code> package provides flexible filtering options, data caching, and uses the <code>parallel</code> and <code>data.table</code> package to handle large dataset in an efficient way.</p>
 </div>
 <div id="content" class="section level2">
 <h2 class="hasAnchor">
 <a href="#content" class="anchor"></a>content</h2>
 <p>The package contains 8 main functions and several other sub functions in 3 areas.</p>
 <ol>
-<li>downloading and filtering the list of avaialble datasets:
+<li>downloading and filtering the list of available datasets:
 <ul>
 <li>the <code>get_eurostat_toc</code> function downloads the Table of Contents (TOC) of all <a href="https://ec.europa.eu/eurostat/data/database">Eurostat datasets</a>.</li>
 <li>the <code>search_eurostat_toc</code> function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.</li>
@@ -102,7 +102,7 @@
 <ul>
 <li>the <code>get_eurostat_dsd</code> function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels.</li>
 <li>the <code>search_eurostat_dsd</code> function provides the facility to search for phrase, pattern and regular expressions in the DSD and returns the rows of the DSD where the search string(s) found.</li>
-<li>the <code>create_filter_table</code> function creates a filter table based on the DSD and the search expresssions which can be applied on the local computer to filter out data from whole data tables.</li>
+<li>the <code>create_filter_table</code> function creates a filter table based on the DSD and the search expressions which can be applied on the local computer to filter out data from whole data tables.</li>
 </ul>
 </li>
 <li>retrieving full or partial datasets:
@@ -125,12 +125,12 @@
 &gt; get_eurostat_toc()
 &gt; get_get_eurostat_toc(mode="txt",verbose=TRUE)
 &gt; search_eurostat_toc("energie",lang="de",ignore.case=TRUE)</pre></div>
-<p><strong>Other examples:</strong></p>
+<p><strong>Example 2:</strong> Download the Data Structure Definition (DSD) for the ‘Financial services - quarterly data’ (ei_bsfs_q) datasets. First search in the DSD the “EU” pattern everywhere case sensitive. Then search only in the code list.</p>
 <div class="sourceCode" id="cb4"><pre class="r">&gt; dsd&lt;-get_eurostat_dsd("ei_bsfs_q")
 &gt; search_eurostat_dsd("EU",dsd)
-&gt; search_eurostat_dsd("EU",dsd,name=FALSE)
-&gt; 
-&gt; get_eurostat_data("NAMA_10_GDP")
+&gt; search_eurostat_dsd("EU",dsd,name=FALSE)</pre></div>
+<p><strong>Other examples:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="r">&gt; get_eurostat_data("NAMA_10_GDP")
 &gt; get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
 &gt; get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
 &gt;
@@ -211,8 +211,7 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://joinup.ec.europa.eu/software/page/eupl">EUPL-1.1</a> </li>
+<li>EUPL</li>
 </ul>
 </div>
 <div class="developers">

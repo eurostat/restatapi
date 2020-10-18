@@ -16,18 +16,18 @@ or use the development version from GitHub
 ```
 
 ## background
-This package is similar to other packages like the [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separeted values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
+This package is similar to other packages like the [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
 
 ## content
 The package contains 8 main functions and several other sub functions in 3 areas.
 
-1. downloading and filtering the list of avaialble datasets:
+1. downloading and filtering the list of available datasets:
     * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/data/database).
     * the `search_eurostat_toc` function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.
 2. downloading and searching in the metadata:  
     * the `get_eurostat_dsd` function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels. 
     * the `search_eurostat_dsd` function provides the facility to search for phrase, pattern and regular expressions in the DSD and returns the rows of the DSD where the search string(s) found.
-    * the `create_filter_table` function creates a filter table based on the DSD and the search expresssions which can be applied on the local computer to filter out data from whole data tables.
+    * the `create_filter_table` function creates a filter table based on the DSD and the search expressions which can be applied on the local computer to filter out data from whole data tables.
 3. retrieving full or partial datasets:
     * the `get_eurostat_raw` function downloads the full data table as it is either using the TSV format (default) or the SDMX format keeping all the column names and rows as it is in the original files.
     * the `get_eurostat_bulk` function downloads the full data set keeping only a unique frequency with standardized column names and removing those columns which do not contain additional information, like frequency and time format.  
@@ -46,12 +46,16 @@ Next to the functions the package contains a list of country codes for different
 > get_get_eurostat_toc(mode="txt",verbose=TRUE)
 > search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
 ```
-**Other examples:**
+**Example 2:** Download the Data Structure Definition (DSD) for the 'Financial services - quarterly data' (ei_bsfs_q) datasets. First search in the DSD the "EU" pattern everywhere case sensitive. Then search only in the code list.  
 ```R
 > dsd<-get_eurostat_dsd("ei_bsfs_q")
 > search_eurostat_dsd("EU",dsd)
 > search_eurostat_dsd("EU",dsd,name=FALSE)
-> 
+```
+
+
+**Other examples:**
+```R
 > get_eurostat_data("NAMA_10_GDP")
 > get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
 > get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
