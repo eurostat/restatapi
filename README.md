@@ -52,14 +52,15 @@ Next to the functions the package contains a list of country codes for different
 > search_eurostat_dsd("EU",dsd)
 > search_eurostat_dsd("EU",dsd,name=FALSE)
 ```
-
-
-**Other examples:**
+**Example 3:** Download the whole data table of 'GDP and main components', then check if the provided `id` is in the Table of Contents. If it is correct then do not use the cached version, but rather download it again and update the cached dataset. Finally, set the cache directory to the temporary folder ('/tmp' in the Unix-like systems) and download the whole data table keeping all non-numeric values as string instead of factor, and keeping the lines without values which were suppressed due to confidentiality (having the 'c' flag). 
 ```R
 > get_eurostat_data("NAMA_10_GDP")
 > get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
 > get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
->
+```
+
+**Other examples:**
+```R
 > options(restatapi_update=TRUE)
 > options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 >

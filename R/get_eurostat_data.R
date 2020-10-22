@@ -180,8 +180,12 @@ get_eurostat_data <- function(id,
   
   if (!(exists(".restatapi_env"))) {load_cfg()}
   if (getOption("restatapi_log",FALSE)){
-    tryCatch(
-      {logstr<-paste(utils::packageVersion("restatapi"),paste(paste(names(match.call()),match.call(),sep="%3D")[2:length(match.call())],collapse="\t"),sep="\t")
+    tryCatch({
+      params<-paste(match.call())[2:length(match.call())]
+      pnames<-names(match.call())[2:length(match.call())]
+      toeval<-sapply(params,exists,envir = parent.frame())
+      params[toeval]<-sapply(params[toeval],function(x){eval(parse(text=x),envir=parent.frame())})
+      logstr<-paste(utils::packageVersion("restatapi"),paste(paste(pnames,params,sep="%3D"),collapse="\t"),sep="\t")
       if(verbose){message(logstr)}
       utils::download.file(paste0("https://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
       unlink("resp",force=TRUE)},
