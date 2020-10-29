@@ -52,18 +52,20 @@ Next to the functions the package contains a list of country codes for different
 > search_eurostat_dsd("EU",dsd)
 > search_eurostat_dsd("EU",dsd,name=FALSE)
 ```
-**Example 3:** Download the whole data table of 'GDP and main components', then check if the provided `id` is in the Table of Contents. If it is correct then do not use the cached version, but rather download it again and update the cached dataset. Finally, set the cache directory to the temporary folder ('/tmp' in the Unix-like systems) and download the whole data table keeping all non-numeric values as string instead of factor, and keeping the lines without values which were suppressed due to confidentiality (having the 'c' flag). 
+**Example 3:** Download the whole data table of 'GDP and main components', then check if the provided `id` is in the Table of Contents. If it is correct, then do not use the cached version from the memory (`.restatapi_env`), but rather download it again and update the dataset in the cache. Finally, change the cache directory from memory to hard disk, to a temporary folder (`/tmp` in the Unix-like systems) and download there the whole data table keeping all non-numeric values as string instead of factor, and keeping the lines without values which were suppressed due to confidentiality (having the 'c' flag). 
 ```R
 > get_eurostat_data("NAMA_10_GDP")
 > get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
 > get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
 ```
-
-**Other examples:**
+**Example 4:** Set the option, that always download the dataset from the internet and do not use the cached version of the data. In this case it is not necessary define for each data query. Then change the default cache from  memory (`.restatapi_env`) to hard disk, to the folder `restatapi` inside the R temporaty folder. This is the default cache directory on the hard disk which will be created, in case the provided `cache_dir` folder does not exist.
 ```R
 > options(restatapi_update=TRUE)
 > options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
->
+```
+
+**Other examples:**
+```R
 > dt<-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
 > dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 > dt<-get_eurostat_data("avia_par_ee",

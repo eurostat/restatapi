@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_eurostat_data.R
 \name{get_eurostat_data}
 \alias{get_eurostat_data}
-\title{Download/extract Eurostat Data}
+\title{Download, extract and filter Eurostat data}
 \usage{
 get_eurostat_data(
   id,
@@ -113,7 +113,7 @@ a data.table.a data.table with the following columns: #'  \tabular{ll}{
         on a particular time.
 }
 \description{
-Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} database.
+Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} \href{https://ec.europa.eu/eurostat/data/database}{database}.
 }
 \details{
 Data sets are downloaded from the Eurostat Web Services 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/search_eurostat_dsd.R
 \name{search_eurostat_dsd}
 \alias{search_eurostat_dsd}
-\title{Search the downloaded Data Structure Definition of a dataset}
+\title{Search for pattern in the Data Structure Definition of a dataset}
 \usage{
 search_eurostat_dsd(pattern, dsd = NULL, name = TRUE, exact_match = FALSE, ...)
 }

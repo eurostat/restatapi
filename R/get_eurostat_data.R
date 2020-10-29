@@ -1,5 +1,5 @@
-#' @title Download/extract Eurostat Data
-#' @description Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} database.
+#' @title Download, extract and filter Eurostat data
+#' @description Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} \href{https://ec.europa.eu/eurostat/data/database}{database}.
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
 #' @param filters a string, a character vector or named list containing words to filter by the different concepts or geographical location.

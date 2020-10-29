@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_toc.R
 \name{extract_toc}
 \alias{extract_toc}
-\title{Extract values from XML}
+\title{Extract the text of the table of contents from SDMX XML}
 \usage{
 extract_toc(ns)
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create filter table — create_filter_table • restatapi</title>
+<title>Create a filter table — create_filter_table • restatapi</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Create filter table — create_filter_table" />
-<meta property="og:description" content="Create filter table from the filters and date_filter strings parameters of the get_eurostat_data to be used in the filter_raw_data function for filtering" />
+<meta property="og:title" content="Create a filter table — create_filter_table" />
+<meta property="og:description" content="Create filter table from the filters and date_filter strings parameters of the get_eurostat_data to be used in the filter_raw_data function for filtering by query or on the local computer." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
       </span>
     </div>
 
@@ -108,13 +108,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create filter table</h1>
+    <h1>Create a filter table</h1>
     <small class="dont-index">Source: <a href='https://github.com/eurostat/restatapi/blob/master/R/create_filter_table.R'><code>R/create_filter_table.R</code></a></small>
     <div class="hidden name"><code>create_filter_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create filter table from the filters and date_filter strings parameters of the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> to be used in the <code><a href='filter_raw_data.html'>filter_raw_data</a></code> function for filtering</p>
+    <p>Create filter table from the <code>filters</code> and <code>date_filter</code> strings parameters of the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> to be used in the <code><a href='filter_raw_data.html'>filter_raw_data</a></code> function for filtering by query or on the local computer.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_filter_table</span>(
@@ -131,11 +131,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>filters</th>
-      <td><p>string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time.
-The words can be any word, Eurostat variable code, and value which are in the Data Structure Definition (DSD) and can be retrieved by the <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code> function. 
+      <td><p>string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time values.
+The words can be any word, Eurostat variable code, or value which are in the Data Structure Definition (DSD) and can be retrieved by the <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code> function. 
 If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
-The default is <code>NULL</code>, in this case the whole dataset is returned via the bulk download. To filter by time see <code>date_filter</code> below.
-In case for filtering for time and the date is defined as character string, then it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.</p></td>
+The default is <code>NULL</code>, in this case no filter table creates. To filter by time see <code>date_filter</code> below.
+In case for filtering for time values, the date shall be defined as character string, and it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.</p></td>
     </tr>
     <tr>
       <th>date_filter</th>
@@ -166,23 +166,23 @@ argument is only searched in the code column of the DSD, and the names of the co
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.table containing in each row a distinct filtering condition to be applied to a raw Eurostat datatable.
-         In case if <code>date_filter=TRUE</code> the output data table contains two columns with the following names:</p><table class='table'>
+    <p>a data.table containing in each row a distinct filtering condition to be applied to a raw Eurostat datatable or generate specific query.</p>
+<p>If <code>date_filter=TRUE</code>, the output data table contains two columns with the following names:</p><table class='table'>
 <tr><td><code>sd</code></td><td>Starting date to be included in the filtered dataset, where date is formatted yyyy[-mm][-dd]</td></tr>
 <tr><td><code>ed</code></td><td>End date of the period to be included in the filtered dataset, where the date is formatted yyyy[-mm][-dd]</td></tr>
 </table>
-<p>In case if <code>date_filter=FALSE</code> the output tables have the following four columns:</p><table class='table'>
+<p>In case <code>date_filter=FALSE</code>, the output tables have the following four columns:</p><table class='table'>
 <tr><td><code>pattern</code></td><td>Containing those parts of the <code>filters</code> string where the string part (pattern) was found in the <code>dsd</code></td></tr>
-<tr><td><code>concept</code></td><td>The name of the concepts corresponding to the result in the code/name column where the pattern was found in the data structure</td></tr>
-<tr><td><code>code</code></td><td>The list of codes where the pattern was found, or the code of a name/description where the pattern appears</td></tr>
-<tr><td><code>name</code></td><td>The name/description which can be used as label for the code where the pattern was found, or the name/description of the code where the pattern appears</td></tr>
+<tr><td><code>concept</code></td><td>The name of the concepts corresponding to the result in the code/name column where the pattern was found in the data structure definition</td></tr>
+<tr><td><code>code</code></td><td>The list of codes where the pattern was found, or the code of a name (description of the code) where the pattern appears</td></tr>
+<tr><td><code>name</code></td><td>The name (description of the code) which can be used as label for the code where the pattern was found, or the name (description of the code) of the code where the pattern appears</td></tr>
 </table>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a sub-function to use in the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> to generate url for the given <code>filters</code> and <code>date_filter</code> in that function. The output can be used also for filtering data 
-         on the local computer with the <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> and <code><a href='filter_raw_data.html'>filter_raw_data</a></code> function, if the direct response from REST API did not provide data because of to large data set.</p>
+         on the local computer with the <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> and <code><a href='filter_raw_data.html'>filter_raw_data</a></code> function, if the direct response from REST API did not provide data because of too large data set.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>, <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='filter_raw_data.html'>filter_raw_data</a></code></p></div>

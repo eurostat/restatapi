@@ -1,4 +1,4 @@
-#' @title Search the downloaded Data Structure Definition of a dataset
+#' @title Search for pattern in the Data Structure Definition of a dataset
 #' @description Search the Data Structure Definition (DSD) of a Eurostat dataset for a given pattern. It returns 
 #'              the rows where the pattern appears in the code and name column of the output of the \code{\link{get_eurostat_dsd}} 
 #'              function. 

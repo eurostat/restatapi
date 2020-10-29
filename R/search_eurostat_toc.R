@@ -1,4 +1,4 @@
-#' @title Search in Eurostat datasets titles, units and short description
+#' @title Search for pattern in the titles, units and short description of the TOC
 #' @description Lists names of dataset from Eurostat with the particular
 #' pattern in the title, units or short description.
 #' @details Downloads the list of all tables and datasets available in the 
@@ -29,7 +29,7 @@
 #'      \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download facility
 #'    }
 #'    The value in the \code{code} column can be used as an id in the \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_raw}} and \code{\link{get_eurostat_dsd}} functions.
-#'    If there is no hit for the search query it returns \code{NULL}.
+#'    If there is no hit for the search query, it returns \code{NULL}.
 #' @export
 #' @seealso \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_toc}}
 #' @examples 

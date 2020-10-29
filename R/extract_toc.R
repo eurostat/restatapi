@@ -1,4 +1,4 @@
-#' @title Extract values from XML 
+#' @title Extract the text of the table of contents from SDMX XML 
 #' @description Extracts the values of a node from the Eurostat XML Table of contents (TOC) file
 #' @param ns An XML node set from the XML TOC file 
 #' @export

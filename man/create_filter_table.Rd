@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_filter_table.R
 \name{create_filter_table}
 \alias{create_filter_table}
-\title{Create filter table}
+\title{Create a filter table}
 \usage{
 create_filter_table(
   filters,
@@ -14,11 +14,11 @@ create_filter_table(
 )
 }
 \arguments{
-\item{filters}{string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time.
-The words can be any word, Eurostat variable code, and value which are in the Data Structure Definition (DSD) and can be retrieved by the \code{\link{search_eurostat_dsd}} function. 
+\item{filters}{string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time values.
+The words can be any word, Eurostat variable code, or value which are in the Data Structure Definition (DSD) and can be retrieved by the \code{\link{search_eurostat_dsd}} function. 
 If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
-The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
-In case for filtering for time and the date is defined as character string, then it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.}
+The default is \code{NULL}, in this case no filter table creates. To filter by time see \code{date_filter} below.
+In case for filtering for time values, the date shall be defined as character string, and it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.}
 
 \item{date_filter}{if \code{TRUE} the filter table is genrated only for the time dimension. The default is \code{FALSE}, 
 in this case a (\code{dsd}) should be provided which will be searched for the values given in the \code{filters}.}
@@ -36,26 +36,27 @@ otherwise the case of the letters is ignored. If the \code{name=FALSE} then the 
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }
 \value{
-a data.table containing in each row a distinct filtering condition to be applied to a raw Eurostat datatable.
-         In case if \code{date_filter=TRUE} the output data table contains two columns with the following names:
+a data.table containing in each row a distinct filtering condition to be applied to a raw Eurostat datatable or generate specific query.
+
+         If \code{date_filter=TRUE}, the output data table contains two columns with the following names:
          \tabular{ll}{
            \code{sd} \tab Starting date to be included in the filtered dataset, where date is formatted yyyy[-mm][-dd] \cr
            \code{ed} \tab End date of the period to be included in the filtered dataset, where the date is formatted yyyy[-mm][-dd] 
            }  
-         In case if \code{date_filter=FALSE} the output tables have the following four columns:
+         In case \code{date_filter=FALSE}, the output tables have the following four columns:
          \tabular{ll}{   
            \code{pattern} \tab Containing those parts of the \code{filters} string where the string part (pattern) was found in the \code{dsd} \cr
-           \code{concept} \tab The name of the concepts corresponding to the result in the code/name column where the pattern was found in the data structure \cr
-           \code{code} \tab The list of codes where the pattern was found, or the code of a name/description where the pattern appears \cr
-           \code{name} \tab The name/description which can be used as label for the code where the pattern was found, or the name/description of the code where the pattern appears 
+           \code{concept} \tab The name of the concepts corresponding to the result in the code/name column where the pattern was found in the data structure definition \cr
+           \code{code} \tab The list of codes where the pattern was found, or the code of a name (description of the code) where the pattern appears \cr
+           \code{name} \tab The name (description of the code) which can be used as label for the code where the pattern was found, or the name (description of the code) of the code where the pattern appears 
          }
 }
 \description{
-Create filter table from the filters and date_filter strings parameters of the \code{\link{get_eurostat_data}} to be used in the \code{\link{filter_raw_data}} function for filtering
+Create filter table from the \code{filters} and \code{date_filter} strings parameters of the \code{\link{get_eurostat_data}} to be used in the \code{\link{filter_raw_data}} function for filtering by query or on the local computer.
 }
 \details{
 It is a sub-function to use in the \code{\link{get_eurostat_data}} to generate url for the given \code{filters} and \code{date_filter} in that function. The output can be used also for filtering data 
-         on the local computer with the \code{\link{get_eurostat_raw}} and \code{\link{filter_raw_data}} function, if the direct response from REST API did not provide data because of to large data set.
+         on the local computer with the \code{\link{get_eurostat_raw}} and \code{\link{filter_raw_data}} function, if the direct response from REST API did not provide data because of too large data set.
 }
 \examples{
 \dontshow{

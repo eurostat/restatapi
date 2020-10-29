@@ -7,14 +7,14 @@
 clean_restatapi_cache(cache_dir = NULL, verbose = FALSE)
 }
 \arguments{
-\item{cache_dir}{A path to cache directory. If \code{NULL} (default)
-tries to clean default temporary cache directory. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
+\item{cache_dir}{A path to cache directory. If \code{NULL} (default) it will clean default temporary cache directory (\code{file.path(tempdir(),"restatapi")}). The default 
+cache directory is used when the provided \code{cache_dir} does not exist. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
 
-\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed. Can be set also with
+\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not be printed. Can be set also with
 \code{options(restatapi_verbose=TRUE)}}
 }
 \description{
-Remove all objects from the .restatapi_env except the configuration file, API version number, download method and the country codes.
+Remove all objects from the \code{.restatapi_env} except the configuration file, API version number, download method and the country codes.
              In addition, it deletes all the .rds files from the default and selected cache directory.
              See \code{\link{get_eurostat_data}} for more on cache.
 }

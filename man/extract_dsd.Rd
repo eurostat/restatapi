@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_dsd.R
 \name{extract_dsd}
 \alias{extract_dsd}
-\title{Extract values from XML}
+\title{Extract the Data Structure Definition from SDMX XML}
 \usage{
 extract_dsd(concept = NULL, dsd_xml = NULL)
 }

@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
       </span>
     </div>
 
@@ -129,15 +129,15 @@
 <div class="sourceCode" id="cb4"><pre class="r">&gt; dsd&lt;-get_eurostat_dsd("ei_bsfs_q")
 &gt; search_eurostat_dsd("EU",dsd)
 &gt; search_eurostat_dsd("EU",dsd,name=FALSE)</pre></div>
-<p><strong>Example 3:</strong> Download the whole data table of ‘GDP and main components’, then check if the provided <code>id</code> is in the Table of Contents. If it is correct then do not use the cached version, but rather download it again and update the cached dataset. Finally, set the cache directory to the temporary folder (‘/tmp’ in the Unix-like systems) and download the whole data table keeping all non-numeric values as string instead of factor, and keeping the lines without values which were suppressed due to confidentiality (having the ‘c’ flag).</p>
+<p><strong>Example 3:</strong> Download the whole data table of ‘GDP and main components’, then check if the provided <code>id</code> is in the Table of Contents. If it is correct, then do not use the cached version from the memory (<code>restatapi_env</code>), but rather download it again and update the dataset in the cache. Finally, change the cache directory from memory to hard disk, to a temporary folder (<code>/tmp</code> in the Unix-like systems) and download there the whole data table keeping all non-numeric values as string instead of factor, and keeping the lines without values which were suppressed due to confidentiality (having the ‘c’ flag).</p>
 <div class="sourceCode" id="cb5"><pre class="r">&gt; get_eurostat_data("NAMA_10_GDP")
 &gt; get_eurostat_data("nama_10_gdp",update_cache=TRUE,check_toc=TRUE)
 &gt; get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)</pre></div>
-<p><strong>Other examples:</strong></p>
+<p><strong>Example 4:</strong> Set the option, that always download the dataset from the internet and do not use the cached version of the data. In this case it is not necessary define for each data query. Then change the default cache from memory (<code>.restatapi_env</code>) to hard disk, to the folder <code>restatapi</code> inside the R temporaty folder. This is the default cache directory on the hard disk which will be created, in case the provided <code>cache_dir</code> folder does not exist.</p>
 <div class="sourceCode" id="cb6"><pre class="r">&gt; options(restatapi_update=TRUE)
-&gt; options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
-&gt;
-&gt; dt&lt;-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
+&gt; options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))</pre></div>
+<p><strong>Other examples:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="r">&gt; dt&lt;-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
 &gt; dt&lt;-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 &gt; dt&lt;-get_eurostat_data("avia_par_ee",
 &gt;                        filters="BE$",

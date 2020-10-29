@@ -1,4 +1,4 @@
-#' @title Extract values from XML 
+#' @title Extract the Data Structure Definition from SDMX XML 
 #' @description Extracts the values from the XML Data Structure Definition (DSD) file
 #' @param concept a character vector with concept ids  
 #' @param dsd_xml an XML file with DSD content
