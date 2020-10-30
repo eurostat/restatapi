@@ -1,14 +1,14 @@
 #' @title Extract data values from SDMX XML 
 #' @description Extracts the data values from the SDMX XML data file
-#' @param xml_lf an input XML leaf with data series from an SDMX XML file to extract the value and dimension from it
+#' @param xml_lf an input XML leaf with data series from an SDMX XML file to extract the value and its dimensions from it
 #' @param keep_flags a boolean if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}
 #' @param stringsAsFactors if \code{TRUE} the columns are converted to factors. The default is \code{FALSE}, 
-#'        in this case the strings are returned as a character.
+#'        in this case the strings are returned as characters.
 #' @param bulk a boolean with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
-#'        If the input file has pre-filtered values then the \code{FALSE} should be used.  
+#'        If the input file has pre-filtered values then the value \code{FALSE} should be used.  
 #' @export 
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_data}} and the \code{\link{get_eurostat_raw}} functions.
-#' @return a data frame containing the values of an SDMX node, (the dimensions, value and optional the flag(s))
+#' @return a data frame containing the values of an SDMX node: the dimensions, value and the optional flag(s)
 #' @examples 
 #' \dontshow{
 #' if (parallel::detectCores()<=2){

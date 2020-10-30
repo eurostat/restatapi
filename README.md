@@ -63,18 +63,30 @@ Next to the functions the package contains a list of country codes for different
 > options(restatapi_update=TRUE)
 > options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 ```
-
-**Other examples:**
+**Example 5:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro and do not cache any of the data. Then from the same table download the monhly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017. Then download the again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is the exact match in the DSD for "HU" for August 2016 and 1 March 2014. This query will provide only monthly data for 2016 as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. As there is no exact match for the "HU" pattern, it will return all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier undertood. Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result will be all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods.
 ```R
 > dt<-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
-> dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
-> dt<-get_eurostat_data("avia_par_ee",
->                        filters="BE$",
+> dt<-get_eurostat_data("avia_par_me",
+>                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
+>                       date_filter=c("2016-08","2017-07-01"),
+>                       select_freq="M") 
+> dt<-get_eurostat_data("avia_par_me",
+>                       filters=c("HU","Quarterly","Monthly"),
+>                       date_filter=c("2016-08","2014-03-01"),
+>                       label=TRUE)
+> dt<-get_eurostat_data("avia_par_me",
+>                        filters="HU",
+>                        exact_match=FALSE,
 >                        date_filter=c("2017-03",2016,"2017-07-01",2012:2014),
 >                        select_freq="Q",
 >                        label=TRUE,
 >                        verbose=TRUE,
 >                        name=FALSE)
+```
+
+**Other examples:**
+```R
+> dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 > dt<-get_eurostat_data("bop_its6_det",
 >                        filters=list(bop_item="SC",
 >                                     currency="MIO_EUR",
@@ -86,7 +98,6 @@ Next to the functions the package contains a list of country codes for different
 >                        label=TRUE,
 >                        name=FALSE,
 >                        ignore.case=TRUE)     
-> options(restatapi_cache_dir=tempdir())
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters=c("BE$","Hungary"),
 >                       date_filter="2007-06<",
@@ -100,6 +111,7 @@ Next to the functions the package contains a list of country codes for different
 >                       label=TRUE,
 >                       ignore.case=TRUE)
 >
+> options(restatapi_cache_dir=tempdir())
 > eu<-get("cc",envir=.restatapi_env)
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters=eu$NMS10,
@@ -111,14 +123,6 @@ Next to the functions the package contains a list of country codes for different
 > dt<-get_eurostat_data("nama_10_a10_e",
 >                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
 >                       date_filter=c("2008",2002,"2005-01",2013:2018))
-> dt<-get_eurostat_data("avia_par_me",
->                       filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
->                       date_filter=c("2016-08","2017-07-01"),
->                       select_freq="M") 
-> dt<-get_eurostat_data("avia_par_me",
->                       filters=c("HU","Quarterly","Monthly"),
->                       date_filter=c("2016-08","2014-03-01"),
->                       label=TRUE)
 >
 > clean_restatapi_cache(tempdir(),verbose=TRUE)
 
