@@ -2,20 +2,21 @@
 % Please edit documentation in R/extract_dsd.R
 \name{extract_dsd}
 \alias{extract_dsd}
-\title{Extract the Data Structure Definition from SDMX XML}
+\title{Extract the Data Structure Definition content from SDMX XML}
 \usage{
 extract_dsd(concept = NULL, dsd_xml = NULL)
 }
 \arguments{
-\item{concept}{a character vector with concept ids}
+\item{concept}{a character vector with a concept id}
 
 \item{dsd_xml}{an XML file with DSD content}
 }
 \value{
-a matrix with 3 columns if the concepts has code list in the DSD file
+It returns a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
+        is the possible codes under the given \code{concept}. The last column is the name/description for the code in the second column, which can be used as labels.
 }
 \description{
-Extracts the values from the XML Data Structure Definition (DSD) file
+Extracts values from the XML Data Structure Definition (DSD) file
 }
 \details{
 It is a sub-function to use in the \code{\link{get_eurostat_dsd}} function.

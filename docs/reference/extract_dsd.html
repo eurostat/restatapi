@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract the Data Structure Definition from SDMX XML — extract_dsd • restatapi</title>
+<title>Extract the Data Structure Definition content from SDMX XML — extract_dsd • restatapi</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract the Data Structure Definition from SDMX XML — extract_dsd" />
-<meta property="og:description" content="Extracts the values from the XML Data Structure Definition (DSD) file" />
+<meta property="og:title" content="Extract the Data Structure Definition content from SDMX XML — extract_dsd" />
+<meta property="og:description" content="Extracts values from the XML Data Structure Definition (DSD) file" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.4</span>
       </span>
     </div>
 
@@ -108,13 +108,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract the Data Structure Definition from SDMX XML</h1>
+    <h1>Extract the Data Structure Definition content from SDMX XML</h1>
     <small class="dont-index">Source: <a href='https://github.com/eurostat/restatapi/blob/master/R/extract_dsd.R'><code>R/extract_dsd.R</code></a></small>
     <div class="hidden name"><code>extract_dsd.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts the values from the XML Data Structure Definition (DSD) file</p>
+    <p>Extracts values from the XML Data Structure Definition (DSD) file</p>
     </div>
 
     <pre class="usage"><span class='fu'>extract_dsd</span>(<span class='kw'>concept</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dsd_xml</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -124,7 +124,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>concept</th>
-      <td><p>a character vector with concept ids</p></td>
+      <td><p>a character vector with a concept id</p></td>
     </tr>
     <tr>
       <th>dsd_xml</th>
@@ -134,7 +134,8 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a matrix with 3 columns if the concepts has code list in the DSD file</p>
+    <p>It returns a matrix with 3 columns if the provided <code>concept</code> has a code list in the DSD file. The first column is the provided <code>concept</code>. The second column 
+        is the possible codes under the given <code>concept</code>. The last column is the name/description for the code in the second column, which can be used as labels.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a sub-function to use in the <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code> function.</p>
