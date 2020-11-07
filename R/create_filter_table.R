@@ -1,15 +1,15 @@
 #' @title Create a filter table  
 #' @description Create filter table from the \code{filters} and \code{date_filter} strings parameters of the \code{\link{get_eurostat_data}} to be used in the \code{\link{filter_raw_data}} function for filtering by query or on the local computer.
-#' @param filters string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time values.
+#' @param filters a string, a character or numeric vector or a named list containing words to filter by the different concepts, geographical location or time values.
 #'        The words can be any word, Eurostat variable code, or value which are in the Data Structure Definition (DSD) and can be retrieved by the \code{\link{search_eurostat_dsd}} function. 
 #'        If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 #'        The default is \code{NULL}, in this case no filter table is created. To filter by time see \code{date_filter} below.
 #'        In case for filtering for time values, the date shall be defined as character string, and it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.
-#' @param date_filter if \code{TRUE} the filter table is genrated only for the time dimension. The default is \code{FALSE}, 
+#' @param date_filter a logical value. If \code{TRUE} the filter table is genrated only for the time dimension. The default is \code{FALSE}, 
 #'        in this case a (\code{dsd}) should be provided which will be searched for the values given in the \code{filters}. 
 #' @param dsd a table containing a DSD of an Eurostat dataset which can be retreived by the \code{\link{get_eurostat_dsd}} function. 
-#' @param exact_match a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern in the DSD. 
-#' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+#' @param exact_match a logical value with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern in the DSD. 
+#' @param verbose a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
 #'        The \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 

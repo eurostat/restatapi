@@ -10,15 +10,15 @@ get_eurostat_cache(oname, cache_dir = NULL, verbose = FALSE)
 \item{oname}{a character string with the name of the object (toc, dataset id, DSD id)}
 
 \item{cache_dir}{a path to a cache directory to search in. The default is \code{NULL}, 
-in this case the object is searched in the memory (in the '.restatapi_env'). Otherwise
+in this case the object is searched in the memory (in the \code{.restatapi_env}). Otherwise
 if the \code{cache_dir} directory does not exist it searches the 'restatapi' directory
 in the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
 
-\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-Can be set also with \code{options(restatapi_verbose=TRUE)}}
+\item{verbose}{a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+Can be set also with \code{options(restatapi_verbose=TRUE)}.}
 }
 \value{
-The requested object if exists in the '.restatapi_env' or in the \code{cache_dir}, otherwise it returns the \code{NULL} value.
+the requested object if exists in the '.restatapi_env' or in the \code{cache_dir}, otherwise it returns the \code{NULL} value.
 }
 \description{
 Search and load the object (dataset/toc/DSD) from cache

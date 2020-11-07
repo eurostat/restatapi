@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.5</span>
       </span>
     </div>
 
@@ -124,18 +124,18 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>url</th>
-      <td><p>an XML leaf with data series from an SDMX XML file</p></td>
+      <td><p>a URL from the bulk download facility to download the zipped SDMX XML file</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+      <td><p>a logical value with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
+Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an xml file with SDMX tags</p>
+    <p>an xml class object with SDMX tags extracted and read from the downloaded file.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a sub-function to use in the <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> and the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> functions.</p>

@@ -4,7 +4,7 @@
 #' @param dsd_xml an XML file with DSD content
 #' @export 
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_dsd}} function.
-#' @return It returns a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
+#' @return  a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
 #'         is the possible codes under the given \code{concept}. The last column is the name/description for the code in the second column, which can be used as labels.
 #' @examples 
 #' \dontshow{

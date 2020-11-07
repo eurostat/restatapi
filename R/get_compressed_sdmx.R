@@ -1,11 +1,11 @@
 #' @title Download and extract compressed SDMX XML 
 #' @description Downloads  and extracts the data values from the SDMX XML data file
-#' @param url an XML leaf with data series from an SDMX XML file
-#' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-#'         Can be set also with \code{options(restatapi_verbose=TRUE)}        
+#' @param url a URL from the bulk download facility to download the zipped SDMX XML file
+#' @param verbose a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+#'         Can be set also with \code{options(restatapi_verbose=TRUE)}.        
 #' @export 
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}} functions.
-#' @return an xml file with SDMX tags 
+#' @return an xml class object with SDMX tags extracted and read from the downloaded file.  
 #' @examples 
 #' base_url<-"https://ec.europa.eu/eurostat/"
 #' url_end<-"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"

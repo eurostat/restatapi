@@ -1,63 +1,64 @@
 #' @title Get Eurostat data in a standardized format
 #' @description Download data sets from \href{https://ec.europa.eu/eurostat/}{Eurostat} database and put in a standardized format.
-#' @param id A code name for the dataset of interest.
+#' @param id a code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
-#' @param cache a logical whether to do caching. Default is \code{TRUE}.
-#' @param update_cache a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
-#'        \code{options(restatapi_update=TRUE)}
+#' @param cache a logical value whether to do caching. Default is \code{TRUE}.
+#' @param update_cache a logical value with a default value \code{FALSE}, whether to update cache. Can be set also with
+#'        \code{options(restatapi_update=TRUE)}.
 #' @param cache_dir a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
-#'        If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
+#'        If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
 #'        under the temporary directory from \code{tempdir()}. Directory can also be set with
 #'        \code{option(restatapi_cache_dir=...)}.
-#' @param compress_file a logical whether to compress the
+#' @param compress_file a logical value whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
-#' @param stringsAsFactors the default is \code{TRUE}, in this case the columns are converted to factors.  If \code{FALSE}, 
-#'        the strings are returned as character.
+#' @param stringsAsFactors a logical value with the default \code{TRUE}. In this case the columns are converted to factors. If \code{FALSE}, 
+#'        the strings are returned as characters.
 #' @param select_freq a character symbol for a time frequency when a dataset has multiple time
 #'        frequencies. Possible values are:
 #'    	  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
-#'    	  The default is \code{NULL} as most datasets have just one time frequency. 
+#'    	  The default is \code{NULL} as most datasets have only one time frequency. 
 #'    	  In case if there are multiple frequencies and \code{select_freq=NULL}, then only the most common frequency kept.
-#'        If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.
-#' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
+#'        If all the frequencies needed the \code{\link{get_eurostat_raw}} function can be used.
+#' @param keep_flags a logical value whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
 #'        \url{http://ec.europa.eu/eurostat/data/database/information}.
-#' @param cflags a logical whether the missing observations with flag 'c' - "confidential"
+#' @param cflags a logical value whether the missing observations with flag 'c' - "confidential"
 #'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
-#'        \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.  
-#' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
+#'        \code{TRUE} then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in \code{keep_flags} is set to \code{TRUE}.  
+#' @param check_toc a logical value whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
-#'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+#'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found there then the download link 
 #'        is retrieved form the TOC.  
-#' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-#'         Can be set also with \code{options(restatapi_verbose=TRUE)}
+#' @param verbose a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+#'         Can be set also with \code{options(restatapi_verbose=TRUE)}.
 #' @param ... other parameter(s) to pass on the \code{\link{load_cfg}} function        
 #' @export
 #' 
 #' @details Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
 #' in TSV format as in this case smaller file has to be downloaded and processed. If there is more then one frequency then
-#'  the is filtered for a unique time frequency.
+#'  the dataset is filtered for a unique time frequency.
 #' If no frequency is selected and there are multiple frequencies in the dataset, then the most common value is used used for frequency.
 #' 
-#' Compared to \code{\link{get_eurostat_raw}} the frequency (FREQ) and time format (TIME_FORMAT) columns are not included  
+#' Compared to the ouptut of the \code{\link{get_eurostat_raw}} function, the frequency (FREQ) and time format (TIME_FORMAT) columns are not included in the bulk data  
 #' and the column names for the time period, observation values and status have standardised names: "time", "values" and "flags" 
-#' independently if the data was downloaded previously through SDMX or TSV format.
+#' independently if the data was downloaded previously in SDMX or TSV format.
 #' 
 #' By default all datasets cached as they are often rather large. 
 #' The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 #' The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 #' 
-#' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+#' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for it with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset
 #' in parenthesis.
-#' @return a data.table with the following columns: #'  \tabular{ll}{
+#' @return a data.table with the following columns: 
+#'  \tabular{ll}{
 #'      dimension names \tab One column for each dimension in the data \cr
 #'      \code{time} \tab A column for the time dimension\cr
 #'      \code{values} \tab A column for numerical values\cr
-#'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table
+#'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column is not included in the data table
 #'    }
-#'   The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
+#'   The data.table does not include all missing values. The missing values are dropped if both the value and the flag is missing
 #'         on a particular time.
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_raw}}
 #' @examples 

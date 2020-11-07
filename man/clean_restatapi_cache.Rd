@@ -7,10 +7,10 @@
 clean_restatapi_cache(cache_dir = NULL, verbose = FALSE)
 }
 \arguments{
-\item{cache_dir}{A path to cache directory. If \code{NULL} (default) it will clean default temporary cache directory (\code{file.path(tempdir(),"restatapi")}). The default 
+\item{cache_dir}{a path to cache directory. If \code{NULL} (default) it will clean default temporary cache directory (\code{file.path(tempdir(),"restatapi")}). The default 
 cache directory is used when the provided \code{cache_dir} does not exist. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
 
-\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not be printed. Can be set also with
+\item{verbose}{a logical value with default \code{FALSE}, so detailed messages (for debugging) will not be printed. Can be set also with
 \code{options(restatapi_verbose=TRUE)}}
 }
 \description{

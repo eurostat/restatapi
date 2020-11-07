@@ -2,14 +2,14 @@
 #' @description Search and load the object (dataset/toc/DSD) from cache
 #' @param oname  a character string with the name of the object (toc, dataset id, DSD id)
 #' @param cache_dir a path to a cache directory to search in. The default is \code{NULL}, 
-#'        in this case the object is searched in the memory (in the '.restatapi_env'). Otherwise
+#'        in this case the object is searched in the memory (in the \code{.restatapi_env}). Otherwise
 #'        if the \code{cache_dir} directory does not exist it searches the 'restatapi' directory
 #'        in the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.
-#' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-#'         Can be set also with \code{options(restatapi_verbose=TRUE)}
+#' @param verbose a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+#'         Can be set also with \code{options(restatapi_verbose=TRUE)}.
 #' @export
 #' @details If the given name or the beginning of the name (for datasets) found in the cache then it returns the value of the object otherwise it returns \code{NULL}.
-#' @return The requested object if exists in the '.restatapi_env' or in the \code{cache_dir}, otherwise it returns the \code{NULL} value.  
+#' @return the requested object if exists in the '.restatapi_env' or in the \code{cache_dir}, otherwise it returns the \code{NULL} value.  
 #' @examples 
 #' \dontshow{
 #' if (parallel::detectCores()<=2){

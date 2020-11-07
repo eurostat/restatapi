@@ -9,12 +9,12 @@ extract_data(xml_lf, keep_flags = FALSE, stringsAsFactors = FALSE, bulk = TRUE)
 \arguments{
 \item{xml_lf}{an input XML leaf with data series from an SDMX XML file to extract the value and its dimensions from it}
 
-\item{keep_flags}{a boolean if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}}
+\item{keep_flags}{a logical value if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}}
 
-\item{stringsAsFactors}{if \code{TRUE} the columns are converted to factors. The default is \code{FALSE}, 
+\item{stringsAsFactors}{a logical value. If \code{TRUE} the columns are converted to factors. The default is \code{FALSE}, 
 in this case the strings are returned as characters.}
 
-\item{bulk}{a boolean with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
+\item{bulk}{a logical value with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
 If the input file has pre-filtered values then the value \code{FALSE} should be used.}
 }
 \value{

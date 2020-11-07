@@ -7,13 +7,13 @@
 get_compressed_sdmx(url = NULL, verbose = FALSE)
 }
 \arguments{
-\item{url}{an XML leaf with data series from an SDMX XML file}
+\item{url}{a URL from the bulk download facility to download the zipped SDMX XML file}
 
-\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-Can be set also with \code{options(restatapi_verbose=TRUE)}}
+\item{verbose}{a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+Can be set also with \code{options(restatapi_verbose=TRUE)}.}
 }
 \value{
-an xml file with SDMX tags
+an xml class object with SDMX tags extracted and read from the downloaded file.
 }
 \description{
 Downloads  and extracts the data values from the SDMX XML data file

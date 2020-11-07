@@ -7,7 +7,7 @@
 extract_toc(ns)
 }
 \arguments{
-\item{ns}{An XML node set from the XML TOC file}
+\item{ns}{an XML node set from the XML TOC file}
 }
 \value{
 a character vector with all the values of the node set.

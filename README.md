@@ -63,14 +63,14 @@ Next to the functions the package contains a list of country codes for different
 > get_eurostat_data("nama_10_gdp",cache_dir="/tmp",stringAsFactors=FALSE,cflags=TRUE)
 ```
 
-**Example 4:** Set the option, that always download the dataset from the internet and do not use the cached version of the data(`restatapi_update=TRUE`). In this case it is not necessary define this option for each data query. Then change the default cache from  memory (`.restatapi_env`) to hard disk(`restatapi_cache_dir=file.path(tempdir(),"restatapi")`), to the folder `restatapi` inside the R temporary folder. This is the default cache directory on the hard disk, which will be created, in case the provided `cache_dir` folder does not exist.
+**Example 4:** Set the option, that always download the dataset from the internet and do not use the cached version of the data(`restatapi_update=TRUE`). In this case it is not necessary define this option for each data query. Then change the default cache from  memory (`.restatapi_env`) to hard disk (`restatapi_cache_dir=file.path(tempdir(),"restatapi")`), to the folder `restatapi` inside the R temporary folder. This is the default cache directory on the hard disk, which will be created, in case the provided `cache_dir` folder does not exist.
 
 ```R
 > options(restatapi_update=TRUE)
 > options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 ```
 
-**Example 5:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro and do not cache any of the data. Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). 
+**Example 5:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro and do not cache any of the data. Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://ec.europa.eu/eurostat/web/sdmx-web-services/rest-sdmx-2.1).
 Then download again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is exact match in the DSD for "HU" for August 2016 and 1 March 2014 (`date_filter=c("2016-08","2014-03-01")`). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the "HU" pattern, it will return all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (`label=TRUE`). 
 Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`, the order of the dates does not matter) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result will be all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods. 
 
@@ -96,7 +96,6 @@ Finally, download only the quarterly data (`select_freq="Q"`) for several time p
 
 **Other examples:**
 ```R
-> dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
 > dt<-get_eurostat_data("bop_its6_det",
 >                        filters=list(bop_item="SC",
 >                                     currency="MIO_EUR",
@@ -121,7 +120,6 @@ Finally, download only the quarterly data (`select_freq="Q"`) for several time p
 >                       label=TRUE,
 >                       ignore.case=TRUE)
 >
-> options(restatapi_cache_dir=tempdir())
 > eu<-get("cc",envir=.restatapi_env)
 > dt<-get_eurostat_data("agr_r_milkpr",
 >                       filters=eu$NMS10,

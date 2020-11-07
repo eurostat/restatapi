@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.5</span>
       </span>
     </div>
 
@@ -129,20 +129,20 @@
     <tr>
       <th>cache_dir</th>
       <td><p>a path to a cache directory to search in. The default is <code>NULL</code>, 
-in this case the object is searched in the memory (in the '.restatapi_env'). Otherwise
+in this case the object is searched in the memory (in the <code>.restatapi_env</code>). Otherwise
 if the <code>cache_dir</code> directory does not exist it searches the 'restatapi' directory
 in the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>. Directory can also be set with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_cache_dir=...)</a></code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+      <td><p>a logical value with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
+Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The requested object if exists in the '.restatapi_env' or in the <code>cache_dir</code>, otherwise it returns the <code>NULL</code> value.</p>
+    <p>the requested object if exists in the '.restatapi_env' or in the <code>cache_dir</code>, otherwise it returns the <code>NULL</code> value.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If the given name or the beginning of the name (for datasets) found in the cache then it returns the value of the object otherwise it returns <code>NULL</code>.</p>
