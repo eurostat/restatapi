@@ -1,7 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Create pkgdown site
-
 # Controls when the action will run. 
 on:
   push:
