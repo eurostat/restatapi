@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -117,19 +117,20 @@
     <p>Download data sets from <a href='https://ec.europa.eu/eurostat'>Eurostat</a> database .</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_raw</span>(
-  <span class='no'>id</span>,
-  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"txt"</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_eurostat_raw</span><span class='op'>(</span>
+  <span class='va'>id</span>,
+  mode <span class='op'>=</span> <span class='st'>"txt"</span>,
+  cache <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  update_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  compress_file <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  keep_flags <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  check_toc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  melt <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,6 +186,11 @@ If the value is <code>TRUE</code> then the TOC is downloaded and the <code>id</c
 is retrieved form the TOC.</p></td>
     </tr>
     <tr>
+      <th>melt</th>
+      <td><p>a boolean with default value <code>TRUE</code> and used only if the <code>mode="txt"</code>. In case it is <code>FALSE</code>, 
+the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
@@ -197,7 +203,7 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.table with the following columns:</p><table class='table'>
+    <p>a data.table with the following columns if the default <code>melt=TRUE</code> is used:</p><table class='table'>
 <tr><td><code>FREQ</code></td><td>The frequency of the data (<strong>A</strong>nnual, <strong>S</strong>emi-annual, <strong>H</strong>alf-year, <strong>Q</strong>uarterly, <strong>M</strong>onthly, <strong>W</strong>eekly, <strong>D</strong>aily)</td></tr>
 <tr><td>dimension names</td><td>One column for each dimension in the data</td></tr>
 <tr><td><code>TIME_FORMAT</code></td><td>A column for the time format, if the source file SDMX and the data was not loaded from a previously cached TSV download (this column is missing if the source file is TSV)</td></tr>
@@ -207,6 +213,7 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 </table>
 <p>The data does not include all missing values. The missing values are dropped if the value and flags are missing
 on a particular time.</p>
+<p>In case <code>melt=FALSE</code> the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Data sets are downloaded from <a href='http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing'>the Eurostat bulk download facility</a> 
@@ -224,17 +231,18 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> (<span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()<span class='kw'>&lt;=</span><span class='fl'>2</span>){
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>1</span>)
-}<span class='kw'>else</span>{
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>2</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>    
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"avia_par_ee"</span>,<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"xml"</span>,<span class='kw'>check_toc</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_raw</span>(<span class='st'>"avia_par_me"</span>,<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='kw'>compress_file</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span></div><div class='output co'>#&gt; <span class='message'>class:data.tabledata.frame</span></div><div class='input'># }
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_raw</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_raw</span><span class='op'>(</span><span class='st'>"avia_par_ee"</span>,mode<span class='op'>=</span><span class='st'>"xml"</span>,check_toc<span class='op'>=</span><span class='cn'>TRUE</span>,update_cache<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_update<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_raw</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,mode<span class='op'>=</span><span class='st'>"txt"</span>,cache_dir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,compress_file<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span></div><div class='output co'>#&gt; <span class='message'>class:data.tabledata.frame</span></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -251,7 +259,7 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

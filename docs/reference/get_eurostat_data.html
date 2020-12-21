@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -117,26 +117,26 @@
     <p>Download full or partial data set from <a href='https://ec.europa.eu/eurostat/'>Eurostat</a> <a href='https://ec.europa.eu/eurostat/data/database'>database</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_data</span>(
-  <span class='no'>id</span>,
-  <span class='kw'>filters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>exact_match</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>date_filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>select_freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>keep_flags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cflags</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>check_toc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>local_filter</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>force_local_filter</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_eurostat_data</span><span class='op'>(</span>
+  <span class='va'>id</span>,
+  filters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  exact_match <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  date_filter <span class='op'>=</span> <span class='cn'>NULL</span>,
+  label <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  select_freq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cache <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  update_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  compress_file <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  stringsAsFactors <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  keep_flags <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cflags <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  check_toc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  local_filter <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  force_local_filter <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -295,59 +295,60 @@ If there are multiple dates which is not a continuous range, it can be put in ve
     <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span>()
-<span class='no'>eu</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cc"</span>,<span class='kw'>envir</span><span class='kw'>=</span><span class='no'>.restatapi_env</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>eu</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='st'>"cc"</span>,envir<span class='op'>=</span><span class='va'>.restatapi_env</span><span class='op'>)</span>
 
 <span class='co'># \dontshow{</span>
-<span class='kw'>if</span> (<span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()<span class='kw'>&lt;=</span><span class='fl'>2</span>){
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>1</span>)
-}<span class='kw'>else</span>{
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>2</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>    
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"NAMA_10_GDP"</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,<span class='kw'>update_cache</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>check_toc</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>cache_dir</span><span class='kw'>=</span><span class='st'>"/tmp"</span>,<span class='kw'>cflags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_update</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cache_dir</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),<span class='st'>"restatapi"</span>))
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_gonc"</span>,<span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"A"</span>,<span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,<span class='kw'>date_filter</span><span class='kw'>=</span><span class='fl'>2008</span>,<span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
-                      <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"BE$"</span>,
-                      <span class='kw'>exact_match</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span>),
-                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"Q"</span>,
-                      <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                      <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"agr_r_milkpr"</span>,
-                      <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span>),
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='st'>"2007-06&lt;"</span>,
-                      <span class='kw'>keep_flags</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"nama_10_a10_e"</span>,
-                      <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span>),
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span>:<span class='fl'>2018</span>))
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"vit_t3"</span>,
-                      <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"EU28"</span>,<span class='no'>eu</span>$<span class='no'>EA15</span>,<span class='st'>"HU$"</span>),
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2015"</span>,<span class='fl'>2007</span>))
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"avia_par_me"</span>,
-                      <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
-                      <span class='kw'>date_filter</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span>),
-                      <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"M"</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"htec_cis3"</span>,
-                       <span class='kw'>filters</span><span class='kw'>=</span><span class='st'>"lu"</span>,
-                       <span class='kw'>ignore.case</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>dt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_data</span>(<span class='st'>"bop_its6_det"</span>,
-                       <span class='kw'>filters</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>bop_item</span><span class='kw'>=</span><span class='st'>"SC"</span>,
-                                    <span class='kw'>currency</span><span class='kw'>=</span><span class='st'>"MIO_EUR"</span>,
-                                    <span class='kw'>partner</span><span class='kw'>=</span><span class='st'>"EXT_EU28"</span>,
-                                    <span class='kw'>geo</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"EU28"</span>,<span class='st'>"HU"</span>),
-                                    <span class='kw'>stk_flow</span><span class='kw'>=</span><span class='st'>"BAL"</span>),
-                       <span class='kw'>date_filter</span><span class='kw'>=</span><span class='st'>"2010:2012"</span>,
-                       <span class='kw'>select_freq</span><span class='kw'>=</span><span class='st'>"A"</span>,
-                       <span class='kw'>label</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                       <span class='kw'>name</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='co'># }</span></div></pre>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"NAMA_10_GDP"</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,update_cache<span class='op'>=</span><span class='cn'>TRUE</span>,check_toc<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,cache_dir<span class='op'>=</span><span class='st'>"/tmp"</span>,cflags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_update<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cache_dir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"restatapi"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_gonc"</span>,select_freq<span class='op'>=</span><span class='st'>"A"</span>,cache<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,date_filter<span class='op'>=</span><span class='fl'>2008</span>,keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,
+                      filters<span class='op'>=</span><span class='st'>"BE$"</span>,
+                      exact_match<span class='op'>=</span><span class='cn'>FALSE</span>,
+                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,
+                      select_freq<span class='op'>=</span><span class='st'>"Q"</span>,
+                      label<span class='op'>=</span><span class='cn'>TRUE</span>,
+                      name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,
+                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span><span class='op'>)</span>,
+                      date_filter<span class='op'>=</span><span class='st'>"2007-06&lt;"</span>,
+                      keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"nama_10_a10_e"</span>,
+                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span><span class='op'>)</span>,
+                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span><span class='op'>:</span><span class='fl'>2018</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"vit_t3"</span>,
+                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='va'>eu</span><span class='op'>$</span><span class='va'>EA15</span>,<span class='st'>"HU$"</span><span class='op'>)</span>,
+                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015"</span>,<span class='fl'>2007</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,
+                      filters<span class='op'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
+                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,
+                      select_freq<span class='op'>=</span><span class='st'>"M"</span><span class='op'>)</span>
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,
+                       filters<span class='op'>=</span><span class='st'>"lu"</span>,
+                       ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> 
+<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"bop_its6_det"</span>,
+                       filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>bop_item<span class='op'>=</span><span class='st'>"SC"</span>,
+                                    currency<span class='op'>=</span><span class='st'>"MIO_EUR"</span>,
+                                    partner<span class='op'>=</span><span class='st'>"EXT_EU28"</span>,
+                                    geo<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='st'>"HU"</span><span class='op'>)</span>,
+                                    stk_flow<span class='op'>=</span><span class='st'>"BAL"</span><span class='op'>)</span>,
+                       date_filter<span class='op'>=</span><span class='st'>"2010:2012"</span>,
+                       select_freq<span class='op'>=</span><span class='st'>"A"</span>,
+                       label<span class='op'>=</span><span class='cn'>TRUE</span>,
+                       name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>         
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -363,7 +364,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

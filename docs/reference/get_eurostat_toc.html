@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -117,16 +117,16 @@
     <p>Download Table of Contents (TOC) of Eurostat datasets if it is not cached previously.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_eurostat_toc</span>(
-  <span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"xml"</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>update_cache</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>compress_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>lang</span> <span class='kw'>=</span> <span class='st'>"en"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>
+  mode <span class='op'>=</span> <span class='st'>"xml"</span>,
+  cache <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  update_cache <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cache_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  compress_file <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  lang <span class='op'>=</span> <span class='st'>"en"</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,26 +200,28 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> (<span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()<span class='kw'>&lt;=</span><span class='fl'>2</span>){
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>1</span>)
-}<span class='kw'>else</span>{
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>restatapi_cores</span><span class='kw'>=</span><span class='fl'>2</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>    
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
-<span class='no'>toc_xml</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>cache</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>toc_xml</span>)</div><div class='output co'>#&gt;                           title         code    type lastUpdate lastModified
-#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020.10.29   2020.10.29
-#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020.10.29   2020.10.29
-#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020.10.29   2020.10.29
-#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020.10.29   2020.10.29
-#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020.10.29   2020.10.29
-#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020.10.29   2020.10.29
+<span class='va'>toc_xml</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>cache<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_xml</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                           title         code    type lastUpdate lastModified
+#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2020.11.27   2020.11.27
+#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2020.11.27   2020.10.29
+#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2020.11.27   2020.11.27
+#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2020.11.27   2020.10.29
+#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2020.11.27   2020.11.27
+#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2020.11.27   2020.10.29
 #&gt;   dataStart dataEnd values unit shortDescription
-#&gt; 1   1980M01 2020M10 275134                      
+#&gt; 1   1980M01 2020M11 276014                      
 #&gt; 2    1990Q1  2020Q4  18750                      
-#&gt; 3   1980M01 2020M10 189299                      
+#&gt; 3   1980M01 2020M11 189859                      
 #&gt; 4    1980Q1  2020Q4  93746                      
-#&gt; 5   1980M01 2020M10 234566                      
+#&gt; 5   1980M01 2020M11 235382                      
 #&gt; 6    1981Q1  2020Q4   6396                      
 #&gt;                                                     metadata.html
 #&gt; 1 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
@@ -248,21 +250,22 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 #&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.sdmx.zip
 #&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.sdmx.zip
 #&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.sdmx.zip
-#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</div><div class='input'><span class='no'>toc_txt</span><span class='kw'>&lt;-</span><span class='fu'>get_eurostat_toc</span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"txt"</span>, <span class='kw'>lang</span><span class='kw'>=</span><span class='st'>"de"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>toc_txt</span>)</div><div class='output co'>#&gt;                                   title         code    type lastUpdate
-#&gt; 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2020.10.29
-#&gt; 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2020.10.29
-#&gt; 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2020.10.29
-#&gt; 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2020.10.29
-#&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2020.10.29
-#&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2020.10.29
+#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</div><div class='input'><span class='va'>toc_txt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>mode<span class='op'>=</span><span class='st'>"txt"</span>, lang<span class='op'>=</span><span class='st'>"de"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_txt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                   title         code    type lastUpdate
+#&gt; 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2020.11.27
+#&gt; 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2020.11.27
+#&gt; 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2020.11.27
+#&gt; 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2020.11.27
+#&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2020.11.27
+#&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2020.11.27
 #&gt;    lastModified dataStart dataEnd values
-#&gt; 6    2020.10.29   1980M01 2020M10     NA
+#&gt; 6    2020.11.27   1980M01 2020M11     NA
 #&gt; 7    2020.10.29    1990Q1  2020Q4     NA
-#&gt; 9    2020.10.29   1980M01 2020M10     NA
+#&gt; 9    2020.11.27   1980M01 2020M11     NA
 #&gt; 10   2020.10.29    1980Q1  2020Q4     NA
-#&gt; 11   2020.10.29   1980M01 2020M10     NA
-#&gt; 12   2020.10.29    1981Q1  2020Q4     NA</div><div class='input'># }
+#&gt; 11   2020.11.27   1980M01 2020M11     NA
+#&gt; 12   2020.10.29    1981Q1  2020Q4     NA</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -279,7 +282,7 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
