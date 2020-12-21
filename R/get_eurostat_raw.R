@@ -145,6 +145,8 @@ get_eurostat_raw <- function(id,
     }
   }
   
+  if (!melt) cache=F
+  
   if (tbc){
     if ((cache)&(!update_cache)) {
       restat_raw<-data.table::copy(get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))

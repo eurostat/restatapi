@@ -87,16 +87,25 @@
 #' If a date range is defined with ":", it is not possible to use the "<" or ">" characters in the date filter.
 #' If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.      
 #'   
-#' @return a data.table.a data.table with the following columns: #'  \tabular{ll}{
+#' @return a data.table with the following columns: #'  \tabular{ll}{
 #'      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for single frequency this columns is dropped from the data table \cr
 #'      dimension names \tab One column for each dimension in the data \cr
 #'      \code{time} \tab A column for the time dimension\cr
 #'      \code{values} \tab A column for numerical values\cr
 #'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column is not included in the data table
 #'    }
-#'         The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
-#'         on a particular time. 
-#' @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}
+#'         
+#'  The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
+#'  on a particular time.
+#'  
+#'  In case the provided \code{filters} can be found in the DSD, then it is used to query the API or applied locally. If the applied \code{filters} with combination of \code{date_filter} 
+#'  and \code{select_freq} has no observation in the data set then the fucntion returns the data.table with 0 row.
+#'  
+#'  In case none of the provided \code{filters}, \code{date_filter} or \code{select_freq} can be parsed or found in the DSD then the whole dataset downloaded through the bulk download with a warning message.
+#'  
+#'  In case the \code{id} is not exist then the function returns the value \code{NULL}.    
+#'  
+#'  @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}
 #' @examples 
 #' load_cfg()
 #' eu<-get("cc",envir=.restatapi_env)
