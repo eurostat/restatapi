@@ -14,6 +14,7 @@ get_eurostat_raw(
   stringsAsFactors = FALSE,
   keep_flags = FALSE,
   check_toc = FALSE,
+  melt = TRUE,
   verbose = FALSE,
   ...
 )
@@ -51,13 +52,16 @@ can be removed. Default is \code{FALSE}. For flag values see:
 If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
 is retrieved form the TOC.}
 
+\item{melt}{a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE}, 
+the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.}
+
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
 \item{...}{further argument for the \code{\link{load_cfg}} function}
 }
 \value{
-a data.table with the following columns:
+a data.table with the following columns if the default \code{melt=TRUE} is used:
  \tabular{ll}{
      \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
      dimension names \tab One column for each dimension in the data \cr
@@ -67,7 +71,9 @@ a data.table with the following columns:
      \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
    }
 The data does not include all missing values. The missing values are dropped if the value and flags are missing
-on a particular time.
+on a particular time. 
+
+In case \code{melt=FALSE} the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.
 }
 \description{
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .

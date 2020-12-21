@@ -139,7 +139,7 @@ get_eurostat_bulk <- function(id,
     }
 
     if ((!cache)|is.null(restat_bulk)|(update_cache)){
-      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose=verbose)
+      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
     }
   }  
   

@@ -93,7 +93,7 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)&!is.null(x
 }
 context("test of the get_eurostat_raw/bulk/data functions")
 if (!is.null(xml_toc)){
-  teszt_id0<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)][1]
+  teszt_id0<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)&is.na(xml_toc$downloadLink.tsv)][1]
   test_that("test of the get_eurostat_raw/bulk/data functions", {
     expect_message(rt1<-get_eurostat_raw(teszt_id0,verbose=FALSE))
     expect_equal(rt1,NULL)
@@ -141,7 +141,7 @@ test_that("test of filtering in the get_eurostat_data function", {
   expect_false(any(sapply(dt5,is.factor)))
   expect_true(any(sapply(dt6,is.factor)))
   expect_true(any(sapply(dt7,is.factor)))
-  expect_true(is.null(dt8))
+  expect_true(nrow(dt8)==0)
 })
 dt9<-get_eurostat_data(teszt_id1,filters="2018",cflags=TRUE)
 if (!is.null(dt9)&is.data.frame(dt9)){

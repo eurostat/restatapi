@@ -1,9 +1,15 @@
+<!-- badges: start -->
+[![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
+[![downloads](https://cranlogs.r-pkg.org/badges/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/ecec85b5d70f88f01f1b07156471a876875ec4c0?urlpath=shiny/ShinyApps/cran_stat/)
+[![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
+<!-- badges: end -->
+
 # restatapi
 An R package to search and retrieve data from Eurostat database using SDMX  
 
 ## installation
 
-Now 'restatapi' is on [CRAN](https://CRAN.R-project.org/package=restatapi) so it can be installed by 
+'restatapi' can be installed from [CRAN](https://CRAN.R-project.org/package=restatapi) by 
 
 ```R
 > install.packages("restatapi")
@@ -16,7 +22,7 @@ or use the development version from GitHub
 ```
 
 ## background
-This package is similar to other packages like the [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
+This package is similar to other packages like the [eurodata](https://github.com/alekrutkowski/eurodata), [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
 
 ## content
 The package contains 8 main functions and several other sub functions in 3 areas.

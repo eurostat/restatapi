@@ -23,6 +23,8 @@
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
 #'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
 #'        is retrieved form the TOC.  
+#' @param melt a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE}, 
+#'        the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.         
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}        
 #' @param ... further argument for the \code{\link{load_cfg}} function
@@ -38,7 +40,7 @@
 #' The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 #' The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 #' If the \code{id} is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.  
-#' @return a data.table with the following columns:
+#' @return a data.table with the following columns if the default \code{melt=TRUE} is used:
 #'  \tabular{ll}{
 #'      \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
 #'      dimension names \tab One column for each dimension in the data \cr
@@ -49,6 +51,9 @@
 #'    }
 #' The data does not include all missing values. The missing values are dropped if the value and flags are missing
 #' on a particular time. 
+#' 
+#' In case \code{melt=FALSE} the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.   
+#' 
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' \dontshow{
@@ -74,6 +79,7 @@ get_eurostat_raw <- function(id,
                              stringsAsFactors=FALSE,
                              keep_flags=FALSE,
                              check_toc=FALSE,
+                             melt=TRUE,
                              verbose=FALSE,...){
   
   restat_raw<-NULL
@@ -181,27 +187,32 @@ get_eurostat_raw <- function(id,
           
           
           if (tbc) {
-            cname<-colnames(raw)[1] 
-            if (is.character(cname)){
-              cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
-              rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
-              if (verbose) {message("class:",class(raw))}
-              data.table::setnames(raw,1,"bdown")
-              raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
-              rm(raw)
-              data.table::setnames(raw_melted,2:3,c(rname,"values"))
-              raw_melted<-raw_melted[raw_melted$values!=":",]
-              FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
-              FREQ[FREQ==""]<-"A"
-              restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
-              data.table::setnames(restat_raw,cnames)  
-              restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-              if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
-              restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
-              restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
-              restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
+            if(melt) {
+              cname<-colnames(raw)[1] 
+              if (is.character(cname)){
+                cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
+                rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
+                if (verbose) {message("class:",class(raw))}
+                data.table::setnames(raw,1,"bdown")
+                raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
+                rm(raw)
+                data.table::setnames(raw_melted,2:3,c(rname,"values"))
+                raw_melted<-raw_melted[raw_melted$values!=":",]
+                FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
+                FREQ[FREQ==""]<-"A"
+                restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
+                data.table::setnames(restat_raw,cnames)  
+                restat_raw<-data.table::data.table(FREQ,restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
+                if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
+                restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
+                restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
+                restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
+              } else {
+                message("The file download was not successful. Try again later.")
+              }  
             } else {
-              message("The file download was not successful. Try again later.")
+              restat_raw<-raw
+              cache<-update_cache<-FALSE
             }
           }  
         }
@@ -222,7 +233,7 @@ get_eurostat_raw <- function(id,
         }
       }
     }
-    if (!is.null(restat_raw)){
+    if (!is.null(restat_raw)&melt){
       restat_raw[]
       if (any(sapply(restat_raw,is.factor))&(!stringsAsFactors)) {
         col_conv<-colnames(restat_raw)
