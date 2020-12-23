@@ -1,6 +1,8 @@
 <!-- badges: start -->
 [![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
+[![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![downloads](https://cranlogs.r-pkg.org/badges/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/ecec85b5d70f88f01f1b07156471a876875ec4c0?urlpath=shiny/ShinyApps/cran_stat/)
+[![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/ecec85b5d70f88f01f1b07156471a876875ec4c0?urlpath=shiny/ShinyApps/cran_stat/)
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 <!-- badges: end -->
 
