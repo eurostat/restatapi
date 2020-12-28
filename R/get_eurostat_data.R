@@ -87,7 +87,8 @@
 #' If a date range is defined with ":", it is not possible to use the "<" or ">" characters in the date filter.
 #' If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.      
 #'   
-#' @return a data.table with the following columns: #'  \tabular{ll}{
+#' @return a data.table with the following columns: 
+#'  \tabular{ll}{
 #'      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for single frequency this columns is dropped from the data table \cr
 #'      dimension names \tab One column for each dimension in the data \cr
 #'      \code{time} \tab A column for the time dimension\cr
