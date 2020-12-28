@@ -106,7 +106,7 @@
 #'  
 #'  In case the \code{id} is not exist then the function returns the value \code{NULL}.    
 #'  
-#' @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}
+#' @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' load_cfg()
 #' eu<-get("cc",envir=.restatapi_env)

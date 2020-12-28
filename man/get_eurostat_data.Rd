@@ -102,7 +102,8 @@ otherwise the case of the letters is ignored. If the \code{name=FALSE} then the 
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }
 \value{
-a data.table with the following columns: #'  \tabular{ll}{
+a data.table with the following columns: 
+ \tabular{ll}{
      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for single frequency this columns is dropped from the data table \cr
      dimension names \tab One column for each dimension in the data \cr
      \code{time} \tab A column for the time dimension\cr
@@ -118,9 +119,7 @@ a data.table with the following columns: #'  \tabular{ll}{
  
  In case none of the provided \code{filters}, \code{date_filter} or \code{select_freq} can be parsed or found in the DSD then the whole dataset downloaded through the bulk download with a warning message.
  
- In case the \code{id} is not exist then the function returns the value \code{NULL}.    
- 
- @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}
+ In case the \code{id} is not exist then the function returns the value \code{NULL}.
 }
 \description{
 Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} \href{https://ec.europa.eu/eurostat/data/database}{database}.
@@ -208,4 +207,7 @@ dt<-get_eurostat_data("bop_its6_det",
                        label=TRUE,
                        name=FALSE)         
 }
+}
+\seealso{
+\code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_bulk}}
 }
