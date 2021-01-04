@@ -206,7 +206,7 @@ get_eurostat_data <- function(id,
   
   cfg<-get("cfg",envir=.restatapi_env) 
   rav<-get("rav",envir=.restatapi_env)
-  if (!is.null(id)){id<-tolower(id)} else {
+  if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     check_toc<-FALSE
     message("The dataset 'id' is missing.")

@@ -107,7 +107,7 @@ get_eurostat_bulk <- function(id,
       load_cfg()
     }  
   }
-  if (!is.null(id)){id<-tolower(id)} else {
+  if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     message("The dataset 'id' is missing.")
   }
