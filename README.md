@@ -17,13 +17,13 @@ An R package to search and retrieve data from Eurostat database using SDMX
 'restatapi' can be installed from [CRAN](https://CRAN.R-project.org/package=restatapi) by 
 
 ```R
-> install.packages("restatapi")
+install.packages("restatapi")
 ```
 
 or use the development version from GitHub
 
 ```R
-> devtools::install_github("eurostat/restatapi")
+devtools::install_github("eurostat/restatapi")
 ```
 
 ## background
@@ -49,7 +49,7 @@ Below there are examples demonstrating the main features, the detailed documenta
 Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
 ## examples
-**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and then download the txt version of the English TOC showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not.  Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
+**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and then download the txt version of the English Table of Contents (TOC) showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not.  Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
 
 ```R
 > options(restatapi_cores=3)
