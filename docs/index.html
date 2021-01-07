@@ -80,9 +80,11 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>installation</h2>
 <p>‘restatapi’ can be installed from <a href="https://CRAN.R-project.org/package=restatapi">CRAN</a> by</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">install.packages</span>(<span class="st">"restatapi"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"restatapi"</span><span class="op">)</span></code></pre></div>
 <p>or use the development version from GitHub</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">&gt;</span><span class="st"> </span>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"eurostat/restatapi"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"eurostat/restatapi"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
@@ -122,7 +124,7 @@
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>examples</h2>
-<p><strong>Example 1:</strong> First set the number of cores/threads (<code>restatapi_cores</code>) to 3 and then download the txt version of the English TOC showing the detailed debugging messages (<code>verbose=TRUE</code>). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (<code>ignore.case=TRUE</code>) for the word <code>energie</code> in the German version (<code>lang="de"</code>) of the TOC.</p>
+<p><strong>Example 1:</strong> First set the number of cores/threads (<code>restatapi_cores</code>) to 3 and then download the txt version of the English Table of Contents (TOC) showing the detailed debugging messages (<code>verbose=TRUE</code>). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (<code>ignore.case=TRUE</code>) for the word <code>energie</code> in the German version (<code>lang="de"</code>) of the TOC.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">options</span>(<span class="dt">restatapi_cores=</span><span class="dv">3</span>)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">get_eurostat_toc</span>()</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">get_get_eurostat_toc</span>(<span class="dt">mode=</span><span class="st">"txt"</span>,<span class="dt">verbose=</span><span class="ot">TRUE</span>)</span>
