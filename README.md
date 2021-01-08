@@ -4,6 +4,7 @@ status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
+[![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/cran_stat/)
 [![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/restatapi/)
 [![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](https://mmatyi.github.io/restatapi_logs/)
