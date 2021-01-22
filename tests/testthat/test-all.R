@@ -268,7 +268,17 @@ if (!is.null(dsd)&!is.null(rd)){
     expect_equal(nrow(frd),392)
   })
 }
-
+id<-"avia_par_me"
+rd<-get_eurostat_raw(id)
+if (!is.null(rd)){
+  ft<-create_filter_table("2017:2018",TRUE)
+  frd<-filter_raw_data(rd,ft,TRUE)
+  test_that("test of the filter_raw_data function", {
+    expect_equal(ncol(frd),6)
+    expect_equal(nrow(ft),1)
+    expect_equal(nrow(frd),9316)
+  })
+}
 
 if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   id<-"NAMA_10_GDP"
