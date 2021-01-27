@@ -410,6 +410,7 @@ get_eurostat_data <- function(id,
               if (local_filter) #apply filter locally
               { 
                 message("No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.")
+                if (verbose) {message("cache:",cache," update cache:",update_cache," cache dir:",cache_dir)}
                 restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose)
                 if (!is.null(restat_raw) & (verbose)) {message("raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
                 if (verbose) {message("filter table:");print(ft)}

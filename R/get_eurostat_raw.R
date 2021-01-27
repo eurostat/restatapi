@@ -246,7 +246,20 @@ get_eurostat_raw <- function(id,
       }
       if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
     }
-    if ((!is.null(restat_raw))&cache&all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))){
+    if (verbose) {message("caching in raw:",all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))," local filter:",exists("local_filter",envir=sys.parent(1))," called from:",as.character(sys.call()))}
+    if (verbose) {message(grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse="")))}
+    #check if the function was called from the get_eurostat_data function
+    if (grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse=""))&any(grepl("get_eurostat_data",as.character(sys.calls())))){  
+      #if yes get the value of local_filter and force_local_filter from the call
+      if (exists("local_filter",envir=sys.parent(1))) {plf<-get("local_filter",envir=sys.parent(1))} else {plf<-FALSE}
+      if (exists("force_local_filter",envir=sys.parent(1))) {pflf<-get("force_local_filter",envir=sys.parent(1))} else {pflf<-FALSE}
+      child_cache<-plf|pflf
+      if (verbose) {message(plf,pflf,child_cache)}
+    } else {
+      child_cache<-FALSE
+    }
+        
+    if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))|child_cache)){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))
       pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
       if ((!is.null(pl))&(verbose)) {message("The raw data was cached ",pl,".\n" )}
