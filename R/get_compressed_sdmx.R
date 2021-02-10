@@ -14,8 +14,8 @@
 #' 
 
 get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
-  xml<-NULL
-  ne<-TRUE
+  xml<-xml_fajl<-NULL
+  tbc<-TRUE # to be continued
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (is.null(url)){
     message("The url is missing.")
@@ -26,18 +26,18 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env))},
                error = function(e) {
                  message("Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
-                 ne<-FALSE
+                 tbc<-FALSE
                },
                warning = function(w) {
                  message("Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
-                 ne<-FALSE
+                 tbc<-FALSE
                })
     } else {
       tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
                error = function(e) {ne<-FALSE},
                warning = function(w) {ne<-FALSE})
     }
-    if (ne) {
+    if (tbc) {
       if (grepl("Bulk",url)){
         fajl<-paste0(sub("\\..*$","",sub("^.*\\/","",url,perl=TRUE),perl=TRUE),".sdmx")
       } else {
@@ -58,7 +58,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       }
     }  
   }
-  xml<-xml2::read_xml(xml_fajl)
+  if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)}
   unlink(temp)
   unlink(paste0(fajl,".xml"))
   return(xml)

@@ -1,3 +1,9 @@
+# restatapi 0.9.11
+
+- corrected when `force_local_filter` used in the `get_eurostat_data()` function
+- hiding download progress bar in the `get_eurostat_raw()` function when `verbose=FALSE`
+- corrected testing
+
 # restatapi 0.9.10
 
 - added caching when `local_filter` applied

@@ -107,7 +107,6 @@ if (!is.null(xml_toc)){
 } 
 teszt_id1<-"agr_r_milkpr"
 rt3<-get_eurostat_raw(teszt_id1,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
-
 bt2<-get_eurostat_data(teszt_id1,keep_flags=TRUE,stringsAsFactors=FALSE)
 dt4<-get_eurostat_data(teszt_id1,date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
 if (!is.null(bt2)&!is.null(dt4)){
@@ -118,7 +117,7 @@ if (!is.null(bt2)&!is.null(dt4)){
 id<-"irt_h_eurcoe_d"
 rt4<-get_eurostat_raw(id,update_cache=TRUE)
 bt3<-get_eurostat_bulk(id,keep_flags=TRUE)
-rt5<-get_eurostat_raw(id,mode="xml",stringsAsFactors=TRUE,check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
+rt5<-get_eurostat_raw(id,mode="xml",stringsAsFactors=TRUE,check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE,verbose=TRUE)
 bt4<-get_eurostat_bulk(id,keep_flags=TRUE)
 kc<-colnames(bt3)[1:(ncol(bt3)-1)]
 data.table::setorderv(bt3,kc)
@@ -126,6 +125,10 @@ data.table::setorderv(bt4,kc)
 if (!is.null(bt3)&!is.null(bt4)){
   test_that("test of the get_eurostat_raw/bulk function", {
     expect_true(identical(bt3,bt4))
+  })
+}
+if (!is.null(rt4)&!is.null(rt5)){
+  test_that("test of the get_eurostat_raw/bulk function", {
     expect_true(nrow(rt4)==nrow(rt5))
     expect_true(ncol(rt4)+2==ncol(rt5))
   })

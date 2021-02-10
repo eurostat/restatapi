@@ -154,14 +154,20 @@ get_eurostat_raw <- function(id,
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
       if (mode=="txt"){
         temp<-tempfile()
-        tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
+        if (verbose){
+          tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env))},
                    error = function(e) {
-                     if (verbose){message("Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     message("Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
                      tbc<-FALSE
                    },
                    warning = function(w) {
-                     if (verbose){message("Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                     message("Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
                   })
+        } else {
+          tryCatch({utils::download.file(bulk_url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
+                   error = function(e) { tbc<-FALSE },
+                   warning = function(w) { })
+        }
         if (tbc & (file.info(temp)$size>0)){
           tryCatch({gz<-gzfile(temp,open="rt")},
             error = function(e) {

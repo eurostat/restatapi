@@ -105,8 +105,8 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
   if (getOption("restatapi_cores")<2){
     parallel_text<-"no parallel computing."
   } else{
-    parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing.")    
+    parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing, can be changed with 'options(restatapi_cores=...)'")    
   }
   
-  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download.",msg_end)}
+  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download, can be changed with 'assign(\"dmethod\",\"auto\",envir=.restatapi_env)'",msg_end)}
 }

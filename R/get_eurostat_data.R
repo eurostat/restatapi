@@ -181,7 +181,7 @@ get_eurostat_data <- function(id,
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
-  restat<-rdat<-drop<-concept<-code<-freq<-N<-flags<-ft<-dft<-to_add<-NULL
+  restat<-rdat<-drop<-concept<-code<-freq<-N<-values<-flags<-ft<-dft<-to_add<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
@@ -321,7 +321,7 @@ get_eurostat_data <- function(id,
       } else  if (force_local_filter) #there is valid filter but want to filter localy, not using the API and filter url => raw download and filtering
       { 
         message("Forcing to apply filter locally. The whole dataset is downloaded through the raw download and the filters are applied locally.")
-        restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,verbose)
+        restat_raw<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose)
         if (!is.null(restat_raw) & (verbose)) {message("raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
         if (verbose) {message("filter table:");print(ft)}
         if (!is.null(dft)){
@@ -531,6 +531,7 @@ get_eurostat_data <- function(id,
           restat<-restat[!(is.na(restat$values))]
         }
         restat<-data.table::data.table(restat,key=names(restat),stringsAsFactors=stringsAsFactors)
+        if (is.factor(restat$values)) {restat[,values:=as.character(values)]}
         if (any(sapply(restat,is.factor))&(!stringsAsFactors)) {
           col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
           restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
