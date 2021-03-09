@@ -1,3 +1,9 @@
+# restatapi 0.9.12
+
+- updated examples
+- CRAN release
+
+
 # restatapi 0.9.11
 
 - corrected when `force_local_filter` used in the `get_eurostat_data()` function
@@ -109,7 +115,7 @@
 
 # restatapi 0.6.2
 
-- correction fo memory size check under Solaris
+- correction few memory size check under Solaris
 - CRAN release
 
 # restatapi 0.6.0
@@ -168,7 +174,7 @@
 
 # restatapi 0.3.10
 
-- "libcurl" is the default file download method if avaialble 
+- "libcurl" is the default file download method if available 
 
 # restatapi 0.3.9
 

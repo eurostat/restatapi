@@ -49,8 +49,9 @@ Below there are examples demonstrating the main features, the detailed documenta
 
 Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
-## examples
-**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and download the xml version of the the English Table of Contents (TOC). Then change file download method (`dmethod`) from the default `curl` to `auto` in case there is problem with *libcurl*, and download the txt version (`mode="txt"`) of the TOC showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
+## 10 examples
+
+**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and download the XML version of the the English Table of Contents (TOC). Then change file download method (`dmethod`) from the default `curl` to `auto` in case there is problem with *libcurl*, and download the txt version (`mode="txt"`) of the TOC showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
 
 ```R
 options(restatapi_cores=3)
@@ -116,7 +117,7 @@ dt<-get_eurostat_data("avia_par_me",
                        name=FALSE)
 ```
 
-**Example 7:** Download from the Time Use Survey (TUS) data (`tus_00age`) for 2010 (`date_filter=2010`) in Hungary how much time spent with travel on average. If someone does not know the exact codes then the filter patterns (`filters=c("total","time spent","HU",'travel')`) can be searched in the labels (`label=TRUE`) non case sensitive (`ignore.case=TRUE`) without forcing exact match of the patterns (`exact_match=FALSE`). The first function call will result an empty data table as the SDMX webservice will provide NaN (Not a Number) response for the time values (hh:mm). But these values are included in the bulk download files, and can be retrieved by forcing the filtering on the local computer (`force_local_filter=TRUE`). Then the retrived values can be summed using the [chron](https://cran.r-project.org/package=chron) package.
+**Example 7:** Download from the Time Use Survey (TUS) data (`tus_00age`) for 2010 (`date_filter=2010`) in Hungary how much time spent with travel on average. If someone does not know the exact codes then the filter patterns (`filters=c("total","time spent","HU",'travel')`) can be searched in the labels (`label=TRUE`) non case sensitive (`ignore.case=TRUE`) without forcing exact match of the patterns (`exact_match=FALSE`). The first function call will result an empty data table as the SDMX webservice will provide NaN (Not a Number) response for the time values (hh:mm). But these values are included in the bulk download files, and can be retrieved by forcing the filtering on the local computer (`force_local_filter=TRUE`). Then the retrieved values can be summed using the [chron](https://cran.r-project.org/package=chron) package.
 
 ```R
 dt<-get_eurostat_data("tus_00age",
@@ -136,46 +137,44 @@ dt
 dt[acl00!="Total",sum(chron::times(paste0(values,":00")))]                       
 ```
 
+**Example 8:** Download the data on the production of cow's milk on farms by NUTS 2 regions (`agr_r_milkpr`) first only for the new Member States joined in 2004 and keeping only the period between March 2009 and 5 June 2011 (`date_filter="2009-03:2011-06-05"`). The country code of the member states can be loaded from the `.restatapi env` (`eu<-get("cc",envir=.restatapi_env)`) and it can be used in the query (`filters=eu$NMS10`). Then get all the data for Belgium for all [NUTS](https://ec.europa.eu/eurostat/en/web/products-manuals-and-guidelines/-/ks-gq-20-092) level from the same data set before July 2009 (`date_filter="<2009-07"`) with the labels (`label=TRUE`) and the observation status (so called *flags*) information (`flags=TRUE`). In this case for filter (`filters="BE"`) the exact matching of pattern should be turned off (`exact_match=FALSE`) to get not just at country (NUTS0) level. Finally, get the data at for Hungary at NUTS2 level after 19 May 2017 (`date_filter="2017-05-19<`) and keeping the lines which were removed due to confidentiality (`cflags=TRUE`). For this we do not have to know the exact code, name or number of the NUTS2 regions as we can provide regular expression in the filter (`filters=c("^HU..")`) and providing the option that the expression is Perl compatible (`perl=TRUE`).    
 
-
-**Other examples:**
 ```R
-> dt<-get_eurostat_data("bop_its6_det",
->                        filters=list(bop_item="SC",
->                                     currency="MIO_EUR",
->                                     partner="EXT_EU28",
->                                     geo=c("EU28","HU"),
->                                     stk_flow="BAL"),
->                        date_filter="2010:2012",
->                        select_freq="A",
->                        label=TRUE,
->                        name=FALSE,
->                        ignore.case=TRUE)     
-> dt<-get_eurostat_data("agr_r_milkpr",
->                       filters=c("BE$","Hungary"),
->                       date_filter="2007-06<",
->                       keep_flags=TRUE)
-> dt<-get_eurostat_data("agr_r_milkpr",
->                       filters="BE",
->                       exact_match=FALSE,
->                       date_filter="2006-02:2008-06-05",
->                       keep_flags=TRUE,
->                       stringsAsFactors=FALSE,
->                       label=TRUE,
->                       ignore.case=TRUE)
->
-> eu<-get("cc",envir=.restatapi_env)
-> dt<-get_eurostat_data("agr_r_milkpr",
->                       filters=eu$NMS10,
->                       date_filter="2009-03-01:2011-06-05",
->                       keep_flags=TRUE,
->                       stringsAsFactors=FALSE,
->                       label=TRUE)
->
-> dt<-get_eurostat_data("nama_10_a10_e",
->                       filters=c("Annual","EU28","Belgium","AT","Total","EMP_DC","person"),
->                       date_filter=c("2008",2002,"2005-01",2013:2018))
->
-> clean_restatapi_cache(tempdir(),verbose=TRUE)
-
+eu<-get("cc",envir=.restatapi_env)
+dt<-get_eurostat_data("agr_r_milkpr",
+                       filters=eu$NMS10,
+                       date_filter="2009-03:2011-06-05")
+dt<-get_eurostat_data("agr_r_milkpr",
+                      filters="BE",
+                      date_filter="<2009-07",
+                      keep_flags=TRUE,
+                      exact_match=FALSE,
+                      label=TRUE)
+dt<-get_eurostat_data("agr_r_milkpr",
+                       filters=c("^HU.."),
+                       date_filter="2017-05-19<",
+                       cflags=TRUE,
+                       perl=TRUE)                       
 ```
+
+
+**Example 9:** Download the balance (`stk_flow="BAL"`) from the international trade in services dataset (`bop_its6_det`) for 2020 (`date_filter=2020`), transport services (`bop_item="SC"`), with reporting countries Hungary and the EU (`geo=c("EU27_2020","HU")`) and trading partner outside EU (`partner="EXT_EU27_2020"`). In order to avoid that Hungary shows up in the partner countries the filter should be defined as a named list (`filters=list(bop_item="SC",partner="EXT_EU27_2020",geo=c("EU27_2020","HU"),stk_flow="BAL")`) and do not search for the terms in the labels (`name=FALSE`). In this case the filter patterns only searched where the concept equals to the name.  
+
+```R
+dt<-get_eurostat_data("bop_its6_det",
+                       filters=list(bop_item="SC",
+                                    partner="EXT_EU27_2020",
+                                    geo=c("EU27_2020","HU"),
+                                    stk_flow="BAL"),
+                        date_filter=2020,
+                        label=TRUE,
+                        name=FALSE)     
+```
+
+**Example 10:** After finishing the tasks the cache (in memory and on the hard drive) can be cleaned up. 
+
+```R
+clean_restatapi_cache(tempdir(),verbose=TRUE)
+```
+
+
