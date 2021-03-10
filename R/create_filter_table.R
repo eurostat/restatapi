@@ -88,7 +88,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
       df<-df[df!=""]
       message("The date filter had invalid character (not 0-9, '-', '<', '>' or ':'). Those characters removed from the date filter.")
     } 
-    if (verbose){message(paste(df,collapse=", ")," date filter length: ",length(df),", nchar date_filter: ",paste(nchar(df),collapse=","))}
+    if (verbose){message(paste("create_filter_table - ",df,collapse=", ")," date filter length: ",length(df),", nchar date_filter: ",paste(nchar(df),collapse=","))}
     dft<-data.table::rbindlist(lapply(df, function(sdf) {
       if (nchar(gsub("[^:<>]","",sdf,perl=TRUE))>1){
         res<-NULL

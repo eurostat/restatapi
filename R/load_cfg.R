@@ -17,8 +17,8 @@
 #'  \item \code{rav} a character string with a number defining the API_VERSION from the configuration file to be used later. It is 
 #'              determined based on the \code{api_version} parameter.   
 #'  \item \code{cc} a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).   
-#'  \item \code{dmethod} the download method to be used to access Eurostat database. If the 'libcurl' method exists then 
-#'              it will be the method for file download otherwise it will be 'auto'.
+#'  \item \code{dmethod} the download method to be used to access Eurostat database. If the 'libcurl' method exists under Windows then 
+#'              it will be the default method for file download, otherwise it will be set 'auto'. The download method can be changed any time with \code{options(restatapi_dmethod=...)}
 #'  } 
 #' @export
 #' @details Loads configuration data from a JSON file. The function first tries to load the configuration file from GitHub. 
@@ -55,11 +55,14 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
   rav<-get("rav",envir=.restatapi_env)
   assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
   
-  if (capabilities("libcurl")){
+  if ((capabilities("libcurl")) & (Sys.info()[['sysname']]=='Windows')){
+    options(restatapi_dmethod="libcurl")
     assign("dmethod","libcurl",envir=.restatapi_env)
   }else{
+    options(restatapi_dmethod="auto")
     assign("dmethod","auto",envir=.restatapi_env)
   }
+  
 
   if (load_toc){
     options(restatapi_cores=1)
@@ -108,5 +111,5 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
     parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing, can be changed with 'options(restatapi_cores=...)'")    
   }
   
-  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",get("dmethod",envir=.restatapi_env),"' will be used for file download, can be changed with 'assign(\"dmethod\",\"auto\",envir=.restatapi_env)'",msg_end)}
+  if (verbose) {message("restatapi: - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,").\n           - ",parallel_text,"\n           - '",getOption("restatapi_dmethod","auto"),"' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'",msg_end)}
 }

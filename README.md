@@ -5,8 +5,8 @@ status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
 [![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
-[![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/cran_stat/)
-[![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](http://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/restatapi/)
+[![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/cran_stat/)
+[![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/89bd325375b1b2af2af3704dc4de1ca221f21da2?urlpath=shiny/ShinyApps/restatapi/)
 [![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](https://mmatyi.github.io/restatapi_logs/)
 <!-- badges: end -->
 
@@ -51,12 +51,12 @@ Next to the functions the package contains a list of country codes for different
 
 ## 10 examples
 
-**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and download the XML version of the the English Table of Contents (TOC). Then change file download method (`dmethod`) from the default `curl` to `auto` in case there is problem with *libcurl*, and download the txt version (`mode="txt"`) of the TOC showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
+**Example 1:** First set the number of cores/threads (`restatapi_cores`) to 3 and download the XML version of the the English Table of Contents (TOC). Then change the file download method (`dmethod`) from the default `auto` to `libcurl` in case there is problem with the system defaults, and download the txt version (`mode="txt"`) of the TOC showing the detailed debugging messages (`verbose=TRUE`). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (`ignore.case=TRUE`) for the word `energie` in the German version (`lang="de"`) of the TOC. 
 
 ```R
 options(restatapi_cores=3)
 get_eurostat_toc()
-assign("dmethod","auto",envir=.restatapi_env)
+options(restatapi_dmethod="libcurl")
 get_get_eurostat_toc(mode="txt",verbose=TRUE)
 search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
 ```

@@ -38,6 +38,7 @@ get_eurostat_dsd <- function(id,
                              compress_file=TRUE,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -64,29 +65,29 @@ get_eurostat_dsd <- function(id,
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
       temp<-tempfile()
       if (verbose) {
-        message("Trying to download the DSD from: ",dsd_endpoint)
-        tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env))},
+        message("get_eurostat_dsd - Trying to download the DSD from: ",dsd_endpoint)
+        tryCatch({utils::download.file(dsd_endpoint,temp,dmethod)},
                  error = function(e) {
-                   message("Error by the download of the DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("get_eurostat_dsd - Error by the download of the DSD file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
-                   message("Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("get_eurostat_dsd - Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
                   })
         if (file.size(temp)!=0) {
           message("Trying to extract the DSD from: ",temp)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
-                   message("Error during the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
-                   message("There is warning by the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(w),collapse="\n"))
                  })
         } else {
           dsd_xml<-NULL
         }
       } else {
-        tryCatch({utils::download.file(dsd_endpoint,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
+        tryCatch({utils::download.file(dsd_endpoint,temp,dmethod,quiet=TRUE)},
                  error = function(e) {
                  },
                  warning = function(w) {
@@ -119,12 +120,12 @@ get_eurostat_dsd <- function(id,
         names(dsd)<-c("concept","code","name")
         if (cache){
           pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
-          if (verbose) {message("The DSD of the ",id," dataset was cached ",pl,".\n")}
+          if (verbose) {message("get_eurostat_dsd - The DSD of the ",id," dataset was cached ",pl,".\n")}
         }  
       } else {
 #       dsd<-NULL
         if (verbose) {
-          message("The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
+          message("get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.\n ",dsd_endpoint)
         }
       }
     }

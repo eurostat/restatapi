@@ -17,11 +17,11 @@
 #' toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
 #' \donttest{
 #' xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")
-#' extract_toc(xml_leafs[1])
+#' restatapi::extract_toc(xml_leafs[1])
 #' }
 #' 
 
 extract_toc<-function(ns){
-  if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
+  # if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
   sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(ns)),perl=TRUE))
 }

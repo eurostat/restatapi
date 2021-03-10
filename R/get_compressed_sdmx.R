@@ -17,23 +17,24 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
   xml<-xml_fajl<-NULL
   tbc<-TRUE # to be continued
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
   if (is.null(url)){
     message("The url is missing.")
     return(NULL)
   } else {
     temp<-tempfile()
     if (verbose) {
-      tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env))},
+      tryCatch({utils::download.file(url,temp,dmethod)},
                error = function(e) {
-                 message("Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                 message("get_compressed_sdmx - Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  tbc<-FALSE
                },
                warning = function(w) {
-                 message("Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                 message("get_compressed_sdmx - Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  tbc<-FALSE
                })
     } else {
-      tryCatch({utils::download.file(url,temp,get("dmethod",envir=.restatapi_env),quiet=TRUE)},
+      tryCatch({utils::download.file(url,temp,dmethod,quiet=TRUE)},
                error = function(e) {ne<-FALSE},
                warning = function(w) {ne<-FALSE})
     }
@@ -46,10 +47,10 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       if (verbose) {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},
                  error = function(e) {
-                   message("Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("get_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
-                   message("Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                   message(get_compressed_sdmx - "Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},

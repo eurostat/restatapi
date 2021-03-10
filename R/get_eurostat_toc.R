@@ -68,6 +68,7 @@ get_eurostat_toc<-function(mode="xml",
     }  
   }
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if ((cache) & (!update_cache)) {
@@ -76,18 +77,17 @@ get_eurostat_toc<-function(mode="xml",
   if ((!cache)|(is.null(toc))|(update_cache)){
     cfg<-get("cfg",envir=.restatapi_env) 
     rav<-get("rav",envir=.restatapi_env)
-    method<-get("dmethod",envir=.restatapi_env)
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
       if (verbose) {message("Downloading ",toc_endpoint)}
-      tryCatch({utils::download.file(toc_endpoint,temp,method,quiet=!verbose)},
+      tryCatch({utils::download.file(toc_endpoint,temp,dmethod,quiet=!verbose)},
                  error = function(e) {
-                 if (verbose) {message("Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 if (verbose) {message("get_eurostat_toc - Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
                  tbc<-FALSE
                },
                warning = function(w) {
-                 if (verbose) {message("Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 if (verbose) {message("get_eurostat_toc - Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
                  tbc<-FALSE
                })
       if (tbc) {
@@ -99,14 +99,14 @@ get_eurostat_toc<-function(mode="xml",
       }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
-      if (verbose) {message("Downloading ",toc_endpoint)}
+      if (verbose) {message("get_eurostat_toc - Downloading ",toc_endpoint)}
       tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint,verbose=verbose),".//nt:leaf")},
                error = function(e) {
-                 if (verbose) {message("Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 if (verbose) {message("get_eurostat_toc - Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
                  tbc<-FALSE
                },
                warning = function(w) {
-                 if (verbose) {message("Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 if (verbose) {message("get_eurostat_toc - Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
                  tbc<-FALSE
                })
       if ((tbc)){
@@ -119,18 +119,18 @@ get_eurostat_toc<-function(mode="xml",
                 leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
                 parallel::stopCluster(cl)},
                 error = function(e) {
-                  if (verbose) {message("Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
+                  if (verbose) {message("get_eurostat_toc - Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
                 },
                 warning = function(w) {
-                  if (verbose) {message("Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
+                  if (verbose) {message("get_eurostat_toc - Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
                 })
             }else{
               tryCatch({leafs<-parallel::mclapply(xml_leafs,extract_toc,mc.cores=getOption("restatapi_cores",1L))},
                        error = function(e) {
-                         if (verbose) {message("Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
+                         if (verbose) {message("get_eurostat_toc - Error during the launch of the parallel processing:",'\n',paste(unlist(e),collapse="\n"))}
                        },
                        warning = function(w) {
-                         if (verbose) {message("Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
+                         if (verbose) {message("get_eurostat_toc - Warning during the launch of the parallel processing:",'\n',paste(unlist(w),collapse="\n"))}
                        })
             }
             if (exists("leafs")){

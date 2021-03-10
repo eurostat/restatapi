@@ -1,8 +1,14 @@
+# restatapi 0.10.0
+
+- testing with `tinytest`
+- improved debugging messages
+- correction of `get_eurostat_bulk()` when `cflags=TRUE`
+- setting download method by `options(restatapi_dmethod=...)`
+- `libcurl` is default method only in Windows 
+
 # restatapi 0.9.12
 
 - updated examples
-- CRAN release
-
 
 # restatapi 0.9.11
 

@@ -31,7 +31,7 @@ rav<-get("rav",envir=.restatapi_env)
 toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
 \donttest{
 xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")
-extract_toc(xml_leafs[1])
+restatapi::extract_toc(xml_leafs[1])
 }
 
 }

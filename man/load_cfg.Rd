@@ -36,8 +36,8 @@ it returns 4 objects in the '.restatapi_env'
  \item \code{rav} a character string with a number defining the API_VERSION from the configuration file to be used later. It is 
              determined based on the \code{api_version} parameter.   
  \item \code{cc} a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).   
- \item \code{dmethod} the download method to be used to access Eurostat database. If the 'libcurl' method exists then 
-             it will be the method for file download otherwise it will be 'auto'.
+ \item \code{dmethod} the download method to be used to access Eurostat database. If the 'libcurl' method exists under Windows then 
+             it will be the default method for file download, otherwise it will be set 'auto'. The download method can be changed any time with \code{options(restatapi_dmethod=...)}
  }
 }
 \description{
