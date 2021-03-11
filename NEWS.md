@@ -5,6 +5,7 @@
 - correction of `get_eurostat_bulk()` when `cflags=TRUE`
 - setting download method by `options(restatapi_dmethod=...)`
 - `libcurl` is default method only in Windows 
+- CRAN release
 
 # restatapi 0.9.12
 
