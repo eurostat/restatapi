@@ -1,3 +1,7 @@
+# restatapi 0.10.1
+
+- correction of labeling when values are non-numeric
+
 # restatapi 0.10.0
 
 - testing with `tinytest`
@@ -261,7 +265,7 @@
 - first CRAN submission
 - use of `tryCatch()` to capture errors caused by network unavailability
 - messages instead of warnings
-- loading config file from Github
+- loading config file from GitHub
 
 # restatapi 0.1.3
 

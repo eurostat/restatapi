@@ -572,7 +572,7 @@ get_eurostat_data <- function(id,
       if (!is.null(dsd)){
         if (verbose) {message("get_eurostat_data - dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
         cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]
-        restat<-data.table::data.table(restat,stringsAsFactors=stringsAsFactors) 
+        restat<-data.table::data.table(restat,stringsAsFactors=TRUE) 
         if (verbose) {message("get_eurostat_data - restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(cn,collapse="/"))}
         sub_dsd<-dsd[dsd$code %in% as.character(levels(unique(unlist(as.list(restat[,(cn),with=FALSE]))))),]
         sub_dsd<-data.table::setorder(sub_dsd,concept,code)
@@ -581,6 +581,7 @@ get_eurostat_data <- function(id,
         }
         if (!stringsAsFactors){
           col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]
+          if (is.factor(restat$values)) {col_conv<-c(col_conv,"values")}
           restat[,col_conv]<-restat[,lapply(.SD,as.character),.SDcols=col_conv]
         }  
       } else {
