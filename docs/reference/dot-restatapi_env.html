@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download and extract compressed SDMX XML — get_compressed_sdmx • restatapi</title>
+<title>Create the cache environment — .restatapi_env • restatapi</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Download and extract compressed SDMX XML — get_compressed_sdmx" />
-<meta property="og:description" content="Downloads  and extracts the data values from the SDMX XML data file" />
+<meta property="og:title" content="Create the cache environment — .restatapi_env" />
+<meta property="og:description" content="Create the cache environment" />
 
 
 
@@ -111,45 +111,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download and extract compressed SDMX XML</h1>
-    <small class="dont-index">Source: <a href='https://github.com/eurostat/restatapi/blob/master/R/get_compressed_sdmx.R'><code>R/get_compressed_sdmx.R</code></a></small>
-    <div class="hidden name"><code>get_compressed_sdmx.Rd</code></div>
+    <h1>Create the cache environment</h1>
+    <small class="dont-index">Source: <a href='https://github.com/eurostat/restatapi/blob/master/R/restatapi_env.R'><code>R/restatapi_env.R</code></a></small>
+    <div class="hidden name"><code>dot-restatapi_env.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Downloads  and extracts the data values from the SDMX XML data file</p>
+    <p>Create the cache environment</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_compressed_sdmx</span><span class='op'>(</span>url <span class='op'>=</span> <span class='cn'>NULL</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>.restatapi_env</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>url</th>
-      <td><p>a URL from the bulk download facility to download the zipped SDMX XML file</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>a logical value with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>an xml class object with SDMX tags extracted and read from the downloaded file.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>An object of class <code>environment</code> of length 4.</p>
 
-    <p>It is a sub-function to use in the <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code> and the <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code> functions.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>base_url</span><span class='op'>&lt;-</span><span class='st'>"https://ec.europa.eu/eurostat/"</span>
-<span class='va'>url_end</span><span class='op'>&lt;-</span><span class='st'>"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"</span>
-<span class='va'>url</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>base_url</span>,<span class='va'>url_end</span><span class='op'>)</span>
-<span class='va'>sdmx_xml</span><span class='op'>&lt;-</span><span class='fu'>get_compressed_sdmx</span><span class='op'>(</span><span class='va'>url</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
