@@ -38,7 +38,7 @@ get_eurostat_dsd <- function(id,
                              compress_file=TRUE,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -60,8 +60,8 @@ get_eurostat_dsd <- function(id,
       dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
     }
     if ((!cache)|(is.null(dsd))|(update_cache)){
-      cfg<-get("cfg",envir=.restatapi_env) 
-      rav<-get("rav",envir=.restatapi_env)
+      cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+      rav<-get("rav",envir=restatapi::.restatapi_env)
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
       temp<-tempfile()
       if (verbose) {

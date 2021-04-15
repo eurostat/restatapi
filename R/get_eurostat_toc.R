@@ -68,15 +68,15 @@ get_eurostat_toc<-function(mode="xml",
     }  
   }
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if ((cache) & (!update_cache)) {
     toc<-get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)
   }
   if ((!cache)|(is.null(toc))|(update_cache)){
-    cfg<-get("cfg",envir=.restatapi_env) 
-    rav<-get("rav",envir=.restatapi_env)
+    cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+    rav<-get("rav",envir=restatapi::.restatapi_env)
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()

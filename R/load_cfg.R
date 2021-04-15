@@ -42,7 +42,8 @@
 load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   options(restatapi_log=TRUE)
-  assign(".restatapi_env",new.env(),envir=baseenv())
+  # .restatapi_env<-new.env()
+  # assign(".restatapi_env",new.env(),envir=parent.env(parent.frame()))
   cfg_source<-"GitHub"
   tryCatch(
     {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},

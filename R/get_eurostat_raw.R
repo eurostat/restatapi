@@ -85,7 +85,7 @@ get_eurostat_raw <- function(id,
   restat_raw<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   tbc<-TRUE #to be continued to the next steps 
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
@@ -98,8 +98,8 @@ get_eurostat_raw <- function(id,
       load_cfg()
     }  
   }
-  cfg<-get("cfg",envir=.restatapi_env) 
-  rav<-get("rav",envir=.restatapi_env)
+  cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+  rav<-get("rav",envir=restatapi::.restatapi_env)
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     message("The dataset 'id' is missing.")

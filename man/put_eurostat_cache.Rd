@@ -43,7 +43,7 @@ options(restatapi_cache_dir=NULL)
 }
 dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
 put_eurostat_cache(dt,"teszt")
-get("teszt",envir=.restatapi_env)
+get("teszt",envir=restatapi::.restatapi_env)
 put_eurostat_cache(dt,"teszt",cache_dir=tempdir())
 readRDS(file.path(tempdir(),"teszt.rds"))
 

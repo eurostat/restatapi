@@ -12,8 +12,8 @@
 #'    options(restatapi_cores=2)
 #' }    
 #' }
-#' cfg<-get("cfg",envir=.restatapi_env) 
-#' rav<-get("rav",envir=.restatapi_env)
+#' cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+#' rav<-get("rav",envir=restatapi::.restatapi_env)
 #' toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
 #' \donttest{
 #' xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf")

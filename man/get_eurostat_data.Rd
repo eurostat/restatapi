@@ -155,7 +155,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 }
 \examples{
 load_cfg()
-eu<-get("cc",envir=.restatapi_env)
+eu<-get("cc",envir=restatapi::.restatapi_env)
 
 \dontshow{
 if (parallel::detectCores()<=2){

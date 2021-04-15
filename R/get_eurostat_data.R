@@ -109,7 +109,7 @@
 #' @seealso \code{\link{search_eurostat_toc}}, \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_bulk}}
 #' @examples 
 #' load_cfg()
-#' eu<-get("cc",envir=.restatapi_env)
+#' eu<-get("cc",envir=restatapi::.restatapi_env)
 #' 
 #' \dontshow{
 #' if (parallel::detectCores()<=2){
@@ -184,7 +184,7 @@ get_eurostat_data <- function(id,
   restat<-rdat<-drop<-concept<-code<-freq<-N<-values<-flags<-ft<-dft<-to_add<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
   # options(code_opt=NULL)
   if(cflags){keep_flags<-cflags}
@@ -205,8 +205,8 @@ get_eurostat_data <- function(id,
     )  
   }
   
-  cfg<-get("cfg",envir=.restatapi_env) 
-  rav<-get("rav",envir=.restatapi_env)
+  cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+  rav<-get("rav",envir=restatapi::.restatapi_env)
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     check_toc<-FALSE

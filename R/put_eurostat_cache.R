@@ -19,7 +19,7 @@
 #' }
 #' dt<-data.frame(txt=c("a","b","c"),nr=c(1,2,3))
 #' put_eurostat_cache(dt,"teszt")
-#' get("teszt",envir=.restatapi_env)
+#' get("teszt",envir=restatapi::.restatapi_env)
 #' put_eurostat_cache(dt,"teszt",cache_dir=tempdir())
 #' readRDS(file.path(tempdir(),"teszt.rds"))
 #' 
@@ -28,11 +28,11 @@ put_eurostat_cache<-function(obj,oname,update_cache=FALSE,cache_dir=NULL,compres
   pl<-NULL
   if (is.null(cache_dir)){cache_dir <- getOption("restatapi_cache_dir", NULL)}
   if (is.null(cache_dir)){
-    if (!exists(oname,envir=.restatapi_env)) {
-      assign(oname,obj,envir=.restatapi_env)
+    if (!exists(oname,envir=restatapi::.restatapi_env)) {
+      assign(oname,obj,envir=restatapi::.restatapi_env)
       pl<-paste0("in memory ('",oname,"' in '.restatapi_env')")
     } else if (update_cache){
-      assign(oname,obj,envir=.restatapi_env)
+      assign(oname,obj,envir=restatapi::.restatapi_env)
       pl<-paste0("in memory ('",oname,"' in '.restatapi_env'). The previous value was overwritten")
     } else {
       pl<-paste0("previously in memory ('",oname,"' in '.restatapi_env'). It remained unchanged")

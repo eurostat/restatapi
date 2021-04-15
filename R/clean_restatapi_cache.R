@@ -19,9 +19,9 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
   if (!(exists(".restatapi_env"))) {
     load_cfg()
   } else {
-    td<-ls(envir=.restatapi_env)
+    td<-ls(envir=restatapi::.restatapi_env)
     td<-td[!(td %in% c("cfg","rav","cc","dmethod"))]
-    rm(list=td,envir=.restatapi_env)
+    rm(list=td,envir=restatapi::.restatapi_env)
     if (verbose){message("All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.")}
   }
   if (!is.null(cache_dir)){

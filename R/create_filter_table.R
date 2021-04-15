@@ -40,8 +40,8 @@
 #' }else{
 #'    options(restatapi_cores=2)
 #' }    
-#' cfg<-get("cfg",envir=.restatapi_env) 
-#' rav<-get("rav",envir=.restatapi_env)
+#' cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+#' rav<-get("rav",envir=restatapi::.restatapi_env)
 #' }
 #' dsd<-get_eurostat_dsd("avia_par_me") 
 #' create_filter_table(c("KYIV","hu","Quarterly"),dsd=dsd,exact_match=FALSE,ignore.case=TRUE)

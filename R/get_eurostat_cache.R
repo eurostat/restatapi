@@ -46,9 +46,9 @@ get_eurostat_cache<-function(oname,cache_dir=NULL,verbose=FALSE){
                       sub("^b(.*\\.\\d\\d-[0|1])$","r\\1",oname_p,perl=TRUE)))
   }
   oname_all<-unique(c(oname_all,oname_p))
-  if (any(sapply(oname_all,exists,envir=.restatapi_env))){
-    if (verbose) {message("The '",oname,"' was loaded from '",oname_all[sapply(oname_all,exists,envir=.restatapi_env)][1],"' in '.restatapi_env'.")}
-    return(get(oname_all[sapply(oname_all,exists,envir=.restatapi_env)][1], envir = .restatapi_env))
+  if (any(sapply(oname_all,exists,envir=restatapi::.restatapi_env))){
+    if (verbose) {message("The '",oname,"' was loaded from '",oname_all[sapply(oname_all,exists,envir=restatapi::.restatapi_env)][1],"' in '.restatapi_env'.")}
+    return(get(oname_all[sapply(oname_all,exists,envir=restatapi::.restatapi_env)][1],envir=restatapi::.restatapi_env))
   } else if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){
       fname<-file.path(sub("[\\/]$","",cache_dir,perl=TRUE),paste0(oname_all,".rds"))

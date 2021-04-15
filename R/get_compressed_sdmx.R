@@ -17,7 +17,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
   xml<-xml_fajl<-NULL
   tbc<-TRUE # to be continued
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=.restatapi_env))
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if (is.null(url)){
     message("The url is missing.")
     return(NULL)
