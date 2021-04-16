@@ -32,7 +32,7 @@
 
 # restatapi 0.9.10
 
-- added caching when `local_filter` applied
+- added caching of raw files when `local_filter` applied
 
 # restatapi 0.9.9
 
@@ -106,7 +106,7 @@
 
 # restatapi 0.7.3
 
-- removed memory size check for iOS and Solaris
+- removed memory size check for MacOS and Solaris
 - CRAN release
 
 # restatapi 0.7.1
@@ -135,7 +135,7 @@
 
 # restatapi 0.6.2
 
-- correction few memory size check under Solaris
+- correction of memory size check under Solaris
 - CRAN release
 
 # restatapi 0.6.0
