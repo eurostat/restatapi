@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.3</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
    <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>    
 <span class='co'># }</span>
-<span class='va'>dsd_url</span><span class='op'>&lt;-</span><span class='st'>"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"</span>
+<span class='va'>dsd_url</span><span class='op'>&lt;-</span><span class='st'>"https://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"</span>
 <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='op'>{</span>
   <span class='va'>dsd_xml</span><span class='op'>&lt;-</span><span class='fu'>xml2</span><span class='fu'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_xml</a></span><span class='op'>(</span><span class='va'>dsd_url</span><span class='op'>)</span><span class='op'>}</span>, 
   error<span class='op'>=</span><span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span><span class='op'>{</span>
