@@ -1,6 +1,7 @@
 # restatapi 0.10.3
 
 - links with https
+- CRAN release
 
 # restatapi 0.10.2
 
