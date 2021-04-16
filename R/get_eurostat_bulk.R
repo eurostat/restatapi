@@ -22,7 +22,7 @@
 #' @param keep_flags a logical value whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
-#'        \url{http://ec.europa.eu/eurostat/data/database/information}.
+#'        \url{https://ec.europa.eu/eurostat/data/database/information}.
 #' @param cflags a logical value whether the missing observations with flag 'c' - "confidential"
 #'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 #'        \code{TRUE} then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in \code{keep_flags} is set to \code{TRUE}.  
@@ -35,7 +35,7 @@
 #' @param ... other parameter(s) to pass on the \code{\link{load_cfg}} function        
 #' @export
 #' 
-#' @details Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
+#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
 #' in TSV format as in this case smaller file has to be downloaded and processed. If there is more then one frequency then
 #'  the dataset is filtered for a unique time frequency.
 #' If no frequency is selected and there are multiple frequencies in the dataset, then the most common value is used used for frequency.
@@ -48,7 +48,7 @@
 #' The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 #' The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 #' 
-#' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for it with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+#' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for it with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset
 #' in parenthesis.
 #' @return a data.table with the following columns: 

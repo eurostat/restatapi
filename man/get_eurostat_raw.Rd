@@ -45,7 +45,7 @@ converted to factors. The defaulft value \code{FALSE}, in this case they are ret
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is \code{FALSE}. For flag values see: 
-\url{http://ec.europa.eu/eurostat/data/database/information}.}
+\url{https://ec.europa.eu/eurostat/data/database/information}.}
 
 \item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
@@ -79,11 +79,11 @@ In case \code{melt=FALSE} the results is a data.table where the first column con
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
 }
 \details{
-Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
+Data sets are downloaded from \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
 in TSV or SDMX format.
 
 
-The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
 By default all datasets downloaded in TSV format and cached as they are often rather large. 
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.

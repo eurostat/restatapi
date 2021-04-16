@@ -18,7 +18,7 @@
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
-#'        \url{http://ec.europa.eu/eurostat/data/database/information}.
+#'        \url{https://ec.europa.eu/eurostat/data/database/information}.
 #' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
 #'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
 #'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
@@ -30,11 +30,11 @@
 #' @param ... further argument for the \code{\link{load_cfg}} function
 #' @export
 #' 
-#' @details Data sets are downloaded from \href{http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
+#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
 #' in TSV or SDMX format.
 #' 
 #' 
-#' The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{http://ec.europa.eu/eurostat/data/database}{Eurostat database}
+#' The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
 #' By default all datasets downloaded in TSV format and cached as they are often rather large. 
 #' The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.

@@ -29,7 +29,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=2)
 }    
 }
-dsd_url<-"http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
+dsd_url<-"https://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_a10_e"
 tryCatch({
   dsd_xml<-xml2::read_xml(dsd_url)}, 
   error=function(e){

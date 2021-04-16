@@ -1,3 +1,7 @@
+# restatapi 0.10.3
+
+- links with https
+
 # restatapi 0.10.2
 
 - `.restatpi_env` disconnected from `baseenv()`
