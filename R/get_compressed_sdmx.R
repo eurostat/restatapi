@@ -50,7 +50,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
                    message("get_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
-                   message(get_compressed_sdmx - "Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("get_compressed_sdmx - Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},

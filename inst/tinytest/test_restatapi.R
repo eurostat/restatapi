@@ -168,7 +168,7 @@ expect_message(dt5<-get_eurostat_data(testid4,filters="2018",stringsAsFactors=FA
 message("\n ########--------- 38 test of filtering in the get_eurostat_data function")
 expect_message(dt6<-get_eurostat_data(testid4,date_filter=22020))
 message("\n ########--------- 39 test of filtering in the get_eurostat_data function")
-expect_message(dt7<-get_eurostat_data(testid4,date_filter="<2006<",cache_dir=tempdir()))
+expect_message(dt7<-get_eurostat_data(testid4,date_filter="<2006<",cache_dir=tempdir(),verbose=TRUE))
 message("\n ########--------- 40 test of filtering in the get_eurostat_data function")
 expect_true(identical(dt6,dt7))
 message("\n ########--------- 41 test of filtering in the get_eurostat_data function")
@@ -189,7 +189,7 @@ if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
 dsd1<-get_eurostat_dsd(testid4)
 dsd2<-get_eurostat_dsd(testid6)
 if (!is.null(dsd1)&is.data.frame(dsd1)){
-  dt10<-get_eurostat_data(testid4,filters="AT")
+  dt10<-get_eurostat_data(testid4,filters="AT",verbose=TRUE)
   nc10<-ncol(dt10)
   nr10<-nrow(dt10)
   dt11<-get_eurostat_data(testid4,filters="AT",exact_match=FALSE,keep_flags=TRUE)
@@ -611,5 +611,11 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     expect_true(nrow(raw4)>nrow(estat_data4))
   }
   
+  yr<-"<2016"
+  nr<-nrow(get_eurostat_data(testid6,date_filter=yr,select_freq="A",verbose=TRUE))
+  if (!is.null(nr)){
+    message("\n ########--------- 158 additional tests for filtering in the get_eurostat_data function")
+    expect_equal(nr,228)
+  }
   
 }

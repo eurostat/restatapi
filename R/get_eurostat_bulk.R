@@ -195,7 +195,7 @@ get_eurostat_bulk <- function(id,
   if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
     oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("The bulk data was cached ",pl,".\n" )}
+    if ((!is.null(pl))&(verbose)) {message("get_eurostat_bulk - The bulk data was cached ",pl,".\n" )}
   }
   
   return(restat_bulk)

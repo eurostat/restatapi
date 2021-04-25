@@ -63,11 +63,15 @@
 create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=TRUE,verbose=FALSE,...) {
   .datatable.aware=TRUE
   ft<-sd<-ed<-NULL
+  if (verbose) {message("create_filter_table - filters class: ",class(filters),"; size: ",length(filters),"; filters:",filters)}
+  if (class(filters)=="name") {
+        try(filters<-local(filters),silent=verbose)
+  }  
   # loop<-TRUE
   time_formats<-c("^((?:19|20|21)\\d\\d)$","^^((?:19|20|21)\\d\\d)-(0[1-9]|1[012])$","^^((?:19|20|21)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (date_filter) {
-    if (verbose) {message("filters: ",filters,"; is numeric: ",is.numeric(filters),"; call parents: ",length(sys.calls())-1)}
+    if (verbose) {message("create_filter_table - filters: ",filters,"; is numeric: ",is.numeric(filters),"; call parents: ",length(sys.calls())-1)}
     if (length(sys.calls())>1){
       if (any(grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE))){
         df<-as.character(filters)

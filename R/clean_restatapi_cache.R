@@ -22,7 +22,7 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
     td<-ls(envir=restatapi::.restatapi_env)
     td<-td[!(td %in% c("cfg","rav","cc","dmethod"))]
     rm(list=td,envir=restatapi::.restatapi_env)
-    if (verbose){message("All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.")}
+    if (verbose){message("clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.")}
   }
   if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){
@@ -38,10 +38,10 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
   
   if (!is.null(files)){
     if (length(files) == 0) {
-      if (verbose){message("The cache folder ",cache_dir," is empty.")}
+      if (verbose){message("clean_restatapi_cache - The cache folder ",cache_dir," is empty.")}
     } else {
       unlink(files)
-      if (verbose){message("Deleted all .rds files from ",paste(cdirs,collapse="; "))}    
+      if (verbose){message("clean_restatapi_cache - Deleted all .rds files from ",paste(cdirs,collapse="; "))}    
     }  
   }
 }

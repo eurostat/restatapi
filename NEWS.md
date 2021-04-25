@@ -1,3 +1,9 @@
+# restatapi 0.10.4
+
+- improved debugging messages
+- `date_filter` can be a variable name
+- additional test
+
 # restatapi 0.10.3
 
 - links with https

@@ -203,7 +203,7 @@ get_eurostat_raw <- function(id,
                 if (is.character(cname)){
                   cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
                   rname<-utils::tail(unlist(strsplit(cname,(',|\\\\'))),1)
-                  if (verbose) {message("class:",class(raw))}
+                  if (verbose) {message("get_eurostat_raw - class:",class(raw))}
                   data.table::setnames(raw,1,"bdown")
                   raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
                   rm(raw)
@@ -265,7 +265,7 @@ get_eurostat_raw <- function(id,
       if (exists("local_filter",envir=sys.parent(1))) {plf<-get("local_filter",envir=sys.parent(1))} else {plf<-FALSE}
       if (exists("force_local_filter",envir=sys.parent(1))) {pflf<-get("force_local_filter",envir=sys.parent(1))} else {pflf<-FALSE}
       child_cache<-plf|pflf
-      if (verbose) {message(plf,pflf,child_cache)}
+      if (verbose) {message("get_eurostat_raw - ",plf,pflf,child_cache)}
     } else {
       child_cache<-FALSE
     }
@@ -273,7 +273,7 @@ get_eurostat_raw <- function(id,
     if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))|child_cache)){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))
       pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
-      if ((!is.null(pl))&(verbose)) {message("The raw data was cached ",pl,".\n" )}
+      if ((!is.null(pl))&(verbose)) {message("get_eurostat_raw - The raw data was cached ",pl,".\n" )}
     }
   }
   return(restat_raw)

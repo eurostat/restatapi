@@ -80,7 +80,7 @@ get_eurostat_toc<-function(mode="xml",
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
-      if (verbose) {message("Downloading ",toc_endpoint)}
+      if (verbose) {message("get_eurostat_toc - Downloading ",toc_endpoint)}
       tryCatch({utils::download.file(toc_endpoint,temp,dmethod,quiet=!verbose)},
                  error = function(e) {
                  if (verbose) {message("get_eurostat_toc - Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
@@ -153,13 +153,13 @@ get_eurostat_toc<-function(mode="xml",
       toc$lastUpdate<-format(as.Date(toc$lastUpdate,"%d.%m.%Y"),"%Y.%m.%d")
       toc$lastModified<-format(as.Date(toc$lastModified,"%d.%m.%Y"),"%Y.%m.%d")  
     } else{
-      if (verbose) {message("The TOC is empty. Please check the download link form the line above in a web browser.")}
+      if (verbose) {message("get_eurostat_toc - The TOC is empty. Please check the download link form the line above in a web browser.")}
     }
   }  
   if (!is.null(toc)&cache){
     name<-paste0("toc.",mode,".",lang)
     pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
-    if (verbose){message("The TOC was cached ",pl,".\n")}
+    if (verbose){message("get_eurostat_toc - The TOC was cached ",pl,".\n")}
   }
   return(toc)  
 }
