@@ -35,8 +35,8 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
                })
     } else {
       tryCatch({utils::download.file(url,temp,dmethod,quiet=TRUE)},
-               error = function(e) {ne<-FALSE},
-               warning = function(w) {ne<-FALSE})
+               error = function(e) {tbc<-FALSE},
+               warning = function(w) {tbc<-FALSE})
     }
     if (tbc) {
       if (grepl("Bulk",url)){

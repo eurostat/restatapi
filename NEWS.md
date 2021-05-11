@@ -1,3 +1,7 @@
+# restatapi 0.10.5
+
+- correction for the `get_compressed_sdmx()` function when `verbose=FALSE`
+
 # restatapi 0.10.4
 
 - improved debugging messages
