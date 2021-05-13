@@ -205,7 +205,8 @@ dt<-get_eurostat_data("bop_its6_det",
                        date_filter="2010:2012",
                        select_freq="A",
                        label=TRUE,
-                       name=FALSE)         
+                       name=FALSE)
+clean_restatapi_cache("/tmp",verbose=TRUE)                                 
 }
 }
 \seealso{

@@ -159,7 +159,8 @@
 #'                        date_filter="2010:2012",
 #'                        select_freq="A",
 #'                        label=TRUE,
-#'                        name=FALSE)         
+#'                        name=FALSE)
+#' clean_restatapi_cache("/tmp",verbose=TRUE)                                 
 #' }
 
 get_eurostat_data <- function(id,
@@ -364,7 +365,7 @@ get_eurostat_data <- function(id,
                          if(verbose){message("get_eurostat_data - Warning by the extraction of the footer from the xml:",'\n',paste(unlist(w),collapse="\n"))}
                          tbc<-FALSE
                        })
-           } 
+            } 
             if (tbc & !is.null(xml_foot)){
                 code<-xml2::xml_attr(xml_foot,"code")
                 if (length(code)!=0){
@@ -396,7 +397,8 @@ get_eurostat_data <- function(id,
               warning = function(w){if (verbose){message("get_eurostat_data - ",w)}}
               )
             }
-            if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}  
+            if (file.exists(temp)) unlink(temp)
+            if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}
         }),fill=TRUE)
         if (!is.null(restat)) #at least one url provided a valid result => check if all the queries with data downloaded
         {

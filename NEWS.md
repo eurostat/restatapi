@@ -1,3 +1,7 @@
+# restatapi 0.10.6
+
+- correction to clean up all cache files from the hard disk
+
 # restatapi 0.10.5
 
 - correction for the `get_compressed_sdmx()` function when `verbose=FALSE`

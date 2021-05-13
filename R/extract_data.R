@@ -27,6 +27,7 @@
 #'   sdmx_xml<-xml2::read_xml(unzip(temp, paste0(id,".sdmx.xml")))
 #'   xml_leafs<-xml2::xml_find_all(sdmx_xml,".//data:Series")
 #'   extract_data(xml_leafs[1])
+#'   unlink(temp)
 #' }
 #' }
 #' 

@@ -76,6 +76,7 @@
 #' dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
 #' options(restatapi_update=FALSE)
 #' dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+#' clean_restatapi_cache(cache_dir=tempdir(),verbose=TRUE)
 #' }
 
 get_eurostat_bulk <- function(id,

@@ -34,15 +34,17 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
   if (dir.exists(cache_dir)){
     cdirs<-c(cdirs,cache_dir)
     files<-unique(c(files,list.files(cache_dir,pattern=".rds",full.names=TRUE)))
+    files<-c(files,cache_dir)
   }
   
   if (!is.null(files)){
     if (length(files) == 0) {
       if (verbose){message("clean_restatapi_cache - The cache folder ",cache_dir," is empty.")}
     } else {
-      unlink(files)
+      unlink(files,recursive=TRUE,force=TRUE)
       if (verbose){message("clean_restatapi_cache - Deleted all .rds files from ",paste(cdirs,collapse="; "))}    
     }  
   }
+  
 }
 

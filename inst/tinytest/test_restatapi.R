@@ -413,7 +413,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     }
   }
 
-  clean_restatapi_cache()
+  clean_restatapi_cache(tempdir(),verbose=TRUE)
   rt1<-system.time(raw_txt<-get_eurostat_raw(testid6,"txt"))[3]
   raw_xml<-get_eurostat_raw(testid6,"xml")
   raw_unmelted<-get_eurostat_raw(testid6,melt=FALSE)
