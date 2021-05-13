@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.6</span>
       </span>
     </div>
 
@@ -170,32 +170,9 @@ If the input file has pre-filtered values then the value <code>FALSE</code> shou
   <span class='va'>sdmx_xml</span><span class='op'>&lt;-</span><span class='fu'>xml2</span><span class='fu'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_xml</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/unzip.html'>unzip</a></span><span class='op'>(</span><span class='va'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>id</span>,<span class='st'>".sdmx.xml"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
   <span class='va'>xml_leafs</span><span class='op'>&lt;-</span><span class='fu'>xml2</span><span class='fu'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/xml_find_all.html'>xml_find_all</a></span><span class='op'>(</span><span class='va'>sdmx_xml</span>,<span class='st'>".//data:Series"</span><span class='op'>)</span>
   <span class='fu'>extract_data</span><span class='op'>(</span><span class='va'>xml_leafs</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='va'>temp</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;    FREQ milkitem dairyprod geo TIME_FORMAT TIME_PERIOD OBS_VALUE
-#&gt; 1     A      PRO    D1110A  AT         P1Y        1996    2956.6
-#&gt; 2     A      PRO    D1110A  AT         P1Y        1997      3015
-#&gt; 3     A      PRO    D1110A  AT         P1Y        1998    3042.6
-#&gt; 4     A      PRO    D1110A  AT         P1Y        1999    3131.9
-#&gt; 5     A      PRO    D1110A  AT         P1Y        2000   3233.20
-#&gt; 6     A      PRO    D1110A  AT         P1Y        2001   3299.60
-#&gt; 7     A      PRO    D1110A  AT         P1Y        2002   3292.20
-#&gt; 8     A      PRO    D1110A  AT         P1Y        2003   3229.90
-#&gt; 9     A      PRO    D1110A  AT         P1Y        2004   3137.30
-#&gt; 10    A      PRO    D1110A  AT         P1Y        2005   3113.70
-#&gt; 11    A      PRO    D1110A  AT         P1Y        2006   3146.66
-#&gt; 12    A      PRO    D1110A  AT         P1Y        2007   3155.07
-#&gt; 13    A      PRO    D1110A  AT         P1Y        2008   3195.95
-#&gt; 14    A      PRO    D1110A  AT         P1Y        2009   3229.81
-#&gt; 15    A      PRO    D1110A  AT         P1Y        2010   3257.74
-#&gt; 16    A      PRO    D1110A  AT         P1Y        2011   3307.13
-#&gt; 17    A      PRO    D1110A  AT         P1Y        2012   3382.00
-#&gt; 18    A      PRO    D1110A  AT         P1Y        2013   3393.06
-#&gt; 19    A      PRO    D1110A  AT         P1Y        2014   3493.86
-#&gt; 20    A      PRO    D1110A  AT         P1Y        2015   3537.76
-#&gt; 21    A      PRO    D1110A  AT         P1Y        2016   3627.61
-#&gt; 22    A      PRO    D1110A  AT         P1Y        2017   3712.73
-#&gt; 23    A      PRO    D1110A  AT         P1Y        2018   3821.19
-#&gt; 24    A      PRO    D1110A  AT         P1Y        2019   3781.34</div><div class='input'><span class='co'># }</span>
+<span class='co'># }</span>
 
 </div></pre>
   </div>
