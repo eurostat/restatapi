@@ -1,6 +1,7 @@
 # restatapi 0.10.6
 
 - correction to clean up all cache files from the hard disk
+- CRAN release
 
 # restatapi 0.10.5
 
