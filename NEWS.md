@@ -6,6 +6,7 @@
 - correction of the `create_filter_table()` call in the `get_eurostat_data()` function
 - using `tryCatch()` for opening the tsv files in the `get_eurostat_toc()` function
 - correction of tests when the data/DSD download unsuccessful 
+- CRAN release
 
 # restatapi 0.10.6
 
