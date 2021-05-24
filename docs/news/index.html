@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.7</span>
       </span>
     </div>
 
@@ -114,6 +114,22 @@
       <small>Source: <a href='https://github.com/eurostat/restatapi/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="restatapi-0107" class="section level1">
+<h1 class="page-header" data-toc-text="0.10.7">
+<a href="#restatapi-0107" class="anchor"></a>restatapi 0.10.7<small> Unreleased </small>
+</h1>
+<ul>
+<li>further correction to clean up all cache files from the hard disk</li>
+<li>checking if DSD is <code>NULL</code> in the <code><a href="../reference/create_filter_table.html">create_filter_table()</a></code> function when <code>date_filter=FALSE</code>
+</li>
+<li>
+<code><a href="../reference/filter_raw_data.html">filter_raw_data()</a></code> returns the raw data when <code>filter_table=NULL</code>
+</li>
+<li>correction of the <code><a href="../reference/create_filter_table.html">create_filter_table()</a></code> call in the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function</li>
+<li>using <code><a href="https://rdrr.io/r/base/conditions.html">tryCatch()</a></code> for opening the tsv files in the <code><a href="../reference/get_eurostat_toc.html">get_eurostat_toc()</a></code> function</li>
+<li>correction of tests when the data/DSD download unsuccessful</li>
+</ul>
+</div>
     <div id="restatapi-0106" class="section level1">
 <h1 class="page-header" data-toc-text="0.10.6">
 <a href="#restatapi-0106" class="anchor"></a>restatapi 0.10.6<small> 2021-05-13 </small>
