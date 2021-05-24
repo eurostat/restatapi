@@ -91,11 +91,21 @@ get_eurostat_toc<-function(mode="xml",
                  tbc<-FALSE
                })
       if (tbc) {
-        toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)
-        names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
-        toc<-toc[toc$type!="folder",]
-        toc$title<-sub("^\\s*","",toc$title)
-        unlink(temp)
+        tryCatch({toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)},
+                 error = function(e) {
+                   if (verbose) {message("get_eurostat_toc - Error during the reading of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                   tbc<-FALSE
+                 },
+                 warning = function(w) {
+                   if (verbose) {message("get_eurostat_toc - Warning by the reading of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                   tbc<-FALSE
+                 })
+        if(tbc) {
+          names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
+          toc<-toc[toc$type!="folder",]
+          toc$title<-sub("^\\s*","",toc$title)
+          unlink(temp)
+        }
       }  
     } else if (mode=="xml"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))

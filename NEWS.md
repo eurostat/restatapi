@@ -1,3 +1,12 @@
+# restatapi 0.10.7
+
+- further correction to clean up all cache files from the hard disk
+- checking if DSD is `NULL` in the `create_filter_table()` function when `date_filter=FALSE`
+- `filter_raw_data()` returns the raw data when `filter_table=NULL`
+- correction of the `create_filter_table()` call in the `get_eurostat_data()` function
+- using `tryCatch()` for opening the tsv files in the `get_eurostat_toc()` function
+- correction of tests when the data/DSD download unsuccessful 
+
 # restatapi 0.10.6
 
 - correction to clean up all cache files from the hard disk

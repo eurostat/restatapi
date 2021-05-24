@@ -35,29 +35,36 @@
 #' }
 #' 
 
-filter_raw_data<-function(raw_data,filter_table,date_filter=FALSE){
+filter_raw_data<-function(raw_data=NULL,filter_table=NULL,date_filter=FALSE){
   .datatable.aware=TRUE
-  ft<-time<-NULL
-  if (date_filter){
-    data.table::setnames(raw_data,colnames(raw_data),tolower(colnames(raw_data)))
-    if ("time_period" %in% colnames(raw_data)){data.table::setnames(raw_data,"time_period","time")} 
-    if ("obstime" %in% colnames(raw_data)){data.table::setnames(raw_data,"obstime","time")}
-    raw_data$ft<-as.character(raw_data$time)
-    raw_data[grepl("^\\d{4}$",time),ft:=paste0(time,"-01-01")]
-    raw_data[grepl("[M]\\d\\d$",time),ft:=paste0(gsub('[M]',"-",time),"-01")]
-    raw_data[grepl("[MD]",ft),ft:=gsub('[MD]',"-",ft)]
-    raw_data[grepl("Q",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,6,6),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,6,6))-1)*3+1),"-01")]
-    raw_data[grepl("S",time),ft:=paste0(substr(time,1,4),"-0",as.character((as.numeric(substr(time,6,6))-1)*6+1),"-01")]
-    data_out<-data.table::rbindlist(lapply(1:nrow(filter_table),function (x){raw_data[(ft>=filter_table$sd[x] & ft<=filter_table$ed[x])]}))
-    data_out<-data_out[,!'ft'][]
-  }else{
-    filter_table<-unique(filter_table[,c("concept","code")])
-    data.table::setnames(raw_data,colnames(raw_data),toupper(colnames(raw_data)))
-    concepts<-unique(filter_table$concept)
-    data_out<-raw_data[eval(parse(text=paste(lapply(concepts,function(concept){
-      paste("(",paste0(filter_table$concept[filter_table$concept==concept],"==",'"',filter_table$code[filter_table$concept==concept],'"',collapse=" | "),")")
-    }),collapse=" & ")))][]
-    data.table::setnames(data_out,colnames(data_out),tolower(colnames(data_out)))
+  if (is.null(raw_data)) {
+    data_out<-NULL
+  } else if (is.null(filter_table)){
+    data_out<-raw_data
+  } else {
+    ft<-time<-NULL
+    if (date_filter){
+      data.table::setnames(raw_data,colnames(raw_data),tolower(colnames(raw_data)))
+      if ("time_period" %in% colnames(raw_data)){data.table::setnames(raw_data,"time_period","time")} 
+      if ("obstime" %in% colnames(raw_data)){data.table::setnames(raw_data,"obstime","time")}
+      raw_data$ft<-as.character(raw_data$time)
+      raw_data[grepl("^\\d{4}$",time),ft:=paste0(time,"-01-01")]
+      raw_data[grepl("[M]\\d\\d$",time),ft:=paste0(gsub('[M]',"-",time),"-01")]
+      raw_data[grepl("[MD]",ft),ft:=gsub('[MD]',"-",ft)]
+      raw_data[grepl("Q",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,6,6),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,6,6))-1)*3+1),"-01")]
+      raw_data[grepl("S",time),ft:=paste0(substr(time,1,4),"-0",as.character((as.numeric(substr(time,6,6))-1)*6+1),"-01")]
+      data_out<-data.table::rbindlist(lapply(1:nrow(filter_table),function (x){raw_data[(ft>=filter_table$sd[x] & ft<=filter_table$ed[x])]}))
+      data_out<-data_out[,!'ft'][]
+    }else{
+      filter_table<-unique(filter_table[,c("concept","code")])
+      data.table::setnames(raw_data,colnames(raw_data),toupper(colnames(raw_data)))
+      concepts<-unique(filter_table$concept)
+      data_out<-raw_data[eval(parse(text=paste(lapply(concepts,function(concept){
+        paste("(",paste0(filter_table$concept[filter_table$concept==concept],"==",'"',filter_table$code[filter_table$concept==concept],'"',collapse=" | "),")")
+      }),collapse=" & ")))][]
+      data.table::setnames(data_out,colnames(data_out),tolower(colnames(data_out)))
+    }  
   }
+  
   data_out[]
 }

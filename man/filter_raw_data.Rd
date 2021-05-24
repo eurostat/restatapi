@@ -4,7 +4,7 @@
 \alias{filter_raw_data}
 \title{Filter raw data locally}
 \usage{
-filter_raw_data(raw_data, filter_table, date_filter = FALSE)
+filter_raw_data(raw_data = NULL, filter_table = NULL, date_filter = FALSE)
 }
 \arguments{
 \item{raw_data}{an input data.table dataset resulted from the call of the \code{\link{get_eurostat_raw}} function}

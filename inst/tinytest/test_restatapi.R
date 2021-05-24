@@ -149,10 +149,10 @@ rt4<-get_eurostat_raw(testid5,update_cache=TRUE)
 bt3<-get_eurostat_bulk(testid5,keep_flags=TRUE)
 rt5<-get_eurostat_raw(testid5,mode="xml",stringsAsFactors=TRUE,check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE,verbose=TRUE)
 bt4<-get_eurostat_bulk(testid5,keep_flags=TRUE)
-kc<-colnames(bt3)[1:(ncol(bt3)-1)]
-data.table::setorderv(bt3,kc)
-data.table::setorderv(bt4,kc)
 if (!is.null(bt3)&!is.null(bt4)){
+  kc<-colnames(bt3)[1:(ncol(bt3)-1)]
+  data.table::setorderv(bt3,kc)
+  data.table::setorderv(bt4,kc)
   message("\n ########--------- 34 test of the get_eurostat_raw/bulk/data functions")
   expect_true(identical(bt3,bt4))
 }
@@ -169,18 +169,22 @@ message("\n ########--------- 38 test of filtering in the get_eurostat_data func
 expect_message(dt6<-get_eurostat_data(testid4,date_filter=22020))
 message("\n ########--------- 39 test of filtering in the get_eurostat_data function")
 expect_message(dt7<-get_eurostat_data(testid4,date_filter="<2006<",cache_dir=tempdir(),verbose=TRUE))
-message("\n ########--------- 40 test of filtering in the get_eurostat_data function")
-expect_true(identical(dt6,dt7))
-message("\n ########--------- 41 test of filtering in the get_eurostat_data function")
-expect_message(dt8<-get_eurostat_data(testid6,filters="HU",date_filter="2017-03",select_freq="Q",label=TRUE))
-message("\n ########--------- 42 test of filtering in the get_eurostat_data function")
-expect_false(any(sapply(dt5,is.factor)))
-message("\n ########--------- 43 test of filtering in the get_eurostat_data function")
-expect_true(any(sapply(dt6,is.factor)))
+if (!is.null(dt5)&!is.null(dt6)&!is.null(dt7)){
+  message("\n ########--------- 40 test of filtering in the get_eurostat_data function")
+  expect_true(identical(dt6,dt7))
+  message("\n ########--------- 41 test of filtering in the get_eurostat_data function")
+  expect_false(any(sapply(dt5,is.factor)))
+  message("\n ########--------- 42 test of filtering in the get_eurostat_data function")
+  expect_true(any(sapply(dt6,is.factor)))
+  message("\n ########--------- 43 test of filtering in the get_eurostat_data function")
+  expect_true(any(sapply(dt7,is.factor)))
+}
 message("\n ########--------- 44 test of filtering in the get_eurostat_data function")
-expect_true(any(sapply(dt7,is.factor)))
-message("\n ########--------- 45 test of filtering in the get_eurostat_data function")
-expect_true(nrow(dt8)==0)
+expect_message(dt8<-get_eurostat_data(testid6,filters="HU",date_filter="2017-03",select_freq="Q",label=TRUE))
+if (!is.null(dt8)){
+  message("\n ########--------- 45 test of filtering in the get_eurostat_data function")
+  expect_true(nrow(dt8)==0)
+}
 dt9<-get_eurostat_data(testid4,filters="2018",cflags=TRUE)
 if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
   message("\n ########--------- 46 test of filtering in the get_eurostat_data function")
@@ -254,10 +258,14 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(r
   expect_false(exists(paste0("b_htec_cis3-",udate,"-1-0"),envir=.restatapi_env))
   message("\n ########--------- 64 test of the get/put_eurostat_cache function")
   expect_true(exists(paste0("b_htec_cis3-",udate,"-1-1"),envir=.restatapi_env))
-  message("\n ########--------- 65 test of the get/put_eurostat_cache function")
-  expect_true(exists("agr_r_milkpr.dsd", envir = .restatapi_env))
-  message("\n ########--------- 66 test of the get/put_eurostat_cache function")
-  expect_true(exists("avia_par_me.dsd", envir = .restatapi_env))
+  if (!is.null(dsd1)){
+    message("\n ########--------- 65 test of the get/put_eurostat_cache function")
+    expect_true(exists("agr_r_milkpr.dsd", envir = .restatapi_env))
+  }
+  if (!is.null(dsd2)){
+    message("\n ########--------- 66 test of the get/put_eurostat_cache function")
+    expect_true(exists("avia_par_me.dsd", envir = .restatapi_env))
+  }
   message("\n ########--------- 67 test of the get/put_eurostat_cache function")
   expect_true(file.exists(file.path(sub("[\\/]$","",tempdir(),perl=TRUE),paste0("b_agr_r_milkpr-",udate,"-0-0.rds"))))
   message("\n ########--------- 68 test of the get/put_eurostat_cache function")
@@ -445,10 +453,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid4,keep_flags=TRUE,verbose=TRUE)
   raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,keep_flags=TRUE)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 119 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -457,10 +465,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE)
   raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 120 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -469,10 +477,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE,stringsAsFactors=FALSE)
   raw2<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=FALSE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,stringsAsFactors=FALSE)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 121 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -481,10 +489,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid4,keep_flags=TRUE)
   raw2<-get_eurostat_raw(testid4,mode="xml",check_toc=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,check_toc=TRUE,keep_flags=TRUE)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 122 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -493,10 +501,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid11,check_toc=TRUE)
   raw2<-get_eurostat_raw(testid11,mode="xml",check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid11)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 123 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -505,10 +513,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   bulk1<-get_eurostat_bulk(testid11,keep_flags=TRUE,check_toc=TRUE,stringsAsFactors=FALSE)
   raw2<-get_eurostat_raw(testid11,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,check_toc=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid11,keep_flags=TRUE,stringsAsFactors=FALSE)
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(bulk2,kc)
   if (!is.null(bulk1)&!is.null(bulk2)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(bulk2,kc)
     message("\n ########--------- 124 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   }
@@ -535,18 +543,18 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   rt3<-system.time(raw3<-get_eurostat_raw(testid12,"xml",verbose=TRUE))[3]
   dt1<-system.time(estat_data1<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=TRUE))[3]
   dt2<-system.time(estat_data2<-get_eurostat_data(testid12,stringsAsFactors=FALSE,verbose=TRUE))[3]
-  kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-  data.table::setorderv(bulk1,kc)
-  data.table::setorderv(estat_data2,kc)
-  nrd2<-nrow(estat_data2)
-  ncd2<-ncol(estat_data2)
-  cnd2<-colnames(estat_data2)
   dt3<-system.time(estat_data3<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=TRUE))[3]
   testid13<-"avia_par_mk"
   suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(testid13,stringsAsFactors=FALSE))[3])
   rt4<-system.time(raw4<-get_eurostat_raw(testid13,"xml",keep_flags=TRUE))[3]
   suppressWarnings(bt2<-system.time(bulk2<-get_eurostat_bulk(testid13,keep_flags=TRUE,verbose=TRUE))[3])
   if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.null(raw3)&is.data.frame(raw3)&!is.null(raw4)&is.data.frame(raw4)&!is.null(bulk1)&is.data.frame(bulk1)&!is.null(bulk2)&is.data.frame(bulk2)&!is.null(estat_data1)&is.data.frame(estat_data1)&!is.null(estat_data2)&is.data.frame(estat_data2)&!is.null(estat_data3)&is.data.frame(estat_data3)&!is.null(estat_data4)&is.data.frame(estat_data4)){
+    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
+    data.table::setorderv(bulk1,kc)
+    data.table::setorderv(estat_data2,kc)
+    nrd2<-nrow(estat_data2)
+    ncd2<-ncol(estat_data2)
+    cnd2<-colnames(estat_data2)
     message("\n ########--------- 127 additional tests of the get/put_eurostat_cache function")
     expect_true(exists(paste0(nm,"-1"),envir=.restatapi_env))
     message("\n ########--------- 128 additional tests of the get/put_eurostat_cache function")
@@ -619,3 +627,4 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   }
   
 }
+clean_restatapi_cache(tempdir(),verbose=TRUE)

@@ -46,5 +46,6 @@ put_eurostat_cache(dt,"teszt")
 get("teszt",envir=restatapi::.restatapi_env)
 put_eurostat_cache(dt,"teszt",cache_dir=tempdir())
 readRDS(file.path(tempdir(),"teszt.rds"))
+clean_restatapi_cache(cache_dir=tempdir())
 
 }

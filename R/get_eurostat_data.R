@@ -213,6 +213,7 @@ get_eurostat_data <- function(id,
     check_toc<-FALSE
     message("The dataset 'id' is missing.")
   }
+  if (verbose) {message("get_eurostat_data - id:",id)}
   
   if (check_toc){
     toc<-get_eurostat_toc(verbose=verbose)
@@ -285,7 +286,7 @@ get_eurostat_data <- function(id,
         } else {
           dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
           if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1) | length(filters)>1){
-            ft<-create_filter_table(filters,FALSE,dsd,exact_match,...)
+            ft<-create_filter_table(filters=filters,date_filter=FALSE,dsd=dsd,exact_match=exact_match,verbose=verbose,...)
             if (nrow(ft)>0){
               ft<-unique(ft[ft$code!=FALSE,2:3])
               ft<-ft[order(match(ft$concept, dsdorder)),]
@@ -302,7 +303,7 @@ get_eurostat_data <- function(id,
       if (!is.null(date_filter)) #date filter defined => create date filter table and url
       { 
         if (verbose) {message("get_eurostat_data - date_filter: ",match.call()$date_filter)}
-        dft<-create_filter_table(date_filter,TRUE,verbose=verbose)
+        dft<-create_filter_table(filters=date_filter,date_filter=TRUE,verbose=verbose)
         if (verbose) {message("get_eurostat_data - date_filter: ",paste(date_filter,collapse=", ")," nrow dft: ",nrow(dft))}
         if(!is.null(dft)){
           if(nrow(dft)>0){
