@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.8</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     </tr>
     <tr>
       <th>update_cache</th>
-      <td><p>a logical with a default value <code>FALSE</code>, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_update = TRUE)</a></code></p></td>
+      <td><p>a logical with a default value <code>FALSE</code>, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_update=TRUE)</a></code></p></td>
     </tr>
     <tr>
       <th>cache_dir</th>
@@ -176,7 +176,7 @@
 #&gt; 1   a  1
 #&gt; 2   b  2
 #&gt; 3   c  3</div><div class='input'><span class='fu'>put_eurostat_cache</span><span class='op'>(</span><span class='va'>dt</span>,<span class='st'>"teszt"</span>,cache_dir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "in the file /tmp/Rtmp9sodOQ/teszt.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"teszt.rds"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "in the file /tmp/RtmpYhITjS/teszt.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"teszt.rds"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   txt nr
 #&gt; 1   a  1
 #&gt; 2   b  2

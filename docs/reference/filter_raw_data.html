@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.8</span>
       </span>
     </div>
 
@@ -149,14 +149,17 @@ in this case the filters applied to the other columns of the <code>raw_data</cod
          because of too large data set (more than 30 thousands observations). 
          The <code>filter_table</code> contains always at least two columns. In case if <code>date_filter=TRUE</code> then the two columns should have the following names and 
          the provided conditions are applied to the time column of the the <code>raw_data</code> data.table.</p><table class='table'>
-<tr><td><code>sd</code></td><td>Starting date to be included, where date is formatted as yyyy[-mm][-dd] (the month and day are optional)</td></tr>
-<tr><td><code>ed</code></td><td>End date of the period to be included in the dataset formatted as yyyy[-mm][-dd] (the month and day are optional)</td></tr>
+<tr><td><code>sd</code></td><td>Starting date to be included, where date is formatted as yyyy[-mm][-dd] (the month and day are
+         optional)</td></tr>
+<tr><td><code>ed</code></td><td>End date of the period to be included in the dataset formatted as yyyy[-mm][-dd] (the month and
+         day are optional)</td></tr>
 </table>
   
         
 <p>In case if <code>date_filter=FALSE</code> then the columns should have the following names:</p><table class='table'>
 <tr><td><code>concept</code></td><td>Containing concept names, which is a column name in the <code>raw_data</code> data.table</td></tr>
-<tr><td><code>code</code></td><td>A possible code under the given concept, which is a value in the column of the <code>raw_data</code> data.table defined by the concept</td></tr>
+<tr><td><code>code</code></td><td>A possible code under the given concept, which is a value in the column of the <code>raw_data</code>
+         data.table defined by the concept</td></tr>
 </table>
 
 

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.8</span>
       </span>
     </div>
 
@@ -260,11 +260,13 @@ argument is only searched in the code column of the DSD, and the names of the co
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a data.table with the following columns:</p><table class='table'>
-<tr><td><code>freq</code></td><td>A column for the frequency of the data in case there are multiple frequencies, for single frequency this columns is dropped from the data table</td></tr>
+<tr><td><code>freq</code></td><td>A column for the frequency of the data in case there are multiple frequencies, for
+     single frequency this columns is dropped from the data table</td></tr>
 <tr><td>dimension names</td><td>One column for each dimension in the data</td></tr>
 <tr><td><code>time</code></td><td>A column for the time dimension</td></tr>
 <tr><td><code>values</code></td><td>A column for numerical values</td></tr>
-<tr><td><code>flags</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> or <code>cflags=TRUE</code> otherwise this column is not included in the data table</td></tr>
+<tr><td><code>flags</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> or <code>cflags=TRUE</code> otherwise this column
+     is not included in the data table</td></tr>
 </table>
 
         
@@ -357,7 +359,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
                        label<span class='op'>=</span><span class='cn'>TRUE</span>,
                        name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Could not download the DSD. The filter is ignored</span></div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the verbose=TRUE parameter.</span></div><div class='output co'>#&gt; <span class='message'>500 - No data with the given filter(s)</span></div><div class='input'><span class='fu'><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></span><span class='op'>(</span><span class='st'>"/tmp"</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>                                 
-</div><div class='output co'>#&gt; <span class='message'>clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span></div><div class='output co'>#&gt; <span class='message'>clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/Rtmp9sodOQ/restatapi</span></div><div class='input'><span class='co'># }</span>
+</div><div class='output co'>#&gt; <span class='message'>clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span></div><div class='output co'>#&gt; <span class='message'>clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmpYhITjS/restatapi</span></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
