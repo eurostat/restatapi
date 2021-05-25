@@ -17,7 +17,7 @@ put_eurostat_cache(
 
 \item{oname}{a character string with the name of the object to reference later in the cache}
 
-\item{update_cache}{a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with \code{options(restatapi_update = TRUE)}}
+\item{update_cache}{a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with \code{options(restatapi_update=TRUE)}}
 
 \item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the object is saved in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory under the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.}
 

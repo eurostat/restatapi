@@ -31,6 +31,7 @@
 #' @examples 
 #' \donttest{
 #' load_cfg(parallel=FALSE)
+#' options(restatapi_dmethod="auto")
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
 #' load_cfg()
 #' eu<-get("cc",envir=.restatapi_env)

@@ -63,13 +63,18 @@ Can be set also with \code{options(restatapi_verbose=TRUE)}}
 \value{
 a data.table with the following columns if the default \code{melt=TRUE} is used:
  \tabular{ll}{
-     \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly, \strong{W}eekly, \strong{D}aily)\cr
-     dimension names \tab One column for each dimension in the data \cr
-     \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX and the data was not loaded from a previously cached TSV download (this column is missing if the source file is TSV) \cr
-     \code{time/TIME_PERIOD} \tab A column for the time dimension, where the name of the column depends on the source file (TSV/SDMX)\cr
-     \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the source file (TSV/SDMX)\cr
-     \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included in the data table, and the name of the column depends on the source file (TSV/SDMX)
-   }
+ \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly,
+ \strong{W}eekly, \strong{D}aily)\cr
+ dimension names \tab One column for each dimension in the data\cr
+ \code{TIME_FORMAT} \tab A column for the time format, if the source file SDMX and the data was not
+ loaded from a previously cached TSV download (this column is missing if the source file is TSV)\cr
+ \code{time/TIME_PERIOD} \tab A column for the time dimension, where the name of the column depends on the
+ source file (TSV/SDMX)\cr
+ \code{values/OBS_VALUE} \tab A column for numerical values, where the name of the column depends on the
+ source file (TSV/SDMX)\cr
+ \code{flags/OBS_STATUS} \tab A column for flags if the \code{keep_flags=TRUE} otherwise this column is not included
+ in the data table, and the name of the column depends on the source file (TSV/SDMX)
+ }
 The data does not include all missing values. The missing values are dropped if the value and flags are missing
 on a particular time. 
 

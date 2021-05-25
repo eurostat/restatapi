@@ -40,15 +40,18 @@ a data.table containing in each row a distinct filtering condition to be applied
 
          If \code{date_filter=TRUE}, the output data table contains two columns with the following names:
          \tabular{ll}{
-           \code{sd} \tab Starting date to be included in the filtered dataset, where date is formatted yyyy[-mm][-dd] \cr
-           \code{ed} \tab End date of the period to be included in the filtered dataset, where the date is formatted yyyy[-mm][-dd] 
-           }  
+         \code{sd} \tab Starting date to be included in the filtered dataset, where date is formatted yyyy[-mm][-dd]\cr
+         \code{ed} \tab End date of the period to be included in the filtered dataset, where the date is formatted yyyy[-mm][-dd] 
+         }  
          In case \code{date_filter=FALSE}, the output tables have the following four columns:
          \tabular{ll}{   
-           \code{pattern} \tab Containing those parts of the \code{filters} string where the string part (pattern) was found in the \code{dsd} \cr
-           \code{concept} \tab The name of the concepts corresponding to the result in the code/name column where the pattern was found in the data structure definition \cr
-           \code{code} \tab The list of codes where the pattern was found, or the code of a name (description of the code) where the pattern appears \cr
-           \code{name} \tab The name (description of the code) which can be used as label for the code where the pattern was found, or the name (description of the code) of the code where the pattern appears 
+         \code{pattern} \tab Containing those parts of the \code{filters} string where the string part (pattern) was found in the \code{dsd}\cr
+         \code{concept} \tab The name of the concepts corresponding to the result in the code/name column where the pattern
+         was found in the data structure definition\cr
+         \code{code} \tab The list of codes where the pattern was found, or the code of a name (description of the code) 
+         where the pattern appears\cr
+         \code{name} \tab The name (description of the code) which can be used as label for the code where the pattern was
+         found, or the name (description of the code) of the code where the pattern appears 
          }
 }
 \description{

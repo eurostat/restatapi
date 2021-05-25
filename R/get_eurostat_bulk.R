@@ -53,10 +53,11 @@
 #' in parenthesis.
 #' @return a data.table with the following columns: 
 #'  \tabular{ll}{
-#'      dimension names \tab One column for each dimension in the data \cr
+#'      dimension names \tab One column for each dimension in the data\cr
 #'      \code{time} \tab A column for the time dimension\cr
 #'      \code{values} \tab A column for numerical values\cr
-#'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column is not included in the data table
+#'      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column
+#'      is not included in the data table
 #'    }
 #'   The data.table does not include all missing values. The missing values are dropped if both the value and the flag is missing
 #'         on a particular time.

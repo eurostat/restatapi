@@ -10,12 +10,13 @@
 #' @param ... additional arguments to the \code{grep} function like \code{ignore.case=TRUE} if the pattern should be searched case sensitive or not. 
 #'            The default value for \code{ignore.case} is \code{FALSE}. 
 #' @return If the pattern found then the function returns a data.frame with the 4 columns:
-#'    \tabular{ll}{
-#'      \code{pattern} \tab The pattern which was searched \cr
-#'      \code{concept} \tab The name of the concepts in the data structure \cr
-#'      \code{code} \tab The list of codes where the pattern was found, or the code of a name where the pattern appears \cr
-#'      \code{name} \tab The name/description of the code where the pattern found, or the name of the code where the pattern appears 
-#'    }
+#'  \tabular{ll}{
+#'  \code{pattern} \tab The pattern which was searched\cr
+#'  \code{concept} \tab The name of the concepts in the data structure\cr
+#'  \code{code} \tab The list of codes where the pattern was found, or the code of a name where the pattern appears\cr
+#'  \code{name} \tab The name/description of the code where the pattern found, or the name of the code where the
+#'  pattern appears 
+#'  }
 #'    Otherwise returns the value \code{NULL}.
 #' @export
 #' @seealso \code{\link{get_eurostat_dsd}}, \code{\link{search_eurostat_toc}}.

@@ -2,7 +2,7 @@
 #' @description Save the object (dataset/toc/DSD) to cache
 #' @param obj  an object (toc, dataset, DSD)
 #' @param oname  a character string with the name of the object to reference later in the cache
-#' @param update_cache a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with \code{options(restatapi_update = TRUE)}
+#' @param update_cache a logical with a default value \code{FALSE}, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with \code{options(restatapi_update=TRUE)}
 #' @param cache_dir a path to a cache directory. The default is \code{NULL}, in this case the object is saved in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory under the temporary directory from \code{tempdir()}. Directory can also be set with \code{options(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.
 #' @export 

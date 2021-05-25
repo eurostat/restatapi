@@ -1,3 +1,8 @@
+# restatapi 0.10.8
+
+- correction of tables in the documentation
+
+
 # restatapi 0.10.7
 
 - further correction to clean up all cache files from the hard disk

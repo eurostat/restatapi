@@ -10,15 +10,18 @@
 #'          The \code{filter_table} contains always at least two columns. In case if \code{date_filter=TRUE} then the two columns should have the following names and 
 #'          the provided conditions are applied to the time column of the the \code{raw_data} data.table.
 #'          \tabular{ll}{
-#'            \code{sd} \tab Starting date to be included, where date is formatted as yyyy[-mm][-dd] (the month and day are optional)\cr
-#'            \code{ed} \tab End date of the period to be included in the dataset formatted as yyyy[-mm][-dd] (the month and day are optional) 
-#'            }  
+#'          \code{sd} \tab Starting date to be included, where date is formatted as yyyy[-mm][-dd] (the month and day are
+#'          optional)\cr
+#'          \code{ed} \tab End date of the period to be included in the dataset formatted as yyyy[-mm][-dd] (the month and
+#'          day are optional) 
+#'          }  
 #'         
 #'          In case if \code{date_filter=FALSE} then the columns should have the following names:
 #'          \tabular{ll}{
-#'            \code{concept} \tab Containing concept names, which is a column name in the \code{raw_data} data.table \cr
-#'            \code{code} \tab A possible code under the given concept, which is a value in the column of the \code{raw_data} data.table defined by the concept   
-#'            }  
+#'          \code{concept} \tab Containing concept names, which is a column name in the \code{raw_data} data.table\cr
+#'          \code{code} \tab A possible code under the given concept, which is a value in the column of the \code{raw_data}
+#'          data.table defined by the concept   
+#'          }  
 #'            
 #' @return a filtered data.table containing only the rows of \code{raw_data} which fulfills the conditions in the \code{filter_table} 
 #' @seealso \code{\link{get_eurostat_raw}}, \code{\link{search_eurostat_dsd}}, \code{\link{get_eurostat_data}}, \code{\link{create_filter_table}}
