@@ -234,14 +234,16 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
 }  
 
 udate<-format(Sys.Date(),"%Y.%m.%d")
-if (!is.null(xml_toc)) {udate2<-xml_toc$lastUpdate[xml_toc$code==testid5]}
+if (!is.null(xml_toc)) {udate2<-xml_toc$lastUpdate[xml_toc$code==testid5]} else {udate2<-NULL}
 if (!is.null(dt1)&is.data.frame(dt1)&!is.null(rt3)&is.data.frame(rt3)&!is.null(rt4)&is.data.frame(rt4)&!is.null(rt5)&is.data.frame(rt5)&!is.null(bt2)&is.data.frame(bt2)&!is.null(bt3)&is.data.frame(bt3)){
-  message("\n ########--------- 54 test of the get/put_eurostat_cache function")
-  expect_false(exists(paste0("b_avia_par_me-",udate,"-0-0-Q"),envir=.restatapi_env))
+  if (!is.null(udate2)){
+    message("\n ########--------- 54 test of the get/put_eurostat_cache function")
+    expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate2,"-1"),envir=.restatapi_env))
+  }
   message("\n ########--------- 55 test of the get/put_eurostat_cache function")
-  expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate,"-0"),envir=.restatapi_env))
+  expect_false(exists(paste0("b_avia_par_me-",udate,"-0-0-Q"),envir=.restatapi_env))
   message("\n ########--------- 56 test of the get/put_eurostat_cache function")
-  expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate2,"-1"),envir=.restatapi_env))
+  expect_true(exists(paste0("r_irt_h_eurcoe_d-",udate,"-0"),envir=.restatapi_env))
   message("\n ########--------- 57 test of the get/put_eurostat_cache function")
   expect_true(exists(paste0("b_agr_r_milkpr-",udate,"-0-0"),envir=.restatapi_env))
   message("\n ########--------- 58 test of the get/put_eurostat_cache function")
@@ -531,7 +533,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
 
   clean_restatapi_cache()
   xml_toc<-get_eurostat_toc(verbose=TRUE)
-  if (!is.null(xml_toc)) {udate2<-xml_toc$lastUpdate[xml_toc$code==testid12]}
+  # if (!is.null(xml_toc)) {udate2<-xml_toc$lastUpdate[xml_toc$code==testid12]} else {udate2<-NULL}
   udate<-format(Sys.Date(),"%Y.%m.%d")
   nm<-paste0("r_", testid12,"-",udate)
   rt1<-system.time(raw1<-get_eurostat_raw(testid12,"xml",keep_flags=TRUE,stringsAsFactors=TRUE,verbose=TRUE))[3]

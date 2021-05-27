@@ -1,3 +1,8 @@
+# restatapi 0.10.9
+
+- checking if download file is empty in the `get_eurostat_toc()` function when `mode=txt`
+- correction of tests
+
 # restatapi 0.10.8
 
 - correction of tables in the documentation
