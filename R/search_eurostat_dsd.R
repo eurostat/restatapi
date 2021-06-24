@@ -19,7 +19,7 @@
 #'  }
 #'    Otherwise returns the value \code{NULL}.
 #' @export
-#' @seealso \code{\link{get_eurostat_dsd}}, \code{\link{search_eurostat_toc}}.
+#' @seealso \code{\link{get_eurostat_dsd}}, \code{\link{create_filter_table}, \code{\link{search_eurostat_toc}}.
 #' @details The function returns the line(s) where the searched pattern appears in the code or in the name column.
 #'  
 #' @examples 

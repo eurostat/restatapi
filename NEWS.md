@@ -1,3 +1,7 @@
+# restatapi 0.10.10
+
+- correction of the `verbose` option in the `create_filter_table()` function
+
 # restatapi 0.10.9
 
 - checking if download file is empty in the `get_eurostat_toc()` function when `mode=txt`
