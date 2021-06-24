@@ -1,4 +1,5 @@
 <!-- badges: start -->
+[![last commit](https://img.shields.io/github/last-commit/eurostat/restatapi?style=flat)](/../../commits/)
 [![R build
 status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](https://github.com/eurostat/restatapi/actions)
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
