@@ -1,3 +1,8 @@
+# restatapi 0.11.1
+
+- correction of tests when the TOC is corrupted
+- correction of documentation
+
 # restatapi 0.10.10
 
 - correction of the `verbose` option in the `create_filter_table()` function

@@ -109,8 +109,10 @@ nc1<-ncol(dt1)
 t2<-system.time({dt2<-get_eurostat_data(testid2,stringsAsFactors=FALSE)})[3]
 nc2<-ncol(dt2)
 if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)&!is.null(xml_toc)){
-  message("\n ########--------- 21 test of the get_eurostat_data function")
-  expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==testid2]))
+  if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid2]))){
+    message("\n ########--------- 21 test of the get_eurostat_data function")
+    expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==testid2]))
+  }
   message("\n ########--------- 22 test of the get_eurostat_data function")
   expect_equal(nc2+1,nc1)
   message("\n ########--------- 23 test of the get_eurostat_data function")
@@ -187,8 +189,10 @@ if (!is.null(dt8)){
 }
 dt9<-get_eurostat_data(testid4,filters="2018",cflags=TRUE)
 if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
-  message("\n ########--------- 46 test of filtering in the get_eurostat_data function")
-  expect_equal(nrow(dt9),as.numeric(xml_toc$values[xml_toc$code==testid4]))
+  if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid4]))){
+    message("\n ########--------- 46 test of filtering in the get_eurostat_data function")
+    expect_equal(nrow(dt9),as.numeric(xml_toc$values[xml_toc$code==testid4]))
+  }
 }  
 dsd1<-get_eurostat_dsd(testid4)
 dsd2<-get_eurostat_dsd(testid6)
@@ -435,8 +439,10 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     expect_message(raw<-get_eurostat_raw(testid6,mode="text"))
     message("\n ########--------- 111 additional tests for the get_eurostat_raw/bulk function")
     expect_equal(nrow(raw_xml),nrow(raw_txt))
-    message("\n ########--------- 112 additional tests for the get_eurostat_raw/bulk function")
-    expect_equal(nrow(raw_txt),as.numeric(xml_toc$values[xml_toc$code==testid6]))
+    if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid6]))){
+      message("\n ########--------- 112 additional tests for the get_eurostat_raw/bulk function")
+      expect_equal(nrow(raw_txt),as.numeric(xml_toc$values[xml_toc$code==testid6]))
+    }
     message("\n ########--------- 113 additional tests for the get_eurostat_raw/bulk function")
     expect_true(ncol(raw_xml)>ncol(bulk))
     message("\n ########--------- 114 additional tests for the get_eurostat_raw/bulk function")

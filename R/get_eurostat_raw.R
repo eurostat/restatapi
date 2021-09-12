@@ -248,6 +248,8 @@ get_eurostat_raw <- function(id,
           }else{
             restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
           }
+        } else{
+          message("Could not download the SDMX file, use the verbose option to see the exact cause of the error.")
         }
       }
     }

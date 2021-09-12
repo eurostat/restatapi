@@ -56,5 +56,5 @@ search_eurostat_dsd("EU27_2019",dsd_example,exact_match=TRUE)
 
 }
 \seealso{
-
+\code{\link{get_eurostat_dsd}}, \code{\link{create_filter_table}}, \code{\link{search_eurostat_toc}}
 }

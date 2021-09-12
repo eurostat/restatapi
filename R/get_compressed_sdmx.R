@@ -59,7 +59,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       }
     }  
   }
-  if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)}
+  if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)} else {xml<-NULL}
   unlink(temp)
   unlink(paste0(fajl,".xml"))
   return(xml)
