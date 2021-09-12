@@ -5,7 +5,7 @@ on:
       - main
       - master
 
-name: pkgdown
+name: pkgdown-regi
 
 jobs:
   pkgdown:
