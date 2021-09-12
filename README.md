@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![last commit](https://img.shields.io/github/last-commit/eurostat/restatapi?style=flat)](/../../commits/)
 [![R build
-status](https://github.com/eurostat/restatapi/workflows/R-CMD-check-uj/badge.svg)](https://github.com/eurostat/restatapi/actions)
+status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](https://github.com/eurostat/restatapi/actions)
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
