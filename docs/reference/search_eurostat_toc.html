@@ -73,7 +73,7 @@ pattern in the title, units or short description." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -188,105 +188,105 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class='co'># \donttest{</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energy"</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='output co'>#&gt; <span class='message'>get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span></div><div class='output co'>#&gt;                                                                                                                  title
-#&gt; 697                                                                                 Final energy consumption by sector
-#&gt; 724                                                               Candidate countries and potential candidates: energy
-#&gt; 877                                                                                          Primary energy production
-#&gt; 878                                                                       Secondary energy production (transformation)
-#&gt; 905                                                                                              ENP countries: energy
-#&gt; 1484 Psychological well-being (energy and vitality index) by sex, age and educational attainment level (average score)
+#&gt; 699                                                                                 Final energy consumption by sector
+#&gt; 726                                                               Candidate countries and potential candidates: energy
+#&gt; 879                                                                                          Primary energy production
+#&gt; 880                                                                       Secondary energy production (transformation)
+#&gt; 907                                                                                              ENP countries: energy
+#&gt; 1490 Psychological well-being (energy and vitality index) by sex, age and educational attainment level (average score)
 #&gt;                 code    type lastUpdate lastModified dataStart dataEnd values
-#&gt; 697  enps_nrg_bal_c1 dataset 2021.04.16         &lt;NA&gt;      2005    2019    267
-#&gt; 724       cpc_energy dataset 2016.10.11   2021.02.08      2000    2015    926
-#&gt; 877         med_eg10 dataset 2020.05.28   2021.02.08      2005    2018    391
-#&gt; 878         med_eg20 dataset 2016.10.28   2021.02.08      2000    2015    776
-#&gt; 905      enpr_energy dataset 2020.01.14   2021.02.08      2005    2018    262
-#&gt; 1484   hlth_ehis_st8 dataset 2014.03.20   2021.02.08      2008    2008   1455
+#&gt; 699  enps_nrg_bal_c1 dataset 2021.04.16         &lt;NA&gt;      2005    2019    267
+#&gt; 726       cpc_energy dataset 2016.10.11   2021.02.08      2000    2015    926
+#&gt; 879         med_eg10 dataset 2020.05.28   2021.02.08      2005    2018    391
+#&gt; 880         med_eg20 dataset 2016.10.28   2021.02.08      2000    2015    776
+#&gt; 907      enpr_energy dataset 2020.01.14   2021.02.08      2005    2018    262
+#&gt; 1490   hlth_ehis_st8 dataset 2014.03.20   2021.02.08      2008    2008   1455
 #&gt;      unit shortDescription
-#&gt; 697                       
-#&gt; 724                       
-#&gt; 877                       
-#&gt; 878                       
-#&gt; 905                       
-#&gt; 1484                      
+#&gt; 699                       
+#&gt; 726                       
+#&gt; 879                       
+#&gt; 880                       
+#&gt; 907                       
+#&gt; 1490                      
 #&gt;                                                          metadata.html
-#&gt; 697      https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
-#&gt; 724       https://ec.europa.eu/eurostat/cache/metadata/en/cpc_esms.htm
-#&gt; 877       https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
-#&gt; 878       https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
-#&gt; 905      https://ec.europa.eu/eurostat/cache/metadata/en/enpr_esms.htm
-#&gt; 1484 https://ec.europa.eu/eurostat/cache/metadata/en/hlth_det_esms.htm
+#&gt; 699      https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
+#&gt; 726       https://ec.europa.eu/eurostat/cache/metadata/en/cpc_esms.htm
+#&gt; 879       https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
+#&gt; 880       https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
+#&gt; 907      https://ec.europa.eu/eurostat/cache/metadata/en/enpr_esms.htm
+#&gt; 1490 https://ec.europa.eu/eurostat/cache/metadata/en/hlth_det_esms.htm
 #&gt;                                                                                                          metadata.sdmx
-#&gt; 697      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
-#&gt; 724       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/cpc_esms.sdmx.zip
-#&gt; 877       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
-#&gt; 878       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
-#&gt; 905      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enpr_esms.sdmx.zip
-#&gt; 1484 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/hlth_det_esms.sdmx.zip
+#&gt; 699      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
+#&gt; 726       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/cpc_esms.sdmx.zip
+#&gt; 879       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
+#&gt; 880       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
+#&gt; 907      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enpr_esms.sdmx.zip
+#&gt; 1490 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/hlth_det_esms.sdmx.zip
 #&gt;                                                                                                   downloadLink.tsv
-#&gt; 697  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.tsv.gz
-#&gt; 724       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.tsv.gz
-#&gt; 877         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz
-#&gt; 878         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz
-#&gt; 905      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enpr_energy.tsv.gz
-#&gt; 1484   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/hlth_ehis_st8.tsv.gz
+#&gt; 699  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.tsv.gz
+#&gt; 726       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.tsv.gz
+#&gt; 879         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz
+#&gt; 880         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz
+#&gt; 907      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enpr_energy.tsv.gz
+#&gt; 1490   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/hlth_ehis_st8.tsv.gz
 #&gt;                                                                                                    downloadLink.sdmx
-#&gt; 697  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.sdmx.zip
-#&gt; 724       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip
-#&gt; 877         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip
-#&gt; 878         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip
-#&gt; 905      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enpr_energy.sdmx.zip
-#&gt; 1484   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/hlth_ehis_st8.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energy"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 93</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energie"</span>,lang<span class='op'>=</span><span class='st'>"de"</span>,ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; 699  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.sdmx.zip
+#&gt; 726       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip
+#&gt; 879         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip
+#&gt; 880         https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip
+#&gt; 907      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enpr_energy.sdmx.zip
+#&gt; 1490   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/hlth_ehis_st8.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energy"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 95</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energie"</span>,lang<span class='op'>=</span><span class='st'>"de"</span>,ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                                     title            code
 #&gt; 38                             Energie - monatliche Daten       ei_isen_m
-#&gt; 696                                         Energiebilanz  enps_nrg_bal_c
-#&gt; 697                       Endenergieverbrauch nach Sektor enps_nrg_bal_c1
-#&gt; 724 Kandidaten- und potentielle Kandidatenländer: Energie      cpc_energy
-#&gt; 877                               Primäre Energierzeugung        med_eg10
-#&gt; 878                 Sekundäre Energierzeugung (Umsetzung)        med_eg20
+#&gt; 698                                         Energiebilanz  enps_nrg_bal_c
+#&gt; 699                       Endenergieverbrauch nach Sektor enps_nrg_bal_c1
+#&gt; 726 Kandidaten- und potentielle Kandidatenländer: Energie      cpc_energy
+#&gt; 879                               Primäre Energierzeugung        med_eg10
+#&gt; 880                 Sekundäre Energierzeugung (Umsetzung)        med_eg20
 #&gt;        type lastUpdate lastModified dataStart dataEnd values unit
-#&gt; 38  dataset 2021.06.22   2021.06.22   2008M01 2021M04  66307     
-#&gt; 696 dataset 2021.04.16         &lt;NA&gt;      2005    2019    518     
-#&gt; 697 dataset 2021.04.16         &lt;NA&gt;      2005    2019    267     
-#&gt; 724 dataset 2016.10.11   2021.02.08      2000    2015    926     
-#&gt; 877 dataset 2020.05.28   2021.02.08      2005    2018    391     
-#&gt; 878 dataset 2016.10.28   2021.02.08      2000    2015    776     
+#&gt; 38  dataset 2021.09.10   2021.09.10   2008M01 2021M07  71957     
+#&gt; 698 dataset 2021.04.16         &lt;NA&gt;      2005    2019    518     
+#&gt; 699 dataset 2021.04.16         &lt;NA&gt;      2005    2019    267     
+#&gt; 726 dataset 2016.10.11   2021.02.08      2000    2015    926     
+#&gt; 879 dataset 2020.05.28   2021.02.08      2005    2018    391     
+#&gt; 880 dataset 2016.10.28   2021.02.08      2000    2015    776     
 #&gt;     shortDescription
 #&gt; 38                  
-#&gt; 696                 
-#&gt; 697                 
-#&gt; 724                 
-#&gt; 877                 
-#&gt; 878                 
+#&gt; 698                 
+#&gt; 699                 
+#&gt; 726                 
+#&gt; 879                 
+#&gt; 880                 
 #&gt;                                                      metadata.html
 #&gt; 38  https://ec.europa.eu/eurostat/cache/metadata/en/ei_is_esms.htm
-#&gt; 696  https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
-#&gt; 697  https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
-#&gt; 724   https://ec.europa.eu/eurostat/cache/metadata/en/cpc_esms.htm
-#&gt; 877   https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
-#&gt; 878   https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
+#&gt; 698  https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
+#&gt; 699  https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm
+#&gt; 726   https://ec.europa.eu/eurostat/cache/metadata/en/cpc_esms.htm
+#&gt; 879   https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
+#&gt; 880   https://ec.europa.eu/eurostat/cache/metadata/en/med_esms.htm
 #&gt;                                                                                                      metadata.sdmx
 #&gt; 38  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_is_esms.sdmx.zip
-#&gt; 696  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
-#&gt; 697  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
-#&gt; 724   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/cpc_esms.sdmx.zip
-#&gt; 877   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
-#&gt; 878   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
+#&gt; 698  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
+#&gt; 699  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/enps_esms.sdmx.zip
+#&gt; 726   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/cpc_esms.sdmx.zip
+#&gt; 879   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
+#&gt; 880   https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/med_esms.sdmx.zip
 #&gt;                                                                                                  downloadLink.tsv
 #&gt; 38        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_isen_m.tsv.gz
-#&gt; 696  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.tsv.gz
-#&gt; 697 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.tsv.gz
-#&gt; 724      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.tsv.gz
-#&gt; 877        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz
-#&gt; 878        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz
+#&gt; 698  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.tsv.gz
+#&gt; 699 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.tsv.gz
+#&gt; 726      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.tsv.gz
+#&gt; 879        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz
+#&gt; 880        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz
 #&gt;                                                                                                   downloadLink.sdmx
 #&gt; 38        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_isen_m.sdmx.zip
-#&gt; 696  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.sdmx.zip
-#&gt; 697 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.sdmx.zip
-#&gt; 724      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip
-#&gt; 877        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip
-#&gt; 878        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energie"</span>,lang<span class='op'>=</span><span class='st'>"de"</span>,ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 108</div><div class='input'><span class='co'># }</span>
+#&gt; 698  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.sdmx.zip
+#&gt; 699 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.sdmx.zip
+#&gt; 726      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/cpc_energy.sdmx.zip
+#&gt; 879        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip
+#&gt; 880        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>search_eurostat_toc</span><span class='op'>(</span><span class='st'>"energie"</span>,lang<span class='op'>=</span><span class='st'>"de"</span>,ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 110</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
