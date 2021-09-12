@@ -1,3 +1,22 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+#
+# NOTE: This workflow is overkill for most R packages and
+# check-standard.yaml is likely a better choice.
+# usethis::use_github_action("check-standard") will install it.
+# https://github.com/gaborcsardi/async/blob/master/.github/workflows/check-pak.yaml
+# https://github.com/r-lib/actions/blob/master/examples/check-pak.yaml
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+      - cron:  '0 6 1 * *'
+
 name: R-CMD-check-uj
 
 jobs:
