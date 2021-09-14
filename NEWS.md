@@ -1,3 +1,7 @@
+# restatapi 0.11.2
+
+- unzipping to a temporary directory in order to avoid error by read-only user directory
+
 # restatapi 0.11.1
 
 - correction of tests when the TOC is corrupted

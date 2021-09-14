@@ -44,8 +44,9 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       } else {
         fajl<-paste0("DataResponse-",sub("^.*\\/","",url,perl=TRUE))
       }
+      tmpdir<-tempdir()
       if (verbose) {
-        tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},
+        tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"),exdir=tmpdir)},
                  error = function(e) {
                    message("get_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
@@ -53,7 +54,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
                    message("get_compressed_sdmx - Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
-        tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"))},
+        tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"),exdir=tmpdir)},
                  error = function(e) {},
                  warning = function(w) {})
       }
@@ -61,6 +62,6 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
   }
   if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)} else {xml<-NULL}
   unlink(temp)
-  unlink(paste0(fajl,".xml"))
+  unlink(file.path(tmpdir,paste0(fajl,".xml")))
   return(xml)
 }
