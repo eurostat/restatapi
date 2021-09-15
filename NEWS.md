@@ -1,3 +1,8 @@
+# restatapi 0.11.3
+
+- using full URI path in README.md
+- CRAN release
+
 # restatapi 0.11.2
 
 - unzipping to a temporary directory in order to avoid error by read-only user directory
