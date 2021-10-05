@@ -87,7 +87,7 @@ get_eurostat_toc<-function(mode="xml",
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
-      if (verbose) {message("get_eurostat_toc - Downloading ",toc_endpoint)}
+      if (verbose) {message("\nget_eurostat_toc - Downloading ",toc_endpoint)}
       tryCatch({utils::download.file(toc_endpoint,temp,dmethod,quiet=!verbose)},
                  error = function(e) {
                  if (verbose) {message("get_eurostat_toc - Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}

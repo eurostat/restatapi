@@ -26,11 +26,11 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
     if (verbose) {
       tryCatch({utils::download.file(url,temp,dmethod)},
                error = function(e) {
-                 message("get_compressed_sdmx - Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                 message("\nget_compressed_sdmx - Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  tbc<-FALSE
                },
                warning = function(w) {
-                 message("get_compressed_sdmx - Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                 message("\nget_compressed_sdmx - Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  tbc<-FALSE
                })
     } else {
@@ -48,10 +48,10 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
       if (verbose) {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"),exdir=tmpdir)},
                  error = function(e) {
-                   message("get_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("\nget_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
                  warning = function(w) {
-                   message("get_compressed_sdmx - Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("\nget_compressed_sdmx - Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
       } else {
         tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"),exdir=tmpdir)},

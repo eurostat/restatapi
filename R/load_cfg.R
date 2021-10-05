@@ -49,7 +49,7 @@ load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=
   tryCatch(
     {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
     error = function(e) 
-      {if (verbose) {warning("load_cfg - The configuration file could not be downloaded from GitHub, the preinstalled file in the package is used.")}
+      {if (verbose) {warning("\nload_cfg - The configuration file could not be downloaded from GitHub, the preinstalled file in the package is used.")}
       assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
       cfg_source<-"the file installed locally"})
   cfg<-get("cfg",envir=.restatapi_env)

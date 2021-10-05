@@ -47,19 +47,19 @@ get_eurostat_cache<-function(oname,cache_dir=NULL,verbose=FALSE){
   }
   oname_all<-unique(c(oname_all,oname_p))
   if (any(sapply(oname_all,exists,envir=restatapi::.restatapi_env))){
-    if (verbose) {message("get_eurostat_cache - The '",oname,"' was loaded from '",oname_all[sapply(oname_all,exists,envir=restatapi::.restatapi_env)][1],"' in '.restatapi_env'.")}
+    if (verbose) {message("\nget_eurostat_cache - The '",oname,"' was loaded from '",oname_all[sapply(oname_all,exists,envir=restatapi::.restatapi_env)][1],"' in '.restatapi_env'.")}
     return(get(oname_all[sapply(oname_all,exists,envir=restatapi::.restatapi_env)][1],envir=restatapi::.restatapi_env))
   } else if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){
       fname<-file.path(sub("[\\/]$","",cache_dir,perl=TRUE),paste0(oname_all,".rds"))
       if (any(file.exists(fname))){
-        if (verbose) {message("get_eurostat_cache - The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
+        if (verbose) {message("\nget_eurostat_cache - The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
         return(readRDS(fname[file.exists(fname)][1])[])  
       } 
     } else {
       fname<-file.path(tempdir(),"restatapi",paste0(oname_all,".rds"))
       if (any(file.exists(fname))){
-        if (verbose) {message("get_eurostat_cache - The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
+        if (verbose) {message("\nget_eurostat_cache - The '",oname,"' was loaded from ",fname[file.exists(fname)][1],".")}
         return(readRDS(fname[file.exists(fname)][1])[])
       } else {
         return(NULL)

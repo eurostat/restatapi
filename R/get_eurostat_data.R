@@ -189,7 +189,9 @@ get_eurostat_data <- function(id,
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
-  # options(code_opt=NULL)
+  if (verbose) {message("\nget_eurostat_data - footer code option value at start:",getOption("code_opt",NULL))}
+  options(code_opt=NULL)
+  if (verbose) {message("get_eurostat_data - footer code option value after reset:",getOption("code_opt",NULL))}
   if(cflags){keep_flags<-cflags}
  
   if (!(exists(".restatapi_env"))) {load_cfg()}
@@ -372,7 +374,9 @@ get_eurostat_data <- function(id,
             if (tbc & !is.null(xml_foot)){
                 code<-xml2::xml_attr(xml_foot,"code")
                 if (length(code)!=0){
-                  message("The query had at least one footer message. You can check the details with the verbose=TRUE parameter.")
+                  notification<-"The query had at least one footer message."
+                  if (!verbose) {notification<-paste(notification,"You can check the details with the 'verbose=TRUE' parameter.")}
+                  message(notification)
                 }
                 severity<-xml2::xml_attr(xml_foot,"severity")
                 fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
@@ -403,13 +407,14 @@ get_eurostat_data <- function(id,
             if (file.exists(temp)) unlink(temp)
             if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}
         }),fill=TRUE)
+        if (verbose) {message("get_eurostat_data - footer code option value after retrieval:",getOption("code_opt",NULL))}
         if (!is.null(restat)) #at least one url provided a valid result => check if all the queries with data downloaded
         {
           if ((nrow(restat)==0)) #  if there is no data in the results 
           { 
-            if (all(getOption("code_opt",NULL)==500)) # no data for all the filters => stop processing by restat<-NULL
+            if (all(getOption("code_opt",NULL)==404)) # no data for all the filters => stop processing by restat<-NULL
             { 
-              message("500 - No data with the given filter(s)")
+              message("404 - No data retrived with the given filter(s)")
               restat<-NULL
             } else #there is some data but was not downloaded
             {   
@@ -452,7 +457,13 @@ get_eurostat_data <- function(id,
               if (nrow(restat)>0){message("The retrived dataset is partial!!!")}
               message("One or some of the filter(s) resulted too large datatset to download through the REST API. You may want to download the whole dataset and apply the filter(s) locally.")
             }
-          } 
+          } else if (any(getOption("code_opt",NULL)>=500)) #if there is some data but for some of the filters there is a warning that there is "internal application error" or "exception while getting all data and footnotes slice" or "Cannot connect to Comext service."
+          {
+            notification<-"One or some of the filter(s) resulted a warning or error footer message in the response of the REST API. The retrieved partial data is discarded."
+            if (!verbose) {notification<-paste(notification,"You can check the details rerunning the request with the 'verbose=TRUE' parameter.")}
+            message(notification)
+            restat<-NULL
+          }  
           cr<-FALSE # do not cahce filtered data only bulk datasets
         }
       }

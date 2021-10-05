@@ -1,3 +1,8 @@
+# restatapi 0.12.0
+
+- discarding partial data if the retrieval stopped due to "Internal application error", "Exception while getting all data and footnotes slice" or "Cannot connect to Comext service"
+- seprating blocks with conditions in testing
+
 # restatapi 0.11.3
 
 - using full URI path in README.md

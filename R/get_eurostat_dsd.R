@@ -65,7 +65,7 @@ get_eurostat_dsd <- function(id,
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$datastructure"))),"/DSD_",id)
       temp<-tempfile()
       if (verbose) {
-        message("get_eurostat_dsd - Trying to download the DSD from: ",dsd_endpoint)
+        message("\nget_eurostat_dsd - Trying to download the DSD from: ",dsd_endpoint)
         tryCatch({utils::download.file(dsd_endpoint,temp,dmethod)},
                  error = function(e) {
                    message("get_eurostat_dsd - Error by the download of the DSD file:",'\n',paste(unlist(e),collapse="\n"))

@@ -22,7 +22,7 @@ clean_restatapi_cache<-function(cache_dir=NULL,verbose=FALSE){
     td<-ls(envir=restatapi::.restatapi_env)
     td<-td[!(td %in% c("cfg","rav","cc","dmethod"))]
     rm(list=td,envir=restatapi::.restatapi_env)
-    if (verbose){message("clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.")}
+    if (verbose){message("\nclean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.")}
   }
   if (!is.null(cache_dir)){
     if (dir.exists(cache_dir)){
