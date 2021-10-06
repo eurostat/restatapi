@@ -27,9 +27,10 @@
 #'    options(restatapi_cores=2)
 #' }
 #' }
-#' dsd<-get_eurostat_dsd("nama_10_gdp",cache=FALSE,verbose=TRUE)
+#' \donttest{
+#' dsd<-get_eurostat_dsd("med_rd6",cache=FALSE,verbose=TRUE)
 #' head(dsd)
-#' 
+#' }
 
 get_eurostat_dsd <- function(id,
                              cache=TRUE,
