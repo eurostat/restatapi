@@ -374,7 +374,7 @@ if (!is.null(rd)){
   expect_equal(nrow(frd),9316)
 } else {no_check<-paste(no_check,"91-93",sep=", ")}
 
-if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
+if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   message("\n ########--------- 94 additional test of the get_eurostat_dsd function") 
   expect_true(system.time({get_eurostat_dsd(testid1)})[3]<system.time({get_eurostat_dsd(testid1,update_cache=TRUE,parallel=FALSE)})[3])
   
