@@ -1,3 +1,8 @@
+# restatapi 0.12.1
+
+- replacing example in the `extract_dsd()` fuction to reduce time for testing
+- checking the footer for code >=500 when the data table has 0 row
+
 # restatapi 0.12.0
 
 - discarding partial data if the retrieval stopped due to "Internal application error", "Exception while getting all data and footnotes slice" or "Cannot connect to Comext service"

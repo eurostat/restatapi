@@ -463,11 +463,11 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
   raw_xml<-get_eurostat_raw(testid6,"xml")
   raw_unmelted<-get_eurostat_raw(testid6,melt=FALSE)
   rt2<-system.time(raw_txt_check<-get_eurostat_raw(testid6,"txt",check_toc=TRUE))
-  if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_txt_check)){
-    message("\n ########--------- 109 additional tests for the get_eurostat_raw/bulk function")
-    expect_message(bulk<-get_eurostat_bulk(testid6))
-    message("\n ########--------- 110 additional tests for the get_eurostat_raw/bulk function")
-    expect_message(raw<-get_eurostat_raw(testid6,mode="text"))
+  message("\n ########--------- 109 additional tests for the get_eurostat_raw/bulk function")
+  expect_message(bulk<-get_eurostat_bulk(testid6))
+  message("\n ########--------- 110 additional tests for the get_eurostat_raw/bulk function")
+  expect_message(raw<-get_eurostat_raw(testid6,mode="text"))
+  if (!is.null(raw_txt)&!is.null(raw_xml)&!is.null(raw_unmelted)&!is.null(bulk)){
     message("\n ########--------- 111 additional tests for the get_eurostat_raw/bulk function")
     expect_equal(nrow(raw_xml),nrow(raw_txt))
     if (!is.null(xml_toc)){
@@ -488,7 +488,7 @@ if (grepl("\\.amzn|-aws",Sys.info()['release'])) {
     expect_true(ncol(raw_unmelted)>length(unique(bulk$time)))
     message("\n ########--------- 118 additional tests for the get_eurostat_raw/bulk function")
     expect_true(nrow(raw_txt)>nrow(bulk))
-  }  else {no_check<-paste(no_check,"109-118",sep=", ")}
+  }  else {no_check<-paste(no_check,"111-118",sep=", ")}
   clean_restatapi_cache()
   raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE,verbose=TRUE)
   bulk1<-get_eurostat_bulk(testid4,keep_flags=TRUE,verbose=TRUE)
