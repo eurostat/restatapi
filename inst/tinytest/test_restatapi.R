@@ -669,5 +669,5 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   
 }
 clean_restatapi_cache(tempdir(),verbose=TRUE)
-if (!is.null(no_check)) {message("There are skipped tests:",gsub("^,","",no_check))}
-cat("\nSkipped tests:", no_check)
+if (!is.null(no_check)) {message("\n\n\n\n\nThere are skipped tests:",gsub("^,","",no_check))}
+cat("\n\n\n\n\n\nSkipped tests:", no_check)

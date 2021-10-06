@@ -1,3 +1,8 @@
+# restatapi 0.12.2
+
+- not testing example for the `extract_dsd()` function
+- removing link to the SDMX website because of SSL error
+
 # restatapi 0.12.1
 
 - replacing example in the `extract_dsd()` fuction to reduce time for testing
