@@ -1,6 +1,11 @@
+# restatapi 0.12.3
+
+- adding timeout to examples
+
+
 # restatapi 0.12.2
 
-- not testing example for the `extract_dsd()` function
+- not testing example for the `extract_dsd()` and `create_filter_table()` function
 - removing link to the SDMX website because of SSL error
 
 # restatapi 0.12.1
