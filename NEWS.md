@@ -1,3 +1,7 @@
+# restatapi 0.12.4
+
+- correcting timeout of examples for the check with -run-donttest
+
 # restatapi 0.12.3
 
 - adding timeout to examples

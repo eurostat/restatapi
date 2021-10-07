@@ -2,7 +2,7 @@ Package: restatapi
 Type: Package
 Title: Search and Retrieve Data from Eurostat Database
 Date: 2021-10-07
-Version: 0.12.3
+Version: 0.12.4
 Encoding: UTF-8
 Authors@R: person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre"))
 Description: Eurostat is the statistical office of the European Union and provides high quality statistics for Europe.

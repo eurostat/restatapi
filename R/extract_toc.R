@@ -18,7 +18,8 @@
 #' \donttest{
 #' options(timeout=2)
 #' tryCatch(xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf"),
-#'          error = function(e) {xml_leafs<-NULL})
+#'          error = function(e) {xml_leafs<-NULL},
+#'          warning = function(w) {xml_leafs<-NULL})
 #' if (!is.null(xml_leafs)) restatapi::extract_toc(xml_leafs[1])
 #' options(timeout=60)
 #' }
