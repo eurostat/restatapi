@@ -147,8 +147,9 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     <pre class="examples"><div class='input'><span class='va'>base_url</span><span class='op'>&lt;-</span><span class='st'>"https://ec.europa.eu/eurostat/"</span>
 <span class='va'>url_end</span><span class='op'>&lt;-</span><span class='st'>"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"</span>
 <span class='va'>url</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>base_url</span>,<span class='va'>url_end</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>sdmx_xml</span><span class='op'>&lt;-</span><span class='fu'>get_compressed_sdmx</span><span class='op'>(</span><span class='va'>url</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
