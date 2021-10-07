@@ -164,6 +164,7 @@ If the input file has pre-filtered values then the value <code>FALSE</code> shou
 <span class='va'>id</span><span class='op'>&lt;-</span><span class='st'>"agr_r_milkpr"</span>
 <span class='va'>toc</span><span class='op'>&lt;-</span><span class='fu'><a href='get_eurostat_toc.html'>get_eurostat_toc</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>bulk_url</span><span class='op'>&lt;-</span><span class='va'>toc</span><span class='op'>$</span><span class='va'>downloadLink.sdmx</span><span class='op'>[</span><span class='va'>toc</span><span class='op'>$</span><span class='va'>code</span><span class='op'>==</span><span class='va'>id</span><span class='op'>]</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>bulk_url</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
   <span class='va'>temp</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span><span class='op'>(</span><span class='va'>bulk_url</span>,<span class='va'>temp</span><span class='op'>)</span>
@@ -173,6 +174,7 @@ If the input file has pre-filtered values then the value <code>FALSE</code> shou
   <span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='va'>temp</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>id</span>,<span class='st'>".sdmx.xml"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
 <span class='co'># }</span>
 
 </div></pre>

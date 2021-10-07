@@ -173,6 +173,7 @@ in this case the filters applied to the other columns of the <code>raw_data</cod
 <span class='co'># }</span>
 <span class='co'># \donttest{</span>
 <span class='va'>id</span><span class='op'>&lt;-</span><span class='st'>"tus_00age"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>rd</span><span class='op'>&lt;-</span><span class='fu'><a href='get_eurostat_raw.html'>get_eurostat_raw</a></span><span class='op'>(</span><span class='va'>id</span><span class='op'>)</span>
 <span class='va'>dsd</span><span class='op'>&lt;-</span><span class='fu'><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></span><span class='op'>(</span><span class='va'>id</span><span class='op'>)</span>
 <span class='va'>ft</span><span class='op'>&lt;-</span><span class='fu'><a href='create_filter_table.html'>create_filter_table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TIME_SP"</span>,<span class='st'>"Hungary"</span>,<span class='st'>'T'</span><span class='op'>)</span>,<span class='cn'>FALSE</span>,<span class='va'>dsd</span><span class='op'>)</span>
@@ -188,8 +189,8 @@ in this case the filters applied to the other columns of the <code>raw_data</cod
 #&gt; 389:    A TIME_SP   T Y_GE65  AC9B  HU 2010   0:00
 #&gt; 390:    A TIME_SP   T Y_GE65  AC9C  HU 2010   0:01
 #&gt; 391:    A TIME_SP   T Y_GE65  AC9D  HU 2010   0:09
-#&gt; 392:    A TIME_SP   T Y_GE65 TOTAL  HU 2010  24:00</div><div class='input'><span class='co'># }</span>
-
+#&gt; 392:    A TIME_SP   T Y_GE65 TOTAL  HU 2010  24:00</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
