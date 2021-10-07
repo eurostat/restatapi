@@ -30,6 +30,7 @@
 #'          In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
+#' options(timeout=2)
 #' load_cfg(parallel=FALSE)
 #' options(restatapi_dmethod="auto")
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
@@ -37,8 +38,9 @@
 #' eu<-get("cc",envir=.restatapi_env)
 #' eu$EU28
 #' eu$EA15
+#' options(timeout=60)
 #' }
-#' 
+
 
 load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)

@@ -57,10 +57,12 @@ if (parallel::detectCores()<=2){
 }    
 }
 \donttest{
-  head(search_eurostat_toc("energy",verbose=TRUE))
-  nrow(search_eurostat_toc("energy"))
-  head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
-  nrow(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
+options(timeout=2)
+head(search_eurostat_toc("energy",verbose=TRUE))
+nrow(search_eurostat_toc("energy"))
+head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
+nrow(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))
+options(timeout=60)
 }
 }
 \seealso{
