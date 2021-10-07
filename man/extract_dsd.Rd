@@ -31,6 +31,7 @@ if (parallel::detectCores()<=2){
 }
 \donttest{
 dsd_url<-"https://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_med_rd6"
+options(timeout=2)
 tryCatch({
   dsd_xml<-xml2::read_xml(dsd_url)}, 
   error=function(e){
@@ -38,5 +39,6 @@ tryCatch({
   warning=function(w){
   message("Unable to download the xml file.\n",w)}) 
 if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
+options(timeout=2)
 }
 }

@@ -31,12 +31,14 @@
 #' }
 #' \donttest{
 #' id<-"tus_00age"
+#' options(timeout=2)
 #' rd<-get_eurostat_raw(id)
 #' dsd<-get_eurostat_dsd(id)
 #' ft<-create_filter_table(c("TIME_SP","Hungary",'T'),FALSE,dsd)
 #' filter_raw_data(rd,ft)
+#' options(timeout=60)
 #' }
-#' 
+
 
 filter_raw_data<-function(raw_data=NULL,filter_table=NULL,date_filter=FALSE){
   .datatable.aware=TRUE

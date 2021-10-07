@@ -1,7 +1,7 @@
 # restatapi 0.12.3
 
 - adding timeout to examples
-
+- not testing example for the `search_eurostat_dsd()` and `create_filter_table()` function
 
 # restatapi 0.12.2
 

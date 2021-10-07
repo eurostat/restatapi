@@ -21,6 +21,7 @@
 #' id<-"agr_r_milkpr"
 #' toc<-get_eurostat_toc()
 #' bulk_url<-toc$downloadLink.sdmx[toc$code==id]
+#' options(timeout=2)
 #' if (!is.null(bulk_url)){
 #'   temp<-tempfile()
 #'   download.file(bulk_url,temp)
@@ -30,6 +31,7 @@
 #'   unlink(temp)
 #'   unlink(file.path(tempdir(),paste0(id,".sdmx.xml")))
 #' }
+#' options(timeout=60)
 #' }
 #' 
 

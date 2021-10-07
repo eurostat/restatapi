@@ -33,12 +33,15 @@
 #' cfg<-get("cfg",envir=restatapi::.restatapi_env) 
 #' rav<-get("rav",envir=restatapi::.restatapi_env)
 #' }
+#' \donttest{
+#' options(timeout=2)
 #' dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 #' search_eurostat_dsd("EU",dsd_example)
 #' search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)
 #' search_eurostat_dsd("EU27_2019",dsd_example,name=FALSE)
 #' search_eurostat_dsd("EU27_2019",dsd_example,exact_match=TRUE)
-#' 
+#' options(timeout=60)
+#' }
 
 
 search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,exact_match=FALSE,...) {
