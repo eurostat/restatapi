@@ -53,8 +53,10 @@ if (parallel::detectCores()<=2){
 }
 }
 \donttest{
+options(timeout=2)
 dsd<-get_eurostat_dsd("med_rd6",cache=FALSE,verbose=TRUE)
 head(dsd)
+options(timeout=60)
 }
 }
 \references{

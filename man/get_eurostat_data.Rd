@@ -167,6 +167,7 @@ if (parallel::detectCores()<=2){
 }    
 }
 \donttest{
+options(timeout=2)
 dt<-get_eurostat_data("NAMA_10_GDP")
 dt<-get_eurostat_data("htec_cis3",update_cache=TRUE,check_toc=TRUE)
 dt<-get_eurostat_data("agr_r_milkpr",cache_dir="/tmp",cflags=TRUE)
@@ -209,6 +210,7 @@ dt<-get_eurostat_data("bop_its6_det",
                        label=TRUE,
                        name=FALSE)
 clean_restatapi_cache("/tmp",verbose=TRUE)                                 
+options(timeout=60)
 }
 }
 \seealso{

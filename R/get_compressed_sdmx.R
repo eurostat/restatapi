@@ -10,8 +10,9 @@
 #' base_url<-"https://ec.europa.eu/eurostat/"
 #' url_end<-"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"
 #' url<-paste0(base_url,url_end)
+#' options(timeout=2)
 #' sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE)
-#' 
+#' options(timeout=60)
 
 get_compressed_sdmx<-function(url=NULL,verbose=FALSE){
   xml<-xml_fajl<-NULL
