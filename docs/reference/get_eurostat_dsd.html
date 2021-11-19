@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.5</span>
       </span>
     </div>
 
@@ -143,11 +143,11 @@
     </tr>
     <tr>
       <th>update_cache</th>
-      <td><p>a boolean to update cache or not. The default value is <code>FALSE</code>, so the cache is not updated. Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_update=TRUE)</a></code></p></td>
+      <td><p>a boolean to update cache or not. The default value is <code>FALSE</code>, so the cache is not updated. Can be set also with <code>options(restatapi_update=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>cache_dir</th>
-      <td><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> to save the RDS-file. Directory can also be set with <code><a href='https://rdrr.io/r/base/options.html'>option(restatapi_cache_dir=...)</a></code>.</p></td>
+      <td><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> to save the RDS-file. Directory can also be set with <code>option(restatapi_cache_dir=...)</code>.</p></td>
     </tr>
     <tr>
       <th>compress_file</th>
@@ -156,7 +156,7 @@
     <tr>
       <th>verbose</th>
       <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -184,27 +184,30 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     <div class='dont-index'><p><code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>, <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># }</span>
-<span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>dsd</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_dsd</span><span class='op'>(</span><span class='st'>"med_rd6"</span>,cache<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>get_eurostat_dsd - Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_med_rd6</span></div><div class='output co'>#&gt; <span class='message'>Trying to extract the DSD from: /tmp/RtmprzUGNv/file1ab4d20ba3e</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>dsd</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   concept code        name
-#&gt; 1    FREQ    D       Daily
-#&gt; 2    FREQ    W      Weekly
-#&gt; 3    FREQ    Q   Quarterly
-#&gt; 4    FREQ    A      Annual
-#&gt; 5    FREQ    S Semi-annual
-#&gt; 6    FREQ    M     Monthly</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dsd</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_dsd</span><span class='op'>(</span><span class='st'>"med_rd6"</span>,cache<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_med_rd6</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Trying to extract the DSD from: /tmp/RtmpNsmeMq/file1aa45dba646</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>dsd</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   concept code        name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    FREQ    D       Daily</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    FREQ    W      Weekly</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    FREQ    Q   Quarterly</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    FREQ    A      Annual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    FREQ    S Semi-annual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    FREQ    M     Monthly</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

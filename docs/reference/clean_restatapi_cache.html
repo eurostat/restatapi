@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.5</span>
       </span>
     </div>
 
@@ -131,23 +131,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>cache_dir</th>
-      <td><p>a path to cache directory. If <code>NULL</code> (default) it will clean default temporary cache directory (<code><a href='https://rdrr.io/r/base/file.path.html'>file.path(tempdir(),"restatapi")</a></code>). The default 
-cache directory is used when the provided <code>cache_dir</code> does not exist. Directory can also be set with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_cache_dir=...)</a></code>.</p></td>
+      <td><p>a path to cache directory. If <code>NULL</code> (default) it will clean default temporary cache directory (<code>file.path(tempdir(),"restatapi")</code>). The default 
+cache directory is used when the provided <code>cache_dir</code> does not exist. Directory can also be set with <code>options(restatapi_cache_dir=...)</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>a logical value with default <code>FALSE</code>, so detailed messages (for debugging) will not be printed. Can be set also with
-<code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+<code>options(restatapi_verbose=TRUE)</code></p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>clean_restatapi_cache</span><span class='op'>(</span>verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'>clean_restatapi_cache</span><span class='op'>(</span>verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
