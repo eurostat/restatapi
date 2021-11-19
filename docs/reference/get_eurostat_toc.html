@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.5</span>
       </span>
     </div>
 
@@ -145,11 +145,11 @@ The deafult value is <code>xml</code> as it provides more information (e.g. numb
     </tr>
     <tr>
       <th>update_cache</th>
-      <td><p>a boolean to update cache or not. The default value is <code>FALSE</code>, so the cache is not updated. Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_update=TRUE)</a></code></p></td>
+      <td><p>a boolean to update cache or not. The default value is <code>FALSE</code>, so the cache is not updated. Can be set also with <code>options(restatapi_update=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>cache_dir</th>
-      <td><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> to save the RDS- file. Directory can also be set with <code><a href='https://rdrr.io/r/base/options.html'>option(restatapi_cache_dir=...)</a></code>.</p></td>
+      <td><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> to save the RDS- file. Directory can also be set with <code>option(restatapi_cache_dir=...)</code>.</p></td>
     </tr>
     <tr>
       <th>compress_file</th>
@@ -162,7 +162,7 @@ The deafult value is <code>xml</code> as it provides more information (e.g. numb
     <tr>
       <th>verbose</th>
       <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -209,76 +209,81 @@ Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options
     <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>, <code><a href='get_eurostat_dsd.html'>get_eurostat_dsd</a></code>, <code><a href='get_eurostat_raw.html'>get_eurostat_raw</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code>, <code><a href='get_eurostat_data.html'>get_eurostat_data</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>    
-<span class='co'># }</span>
-<span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>toc_xml</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>cache<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_xml</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                           title         code    type lastUpdate lastModified
-#&gt; 1      Consumers - monthly data    ei_bsco_m dataset 2021.09.29   2021.09.29
-#&gt; 2    Consumers - quarterly data    ei_bsco_q dataset 2021.09.29   2021.07.29
-#&gt; 3       Industry - monthly data ei_bsin_m_r2 dataset 2021.09.29   2021.09.29
-#&gt; 4     Industry - quarterly data ei_bsin_q_r2 dataset 2021.09.29   2021.07.29
-#&gt; 5   Construction - monthly data ei_bsbu_m_r2 dataset 2021.09.29   2021.09.29
-#&gt; 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2021.09.29   2021.07.29
-#&gt;   dataStart dataEnd values unit shortDescription
-#&gt; 1   1980M01 2021M09 284580                      
-#&gt; 2    1990Q1  2021Q3  19344                      
-#&gt; 3   1980M01 2021M09 196680                      
-#&gt; 4    1980Q1  2021Q3  97096                      
-#&gt; 5   1980M01 2021M09 244619                      
-#&gt; 6    1981Q1  2021Q3   6662                      
-#&gt;                                                     metadata.html
-#&gt; 1 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt; 2 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt; 3 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt; 4 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt; 5 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt; 6 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm
-#&gt;                                                                                                     metadata.sdmx
-#&gt; 1 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt; 2 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip
-#&gt;                                                                                             downloadLink.tsv
-#&gt; 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.tsv.gz
-#&gt; 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.tsv.gz
-#&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.tsv.gz
-#&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.tsv.gz
-#&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.tsv.gz
-#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.tsv.gz
-#&gt;                                                                                              downloadLink.sdmx
-#&gt; 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.sdmx.zip
-#&gt; 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.sdmx.zip
-#&gt; 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.sdmx.zip
-#&gt; 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.sdmx.zip
-#&gt; 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.sdmx.zip
-#&gt; 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</div><div class='input'><span class='va'>toc_txt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>mode<span class='op'>=</span><span class='st'>"txt"</span>, lang<span class='op'>=</span><span class='st'>"de"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_txt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                   title         code    type lastUpdate
-#&gt; 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2021.09.29
-#&gt; 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2021.09.29
-#&gt; 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2021.09.29
-#&gt; 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2021.09.29
-#&gt; 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2021.09.29
-#&gt; 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2021.09.29
-#&gt;    lastModified dataStart dataEnd values
-#&gt; 6    2021.09.29   1980M01 2021M09     NA
-#&gt; 7    2021.07.29    1990Q1  2021Q3     NA
-#&gt; 9    2021.09.29   1980M01 2021M09     NA
-#&gt; 10   2021.07.29    1980Q1  2021Q3     NA
-#&gt; 11   2021.09.29   1980M01 2021M09     NA
-#&gt; 12   2021.07.29    1981Q1  2021Q3     NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span>    </span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>toc_xml</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>cache<span class='op'>=</span><span class='cn'>FALSE</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> xml_nodeset</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>  number of nodes: 8736</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_xml</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                           title         code    type lastUpdate lastModified</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      Consumers - monthly data    ei_bsco_m dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    Consumers - quarterly data    ei_bsco_q dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3       Industry - monthly data ei_bsin_m_r2 dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     Industry - quarterly data ei_bsin_q_r2 dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   Construction - monthly data ei_bsbu_m_r2 dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 Construction - quarterly data ei_bsbu_q_r2 dataset 2021.10.28   2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   dataStart dataEnd values unit shortDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   1980M01 2021M10 285434                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    1990Q1  2021Q4  19543                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   1980M01 2021M10 197224                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    1980Q1  2021Q4  97846                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   1980M01 2021M10 245435                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    1981Q1  2021Q4   6730                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                     metadata.html</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 https://ec.europa.eu/eurostat/cache/metadata/en/ei_bcs_esms.htm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                     metadata.sdmx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=metadata/ei_bcs_esms.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                             downloadLink.tsv</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.tsv.gz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                              downloadLink.sdmx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_m.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsco_q.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_m_r2.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsin_q_r2.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_m_r2.sdmx.zip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_bsbu_q_r2.sdmx.zip</span>
+<span class='r-in'><span class='va'>toc_txt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_toc</span><span class='op'>(</span>mode<span class='op'>=</span><span class='st'>"txt"</span>, lang<span class='op'>=</span><span class='st'>"de"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>toc_txt</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                   title         code    type lastUpdate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6        Verbraucher - monatliche Daten    ei_bsco_m dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  Verbraucher - vierteljährliche Daten    ei_bsco_q dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9          Industrie - monatliche Daten ei_bsin_m_r2 dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   Industrie - vierteljährliche Daten ei_bsin_q_r2 dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11        Baugewerbe - monatliche Daten ei_bsbu_m_r2 dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12  Baugewerbe - vierteljährliche Daten ei_bsbu_q_r2 dataset 2021.10.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    lastModified dataStart dataEnd values</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    2021.10.28   1980M01 2021M10     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    2021.10.28    1990Q1  2021Q4     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    2021.10.28   1980M01 2021M10     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   2021.10.28    1980Q1  2021Q4     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11   2021.10.28   1980M01 2021M10     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12   2021.10.28    1981Q1  2021Q4     NA</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

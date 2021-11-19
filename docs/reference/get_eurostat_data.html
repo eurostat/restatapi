@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.12.5</span>
       </span>
     </div>
 
@@ -192,14 +192,14 @@ only queries without filtering. If <code>filters</code> or <code>date_filter</co
     <tr>
       <th>update_cache</th>
       <td><p>a logical with a default value <code>FALSE</code>, whether to update the data in the cache. Can be set also with
-<code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_update=TRUE)</a></code></p></td>
+<code>options(restatapi_update=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>cache_dir</th>
       <td><p>a path to a cache directory. The <code>NULL</code> (default) uses the memory as cache. 
 If the folder <code>cache_dir</code> directory does not exist it saves in the 'restatapi' directory 
 under the temporary directory from <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>. Directory can also be set with
-<code><a href='https://rdrr.io/r/base/options.html'>option(restatapi_cache_dir=...)</a></code>.</p></td>
+<code>option(restatapi_cache_dir=...)</code>.</p></td>
     </tr>
     <tr>
       <th>compress_file</th>
@@ -246,7 +246,7 @@ but it is fully listed in the raw dataset.</p></td>
     <tr>
       <th>verbose</th>
       <td><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
-Can be set also with <code><a href='https://rdrr.io/r/base/options.html'>options(restatapi_verbose=TRUE)</a></code></p></td>
+Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -285,13 +285,13 @@ If only the table <code>id</code> is given, the whole table is downloaded from t
 bulk download facility. If also <code>filters</code> or <code>date_filter</code> is defined then the SDMX REST API is
 used. In case after filtering the dataset has more rows than the limitation of the SDMX REST API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .</p>
 <p>By default all datasets cached as they are often rather large. 
-The datasets cached in memory (default) or can be stored in a temporary directory if <code>cache_dir</code> or <code><a href='https://rdrr.io/r/base/options.html'>option(restatpi_cache_dir)</a></code> is defined.
+The datasets cached in memory (default) or can be stored in a temporary directory if <code>cache_dir</code> or <code>option(restatpi_cache_dir)</code> is defined.
 The cache can be emptied with <code><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></code>.</p>
 <p>The <code>id</code>, is a value from the <code>code</code> column of the table of contents (<code><a href='get_eurostat_toc.html'>get_eurostat_toc</a></code>), and can be searched 
 for with the <code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code> function. The id value can be retrieved from the <a href='https://ec.europa.eu/eurostat/data/database'>Eurostat database</a>
  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.</p>
 <p>Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like <code><a href='https://rdrr.io/r/base/c.html'>c("AT$","Belgium","persons","Total")</a></code>. 
+If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like <code>c("AT$","Belgium","persons","Total")</code>. 
 Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option <code>ignore.case=TRUE</code> and <code>exact_match=FALSE</code>, 
 but in this case the results may include unwanted elements as well. In the <code>filters</code> parameter regular expressions can be used as well. 
 We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD.</p>
@@ -300,70 +300,94 @@ We do not have to worry about the correct order of the filter, it will be put in
 The string can be extended by adding the "&lt;" or "&gt;" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
 A single date range can be defined as well by concatenating two dates with the ":", e.g. <code>"2016-08:2017-03-15"</code>. As seen in the example the dates can have different length: one defined only at year/month level, the other by day level. 
 If a date range is defined with ":", it is not possible to use the "&lt;" or "&gt;" characters in the date filter.
-If there are multiple dates which is not a continuous range, it can be put in vector in any order like <code><a href='https://rdrr.io/r/base/c.html'>c("2016-08",2013:2015,"2017-07-01")</a></code>. In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
+If there are multiple dates which is not a continuous range, it can be put in vector in any order like <code>c("2016-08",2013:2015,"2017-07-01")</code>. In this case, as well, it is  not possible to use the  "&lt;" or "&gt;" characters.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='search_eurostat_toc.html'>search_eurostat_toc</a></code>, <code><a href='search_eurostat_dsd.html'>search_eurostat_dsd</a></code>, <code><a href='get_eurostat_bulk.html'>get_eurostat_bulk</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>eu</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='st'>"cc"</span>,envir<span class='op'>=</span><span class='fu'>restatapi</span><span class='fu'>::</span><span class='va'><a href='.restatapi_env.html'>.restatapi_env</a></span><span class='op'>)</span>
-
-<span class='co'># \dontshow{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span>
-   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>    
-<span class='co'># }</span>
-<span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"NAMA_10_GDP"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: incomplete final line found on '/tmp/RtmprzUGNv/file1ab6e37d7b1'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded single-line footer: &lt;&lt;CP_MPPS_EU27_2020,P6,LU	&gt;&gt;</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,update_cache<span class='op'>=</span><span class='cn'>TRUE</span>,check_toc<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,cache_dir<span class='op'>=</span><span class='st'>"/tmp"</span>,cflags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_update<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cache_dir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"restatapi"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_gonc"</span>,select_freq<span class='op'>=</span><span class='st'>"A"</span>,cache<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Could not download the DSD. The filter is ignored</span></div><div class='output co'>#&gt; <span class='message'>None of the filter could be applied. The whole dataset will be retrieved through bulk download.</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,date_filter<span class='op'>=</span><span class='fl'>2008</span>,keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>404 - No data retrived with the given filter(s)</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,
-                      filters<span class='op'>=</span><span class='st'>"BE$"</span>,
-                      exact_match<span class='op'>=</span><span class='cn'>FALSE</span>,
-                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,
-                      select_freq<span class='op'>=</span><span class='st'>"Q"</span>,
-                      label<span class='op'>=</span><span class='cn'>TRUE</span>,
-                      name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,
-                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span><span class='op'>)</span>,
-                      date_filter<span class='op'>=</span><span class='st'>"2007-06&lt;"</span>,
-                      keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>404 - No data retrived with the given filter(s)</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"nama_10_a10_e"</span>,
-                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span><span class='op'>)</span>,
-                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span><span class='op'>:</span><span class='fl'>2018</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Could not download the DSD. The filter is ignored</span></div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span></div><div class='output co'>#&gt; <span class='message'>No data retrieved for the given filter(s), because the results are too big to download immediately through the REST API. The whole dataset is downloaded through the raw download and the filters are applied locally.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"vit_t3"</span>,
-                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='va'>eu</span><span class='op'>$</span><span class='va'>EA15</span>,<span class='st'>"HU$"</span><span class='op'>)</span>,
-                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015"</span>,<span class='fl'>2007</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Could not download the DSD. The filter is ignored</span></div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span></div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>404 - No data retrived with the given filter(s)</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,
-                      filters<span class='op'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
-                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,
-                      select_freq<span class='op'>=</span><span class='st'>"M"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span></div><div class='output co'>#&gt; <span class='message'>The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span></div><div class='output co'>#&gt; <span class='message'>One or some of the filter(s) resulted a warning or error footer message in the response of the REST API. The retrieved partial data is discarded. You can check the details rerunning the request with the 'verbose=TRUE' parameter.</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,
-                       filters<span class='op'>=</span><span class='st'>"lu"</span>,
-                       ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; <span class='message'>Problem by the extraction of the footer information from the xml_file.</span></div><div class='output co'>#&gt; <span class='message'>404 - No data retrived with the given filter(s)</span></div><div class='input'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"bop_its6_det"</span>,
-                       filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>bop_item<span class='op'>=</span><span class='st'>"SC"</span>,
-                                    currency<span class='op'>=</span><span class='st'>"MIO_EUR"</span>,
-                                    partner<span class='op'>=</span><span class='st'>"EXT_EU28"</span>,
-                                    geo<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='st'>"HU"</span><span class='op'>)</span>,
-                                    stk_flow<span class='op'>=</span><span class='st'>"BAL"</span><span class='op'>)</span>,
-                       date_filter<span class='op'>=</span><span class='st'>"2010:2012"</span>,
-                       select_freq<span class='op'>=</span><span class='st'>"A"</span>,
-                       label<span class='op'>=</span><span class='cn'>TRUE</span>,
-                       name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></span><span class='op'>(</span><span class='st'>"/tmp"</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>                                 
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span></div><div class='output co'>#&gt; <span class='message'>clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmprzUGNv/restatapi</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='load_cfg.html'>load_cfg</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>eu</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span><span class='op'>(</span><span class='st'>"cc"</span>,envir<span class='op'>=</span><span class='fu'>restatapi</span><span class='fu'>::</span><span class='va'><a href='.restatapi_env.html'>.restatapi_env</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>&lt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='kw'>else</span><span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cores<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span>    </span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"NAMA_10_GDP"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>incomplete final line found on '/tmp/RtmpNsmeMq/file1aa3a245f7a'</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Discarded single-line footer: &lt;&lt;CP_MPPS,D31,CZ	: 	5443.1 	52&gt;&gt;</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,update_cache<span class='op'>=</span><span class='cn'>TRUE</span>,check_toc<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,cache_dir<span class='op'>=</span><span class='st'>"/tmp"</span>,cflags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_update<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>restatapi_cache_dir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,<span class='st'>"restatapi"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_gonc"</span>,select_freq<span class='op'>=</span><span class='st'>"A"</span>,cache<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,date_filter<span class='op'>=</span><span class='fl'>2008</span>,keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,</span>
+<span class='r-in'>                      filters<span class='op'>=</span><span class='st'>"BE$"</span>,</span>
+<span class='r-in'>                      exact_match<span class='op'>=</span><span class='cn'>FALSE</span>,</span>
+<span class='r-in'>                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2016</span>,<span class='st'>"2017-03"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      select_freq<span class='op'>=</span><span class='st'>"Q"</span>,</span>
+<span class='r-in'>                      label<span class='op'>=</span><span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                      name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"agr_r_milkpr"</span>,</span>
+<span class='r-in'>                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BE$"</span>,<span class='st'>"Hungary"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      date_filter<span class='op'>=</span><span class='st'>"2007-06&lt;"</span>,</span>
+<span class='r-in'>                      keep_flags<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"nama_10_a10_e"</span>,</span>
+<span class='r-in'>                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Annual"</span>,<span class='st'>"EU28"</span>,<span class='st'>"Belgium"</span>,<span class='st'>"AT"</span>,<span class='st'>"Total"</span>,<span class='st'>"EMP_DC"</span>,<span class='st'>"person"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2008"</span>,<span class='fl'>2002</span>,<span class='fl'>2013</span><span class='op'>:</span><span class='fl'>2018</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"vit_t3"</span>,</span>
+<span class='r-in'>                      filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='va'>eu</span><span class='op'>$</span><span class='va'>EA15</span>,<span class='st'>"HU$"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2015"</span>,<span class='fl'>2007</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"avia_par_me"</span>,</span>
+<span class='r-in'>                      filters<span class='op'>=</span><span class='st'>"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,</span>
+<span class='r-in'>                      date_filter<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2016-08"</span>,<span class='st'>"2017-07-01"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      select_freq<span class='op'>=</span><span class='st'>"M"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"htec_cis3"</span>,</span>
+<span class='r-in'>                       filters<span class='op'>=</span><span class='st'>"lu"</span>,</span>
+<span class='r-in'>                       ignore.case<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> 404 - No data retrived with the given filter(s)</span>
+<span class='r-in'><span class='va'>dt</span><span class='op'>&lt;-</span><span class='fu'>get_eurostat_data</span><span class='op'>(</span><span class='st'>"bop_its6_det"</span>,</span>
+<span class='r-in'>                       filters<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>bop_item<span class='op'>=</span><span class='st'>"SC"</span>,</span>
+<span class='r-in'>                                    currency<span class='op'>=</span><span class='st'>"MIO_EUR"</span>,</span>
+<span class='r-in'>                                    partner<span class='op'>=</span><span class='st'>"EXT_EU28"</span>,</span>
+<span class='r-in'>                                    geo<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EU28"</span>,<span class='st'>"HU"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                    stk_flow<span class='op'>=</span><span class='st'>"BAL"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                       date_filter<span class='op'>=</span><span class='st'>"2010:2012"</span>,</span>
+<span class='r-in'>                       select_freq<span class='op'>=</span><span class='st'>"A"</span>,</span>
+<span class='r-in'>                       label<span class='op'>=</span><span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                       name<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='clean_restatapi_cache.html'>clean_restatapi_cache</a></span><span class='op'>(</span><span class='st'>"/tmp"</span>,verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>                                 </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmpNsmeMq/restatapi</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>timeout<span class='op'>=</span><span class='fl'>60</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
