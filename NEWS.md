@@ -1,10 +1,12 @@
 # restatapi 0.12.7
 
 - correction of parallel processing under Windows in the `get_eurostat_dsd()`, `get_eurostat_raw()` and `get_eurostat_data()` functions
+- correction of the example for the `extract_toc()` function under Windows
 
 # restatapi 0.12.6
 
 - correction of parallel processing under Windows in the `get_eurostat_toc()` function
+- additional debug messages
 
 # restatapi 0.12.5
 
