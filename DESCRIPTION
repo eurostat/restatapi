@@ -16,7 +16,7 @@ Suggests: chron, knitr, rmarkdown, tinytest
 NeedsCompilation: no
 URL: https://github.com/eurostat/restatapi
 BugReports: https://github.com/eurostat/restatapi/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Packaged: 2021-10-06 08:46:52 UTC; mmeszaros
 Author: Mátyás Mészáros [aut, cre]
 Maintainer: Mátyás Mészáros <matyas.meszaros@ec.europa.eu>

@@ -391,13 +391,19 @@ get_eurostat_data <- function(id,
             }
             if(tbc){
               tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
+                        if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
                         if (Sys.info()[['sysname']]=='Windows'){
-                          xml_leafs<-as.character(xml_leafs)
-                          cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
-                          parallel::clusterEvalQ(cl,require(xml2))
-                          parallel::clusterExport(cl,c("extract_data"))
-                          rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
-                          parallel::stopCluster(cl)
+                          if (getOption("restatapi_cores",1L)==1) {
+                            if (verbose) message("No parallel")
+                            restat_raw<-lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE)
+                          } else{
+                            xml_leafs<-as.character(xml_leafs)
+                            cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
+                            parallel::clusterEvalQ(cl,require(xml2))
+                            parallel::clusterExport(cl,c("extract_data"))
+                            rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
+                            parallel::stopCluster(cl)
+                          }  
                         }else{
                           rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
                         }

@@ -1,3 +1,15 @@
+# restatapi 0.12.7
+
+- correction of parallel processing under Windows in the `get_eurostat_dsd()`, `get_eurostat_raw()` and `get_eurostat_data()` functions
+
+# restatapi 0.12.6
+
+- correction of parallel processing under Windows in the `get_eurostat_toc()` function
+
+# restatapi 0.12.5
+
+- temporary fix for the error in Windows in the `get_eurostat_toc()` function by turning of parallel if `restatapi_cores==1`
+
 # restatapi 0.12.4
 
 - correcting timeout of examples for the check with -run-donttest

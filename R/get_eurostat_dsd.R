@@ -110,13 +110,19 @@ get_eurostat_dsd <- function(id,
       if (!is.null(dsd_xml)){
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
         if (Sys.info()[['sysname']]=='Windows'){
-          dsd_xml<-as.character(dsd_xml)
-          cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-          parallel::clusterEvalQ(cl,require(xml2))
-          parallel::clusterExport(cl,c("extract_dsd"))
-          parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
-          dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
-          parallel::stopCluster(cl)
+          if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+          if (getOption("restatapi_cores",1L)==1) {
+            if (verbose) message("No parallel")
+            dsd<-lapply(concepts,extract_dsd,dsd_xml=dsd_xml)
+          } else {
+            dsd_xml<-as.character(dsd_xml)
+            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+            parallel::clusterEvalQ(cl,require(xml2))
+            parallel::clusterExport(cl,c("extract_dsd"))
+            parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
+            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+            parallel::stopCluster(cl)
+          }
         }else{
           dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         }  

@@ -240,13 +240,19 @@ get_eurostat_raw <- function(id,
         sdmx_file<-get_compressed_sdmx(bulk_url,verbose=verbose)
         if(!is.null(sdmx_file)){
           xml_leafs<-xml2::xml_find_all(sdmx_file,".//data:Series")
+          if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (Sys.info()[['sysname']]=='Windows'){
-            xml_leafs<-as.character(xml_leafs)
-            cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-            parallel::clusterEvalQ(cl,require(xml2))
-            parallel::clusterExport(cl,c("extract_data"))
-            restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
-            parallel::stopCluster(cl)
+            if (getOption("restatapi_cores",1L)==1) {
+              if (verbose) message("No parallel")
+              restat_raw<-lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors)
+            } else {
+              xml_leafs<-as.character(xml_leafs)
+              cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
+              parallel::clusterEvalQ(cl,require(xml2))
+              parallel::clusterExport(cl,c("extract_data"))
+              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
+              parallel::stopCluster(cl)  
+            }
           }else{
             restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
           }
