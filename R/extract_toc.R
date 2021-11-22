@@ -26,6 +26,6 @@
 #' 
 
 extract_toc<-function(ns){
-  # if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
+  if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
   sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(ns)),perl=TRUE))
 }

@@ -133,15 +133,17 @@ get_eurostat_toc<-function(mode="xml",
       if ((tbc)){
         if (!is.null(xml_leafs)){
           if (length(xml_leafs)>0){
-            if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n",environmentName(environment()))}
+            if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
             if (Sys.info()[['sysname']]=='Windows'){
               if (getOption("restatapi_cores",1L)==1) {
                 leafs<-lapply(xml_leafs,extract_toc)
                 if (verbose) message("No parallel")
               } else {
                 tryCatch({cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
-                parallel::clusterEvalQ(cl,require(xml2))
-                parallel::clusterEvalQ(cl,require(restatapi))
+                parallel::clusterEvalQ(cl,{
+                  require(xml2)
+                  # require(restatapi)
+                })
                 parallel::clusterExport(cl,c("xml_leafs"))
                 leafs<-parallel::parLapply(cl,as.character(xml_leafs),extract_toc)
                 parallel::stopCluster(cl)},
@@ -191,3 +193,5 @@ get_eurostat_toc<-function(mode="xml",
   }
   return(toc)  
 }
+
+
