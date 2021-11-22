@@ -113,7 +113,7 @@ get_eurostat_dsd <- function(id,
           if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (getOption("restatapi_cores",1L)==1) {
             if (verbose) message("No parallel")
-            dsd<-lapply(concepts,extract_dsd,dsd_xml=dsd_xml)
+            dsd<-data.frame(do.call(rbind,lapply(concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
           } else {
             dsd_xml<-as.character(dsd_xml)
             cl<-parallel::makeCluster(getOption("restatapi_cores",1L))

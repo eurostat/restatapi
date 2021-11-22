@@ -244,7 +244,7 @@ get_eurostat_raw <- function(id,
           if (Sys.info()[['sysname']]=='Windows'){
             if (getOption("restatapi_cores",1L)==1) {
               if (verbose) message("No parallel")
-              restat_raw<-lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors)
+              restat_raw<-data.table::rbindlist(lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
             } else {
               xml_leafs<-as.character(xml_leafs)
               cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
