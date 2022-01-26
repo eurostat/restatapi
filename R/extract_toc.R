@@ -21,16 +21,16 @@
 #'          error = function(e) {xml_leafs<-""},
 #'          warning = function(w) {xml_leafs<-""})
 #' if (exists("xml_leafs")){
-#'   if (Sys.info()[['sysname']]=='Windows') {
-#'     xml_node<-as.character(xml_leafs[1])
-#'   } else {
-#'     xml_node<-xml_leafs[1]
-#'   }
-#'   restatapi::extract_toc(xml_node)
+#'    if (Sys.info()[['sysname']]=='Windows'){ 
+#'       xml_node<-as.character(xml_leafs[1])
+#'    }else{
+#'       xml_node<-xml_leafs[1]
+#'    }
+#'    restatapi::extract_toc(xml_node)
 #' }
 #' options(timeout=60)
 #' }
-#' 
+
 
 extract_toc<-function(ns){
   if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}

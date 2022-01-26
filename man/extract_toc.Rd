@@ -35,14 +35,13 @@ tryCatch(xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf"
          error = function(e) {xml_leafs<-""},
          warning = function(w) {xml_leafs<-""})
 if (exists("xml_leafs")){
-  if (Sys.info()[['sysname']]=='Windows') {
-    xml_node<-as.character(xml_leafs[1])
-  } else {
-    xml_node<-xml_leafs[1]
-  }
-  restatapi::extract_toc(xml_node)
+   if (Sys.info()[['sysname']]=='Windows'){ 
+      xml_node<-as.character(xml_leafs[1])
+   }else{
+      xml_node<-xml_leafs[1]
+   }
+   restatapi::extract_toc(xml_node)
 }
 options(timeout=60)
 }
-
 }
