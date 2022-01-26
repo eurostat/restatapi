@@ -209,15 +209,15 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span class="co"># \donttest{</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"NAMA_10_GDP"</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/Rtmp6Wnp1T/file1b05a5dc81a'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CLV_I15,B1G,CZ	: 	108.405 	114.831 	111.479 	107.829 	102.498 	100.000 	95.400 	92.749 	92.764 	93.549 	91.934 	89.254 	94.229 	90.978 	86.410 	80.546 	75.433 	71.941 	69.863 	68.476 	66.436 	63.712 	62.814 	63.&gt;&gt;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/Rtmpx44plu/file1ab57643b68'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CP_MPPS_EU27_2020,B1GQ,NL	: 	690743.4 p	&gt;&gt;</span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"htec_cis3"</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="st">"/tmp"</span>,cflags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"restatapi"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"avia_gonc"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,cache<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not download the DSD. The filter is ignored</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> None of the filter could be applied. The whole dataset will be retrieved through bulk download.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,date_filter<span class="op">=</span><span class="fl">2008</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
@@ -262,7 +262,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="st">"/tmp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                                 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/Rtmp6Wnp1T/restatapi</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/Rtmpx44plu/restatapi</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
