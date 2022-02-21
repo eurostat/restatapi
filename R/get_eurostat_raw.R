@@ -113,7 +113,7 @@ get_eurostat_raw <- function(id,
   }
   if (tbc){
     if (check_toc){
-      toc<-get_eurostat_toc(verbose=verbose)
+      toc<-restatapi::get_eurostat_toc(verbose=verbose)
       if (is.null(toc)){
         message("The TOC is missing. Could not get the download link.")
         tbc<-FALSE
@@ -157,7 +157,7 @@ get_eurostat_raw <- function(id,
   
   if (tbc){
     if ((cache)&(!update_cache)) {
-      restat_raw<-data.table::copy(get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
+      restat_raw<-data.table::copy(restatapi::get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
     }
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
       if (mode=="txt"){
@@ -237,7 +237,7 @@ get_eurostat_raw <- function(id,
         }
         
       } else if (mode=="xml"){
-        sdmx_file<-get_compressed_sdmx(bulk_url,verbose=verbose)
+        sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose)
         if(!is.null(sdmx_file)){
           xml_leafs<-xml2::xml_find_all(sdmx_file,".//data:Series")
           if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
@@ -287,7 +287,7 @@ get_eurostat_raw <- function(id,
         
     if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))|child_cache)){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))
-      pl<-put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
+      pl<-restatapi::put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
       if ((!is.null(pl))&(verbose)) {message("get_eurostat_raw - The raw data was cached ",pl,".\n" )}
     }
   }

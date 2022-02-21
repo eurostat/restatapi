@@ -60,7 +60,7 @@ get_eurostat_dsd <- function(id,
     }
     update_cache <- update_cache | getOption("restatapi_update", FALSE)
     if ((cache) & (!update_cache)) {
-      dsd<-get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
+      dsd<-restatapi::get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
     }
     if ((!cache)|(is.null(dsd))|(update_cache)){
       cfg<-get("cfg",envir=restatapi::.restatapi_env) 
@@ -113,22 +113,23 @@ get_eurostat_dsd <- function(id,
           if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (getOption("restatapi_cores",1L)==1) {
             if (verbose) message("No parallel")
-            dsd<-data.frame(do.call(rbind,lapply(concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+            dsd<-data.frame(do.call(rbind,lapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
           } else {
             dsd_xml<-as.character(dsd_xml)
             cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
             parallel::clusterEvalQ(cl,require(xml2))
+            parallel::clusterEvalQ(cl,require(restatapi))
             parallel::clusterExport(cl,c("extract_dsd"))
             parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
-            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
+            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
             parallel::stopCluster(cl)
           }
         }else{
-          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         }  
         names(dsd)<-c("concept","code","name")
         if (cache){
-          pl<-put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
+          pl<-restatapi::put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
           if (verbose) {message("get_eurostat_dsd - The DSD of the ",id," dataset was cached ",pl,".\n")}
         }  
       } else {

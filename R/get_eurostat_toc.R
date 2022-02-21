@@ -81,7 +81,7 @@ get_eurostat_toc<-function(mode="xml",
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if ((cache) & (!update_cache)) {
-    toc<-get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)
+    toc<-restatapi::get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)
   }
   if ((!cache)|(is.null(toc))|(update_cache)){
     cfg<-get("cfg",envir=restatapi::.restatapi_env) 
@@ -185,7 +185,7 @@ get_eurostat_toc<-function(mode="xml",
   }  
   if (!is.null(toc)&cache){
     name<-paste0("toc.",mode,".",lang)
-    pl<-put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
+    pl<-restatapi::put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
     if (verbose){message("get_eurostat_toc - The TOC was cached ",pl,".\n")}
   }
   return(toc)  

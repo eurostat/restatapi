@@ -118,7 +118,7 @@ get_eurostat_bulk <- function(id,
   
   if (tbc) {
     if (check_toc){
-      toc<-get_eurostat_toc(verbose=verbose)
+      toc<-restatapi::get_eurostat_toc(verbose=verbose)
       if (is.null(toc)){
         message("The TOC is missing. Could not get the download link.")
         tbc<-FALSE
@@ -139,12 +139,12 @@ get_eurostat_bulk <- function(id,
   if (tbc) {
     if ((cache)&(!update_cache)) {
       nm<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-      restat_bulk<-data.table::copy(get_eurostat_cache(nm,cache_dir,verbose=verbose))
+      restat_bulk<-data.table::copy(restatapi::get_eurostat_cache(nm,cache_dir,verbose=verbose))
     }
 
     if ((!cache)|is.null(restat_bulk)|(update_cache)){
       if (verbose) {message("\nget_eurostat_bulk - ", class(id),"txt",class(cache),class(update_cache),class(cache_dir),class(compress_file),class(stringsAsFactors),class(keep_flags),class(check_toc),class(melt),class(verbose))}
-      restat_bulk<-get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
+      restat_bulk<-restatapi::get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
     }
   }  
   
@@ -198,7 +198,7 @@ get_eurostat_bulk <- function(id,
    
   if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
     oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
-    pl<-put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
+    pl<-restatapi::put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
     if ((!is.null(pl))&(verbose)) {message("get_eurostat_bulk - The bulk data was cached ",pl,".\n" )}
   }
   
