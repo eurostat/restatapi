@@ -12,7 +12,7 @@ Description: Eurostat is the statistical office of the European Union and provid
              the Eurostat database using the SDMX standard. 
 License: EUPL
 Imports: data.table, rjson, xml2
-Suggests: chron, knitr, rmarkdown, tinytest
+Suggests: chron, knitr, rmarkdown, tinytest, remotes
 NeedsCompilation: no
 URL: https://github.com/eurostat/restatapi
 BugReports: https://github.com/eurostat/restatapi/issues

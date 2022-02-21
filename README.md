@@ -25,7 +25,7 @@ install.packages("restatapi")
 or use the development version from GitHub
 
 ```R
-devtools::install_github("eurostat/restatapi")
+remotes::install_github("eurostat/restatapi")
 ```
 
 ## background

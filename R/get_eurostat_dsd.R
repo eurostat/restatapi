@@ -119,7 +119,7 @@ get_eurostat_dsd <- function(id,
             cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
             parallel::clusterEvalQ(cl,require(xml2))
             parallel::clusterEvalQ(cl,require(restatapi))
-            parallel::clusterExport(cl,c("extract_dsd"))
+            # parallel::clusterExport(cl,c("extract_dsd"))
             parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
             dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml)),stringsAsFactors=FALSE)
             parallel::stopCluster(cl)
