@@ -158,12 +158,19 @@ in parenthesis.</p>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/RtmpveTrrQ/file1b066d1a5f5'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;SEAT,ST_PAS,EE_EETN_SE_ESSA	43396 	27120 	12035 	16595 	16744 	10057 	10987 	8258 	7875 	4369 	3598 	4068 	17744 	3190 	358 	83069 	7366 	6016 	4362 	3190 	: 	: 	: 	178 	180 	18437 	31884 	32748 	104361 	106141 	112808 	117557 	110253 	29964 	34955 	41222 	40452 	37945 	34411 	38052 	41517 	37988 	37851 	32947 	39455 	446759 	121612 	83098 	89795 	84294 	38249 	45541 	37822 	33273 	26077 	23748 	29047 	31275 	29473 	30191 	26529 	27574 	378799 	94858 	87320 	95990 	83342 	24358 	33080 	37420 	35&gt;&gt;</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are multiple frequencies in the dataset. The 'M' is selected as it is the most common frequency.</span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - charactertxtlogicallogicalNULLlogicallogicallogicallogicalfunctionlogical</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_ee.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpRp1ggG/file1ae24bb5fa9-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-173609-TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - Warning by the download the TSV file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> downloaded length 61768 != reported length 173609</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(bulk_url, temp, dmethod)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpveTrrQ/file1b041129874-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-61440-TRUE</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/RtmpveTrrQ/file1b041129874'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;PAS,PAS_BRD_ARR,EE_EETN_UK_EGKK	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	1687 	3878 	: 	7172 	866 	378 	443 	734 	1930 	1214 	: 	: 	: 	1648 	2970 	2554 	12737 	10238 	12133 	9517 	7121 	3857 	2887 	3494 	3011 	4213 	4909 	3618 	2963 	2936 	2876 	2271 	1974 	39009 	6844 	8085 	6157 	5380 	2555 	2121 	2168 	1997 	2739 	3349 	2013 	2210 	1934 	2130 	1848 	1402 	26466 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	: 	3931 	4196 	3986 	3734 	1357 	1208 	1366 	1377 	1385 	1434 	1223 	1380 	1383 	1175 	12&gt;&gt;</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
@@ -172,14 +179,14 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - charactertxtlogicallogicalcharacterlogicallogicallogicallogicalfunctionlogical</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpRp1ggG/file1aec6c15a9-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-30705-TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpveTrrQ/file1b0553ac0b4-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-30705-TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
 <span class="r-in"><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpRp1ggG/restatapi is empty.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpveTrrQ/restatapi is empty.</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
