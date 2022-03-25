@@ -1,3 +1,13 @@
+# restatapi 0.13.1
+
+- correction of tests
+- correction of if condition for R development
+- CRAN release
+
+# restatapi 0.13.0
+
+- full reference of the package when calling exported functions 
+
 # restatapi 0.12.8
 
 - correction of example in `extract_toc()` function

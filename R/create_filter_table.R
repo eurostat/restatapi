@@ -75,7 +75,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
     message("The DSD is missing from the create_filter_table function.")
   } else{
     if (verbose) {message("\ncreate_filter_table - filters class: ",class(filters),"; size: ",length(filters),"; filters:",filters)}
-    if (class(filters)=="name") {
+    if (inherits(filters,"name")) {
       try(filters<-local(filters),silent=verbose)
     }  
     # loop<-TRUE

@@ -97,9 +97,9 @@ if (!is.null(xml_toc)){
     message("\n ########--------- 15 test of the search_eurostat_dsd function")
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)
     message("\n ########--------- 16 test of the search_eurostat_dsd function")
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),21)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),19)
     message("\n ########--------- 17 test of the search_eurostat_dsd function")
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),17)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),15)
     message("\n ########--------- 18 test of the search_eurostat_dsd function")
     expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE,exact_match=TRUE))),34)
     message("\n ########--------- 19 test of the search_eurostat_dsd function")
@@ -205,42 +205,38 @@ if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
 dsd1<-get_eurostat_dsd(testid4)
 if (!is.null(dsd1)&is.data.frame(dsd1)){
   dt10<-get_eurostat_data(testid4,filters="AT",verbose=TRUE)
-  # nc10<-ncol(dt10)
-  # nr10<-nrow(dt10)
   dt11<-get_eurostat_data(testid4,filters="AT",exact_match=FALSE,keep_flags=TRUE)
-  # nc11<-ncol(dt11)
-  # nr11<-nrow(dt11)
   if (!is.null(dt10)&!is.null(dt11)&is.data.frame(dt10)&is.data.frame(dt11)){
     message("\n ########--------- 47 test of filtering in the get_eurostat_data function")
     expect_equal(ncol(dt10)+1,ncol(dt11))
     message("\n ########--------- 48 test of filtering in the get_eurostat_data function")
     expect_true(nrow(dt10)<nrow(dt11))
   } else {no_check<-paste(no_check,"47-48",sep=", ")}
-  nr12<-nrow(get_eurostat_data(testid4,date_filter=2016))
-  nr13<-nrow(get_eurostat_data(testid4,date_filter="2016",keep_flags=TRUE))
-  if (!is.null(nr12)&!is.null(nr13)){
+  nr1<-nrow(get_eurostat_data(testid4,date_filter=2016))
+  nr2<-nrow(get_eurostat_data(testid4,date_filter="2016",keep_flags=TRUE))
+  if (!is.null(nr1)&!is.null(nr2)){
     message("\n ########--------- 49 test of filtering in the get_eurostat_data function")
-    expect_equal(nr12,nr13)
+    expect_equal(nr1,nr2)
   } else {no_check<-paste(no_check,"49",sep=", ")}
-  nr14<-nrow(get_eurostat_data(testid4,filters="AT",exact_match=FALSE,keep_flags=TRUE,ignore.case=TRUE))
-  if (!is.null(nr14)&!is.null(dt10)){
+  nr3<-nrow(get_eurostat_data(testid4,filters="AT",exact_match=FALSE,keep_flags=TRUE,ignore.case=TRUE))
+  if (!is.null(nr3)&!is.null(dt10)){
     message("\n ########--------- 50 test of filtering in the get_eurostat_data function")
-    expect_true(nr14>nrow(dt10))
+    expect_true(nr3>nrow(dt10))
   } else {no_check<-paste(no_check,"50",sep=", ")}
-  nr15<-nrow(get_eurostat_data(testid4,filters="BE$",date_filter="2006-02:2008-06-05",label=TRUE))
-  if (!is.null(nr15)){
+  nr4<-nrow(get_eurostat_data(testid4,filters="BE$",date_filter="2006-02:2008-06-05",label=TRUE))
+  if (!is.null(nr4)){
     message("\n ########--------- 51 test of filtering in the get_eurostat_data function")
-    expect_equal(nr15,2)
+    expect_equal(nr4,2)
   } else {no_check<-paste(no_check,"51",sep=", ")}
-  nr16<-nrow(get_eurostat_data(testid4,filters="BE",date_filter="<2008",cflags=TRUE))
-  if (!is.null(nr16)){
+  nr5<-nrow(get_eurostat_data(testid4,filters="BE",date_filter="<2008",cflags=TRUE))
+  if (!is.null(nr5)){
     message("\n ########--------- 52 test of filtering in the get_eurostat_data function")
-    expect_equal(nr16,11)
+    expect_equal(nr5,11)
   } else {no_check<-paste(no_check,"52",sep=", ")} 
-  nr17<-nrow(get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2017-07-01"),select_freq="M",cflags=TRUE))
-  if (!is.null(nr17)){
+  nr6<-nrow(get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2017-07-01"),select_freq="M",cflags=TRUE))
+  if (!is.null(nr6)){
     message("\n ########--------- 53 test of filtering in the get_eurostat_data function")
-    expect_equal(nr17,48)
+    expect_equal(nr6,48)
   } else {no_check<-paste(no_check,"53",sep=", ")} 
 } else {no_check<-paste(no_check,"47-53",sep=", ")} 
 
@@ -380,29 +376,29 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   
   dsd1<-get_eurostat_dsd(testid4)
   if (!is.null(dsd1)&is.data.frame(dsd1)){
-    nr11<-nrow(get_eurostat_data(testid4,filters="^BE$",date_filter=c(2002,"2008",2015:2017)))
-    if (!is.null(nr11)){
+    nr7<-nrow(get_eurostat_data(testid4,filters="^BE$",date_filter=c(2002,"2008",2015:2017)))
+    if (!is.null(nr7)){
       message("\n ########--------- 95 additional tests for filtering in the get_eurostat_data function")
-      expect_true(nr11<=5)
-      nr12<-nrow(get_eurostat_data(testid4,filters="BE",date_filter=c(2008,"2002",2015:2017)))
-      if (!is.null(nr12)){
+      expect_true(nr7<=5)
+      nr8<-nrow(get_eurostat_data(testid4,filters="BE",date_filter=c(2008,"2002",2015:2017)))
+      if (!is.null(nr8)){
         message("\n ########--------- 96 additional tests for filtering in the get_eurostat_data function")
-        expect_equal(nr11,nr12)
+        expect_equal(nr7,nr8)
       } else {no_check<-paste(no_check,"96",sep=", ")}
     } else {no_check<-paste(no_check,"95-96",sep=", ")}
   } else {no_check<-paste(no_check,"95-96",sep=", ")}
   
   dsd2<-get_eurostat_dsd(testid6)
   if (!is.null(dsd2)){
-    nr13<-nrow(get_eurostat_data(testid6,filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,cflags=TRUE,verbose=FALSE))
-    if (!is.null(nr13)){
+    nr9<-nrow(get_eurostat_data(testid6,filters="BE$",exact_match=FALSE,date_filter=c(2016,"2017-03","2017-05"),select_freq="A",label=TRUE,cflags=TRUE,verbose=FALSE))
+    if (!is.null(nr9)){
       message("\n ########--------- 97 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr13,24)
+      expect_equal(nr9,24)
     } else {no_check<-paste(no_check,"97",sep=", ")}
-    nr14<-nrow(get_eurostat_data(testid6,date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
-    if (!is.null(nr14)){
+    nr10<-nrow(get_eurostat_data(testid6,date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
+    if (!is.null(nr10)){
       message("\n ########--------- 98 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr14,1152)
+      expect_equal(nr10,1152)
     } else {no_check<-paste(no_check,"98",sep=", ")}
     dt5<-get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M")
     dt6<-get_eurostat_data(testid6,filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
@@ -443,18 +439,18 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   } else {no_check<-paste(no_check,"106",sep=", ")}
   dsd3<-get_eurostat_dsd(testid9)
   if (!is.null(dsd3)&is.data.frame(dsd3)){
-    nr16<-nrow(get_eurostat_data(testid9,filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
-    if (!is.null(nr16)){
+    nr11<-nrow(get_eurostat_data(testid9,filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
+    if (!is.null(nr11)){
       message("\n ########--------- 107 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr16,4374)
+      expect_equal(nr11,4737)
     } else {no_check<-paste(no_check,"107",sep=", ")}
   } else {no_check<-paste(no_check,"107",sep=", ")}
   dsd4<-get_eurostat_dsd(testid10)
   if (!is.null(dsd4)&is.data.frame(dsd4)){
-    nr17<-nrow(get_eurostat_data(testid10,filters=list(bop_item="SC",currency="MIO_EUR",partner="EXT_EU28",geo=c("EU28","HU"),time="2010:2017",stk_flow="BAL"),date_filter="2010:2012",select_freq="A",label=TRUE,name=FALSE))
-    if (!is.null(nr17)){
+    nr12<-nrow(get_eurostat_data(testid10,filters=list(bop_item="SC",currency="MIO_EUR",partner="EXT_EU28",geo=c("EU28","HU"),time="2010:2017",stk_flow="BAL"),date_filter="2010:2012",select_freq="A",label=TRUE,name=FALSE))
+    if (!is.null(nr12)){
       message("\n ########--------- 108 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr17,6)
+      expect_equal(nr12,6)
     } else {no_check<-paste(no_check,"108",sep=", ")}
   } else {no_check<-paste(no_check,"108",sep=", ")}
 
@@ -661,10 +657,10 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   } else {no_check<-paste(no_check,"127-157",sep=", ")}
   
   yr<-"<2016"
-  nr<-nrow(get_eurostat_data(testid6,date_filter=yr,select_freq="A",verbose=TRUE))
-  if (!is.null(nr)){
+  nr13<-nrow(get_eurostat_data(testid6,date_filter=yr,select_freq="A",verbose=TRUE))
+  if (!is.null(nr13)){
     message("\n ########--------- 158 additional tests for filtering in the get_eurostat_data function")
-    expect_equal(nr,228)
+    expect_equal(nr13,228)
   } else {no_check<-paste(no_check,"158",sep=", ")}
   
 }

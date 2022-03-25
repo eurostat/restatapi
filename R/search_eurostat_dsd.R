@@ -51,7 +51,11 @@ search_eurostat_dsd <- function(pattern,dsd=NULL,name=TRUE,exact_match=FALSE,...
   } else if (is.null(pattern)) {
     sr<-NULL
   } else if (length(pattern)>1){
-    message("The 'pattern' (",paste(pattern,collapse=", "),") has length > 1. In this case use something like 'do.call(rbind,lapply(pattern,search_eurostat_dsd,dsd=dsd))'.")
+    if (length(dim(pattern))>1){
+      message("The provided pattern has more than 1 dimension, please provide a single item.")
+    } else{
+      message("The 'pattern' (",paste(pattern,collapse=", "),") has length > 1. In this case use something like 'do.call(rbind,lapply(pattern,search_eurostat_dsd,dsd=dsd))'.")
+    }
     sr<-NULL
   } else {
     if (exact_match){
