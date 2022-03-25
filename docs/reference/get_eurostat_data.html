@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
       </span>
     </div>
 
@@ -209,8 +209,8 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span class="co"># \donttest{</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"NAMA_10_GDP"</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/RtmpveTrrQ/file1b07445ec16'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CLV05_MNAC,P51G,IE	: 	141223.6 	183192.6 	91819.6 	100758.4 	101349.5 	67458.0 	44793.0 	37786.8 	39418.0 	33954.9 	34002.1 	40016.7 	48171.0 	5&gt;&gt;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/RtmpSrOY3O/file1afcd114e'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CLV15_MEUR,P62,CH	119042.8 	107729.9 	126055.5 	129058.6 	121878.9 	121759.9 	115571.4 	111059.7 	105916.3 	104360.8 	95629.9 	97611.9 	96141.4 	99474.1 	98650.9 	87591.5 	83234.5 	75100.5 	70175.1 	73398.7 	76673.9 	78721.8 	67988.0 	63871.7 	59913.6 	54059.8 	52249.7 	53634.8 	53912.6 	52376.7 	51567.7 	50486.2 	52659.3 	50048.9 	49691.3 	48068.4 	49147.9 	45092.1 	41834.1 	399&gt;&gt;</span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"htec_cis3"</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="st">"/tmp"</span>,cflags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
@@ -236,8 +236,6 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"nama_10_a10_e"</span>,</span>
 <span class="r-in">                      filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Annual"</span>,<span class="st">"EU28"</span>,<span class="st">"Belgium"</span>,<span class="st">"AT"</span>,<span class="st">"Total"</span>,<span class="st">"EMP_DC"</span>,<span class="st">"person"</span><span class="op">)</span>,</span>
 <span class="r-in">                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2008"</span>,<span class="fl">2002</span>,<span class="fl">2013</span><span class="op">:</span><span class="fl">2018</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"vit_t3"</span>,</span>
 <span class="r-in">                      filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EU28"</span>,<span class="va">eu</span><span class="op">$</span><span class="va">EA15</span>,<span class="st">"HU$"</span><span class="op">)</span>,</span>
 <span class="r-in">                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2015"</span>,<span class="fl">2007</span><span class="op">)</span><span class="op">)</span></span>
@@ -264,7 +262,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="st">"/tmp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                                 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmpveTrrQ/restatapi</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmpSrOY3O/restatapi</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>

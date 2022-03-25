@@ -18,7 +18,7 @@ pattern in the title, units or short description."><!-- mathjax --><script src="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energy"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 8748</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 8758</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> number of cores: 1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                  title</span>
@@ -158,14 +158,14 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 96</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                     title            code    type lastUpdate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37             Energie - monatliche Daten       ei_isen_m dataset 2022.02.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37             Energie - monatliche Daten       ei_isen_m dataset 2022.03.24</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 697                         Energiebilanz  enps_nrg_bal_c dataset 2022.02.10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 698       Endenergieverbrauch nach Sektor enps_nrg_bal_c1 dataset 2022.02.10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 849               Primäre Energierzeugung        med_eg10 dataset 2020.05.28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 850 Sekundäre Energierzeugung (Umsetzung)        med_eg20 dataset 2016.10.28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 851                      Energieverbrauch        med_eg30 dataset 2020.05.28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     lastModified dataStart dataEnd values unit shortDescription</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37    2022.02.18   2008M01 2021M12  74729                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37    2022.03.24   2008M01 2022M01  75023                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 697   2022.02.10      2005    2020    552                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 698   2022.02.10      2005    2020    280                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 849   2021.02.08      2005    2018    391                      </span>
@@ -200,7 +200,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 850        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 851        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg30.sdmx.zip</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 112</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>

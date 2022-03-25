@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
       </span>
     </div>
 
@@ -105,90 +105,82 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></dd>
 <span class="r-in"><span class="va">dsd_example</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_nama_10_gdp</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpveTrrQ/file1b0658bae0c</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpSrOY3O/file1af762e7a40</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span>
 <span class="r-in"><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd_example</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pattern concept                 code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12      EU    UNIT PC_EU27_2020_MEUR_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13      EU    UNIT      PC_EU28_MEUR_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14      EU    UNIT PC_EU27_2020_MPPS_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15      EU    UNIT      PC_EU28_MPPS_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16      EU    UNIT              CP_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19      EU    UNIT    CP_MPPS_EU27_2020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20      EU    UNIT           CLV15_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21      EU    UNIT           CLV10_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22      EU    UNIT           CLV05_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27      EU    UNIT             PYP_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30      EU    UNIT             PD15_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31      EU    UNIT             PD10_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32      EU    UNIT             PD05_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36      EU    UNIT       PD_PCH_PRE_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77      EU     GEO            EU27_2020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78      EU     GEO                 EU28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79      EU     GEO                 EU15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13      EU    UNIT PC_EU27_2020_MPPS_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14      EU    UNIT              CP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16      EU    UNIT    CP_MPPS_EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17      EU    UNIT           CLV15_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18      EU    UNIT           CLV10_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19      EU    UNIT           CLV05_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24      EU    UNIT             PYP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27      EU    UNIT             PD15_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28      EU    UNIT             PD10_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29      EU    UNIT             PD05_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33      EU    UNIT       PD_PCH_PRE_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74      EU     GEO            EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75      EU     GEO                 EU28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76      EU     GEO                 EU15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                  name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                       Percentage of EU27 (from 2020) total (based on million euro), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                       Percentage of EU28 (2013-2020) total (based on million euro), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                       Current prices, million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                           Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                          Chain linked volumes (2015), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                          Chain linked volumes (2010), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                          Chain linked volumes (2005), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                 Previous year prices, million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                    Price index (implicit deflator), 2015=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                    Price index (implicit deflator), 2010=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                    Price index (implicit deflator), 2005=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36                        Price index (implicit deflator), percentage change on previous period, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77                                                          European Union - 27 countries (from 2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78                                                          European Union - 28 countries (2013-2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79                                                          European Union - 15 countries (1995-2004)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                       Current prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                           Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                          Chain linked volumes (2015), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                          Chain linked volumes (2010), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                          Chain linked volumes (2005), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                 Previous year prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                    Price index (implicit deflator), 2015=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                    Price index (implicit deflator), 2010=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                    Price index (implicit deflator), 2005=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                        Price index (implicit deflator), percentage change on previous period, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74                                                          European Union - 27 countries (from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75                                                          European Union - 28 countries (2013-2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76                                                          European Union - 15 countries (1995-2004)</span>
 <span class="r-in"><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd_example</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     pattern  concept                 code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12       EU     UNIT PC_EU27_2020_MEUR_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13       EU     UNIT      PC_EU28_MEUR_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14       EU     UNIT PC_EU27_2020_MPPS_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15       EU     UNIT      PC_EU28_MPPS_CP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16       EU     UNIT              CP_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19       EU     UNIT    CP_MPPS_EU27_2020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20       EU     UNIT           CLV15_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21       EU     UNIT           CLV10_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22       EU     UNIT           CLV05_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27       EU     UNIT             PYP_MEUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30       EU     UNIT             PD15_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31       EU     UNIT             PD10_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32       EU     UNIT             PD05_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36       EU     UNIT       PD_PCH_PRE_EUR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77       EU      GEO            EU27_2020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78       EU      GEO                 EU28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79       EU      GEO                 EU15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80       EU      GEO                   EA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81       EU      GEO                 EA19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82       EU      GEO                 EA12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 126      EU OBS_FLAG                    s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13       EU     UNIT PC_EU27_2020_MPPS_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14       EU     UNIT              CP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16       EU     UNIT    CP_MPPS_EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17       EU     UNIT           CLV15_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18       EU     UNIT           CLV10_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19       EU     UNIT           CLV05_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24       EU     UNIT             PYP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27       EU     UNIT             PD15_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28       EU     UNIT             PD10_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29       EU     UNIT             PD05_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33       EU     UNIT       PD_PCH_PRE_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74       EU      GEO            EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75       EU      GEO                 EU28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76       EU      GEO                 EU15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77       EU      GEO                   EA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78       EU      GEO                 EA19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79       EU      GEO                 EA12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 123      EU OBS_FLAG                    s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                   name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                        Percentage of EU27 (from 2020) total (based on million euro), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                        Percentage of EU28 (2013-2020) total (based on million euro), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  Percentage of EU28 (2013-2020) total (based on million purchasing power standards), current prices</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                        Current prices, million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                            Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                           Chain linked volumes (2015), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                           Chain linked volumes (2010), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                           Chain linked volumes (2005), million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                  Previous year prices, million euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                     Price index (implicit deflator), 2015=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                     Price index (implicit deflator), 2010=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                     Price index (implicit deflator), 2005=100, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36                         Price index (implicit deflator), percentage change on previous period, euro</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77                                                           European Union - 27 countries (from 2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78                                                           European Union - 28 countries (2013-2020)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79                                                           European Union - 15 countries (1995-2004)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80  Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81                                                               Euro area - 19 countries  (from 2015)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82                                                                Euro area - 12 countries (2001-2006)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 126                                                                     Eurostat estimate (phased out)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                        Current prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                            Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                           Chain linked volumes (2015), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                           Chain linked volumes (2010), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                           Chain linked volumes (2005), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                  Previous year prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                     Price index (implicit deflator), 2015=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                     Price index (implicit deflator), 2010=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                     Price index (implicit deflator), 2005=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                         Price index (implicit deflator), percentage change on previous period, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74                                                           European Union - 27 countries (from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75                                                           European Union - 28 countries (2013-2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76                                                           European Union - 15 countries (1995-2004)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77  Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78                                                               Euro area - 19 countries  (from 2015)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79                                                                Euro area - 12 countries (2001-2006)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 123                                                                     Eurostat estimate (phased out)</span>
 <span class="r-in"><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU27_2019"</span>,<span class="va">dsd_example</span>,name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU27_2019"</span>,<span class="va">dsd_example</span>,exact_match<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
