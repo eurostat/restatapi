@@ -341,7 +341,7 @@ if (!is.null(dsd)){
   message("\n ########--------- 85 test of the create_filter_table function")
   expect_equal(ncol(ft1),ncol(ft2))
   message("\n ########--------- 86 test of the create_filter_table function")
-  expect_equal(nrow(ft1),8)
+  expect_equal(nrow(ft1),10)
   message("\n ########--------- 87 test of the create_filter_table function")
   expect_equal(nrow(ft2),2)
 } else {no_check<-paste(no_check,"84-87",sep=", ")}
@@ -398,7 +398,7 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
     nr10<-nrow(get_eurostat_data(testid6,date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
     if (!is.null(nr10)){
       message("\n ########--------- 98 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr10,1152)
+      expect_equal(nr10,1232)
     } else {no_check<-paste(no_check,"98",sep=", ")}
     dt5<-get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M")
     dt6<-get_eurostat_data(testid6,filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
@@ -442,7 +442,7 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
     nr11<-nrow(get_eurostat_data(testid9,filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr11)){
       message("\n ########--------- 107 additional tests for filtering in the get_eurostat_data function")
-      expect_equal(nr11,4737)
+      expect_equal(nr11,5565)
     } else {no_check<-paste(no_check,"107",sep=", ")}
   } else {no_check<-paste(no_check,"107",sep=", ")}
   dsd4<-get_eurostat_dsd(testid10)
@@ -660,7 +660,7 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   nr13<-nrow(get_eurostat_data(testid6,date_filter=yr,select_freq="A",verbose=TRUE))
   if (!is.null(nr13)){
     message("\n ########--------- 158 additional tests for filtering in the get_eurostat_data function")
-    expect_equal(nr13,228)
+    expect_equal(nr13,252)
   } else {no_check<-paste(no_check,"158",sep=", ")}
   
 }
