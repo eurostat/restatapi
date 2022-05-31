@@ -29,16 +29,7 @@ testid12<-"ei_bsfs_q"
 testid13<-"avia_par_mk"
 
 
-# suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
-#                                   Windows={tryCatch({as.numeric(gsub("[^0-9]","",system("wmic MemoryChip get Capacity", intern = TRUE)[2]))/1024/1024},error=function(e){0},warning=function(w){0})},
-#                                   Darwin={tryCatch({as.numeric(substring(system('hwprefs memory_size', intern = TRUE), 13))},error=function(e){0},warning=function(w){0})},
-#                                   SunOS={tryCatch({as.numeric(gsub("[^0-9]","",system("prtconf | grep Memory", intern = TRUE,ignore.stderr=TRUE)))},error=function(e){0},warning=function(w){0})},
-#                                   Linux={tryCatch({as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo",intern=TRUE,ignore.stderr=TRUE))/1024},error=function(e){0},warning=function(w){0})}
-# ))
-# 
-# test_that("test mem_size",{
-#   expect_true(mem_size>1)
-# })
+
 
 t1<-system.time({xml_toc<-get_eurostat_toc(verbose=TRUE)})[3]
 txt_toc<-get_eurostat_toc(mode="txt")

@@ -1,7 +1,11 @@
+# restatapi 0.13.3
+
+- removing memory size check for non-linux systems
+- CRAN release
+
 # restatapi 0.13.2
 
 - correction of tests as changes in the historical data for "avia_par_me" and "avia_par_is"
-- CRAN release
 
 # restatapi 0.13.1
 
