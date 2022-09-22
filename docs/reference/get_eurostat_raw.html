@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -53,20 +53,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_eurostat_raw</span><span class="op">(</span>
-  <span class="va">id</span>,
-  mode <span class="op">=</span> <span class="st">"txt"</span>,
-  cache <span class="op">=</span> <span class="cn">TRUE</span>,
-  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,
-  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,
-  check_toc <span class="op">=</span> <span class="cn">FALSE</span>,
-  melt <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_eurostat_raw</span><span class="op">(</span></span>
+<span>  <span class="va">id</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"txt"</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check_toc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  melt <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,54 +74,83 @@
     <dl><dt>id</dt>
 <dd><p>A code name for the dataset of interest.
 See <code><a href="search_eurostat_toc.html">search_eurostat_toc</a></code> for details how to get an id.</p></dd>
+
+
 <dt>mode</dt>
 <dd><p>defines the format of the downloaded dataset. It can be <code>txt</code> (the default value) for 
 Tab Separated Values (TSV), or <code>xml</code> for the SDMX version.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>a logical whether to do caching. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>update_cache</dt>
 <dd><p>a logical with a default value <code>FALSE</code>, whether to update cache. Can be set also with
 <code>options(restatapi_update=TRUE)</code></p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p>a path to a cache directory. The <code>NULL</code> (default) uses the memory as cache. 
 If the folder  if the <code>cache_dir</code> directory does not exist it saves in the 'restatapi' directory 
 under the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>. Directory can also be set with
 <code>option(restatapi_cache_dir=...)</code>.</p></dd>
+
+
 <dt>compress_file</dt>
 <dd><p>a logical whether to compress the
 RDS-file in caching. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>stringsAsFactors</dt>
 <dd><p>if <code>TRUE</code> the variables which are not numeric are
 converted to factors. The defaulft value <code>FALSE</code>, in this case they are returned as characters.</p></dd>
+
+
 <dt>keep_flags</dt>
 <dd><p>a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is <code>FALSE</code>. For flag values see: 
 <a href="https://ec.europa.eu/eurostat/data/database/information" class="external-link">https://ec.europa.eu/eurostat/data/database/information</a>.</p></dd>
+
+
 <dt>check_toc</dt>
 <dd><p>a boolean whether to check the provided <code>id</code> in the Table of Contents (TOC) or not. The default value 
 <code>FALSE</code>, in this case the base URL for the download link is retrieved from the configuration file. 
 If the value is <code>TRUE</code> then the TOC is downloaded and the <code>id</code> is checked in it. If it found then the download link 
 is retrieved form the TOC.</p></dd>
+
+
 <dt>melt</dt>
 <dd><p>a boolean with default value <code>TRUE</code> and used only if the <code>mode="txt"</code>. In case it is <code>FALSE</code>, 
 the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>further argument for the <code><a href="load_cfg.html">load_cfg</a></code> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.table with the following columns if the default <code>melt=TRUE</code> is used:</p><table class="table table"><tr><td><code>FREQ</code></td><td>The frequency of the data (<strong>A</strong>nnual, <strong>S</strong>emi-annual, <strong>H</strong>alf-year, <strong>Q</strong>uarterly, <strong>M</strong>onthly,
+    
+
+<p>a data.table with the following columns if the default <code>melt=TRUE</code> is used:</p>
+<p></p>
+<table class="table table"><tr><td><code>FREQ</code></td><td>The frequency of the data (<strong>A</strong>nnual, <strong>S</strong>emi-annual, <strong>H</strong>alf-year, <strong>Q</strong>uarterly, <strong>M</strong>onthly,
  <strong>W</strong>eekly, <strong>D</strong>aily)</td></tr><tr><td>dimension names</td><td>One column for each dimension in the data</td></tr><tr><td><code>TIME_FORMAT</code></td><td>A column for the time format, if the source file SDMX and the data was not
  loaded from a previously cached TSV download (this column is missing if the source file is TSV)</td></tr><tr><td><code>time/TIME_PERIOD</code></td><td>A column for the time dimension, where the name of the column depends on the
  source file (TSV/SDMX)</td></tr><tr><td><code>values/OBS_VALUE</code></td><td>A column for numerical values, where the name of the column depends on the
  source file (TSV/SDMX)</td></tr><tr><td><code>flags/OBS_STATUS</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> otherwise this column is not included
  in the data table, and the name of the column depends on the source file (TSV/SDMX)</td></tr></table><p>The data does not include all missing values. The missing values are dropped if the value and flags are missing
-on a particular time. 
-In case <code>melt=FALSE</code> the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.</p>
+on a particular time.</p>
+
+
+<p>In case <code>melt=FALSE</code> the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -142,26 +171,26 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>    </span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,mode<span class="op">=</span><span class="st">"xml"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,mode<span class="op">=</span><span class="st">"txt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontshow{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>    </span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,mode<span class="op">=</span><span class="st">"xml"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,mode<span class="op">=</span><span class="st">"txt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpSrOY3O/file1af203e695f-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-46288-TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/Rtmpnj7GJs/file16922e6663d-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-52354-TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:get_eurostat_rawavia_par_metxttempdir()FALSETRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -176,8 +205,7 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -53,38 +53,55 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_eurostat_dsd</span><span class="op">(</span>
-  <span class="va">id</span>,
-  cache <span class="op">=</span> <span class="cn">TRUE</span>,
-  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_eurostat_dsd</span><span class="op">(</span></span>
+<span>  <span class="va">id</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>id</dt>
 <dd><p>a character string with the id of the dataset. It is the value from the codename column of the <code><a href="get_eurostat_toc.html">get_eurostat_toc</a></code> function.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>a boolean whether to load/save the TOC from/in the cache or not. The default value is <code>TRUE</code>, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.</p></dd>
+
+
 <dt>update_cache</dt>
 <dd><p>a boolean to update cache or not. The default value is <code>FALSE</code>, so the cache is not updated. Can be set also with <code>options(restatapi_update=TRUE)</code></p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> to save the RDS-file. Directory can also be set with <code>option(restatapi_cache_dir=...)</code>.</p></dd>
+
+
 <dt>compress_file</dt>
 <dd><p>a logical whether to compress the RDS-file in caching. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
+
+
 <dt>...</dt>
 <dd><p>parameter to pass on the <code>load_cfg</code> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If the DSD does not exist it returns <code>NULL</code> otherwise the result is a table with the 3 columns:</p><table class="table table"><tr><td><code>concept</code></td><td>The name of the concepts in the order of the data structure</td></tr><tr><td><code>code</code></td><td>The possible list of codes under the concept</td></tr><tr><td><code>name</code></td><td>The name/description of the code</td></tr></table></div>
+    
+
+<p>If the DSD does not exist it returns <code>NULL</code> otherwise the result is a table with the 3 columns:</p>
+<p></p>
+<table class="table table"><tr><td><code>concept</code></td><td>The name of the concepts in the order of the data structure</td></tr><tr><td><code>code</code></td><td>The possible list of codes under the concept</td></tr><tr><td><code>name</code></td><td>The name/description of the code</td></tr></table></div>
     <div id="details">
     <h2>Details</h2>
     <p>The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX) format.</p>
@@ -100,20 +117,20 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu">get_eurostat_dsd</span><span class="op">(</span><span class="st">"med_rd6"</span>,cache<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontshow{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu">get_eurostat_dsd</span><span class="op">(</span><span class="st">"med_rd6"</span>,cache<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_med_rd6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpSrOY3O/file1af11b9d6c3</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmpnj7GJs/file169605163b7</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   concept code        name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    FREQ    D       Daily</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    FREQ    W      Weekly</span>
@@ -121,8 +138,8 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4    FREQ    A      Annual</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5    FREQ    S Semi-annual</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    FREQ    M     Monthly</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -137,8 +154,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

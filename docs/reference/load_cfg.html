@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -53,37 +53,48 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">load_cfg</span><span class="op">(</span>
-  api_version <span class="op">=</span> <span class="st">"current"</span>,
-  load_toc <span class="op">=</span> <span class="cn">FALSE</span>,
-  parallel <span class="op">=</span> <span class="cn">TRUE</span>,
-  max_cores <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_cfg</span><span class="op">(</span></span>
+<span>  api_version <span class="op">=</span> <span class="st">"current"</span>,</span>
+<span>  load_toc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  max_cores <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>api_version</dt>
 <dd><p>It can be either "old", "new", "test" or "current". The default value is "current".</p></dd>
+
+
 <dt>load_toc</dt>
 <dd><p>The default value <code>FALSE</code>, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 cached automatically in the '.restatapi_env' when the package is loaded.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>A boolean with the default value <code>TRUE</code>. If there are multiple cores/logical processors then part of the data 
 extraction is made in parallel reducing significantly the time needed for large datasets. If the value is <code>FALSE</code> the option <code>restatapi_cores</code> set to 1.</p></dd>
+
+
 <dt>max_cores</dt>
 <dd><p>A boolean with the default value <code>FALSE</code>. If the parameter 'parallel' is <code>TRUE</code> then this parameter is taken into account otherwise it is ignored.
 If the value is <code>TRUE</code>, then the maximum minus one cores/logical processors are used for parallel computing. If the parameter <code>FALSE</code>, 
 then the default value of <code>getOption("mc.cores")</code> is used, if it is defined. If <code>mc.cores</code> is <code>NULL</code> then depending on the memory size and number of available cores/threads the <code>restatapi_cores</code> are set to 2 or 4 cores/logical processors. 
 Otherwise the parallel processing turned off by setting the option <code>restatapi_cores</code> to 1.
 The number of cores used for parallel computing can be changed any time with <code>options(restatapi_cores=...)</code></p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean if the verbose message about the configuration to be showed or not. The default is <code>FALSE</code>. Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>it returns 4 objects in the '.restatapi_env'</p><ul><li><p><code>cfg</code> a list with all the configuration data</p></li>
+    
+
+<p>it returns 4 objects in the '.restatapi_env'</p><ul><li><p><code>cfg</code> a list with all the configuration data</p></li>
 <li><p><code>rav</code> a character string with a number defining the API_VERSION from the configuration file to be used later. It is 
              determined based on the <code>api_version</code> parameter.</p></li>
 <li><p><code>cc</code> a list containing the 2 character country codes of the member states for different EU composition like EU15, EU28 or EA (Euro Area).</p></li>
@@ -103,25 +114,25 @@ The number of cores used for parallel computing can be changed any time with <co
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">load_cfg</span><span class="op">(</span>parallel<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"auto"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">load_cfg</span><span class="op">(</span>api_version<span class="op">=</span><span class="st">"test"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span>,max_cores<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> restatapi: - version 0.13.1</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">load_cfg</span><span class="op">(</span>parallel<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"auto"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">load_cfg</span><span class="op">(</span>api_version<span class="op">=</span><span class="st">"test"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span>,max_cores<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> restatapi: - version 0.13.3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - config file with the API version 3 loaded from GitHub (the 'current' API version number is 1).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - no parallel computing.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - 'auto' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env').</span>
-<span class="r-in"><span class="fu">load_cfg</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">eu</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"cc"</span>,envir<span class="op">=</span><span class="va">.restatapi_env</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">eu</span><span class="op">$</span><span class="va">EU28</span></span>
+<span class="r-in"><span><span class="fu">load_cfg</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">eu</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"cc"</span>,envir<span class="op">=</span><span class="va">.restatapi_env</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">eu</span><span class="op">$</span><span class="va">EU28</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "BE" "BG" "CZ" "DK" "DE" "EE" "IE" "EL" "ES" "FR" "HR" "IT" "CY" "LV" "LT"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] "LU" "HU" "MT" "NL" "AT" "PL" "PT" "RO" "SI" "SK" "FI" "SE" "UK"</span>
-<span class="r-in"><span class="va">eu</span><span class="op">$</span><span class="va">EA15</span></span>
+<span class="r-in"><span><span class="va">eu</span><span class="op">$</span><span class="va">EA15</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "BE" "DE" "IE" "EL" "ES" "FR" "IT" "CY" "LU" "MT" "NL" "AT" "PT" "SI" "FI"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -136,8 +147,7 @@ The number of cores used for parallel computing can be changed any time with <co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -53,20 +53,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_eurostat_bulk</span><span class="op">(</span>
-  <span class="va">id</span>,
-  cache <span class="op">=</span> <span class="cn">TRUE</span>,
-  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,
-  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>,
-  select_freq <span class="op">=</span> <span class="cn">NULL</span>,
-  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,
-  cflags <span class="op">=</span> <span class="cn">FALSE</span>,
-  check_toc <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_eurostat_bulk</span><span class="op">(</span></span>
+<span>  <span class="va">id</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  compress_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  select_freq <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cflags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check_toc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,22 +74,34 @@
     <dl><dt>id</dt>
 <dd><p>a code name for the dataset of interest.
 See <code><a href="search_eurostat_toc.html">search_eurostat_toc</a></code> for details how to get an id.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>a logical value whether to do caching. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>update_cache</dt>
 <dd><p>a logical value with a default value <code>FALSE</code>, whether to update cache. Can be set also with
 <code>options(restatapi_update=TRUE)</code>.</p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p>a path to a cache directory. The <code>NULL</code> (default) uses the memory as cache. 
 If the folder <code>cache_dir</code> directory does not exist it saves in the 'restatapi' directory 
 under the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>. Directory can also be set with
 <code>option(restatapi_cache_dir=...)</code>.</p></dd>
+
+
 <dt>compress_file</dt>
 <dd><p>a logical value whether to compress the
 RDS-file in caching. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>stringsAsFactors</dt>
 <dd><p>a logical value with the default <code>TRUE</code>. In this case the columns are converted to factors. If <code>FALSE</code>, 
 the strings are returned as characters.</p></dd>
+
+
 <dt>select_freq</dt>
 <dd><p>a character symbol for a time frequency when a dataset has multiple time
 frequencies. Possible values are:
@@ -97,29 +109,44 @@ frequencies. Possible values are:
   The default is <code>NULL</code> as most datasets have only one time frequency. 
   In case if there are multiple frequencies and <code>select_freq=NULL</code>, then only the most common frequency kept.
 If all the frequencies needed the <code><a href="get_eurostat_raw.html">get_eurostat_raw</a></code> function can be used.</p></dd>
+
+
 <dt>keep_flags</dt>
 <dd><p>a logical value whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is <code>FALSE</code>. For flag values see: 
 <a href="https://ec.europa.eu/eurostat/data/database/information" class="external-link">https://ec.europa.eu/eurostat/data/database/information</a>.</p></dd>
+
+
 <dt>cflags</dt>
 <dd><p>a logical value whether the missing observations with flag 'c' - "confidential"
 should be kept or not. Default is <code>FALSE</code>, in this case these observations dropped from the dataset. If this parameter 
 <code>TRUE</code> then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in <code>keep_flags</code> is set to <code>TRUE</code>.</p></dd>
+
+
 <dt>check_toc</dt>
 <dd><p>a logical value whether to check the provided <code>id</code> in the Table of Contents (TOC) or not. The default value 
 <code>FALSE</code>, in this case the base URL for the download link is retrieved from the configuration file. 
 If the value is <code>TRUE</code> then the TOC is downloaded and the <code>id</code> is checked in it. If it found there then the download link 
 is retrieved form the TOC.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>a logical value with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code>options(restatapi_verbose=TRUE)</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other parameter(s) to pass on the <code><a href="load_cfg.html">load_cfg</a></code> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.table with the following columns:</p><table class="table table"><tr><td>dimension names</td><td>One column for each dimension in the data</td></tr><tr><td><code>time</code></td><td>A column for the time dimension</td></tr><tr><td><code>values</code></td><td>A column for numerical values</td></tr><tr><td><code>flags</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> or <code>cflags=TRUE</code> otherwise this column
+    
+
+<p>a data.table with the following columns:</p>
+<p></p>
+<table class="table table"><tr><td>dimension names</td><td>One column for each dimension in the data</td></tr><tr><td><code>time</code></td><td>A column for the time dimension</td></tr><tr><td><code>values</code></td><td>A column for numerical values</td></tr><tr><td><code>flags</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> or <code>cflags=TRUE</code> otherwise this column
      is not included in the data table</td></tr></table><p>The data.table does not include all missing values. The missing values are dropped if both the value and the flag is missing
         on a particular time.</p>
     </div>
@@ -146,42 +173,42 @@ in parenthesis.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>    </span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontshow{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>    </span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are multiple frequencies in the dataset. The 'M' is selected as it is the most common frequency.</span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - charactertxtlogicallogicalNULLlogicallogicallogicallogicalfunctionlogical</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_ee.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpSrOY3O/file1af231dfe0-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-166903-TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/Rtmpnj7GJs/file169740107ce-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-195035-TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - charactertxtlogicallogicalcharacterlogicallogicallogicallogicalfunctionlogical</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpSrOY3O/file1af72324977-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-30705-TRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/Rtmpnj7GJs/file1697e8ee02f-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-31386-TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
-<span class="r-in"><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpSrOY3O/restatapi is empty.</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/Rtmpnj7GJs/restatapi is empty.</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -196,8 +223,7 @@ in parenthesis.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
