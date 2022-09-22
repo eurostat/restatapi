@@ -1,4 +1,5 @@
 {
+  "DEFAULT_API_VERSION": "current",
   "API_VERSIONS": [
     1,
     2,
@@ -79,10 +80,10 @@
       "ESTAT": "ec.europa.eu/eurostat"
     },
     "2": {
-      "ESTAT": "webgate.ec.europa.eu/estat",
-      "COMP": "webgate.ec.europa.eu/comp",
-      "EMPL": "webgate.ec.europa.eu/empl",
-      "GROW": "webgate.ec.europa.eu/grow"
+      "ESTAT": "ec.europa.eu/estat",
+      "COMP": "ec.europa.eu/comp",
+      "EMPL": "ec.europa.eu/empl",
+      "GROW": "ec.europa.eu/grow"
     },
     "3": {
       "ESTAT": "webgate.acceptance.ec.europa.eu/estat",
@@ -96,10 +97,10 @@
       "ESTAT": "ec.europa.eu/eurostat/wdds/rest"
     },
     "2": {
-      "ESTAT": "webgate.ec.europa.eu/estat/api/dissemination",
-      "COMP": "webgate.ec.europa.eu/comp/redisstat/api/dissemination",
-      "EMPL": "webgate.ec.europa.eu/empl/redisstat/api/dissemination",
-      "GROW": "webgate.ec.europa.eu/grow/redisstat/api/dissemination"
+      "ESTAT": "ec.europa.eu/estat/api/dissemination",
+      "COMP": "ec.europa.eu/comp/redisstat/api/dissemination",
+      "EMPL": "ec.europa.eu/empl/redisstat/api/dissemination",
+      "GROW": "ec.europa.eu/grow/redisstat/api/dissemination"
     },
     "3": {
       "ESTAT": "webgate.acceptance.ec.europa.eu/estat/api/dissemination",
@@ -113,10 +114,10 @@
       "ESTAT": "http://ec.europa.eu/eurostat/wdds/rest"
     },
     "2": {
-      "ESTAT": "https://webgate.ec.europa.eu/estat/api/dissemination",
-      "COMP": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination",
-      "EMPL": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination",
-      "GROW": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination"
+      "ESTAT": "https://ec.europa.eu/eurostat/api/dissemination",
+      "COMP": "https://ec.europa.eu/comp/redisstat/api/dissemination",
+      "EMPL": "https://ec.europa.eu/empl/redisstat/api/dissemination",
+      "GROW": "https://ec.europa.eu/grow/redisstat/api/dissemination"
     },
     "3": {
       "ESTAT": "https://webgate.acceptance.ec.europa.eu/estat/api/dissemination",
@@ -128,10 +129,10 @@
   "CATALOGUE_ENDPOINT": {
     "1": null,
     "2": {
-      "ESTAT": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/catalogue.wadl",
-      "COMP": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/catalogue.wadl",
-      "EMPL": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/catalogue.wadl",
-      "GROW": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/catalogue.wadl"
+      "ESTAT": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/catalogue.wadl",
+      "COMP": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/catalogue.wadl",
+      "EMPL": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/catalogue.wadl",
+      "GROW": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/catalogue.wadl"
     },
     "3": {
       "ESTAT": "https://webgate.acceptance.ec.europa.eu/estat/api/dissemination/catalogue/catalogue.wadl",
@@ -154,39 +155,39 @@
     "2": {
       "ESTAT": {
         "txt": {
-          "en": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/toc/txt?lang=en",
-          "fr": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/toc/txt?lang=fr",
-          "de": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/toc/txt?lang=de"
+          "en": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=en",
+          "fr": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=fr",
+          "de": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/txt?lang=de"
         },
-        "xml": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/toc/xml",
-        "xsd": "https://webgate.ec.europa.eu/estat/api/dissemination/catalogue/toc/toc.xsd"
+        "xml": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml",
+        "xsd": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/toc.xsd"
       },
       "COMP": {
         "txt": {
-          "en": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
-          "fr": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
-          "de": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
+          "en": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
+          "fr": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
+          "de": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
         },
-        "xml": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/xml",
-        "xsd": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/toc.xsd"
+        "xml": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/xml",
+        "xsd": "https://ec.europa.eu/comp/redisstat/api/dissemination/catalogue/toc/toc.xsd"
       },
       "EMPL": {
         "txt": {
-          "en": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
-          "fr": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
-          "de": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
+          "en": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
+          "fr": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
+          "de": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
         },
-        "xml": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/xml",
-        "xsd": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/toc.xsd"
+        "xml": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/xml",
+        "xsd": "https://ec.europa.eu/empl/redisstat/api/dissemination/catalogue/toc/toc.xsd"
       },
       "GROW": {
         "txt": {
-          "en": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
-          "fr": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
-          "de": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
+          "en": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=en",
+          "fr": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=fr",
+          "de": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/txt?lang=de"
         },
-        "xml": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/xml",
-        "xsd": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/toc.xsd"
+        "xml": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/xml",
+        "xsd": "https://ec.europa.eu/grow/redisstat/api/dissemination/catalogue/toc/toc.xsd"
       }
     },
     "3": {
@@ -250,29 +251,29 @@
       "ESTAT": {
         "2.0": null,
         "2.1": {
-          "REST": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/sdmx-rest.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/sdmx-ws?wsdl"
+          "REST": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/sdmx-rest.wadl",
+          "SOAP": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/sdmx-ws?wsdl"
         }
       },
       "COMP": {
         "2.0": null,
         "2.1": {
-          "REST": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
+          "REST": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
+          "SOAP": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
         }
       },
       "EMPL": {
         "2.0": null,
         "2.1": {
-          "REST": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
+          "REST": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
+          "SOAP": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
         }
       },
       "GROW": {
         "2.0": null,
         "2.1": {
-          "REST": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
+          "REST": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/sdmx-rest.wadl",
+          "SOAP": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/sdmx-ws?wsdl"
         }
       }
     },
@@ -327,26 +328,26 @@
     "2": {
       "ESTAT": {
         "1.0": {
-          "REST": "https://webgate.ec.europa.eu/estat/api/dissemination//async/async.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/estat/api/dissemination//async?wsdl"
+          "REST": "https://ec.europa.eu/eurostat/api/dissemination//async/async.wadl",
+          "SOAP": "https://ec.europa.eu/eurostat/api/dissemination//async?wsdl"
         }
       },
       "COMP": {
         "1.0": {
-          "REST": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination//async/async.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination//async?wsdl"
+          "REST": "https://ec.europa.eu/comp/redisstat/api/dissemination//async/async.wadl",
+          "SOAP": "https://ec.europa.eu/comp/redisstat/api/dissemination//async?wsdl"
         }
       },
       "EMPL": {
         "1.0": {
-          "REST": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination//async/async.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination//async?wsdl"
+          "REST": "https://ec.europa.eu/empl/redisstat/api/dissemination//async/async.wadl",
+          "SOAP": "https://ec.europa.eu/empl/redisstat/api/dissemination//async?wsdl"
         }
       },
       "GROW": {
         "1.0": {
-          "REST": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination//async/async.wadl",
-          "SOAP": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination//async?wsdl"
+          "REST": "https://ec.europa.eu/grow/redisstat/api/dissemination//async/async.wadl",
+          "SOAP": "https://ec.europa.eu/grow/redisstat/api/dissemination//async?wsdl"
         }
       }
     },
@@ -504,6 +505,25 @@
       ]
     }
   },
+  "QUERY_PRIOR_ID": {
+    "1": {
+      "ESTAT": {
+        "metadata": "DSD_"
+      }
+    },
+    "2": {
+      "ESTAT":{
+        "data": null,
+        "metadata": "ESTAT/"
+      }
+    },
+    "3": {
+      "ESTAT":{
+        "data": null,
+        "metadata": null
+      }
+    }  
+  },
   "QUERY_BASE_URL": {
     "1": {
       "ESTAT": {
@@ -513,71 +533,75 @@
             "datastructure": "http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT"
           }
         },
-        "metadata": null
+        "metadata": {
+          "2.1": {
+            "datastructure": "http://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT"
+          }
+        }
       }
     },
     "2": {
       "ESTAT": {
         "data": {
           "2.1": {
-            "data": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/data"
+            "data": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data"
           }
         },
         "metadata": {
           "2.1": {
-            "dataflow": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/dataflow",
-            "datastructure": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/datastructure",
-            "codelist": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/codelist",
-            "conceptscheme": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/conceptscheme",
-            "contentconstraint": "https://webgate.ec.europa.eu/estat/api/dissemination/sdmx/2.1/contentconstraint"
+            "dataflow": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow",
+            "datastructure": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure",
+            "codelist": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist",
+            "conceptscheme": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/conceptscheme",
+            "contentconstraint": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/contentconstraint"
           }
         }
       },
       "COMP": {
         "data": {
           "2.1": {
-            "data": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/data"
+            "data": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/data"
           }
         },
         "metadata": {
           "2.1": {
-            "dataflow": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/dataflow",
-            "datastructure": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/datastructure",
-            "codelist": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/codelist",
-            "conceptscheme": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
-            "contentconstraint": "https://webgate.ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
+            "dataflow": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/dataflow",
+            "datastructure": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/datastructure",
+            "codelist": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/codelist",
+            "conceptscheme": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
+            "contentconstraint": "https://ec.europa.eu/comp/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
           }
         }
       },
       "EMPL": {
         "data": {
           "2.1": {
-            "data": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/data"
+            "data": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/data"
           }
         },
         "metadata": {
           "2.1": {
-            "dataflow": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/dataflow",
-            "datastructure": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/datastructure",
-            "codelist": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/codelist",
-            "conceptscheme": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
-            "contentconstraint": "https://webgate.ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
+            "dataflow": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/dataflow",
+            "datastructure": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/datastructure",
+            "codelist": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/codelist",
+            "conceptscheme": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
+            "contentconstraint": "https://ec.europa.eu/empl/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
           }
         }
       },
       "GROW": {
         "data": {
           "2.1": {
-            "data": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/data"
+            "data": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/data"
           }
         },
         "metadata": {
           "2.1": {
-            "dataflow": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/dataflow",
-            "datastructure": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/datastructure",
-            "codelist": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/codelist",
-            "conceptscheme": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
-            "contentconstraint": "https://webgate.ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
+            "dataflow": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/dataflow",
+            "datastructure": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/datastructure",
+            "codelist": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/codelist",
+            "conceptscheme": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/conceptscheme",
+            "contentconstraint": "https://ec.europa.eu/grow/redisstat/api/dissemination/sdmx/2.1/contentconstraint"
           }
         }
       }

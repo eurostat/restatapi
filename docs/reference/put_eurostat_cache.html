@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -53,31 +53,42 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">put_eurostat_cache</span><span class="op">(</span>
-  <span class="va">obj</span>,
-  <span class="va">oname</span>,
-  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  compress_file <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">put_eurostat_cache</span><span class="op">(</span></span>
+<span>  <span class="va">obj</span>,</span>
+<span>  <span class="va">oname</span>,</span>
+<span>  update_cache <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  compress_file <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>obj</dt>
 <dd><p>an object (toc, dataset, DSD)</p></dd>
+
+
 <dt>oname</dt>
 <dd><p>a character string with the name of the object to reference later in the cache</p></dd>
+
+
 <dt>update_cache</dt>
 <dd><p>a logical with a default value <code>FALSE</code>, whether to update the cache. In this case the existing value in the cache is overwritten.  Can be set also with <code>options(restatapi_update=TRUE)</code></p></dd>
+
+
 <dt>cache_dir</dt>
 <dd><p>a path to a cache directory. The default is <code>NULL</code>, in this case the object is saved in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it saves in the 'restatapi' directory under the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>. Directory can also be set with <code>options(restatapi_cache_dir=...)</code>.</p></dd>
+
+
 <dt>compress_file</dt>
 <dd><p>a logical whether to compress the RDS-file in caching. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns the place where the object was cached: either it creates an the object in the memory ('.restatapi_env') or creates an RDS-file.</p>
+    
+
+<p>The function returns the place where the object was cached: either it creates an the object in the memory ('.restatapi_env') or creates an RDS-file.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -86,31 +97,31 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>    </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cache_dir<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span><span class="op">)</span>,nr<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">put_eurostat_cache</span><span class="op">(</span><span class="va">dt</span>,<span class="st">"teszt"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontshow{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>    </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cache_dir<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>txt<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span><span class="op">)</span>,nr<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">put_eurostat_cache</span><span class="op">(</span><span class="va">dt</span>,<span class="st">"teszt"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "in memory ('teszt' in '.restatapi_env')"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"teszt"</span>,envir<span class="op">=</span><span class="fu">restatapi</span><span class="fu">::</span><span class="va"><a href="dot-restatapi_env.html">.restatapi_env</a></span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"teszt"</span>,envir<span class="op">=</span><span class="fu">restatapi</span><span class="fu">::</span><span class="va"><a href="dot-restatapi_env.html">.restatapi_env</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   txt nr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   a  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   b  2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   c  3</span>
-<span class="r-in"><span class="fu">put_eurostat_cache</span><span class="op">(</span><span class="va">dt</span>,<span class="st">"teszt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "in the file /tmp/RtmpSrOY3O/teszt.rds"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"teszt.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">put_eurostat_cache</span><span class="op">(</span><span class="va">dt</span>,<span class="st">"teszt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "in the file /tmp/Rtmpnj7GJs/teszt.rds"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"teszt.rds"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   txt nr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   a  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   b  2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   c  3</span>
-<span class="r-in"><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -125,8 +136,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

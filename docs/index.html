@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
       </span>
     </div>
 
@@ -74,308 +74,147 @@
 <div class="section level1">
 <div class="page-header"><h1 id="restatapi">restatapi<a class="anchor" aria-label="anchor" href="#restatapi"></a>
 </h1></div>
-<p>An R package to search and retrieve data from Eurostat database using
-SDMX</p>
+<p>An R package to search and retrieve data from Eurostat database using SDMX</p>
 <div class="section level2">
 <h2 id="installation">installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>‘restatapi’ can be installed from <a href="https://CRAN.R-project.org/package=restatapi" class="external-link">CRAN</a> by</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"restatapi"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"restatapi"</span><span class="op">)</span></span></code></pre></div>
 <p>or use the development version from GitHub</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"eurostat/restatapi"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"eurostat/restatapi"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="background">background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>This package is similar to other packages like the <a href="https://github.com/alekrutkowski/eurodata" class="external-link">eurodata</a>, <a href="https://cran.r-project.org/package=eurostat" class="external-link">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics" class="external-link">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX" class="external-link">RJSDMX</a> or <a href="https://cran.r-project.org/package=TSsdmx" class="external-link">TSsdmx</a> which can be
-used to download data from Eurostat database. The difference is that
-<code>restatapi</code> is based on SDMX (Statistical Data and Metadata
-eXchange) and XML to search and retrieve filtered datasets and use the
-TSV (tab separated values) bulk download facility to get whole data
-tables. The code was written in a way that the number of dependencies on
-other packages should be very small. The <code>restatapi</code> package
-provides flexible filtering options, data caching, and uses the
-<code>parallel</code> and <code>data.table</code> package to handle
-large dataset in an efficient way.</p>
+<p>This package is similar to other packages like the <a href="https://github.com/alekrutkowski/eurodata" class="external-link">eurodata</a>, <a href="https://cran.r-project.org/package=eurostat" class="external-link">eurostat</a>, <a href="https://cran.r-project.org/package=rdbnomics" class="external-link">rdbnomics</a>, <a href="https://cran.r-project.org/package=RJSDMX" class="external-link">RJSDMX</a> or <a href="https://cran.r-project.org/package=TSsdmx" class="external-link">TSsdmx</a> which can be used to download data from Eurostat database. The difference is that <code>restatapi</code> is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The <code>restatapi</code> package provides flexible filtering options, data caching, and uses the <code>parallel</code> and <code>data.table</code> package to handle large dataset in an efficient way.</p>
 </div>
 <div class="section level2">
 <h2 id="content">content<a class="anchor" aria-label="anchor" href="#content"></a>
 </h2>
-<p>The package contains 8 main functions and several other sub functions
-in 3 areas.</p>
+<p>The package contains 8 main functions and several other sub functions in 3 areas.</p>
 <ol style="list-style-type: decimal">
 <li>downloading and filtering the list of available datasets:
 <ul>
-<li>the <code>get_eurostat_toc</code> function downloads the Table of
-Contents (TOC) of all <a href="https://ec.europa.eu/eurostat/data/database" class="external-link">Eurostat
-datasets</a>.</li>
-<li>the <code>search_eurostat_toc</code> function provides the facility
-to search for phrase, pattern and regular expressions in the TOC and
-returns the rows of the TOC where the search string(s) found.</li>
+<li>the <code>get_eurostat_toc</code> function downloads the Table of Contents (TOC) of all <a href="https://ec.europa.eu/eurostat/data/database" class="external-link">Eurostat datasets</a>.</li>
+<li>the <code>search_eurostat_toc</code> function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.</li>
 </ul>
 </li>
 <li>downloading and searching in the metadata:
 <ul>
-<li>the <code>get_eurostat_dsd</code> function returns the Data
-Structure Definition (DSD) of a given dataset containing the possible
-dimensions and values with their labels.</li>
-<li>the <code>search_eurostat_dsd</code> function provides the facility
-to search for phrase, pattern and regular expressions in the DSD and
-returns the rows of the DSD where the search string(s) found.</li>
-<li>the <code>create_filter_table</code> function creates a filter table
-based on the DSD and the search expressions which can be applied on the
-local computer to filter out data from whole data tables.</li>
+<li>the <code>get_eurostat_dsd</code> function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels.</li>
+<li>the <code>search_eurostat_dsd</code> function provides the facility to search for phrase, pattern and regular expressions in the DSD and returns the rows of the DSD where the search string(s) found.</li>
+<li>the <code>create_filter_table</code> function creates a filter table based on the DSD and the search expressions which can be applied on the local computer to filter out data from whole data tables.</li>
 </ul>
 </li>
 <li>retrieving full or partial datasets:
 <ul>
-<li>the <code>get_eurostat_raw</code> function downloads the full data
-table as it is either using the TSV format (default) or the SDMX format
-keeping all the column names and rows as it is in the original
-files.</li>
-<li>the <code>get_eurostat_bulk</code> function downloads the full data
-set keeping only a unique frequency with standardized column names and
-removing those columns which do not contain additional information, like
-frequency and time format.<br>
+<li>the <code>get_eurostat_raw</code> function downloads the full data table as it is either using the TSV format (default) or the SDMX format keeping all the column names and rows as it is in the original files.</li>
+<li>the <code>get_eurostat_bulk</code> function downloads the full data set keeping only a unique frequency with standardized column names and removing those columns which do not contain additional information, like frequency and time format.<br>
 </li>
-<li>the <code>get_eurostat_data</code> function retrieves a data table
-which can be labeled using the labels from the DSD. The table can
-contain the whole datasets or only part of it if filters are applied. If
-after the filtering the number of observations is to large, then the
-whole dataset is downloaded and the filter applied on the local
-computer. If no filter used, it is equivalent with the
-<code>get_eurostat_bulk</code> function, but in this case labels can be
-applied.</li>
+<li>the <code>get_eurostat_data</code> function retrieves a data table which can be labeled using the labels from the DSD. The table can contain the whole datasets or only part of it if filters are applied. If after the filtering the number of observations is to large, then the whole dataset is downloaded and the filter applied on the local computer. If no filter used, it is equivalent with the <code>get_eurostat_bulk</code> function, but in this case labels can be applied.</li>
 </ul>
 </li>
 </ol>
-<p>Below there are examples demonstrating the main features, the
-detailed documentation of the functions is in the package.</p>
-<p>Next to the functions the package contains a list of country codes
-for different groups of European countries based on the <a href="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC" class="external-link">Eurostat
-standard code list</a>, e.g.: European Union (EU28, …, EU6), Euro Area
-(EA19, …, EA11) or New Member States (NMS13, …, NMS2).</p>
+<p>Below there are examples demonstrating the main features, the detailed documentation of the functions is in the package.</p>
+<p>Next to the functions the package contains a list of country codes for different groups of European countries based on the <a href="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_GEO&amp;StrLanguageCode=EN&amp;IntPcKey=42277583&amp;IntResult=1&amp;StrLayoutCode=HIERARCHIC" class="external-link">Eurostat standard code list</a>, e.g.: European Union (EU28, …, EU6), Euro Area (EA19, …, EA11) or New Member States (NMS13, …, NMS2).</p>
 </div>
 <div class="section level2">
-<h2 id="10-examples">10 examples<a class="anchor" aria-label="anchor" href="#10-examples"></a>
+<h2 id="id_10-examples">10 examples<a class="anchor" aria-label="anchor" href="#id_10-examples"></a>
 </h2>
-<p><strong>Example 1:</strong> First set the number of cores/threads
-(<code>restatapi_cores</code>) to 3 and download the XML version of the
-the English Table of Contents (TOC). Then change the file download
-method (<code>dmethod</code>) from the default <code>auto</code> to
-<code>libcurl</code> in case there is problem with the system defaults,
-and download the txt version (<code>mode="txt"</code>) of the TOC
-showing the detailed debugging messages (<code>verbose=TRUE</code>). The
-debugging information can show if there is a problem with the internet
-connection, as it provides the URL which is used to download the data
-from the API. The provided URL can be copied and checked in a regular
-browser if the API gives a response or not. Finally, search not case
-sensitive (<code>ignore.case=TRUE</code>) for the word
-<code>energie</code> in the German version (<code>lang="de"</code>) of
-the TOC.</p>
+<p><strong>Example 1:</strong> First set the number of cores/threads (<code>restatapi_cores</code>) to 3 and download the XML version of the the English Table of Contents (TOC). Then change the file download method (<code>dmethod</code>) from the default <code>auto</code> to <code>libcurl</code> in case there is problem with the system defaults, and download the txt version (<code>mode="txt"</code>) of the TOC showing the detailed debugging messages (<code>verbose=TRUE</code>). The debugging information can show if there is a problem with the internet connection, as it provides the URL which is used to download the data from the API. The provided URL can be copied and checked in a regular browser if the API gives a response or not. Finally, search not case sensitive (<code>ignore.case=TRUE</code>) for the word <code>energie</code> in the German version (<code>lang="de"</code>) of the TOC.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
-<span class="fu"><a href="reference/get_eurostat_toc.html">get_eurostat_toc</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"libcurl"</span><span class="op">)</span>
-<span class="fu">get_get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="reference/search_eurostat_toc.html">search_eurostat_toc</a></span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 2:</strong> Download the Data Structure Definition
-(DSD) for the ‘Financial services - quarterly data’
-(<code>ei_bsfs_q</code>) datasets. First search in the DSD the “EU”
-pattern everywhere case sensitive. Then search only in the code list
-(<code>name=FALSE</code>).</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_toc.html">get_eurostat_toc</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"libcurl"</span><span class="op">)</span></span>
+<span><span class="fu">get_get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/search_eurostat_toc.html">search_eurostat_toc</a></span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 2:</strong> Download the Data Structure Definition (DSD) for the ‘Financial services - quarterly data’ (<code>ei_bsfs_q</code>) datasets. First search in the DSD the “EU” pattern everywhere case sensitive. Then search only in the code list (<code>name=FALSE</code>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"ei_bsfs_q"</span><span class="op">)</span>
-<span class="fu"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd</span><span class="op">)</span>
-<span class="fu"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd</span>,name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 3:</strong> Download the raw dataset
-<code>avia_gor_me</code> (‘Freight and mail air transport between the
-main airports of Montenegro and their main partner airports (routes
-data)’) from the Tab Separated Value (tsv) file and keep it as it is
-(<code>melt=FALSE</code>). In his case each time period will be in
-separate columns. Then download the same whole dataset using the SDMX
-(<code>xml</code>) version. In this case the data will be melted.
-Finally using the <code>get_eurostat_bulk</code> function to download
-the same dataset. In this case the data will contain only a unique time
-period (the most frequent one - monthly data) with standardized column
-names (‘time’, ‘values’ and ‘flags’ in case <code>keep_flags=TRUE</code>
-used).</p>
+<code class="sourceCode R"><span><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"ei_bsfs_q"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/search_eurostat_dsd.html">search_eurostat_dsd</a></span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd</span>,name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 3:</strong> Download the raw dataset <code>avia_gor_me</code> (‘Freight and mail air transport between the main airports of Montenegro and their main partner airports (routes data)’) from the Tab Separated Value (tsv) file and keep it as it is (<code>melt=FALSE</code>). In his case each time period will be in separate columns. Then download the same whole dataset using the SDMX (<code>xml</code>) version. In this case the data will be melted. Finally using the <code>get_eurostat_bulk</code> function to download the same dataset. In this case the data will contain only a unique time period (the most frequent one - monthly data) with standardized column names (‘time’, ‘values’ and ‘flags’ in case <code>keep_flags=TRUE</code> used).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/get_eurostat_raw.html">get_eurostat_raw</a></span><span class="op">(</span><span class="st">"avia_gor_me"</span>,melt<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="reference/get_eurostat_raw.html">get_eurostat_raw</a></span><span class="op">(</span><span class="st">" Avia_gor_ME"</span>,<span class="st">"xml"</span><span class="op">)</span>
-<span class="fu"><a href="reference/get_eurostat_bulk.html">get_eurostat_bulk</a></span><span class="op">(</span><span class="st">"AVIA_GOR_ME "</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 4:</strong> Download the whole data table of ‘GDP and
-main components’ (<code>nama_10_gdp</code>), then check if the provided
-<code>id</code> is in the Table of Contents
-(<code>check_toc=TRUE</code>). If it is correct, then do not use the
-cached version from the memory (<code>.restatapi_env</code>), but rather
-download it again and update the dataset in the cache
-(<code>update_cache=TRUE</code>). Finally, change the cache directory
-from memory to hard disk to a temporary folder
-(<code>cache_dir="/tmp"</code>, <code>/tmp</code> is a typical temporary
-folder on Unix-like systems) and download there the whole data table
-keeping all non-numeric values as string instead of converting to
-factors (<code>stringAsFactors=FALSE</code>), and keeping the lines
-without values which were suppressed due to confidentiality (having the
-‘c’ flag, <code>cflags=TRUE</code>).</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/get_eurostat_raw.html">get_eurostat_raw</a></span><span class="op">(</span><span class="st">"avia_gor_me"</span>,melt<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_raw.html">get_eurostat_raw</a></span><span class="op">(</span><span class="st">" Avia_gor_ME"</span>,<span class="st">"xml"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_bulk.html">get_eurostat_bulk</a></span><span class="op">(</span><span class="st">"AVIA_GOR_ME "</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 4:</strong> Download the whole data table of ‘GDP and main components’ (<code>nama_10_gdp</code>), then check if the provided <code>id</code> is in the Table of Contents (<code>check_toc=TRUE</code>). If it is correct, then do not use the cached version from the memory (<code>.restatapi_env</code>), but rather download it again and update the dataset in the cache (<code>update_cache=TRUE</code>). Finally, change the cache directory from memory to hard disk to a temporary folder (<code>cache_dir="/tmp"</code>, <code>/tmp</code> is a typical temporary folder on Unix-like systems) and download there the whole data table keeping all non-numeric values as string instead of converting to factors (<code>stringAsFactors=FALSE</code>), and keeping the lines without values which were suppressed due to confidentiality (having the ‘c’ flag, <code>cflags=TRUE</code>).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"NAMA_10_GDP"</span><span class="op">)</span>
-<span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,cache_dir<span class="op">=</span><span class="st">"/tmp"</span>,stringAsFactors<span class="op">=</span><span class="cn">FALSE</span>,cflags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 5:</strong> Set the option, that always download the
-dataset from the internet and do not use the cached version of the
-data(<code>restatapi_update=TRUE</code>). In this case it is not
-necessary define this option for each data query. Then change the
-default cache from memory (<code>.restatapi_env</code>) to hard disk
-(<code>restatapi_cache_dir=file.path(tempdir(),"restatapi")</code>), to
-the folder <code>restatapi</code> inside the R temporary folder. This is
-the default cache directory on the hard disk, which will be created, in
-case the provided <code>cache_dir</code> folder does not exist.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"NAMA_10_GDP"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,cache_dir<span class="op">=</span><span class="st">"/tmp"</span>,stringAsFactors<span class="op">=</span><span class="cn">FALSE</span>,cflags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 5:</strong> Set the option, that always download the dataset from the internet and do not use the cached version of the data(<code>restatapi_update=TRUE</code>). In this case it is not necessary define this option for each data query. Then change the default cache from memory (<code>.restatapi_env</code>) to hard disk (<code>restatapi_cache_dir=file.path(tempdir(),"restatapi")</code>), to the folder <code>restatapi</code> inside the R temporary folder. This is the default cache directory on the hard disk, which will be created, in case the provided <code>cache_dir</code> folder does not exist.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"restatapi"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 6:</strong> First download the annual
-(<code>select_freq="A"</code>) air passenger transport data for the main
-airports of Montenegro (<code>avia_par_me</code>) and do not cache any
-of the data (<code>cache=FALSE</code>). Then from the same table
-download the monthly (<code>select_freq="M"</code>) and quarterly
-(<code>filters="Q...</code>) data for 2 specific airport pairs/routes
-(<code>filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</code>) in August
-2016 and on 1 July 2017
-(<code>date_filter=c("2016-08","2017-07-01")</code>). The filters are
-provided in the format how it is required by the <a href="https://ec.europa.eu/eurostat/web/sdmx-web-services/rest-sdmx-2.1" class="external-link">REST
-SDMX web service</a>. Then download again the monthly and quarterly data
-(<code>filters=c("Quarterly","Monthly")</code>) where there is exact
-match in the DSD for “HU” for August 2016 and 1 March 2014
-(<code>date_filter=c("2016-08","2014-03-01")</code>). This query will
-provide only monthly data for 2016, as the quarterly data is always
-assigned to the first month of the quarter and there is no data for
-2014. Since there is no exact match for the “HU” pattern, it will return
-all the monthly data for August 2016 and put the labels (like the name
-of the airports and units) so the data can be easier understood
-(<code>label=TRUE</code>). Finally, download only the quarterly data
-(<code>select_freq="Q"</code>) for several time periods
-(<code>date_filter=c("2017-03",2016,"2017-07-01",2012:2014)</code>, the
-order of the dates does not matter) where the “HU” pattern can be found
-anywhere, but only in the <code>code</code> column of the DSD
-(<code>filters="HU",exact_match=FALSE,name=FALSE</code>). The result
-will be all the statistics about flights from Montenegro to Hungary in
-the 3rd quarter of 2017, as there is no information for the other time
-periods.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"restatapi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 6:</strong> First download the annual (<code>select_freq="A"</code>) air passenger transport data for the main airports of Montenegro (<code>avia_par_me</code>) and do not cache any of the data (<code>cache=FALSE</code>). Then from the same table download the monthly (<code>select_freq="M"</code>) and quarterly (<code>filters="Q...</code>) data for 2 specific airport pairs/routes (<code>filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</code>) in August 2016 and on 1 July 2017 (<code>date_filter=c("2016-08","2017-07-01")</code>). The filters are provided in the format how it is required by the <a href="https://ec.europa.eu/eurostat/web/sdmx-web-services/rest-sdmx-2.1" class="external-link">REST SDMX web service</a>. Then download again the monthly and quarterly data (<code>filters=c("Quarterly","Monthly")</code>) where there is exact match in the DSD for “HU” for August 2016 and 1 March 2014 (<code>date_filter=c("2016-08","2014-03-01")</code>). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the “HU” pattern, it will return all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (<code>label=TRUE</code>). Finally, download only the quarterly data (<code>select_freq="Q"</code>) for several time periods (<code>date_filter=c("2017-03",2016,"2017-07-01",2012:2014)</code>, the order of the dates does not matter) where the “HU” pattern can be found anywhere, but only in the <code>code</code> column of the DSD (<code>filters="HU",exact_match=FALSE,name=FALSE</code>). The result will be all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,cache<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,
-                       filters<span class="op">=</span><span class="st">"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,
-                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2017-07-01"</span><span class="op">)</span>,
-                       select_freq<span class="op">=</span><span class="st">"M"</span><span class="op">)</span> 
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,
-                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"Quarterly"</span>,<span class="st">"Monthly"</span><span class="op">)</span>,
-                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2014-03-01"</span><span class="op">)</span>,
-                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,
-                       filters<span class="op">=</span><span class="st">"HU"</span>,
-                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,
-                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017-03"</span>,<span class="fl">2016</span>,<span class="st">"2017-07-01"</span>,<span class="fl">2012</span><span class="op">:</span><span class="fl">2014</span><span class="op">)</span>,
-                       select_freq<span class="op">=</span><span class="st">"Q"</span>,
-                       label<span class="op">=</span><span class="cn">TRUE</span>,
-                       verbose<span class="op">=</span><span class="cn">TRUE</span>,
-                       name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p><strong>Example 7:</strong> Download from the Time Use Survey (TUS)
-data (<code>tus_00age</code>) for 2010 (<code>date_filter=2010</code>)
-in Hungary how much time spent with travel on average. If someone does
-not know the exact codes then the filter patterns
-(<code>filters=c("total","time spent","HU",'travel')</code>) can be
-searched in the labels (<code>label=TRUE</code>) non case sensitive
-(<code>ignore.case=TRUE</code>) without forcing exact match of the
-patterns (<code>exact_match=FALSE</code>). The first function call will
-result an empty data table as the SDMX webservice will provide NaN (Not
-a Number) response for the time values (hh:mm). But these values are
-included in the bulk download files, and can be retrieved by forcing the
-filtering on the local computer (<code>force_local_filter=TRUE</code>).
-Then the retrieved values can be summed using the <a href="https://cran.r-project.org/package=chron" class="external-link">chron</a> package.</p>
+<code class="sourceCode R"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,cache<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="st">"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2017-07-01"</span><span class="op">)</span>,</span>
+<span>                       select_freq<span class="op">=</span><span class="st">"M"</span><span class="op">)</span> </span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"Quarterly"</span>,<span class="st">"Monthly"</span><span class="op">)</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2014-03-01"</span><span class="op">)</span>,</span>
+<span>                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"avia_par_me"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="st">"HU"</span>,</span>
+<span>                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017-03"</span>,<span class="fl">2016</span>,<span class="st">"2017-07-01"</span>,<span class="fl">2012</span><span class="op">:</span><span class="fl">2014</span><span class="op">)</span>,</span>
+<span>                       select_freq<span class="op">=</span><span class="st">"Q"</span>,</span>
+<span>                       label<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       verbose<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Example 7:</strong> Download from the Time Use Survey (TUS) data (<code>tus_00age</code>) for 2010 (<code>date_filter=2010</code>) in Hungary how much time spent with travel on average. If someone does not know the exact codes then the filter patterns (<code>filters=c("total","time spent","HU",'travel')</code>) can be searched in the labels (<code>label=TRUE</code>) non case sensitive (<code>ignore.case=TRUE</code>) without forcing exact match of the patterns (<code>exact_match=FALSE</code>). The first function call will result an empty data table as the SDMX webservice will provide NaN (Not a Number) response for the time values (hh:mm). But these values are included in the bulk download files, and can be retrieved by forcing the filtering on the local computer (<code>force_local_filter=TRUE</code>). Then the retrieved values can be summed using the <a href="https://cran.r-project.org/package=chron" class="external-link">chron</a> package.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"tus_00age"</span>,
-                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"total"</span>,<span class="st">"time spent"</span>,<span class="st">'travel'</span><span class="op">)</span>,
-                       date_filter<span class="op">=</span><span class="fl">2010</span>,
-                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,
-                       ignore.case<span class="op">=</span><span class="cn">TRUE</span>,
-                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"tus_00age"</span>,
-                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"total"</span>,<span class="st">"time spent"</span>,<span class="st">'travel'</span><span class="op">)</span>,
-                       date_filter<span class="op">=</span><span class="fl">2010</span>,
-                       force_local_filter<span class="op">=</span><span class="cn">TRUE</span>,
-                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,
-                       ignore.case<span class="op">=</span><span class="cn">TRUE</span>,
-                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">dt</span>
-<span class="va">dt</span><span class="op">[</span><span class="va">acl00</span><span class="op">!=</span><span class="st">"Total"</span>,<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">chron</span><span class="fu">::</span><span class="fu">times</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">values</span>,<span class="st">":00"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>                       </code></pre></div>
-<p><strong>Example 8:</strong> Download the data on the production of
-cow’s milk on farms by NUTS 2 regions (<code>agr_r_milkpr</code>) first
-only for the new Member States joined in 2004 and keeping only the
-period between March 2009 and 5 June 2011
-(<code>date_filter="2009-03:2011-06-05"</code>). The country code of the
-member states can be loaded from the <code>.restatapi env</code>
-(<code>eu&lt;-get("cc",envir=.restatapi_env)</code>) and it can be used
-in the query (<code>filters=eu$NMS10</code>). Then get all the data for
-Belgium for all <a href="https://ec.europa.eu/eurostat/en/web/products-manuals-and-guidelines/-/ks-gq-20-092" class="external-link">NUTS</a>
-level from the same data set before July 2009
-(<code>date_filter="&lt;2009-07"</code>) with the labels
-(<code>label=TRUE</code>) and the observation status (so called
-<em>flags</em>) information (<code>flags=TRUE</code>). In this case for
-filter (<code>filters="BE"</code>) the exact matching of pattern should
-be turned off (<code>exact_match=FALSE</code>) to get not just at
-country (NUTS0) level. Finally, get the data at for Hungary at NUTS2
-level after 19 May 2017 (<code>date_filter="2017-05-19&lt;</code>) and
-keeping the lines which were removed due to confidentiality
-(<code>cflags=TRUE</code>). For this we do not have to know the exact
-code, name or number of the NUTS2 regions as we can provide regular
-expression in the filter (<code>filters=c("^HU..")</code>) and providing
-the option that the expression is Perl compatible
-(<code>perl=TRUE</code>).</p>
+<code class="sourceCode R"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"tus_00age"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"total"</span>,<span class="st">"time spent"</span>,<span class="st">'travel'</span><span class="op">)</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="fl">2010</span>,</span>
+<span>                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>                       ignore.case<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"tus_00age"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HU"</span>,<span class="st">"total"</span>,<span class="st">"time spent"</span>,<span class="st">'travel'</span><span class="op">)</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="fl">2010</span>,</span>
+<span>                       force_local_filter<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       exact_match<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>                       ignore.case<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dt</span></span>
+<span><span class="va">dt</span><span class="op">[</span><span class="va">acl00</span><span class="op">!=</span><span class="st">"Total"</span>,<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">chron</span><span class="fu">::</span><span class="fu">times</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">values</span>,<span class="st">":00"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>                       </span></code></pre></div>
+<p><strong>Example 8:</strong> Download the data on the production of cow’s milk on farms by NUTS 2 regions (<code>agr_r_milkpr</code>) first only for the new Member States joined in 2004 and keeping only the period between March 2009 and 5 June 2011 (<code>date_filter="2009-03:2011-06-05"</code>). The country code of the member states can be loaded from the <code>.restatapi env</code> (<code>eu&lt;-get("cc",envir=.restatapi_env)</code>) and it can be used in the query (<code>filters=eu$NMS10</code>). Then get all the data for Belgium for all <a href="https://ec.europa.eu/eurostat/en/web/products-manuals-and-guidelines/-/ks-gq-20-092" class="external-link">NUTS</a> level from the same data set before July 2009 (<code>date_filter="&lt;2009-07"</code>) with the labels (<code>label=TRUE</code>) and the observation status (so called <em>flags</em>) information (<code>flags=TRUE</code>). In this case for filter (<code>filters="BE"</code>) the exact matching of pattern should be turned off (<code>exact_match=FALSE</code>) to get not just at country (NUTS0) level. Finally, get the data at for Hungary at NUTS2 level after 19 May 2017 (<code>date_filter="2017-05-19&lt;</code>) and keeping the lines which were removed due to confidentiality (<code>cflags=TRUE</code>). For this we do not have to know the exact code, name or number of the NUTS2 regions as we can provide regular expression in the filter (<code>filters=c("^HU..")</code>) and providing the option that the expression is Perl compatible (<code>perl=TRUE</code>).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">eu</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"cc"</span>,envir<span class="op">=</span><span class="va">.restatapi_env</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,
-                       filters<span class="op">=</span><span class="va">eu</span><span class="op">$</span><span class="va">NMS10</span>,
-                       date_filter<span class="op">=</span><span class="st">"2009-03:2011-06-05"</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,
-                      filters<span class="op">=</span><span class="st">"BE"</span>,
-                      date_filter<span class="op">=</span><span class="st">"&lt;2009-07"</span>,
-                      keep_flags<span class="op">=</span><span class="cn">TRUE</span>,
-                      exact_match<span class="op">=</span><span class="cn">FALSE</span>,
-                      label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,
-                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"^HU.."</span><span class="op">)</span>,
-                       date_filter<span class="op">=</span><span class="st">"2017-05-19&lt;"</span>,
-                       cflags<span class="op">=</span><span class="cn">TRUE</span>,
-                       perl<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                       </code></pre></div>
-<p><strong>Example 9:</strong> Download the balance
-(<code>stk_flow="BAL"</code>) from the international trade in services
-dataset (<code>bop_its6_det</code>) for 2020
-(<code>date_filter=2020</code>), transport services
-(<code>bop_item="SC"</code>), with reporting countries Hungary and the
-EU (<code>geo=c("EU27_2020","HU")</code>) and trading partner outside EU
-(<code>partner="EXT_EU27_2020"</code>). In order to avoid that Hungary
-shows up in the partner countries the filter should be defined as a
-named list
-(<code>filters=list(bop_item="SC",partner="EXT_EU27_2020",geo=c("EU27_2020","HU"),stk_flow="BAL")</code>)
-and do not search for the terms in the labels (<code>name=FALSE</code>).
-In this case the filter patterns only searched where the concept equals
-to the name.</p>
+<code class="sourceCode R"><span><span class="va">eu</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"cc"</span>,envir<span class="op">=</span><span class="va">.restatapi_env</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="va">eu</span><span class="op">$</span><span class="va">NMS10</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="st">"2009-03:2011-06-05"</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,</span>
+<span>                      filters<span class="op">=</span><span class="st">"BE"</span>,</span>
+<span>                      date_filter<span class="op">=</span><span class="st">"&lt;2009-07"</span>,</span>
+<span>                      keep_flags<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                      exact_match<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>                      label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"^HU.."</span><span class="op">)</span>,</span>
+<span>                       date_filter<span class="op">=</span><span class="st">"2017-05-19&lt;"</span>,</span>
+<span>                       cflags<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                       perl<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                       </span></code></pre></div>
+<p><strong>Example 9:</strong> Download the balance (<code>stk_flow="BAL"</code>) from the international trade in services dataset (<code>bop_its6_det</code>) for 2020 (<code>date_filter=2020</code>), transport services (<code>bop_item="SC"</code>), with reporting countries Hungary and the EU (<code>geo=c("EU27_2020","HU")</code>) and trading partner outside EU (<code>partner="EXT_EU27_2020"</code>). In order to avoid that Hungary shows up in the partner countries the filter should be defined as a named list (<code>filters=list(bop_item="SC",partner="EXT_EU27_2020",geo=c("EU27_2020","HU"),stk_flow="BAL")</code>) and do not search for the terms in the labels (<code>name=FALSE</code>). In this case the filter patterns only searched where the concept equals to the name.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"bop_its6_det"</span>,
-                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bop_item<span class="op">=</span><span class="st">"SC"</span>,
-                                    partner<span class="op">=</span><span class="st">"EXT_EU27_2020"</span>,
-                                    geo<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EU27_2020"</span>,<span class="st">"HU"</span><span class="op">)</span>,
-                                    stk_flow<span class="op">=</span><span class="st">"BAL"</span><span class="op">)</span>,
-                        date_filter<span class="op">=</span><span class="fl">2020</span>,
-                        label<span class="op">=</span><span class="cn">TRUE</span>,
-                        name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>     </code></pre></div>
-<p><strong>Example 10:</strong> After finishing the tasks the cache (in
-memory and on the hard drive) can be cleaned up.</p>
+<code class="sourceCode R"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu"><a href="reference/get_eurostat_data.html">get_eurostat_data</a></span><span class="op">(</span><span class="st">"bop_its6_det"</span>,</span>
+<span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bop_item<span class="op">=</span><span class="st">"SC"</span>,</span>
+<span>                                    partner<span class="op">=</span><span class="st">"EXT_EU27_2020"</span>,</span>
+<span>                                    geo<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EU27_2020"</span>,<span class="st">"HU"</span><span class="op">)</span>,</span>
+<span>                                    stk_flow<span class="op">=</span><span class="st">"BAL"</span><span class="op">)</span>,</span>
+<span>                        date_filter<span class="op">=</span><span class="fl">2020</span>,</span>
+<span>                        label<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                        name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>     </span></code></pre></div>
+<p><strong>Example 10:</strong> After finishing the tasks the cache (in memory and on the hard drive) can be cleaned up.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 
@@ -439,8 +278,7 @@ memory and on the hard drive) can be cleaned up.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
