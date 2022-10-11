@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
       </span>
     </div>
 
@@ -54,7 +54,8 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_cfg</span><span class="op">(</span></span>
-<span>  api_version <span class="op">=</span> <span class="st">"current"</span>,</span>
+<span>  api_version <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  cfg_file <span class="op">=</span> <span class="st">"github"</span>,</span>
 <span>  load_toc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  max_cores <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -65,7 +66,11 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>api_version</dt>
-<dd><p>It can be either "old", "new", "test" or "current". The default value is "current".</p></dd>
+<dd><p>It can be either "old", "new", "test" or "current". The default value is "current" which defined by the DEFAULT_API_VERSION value of the config file.</p></dd>
+
+
+<dt>cfg_file</dt>
+<dd><p>The location of the config file. It can be either "github" (the default value) or "local".</p></dd>
 
 
 <dt>load_toc</dt>
@@ -119,7 +124,7 @@ The number of cores used for parallel computing can be changed any time with <co
 <span class="r-in"><span><span class="fu">load_cfg</span><span class="op">(</span>parallel<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"auto"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">load_cfg</span><span class="op">(</span>api_version<span class="op">=</span><span class="st">"test"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span>,max_cores<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> restatapi: - version 0.13.3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> restatapi: - version 0.14.0</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - config file with the API version 3 loaded from GitHub (the 'current' API version number is 1).</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - no parallel computing.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>            - 'auto' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'</span>
