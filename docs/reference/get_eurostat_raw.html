@@ -185,8 +185,10 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,mode<span class="op">=</span><span class="st">"txt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/Rtmpnj7GJs/file16922e6663d-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-52354-TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class:data.tabledata.frame</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - Warning by the download the TSV file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_me.tsv.gz': Timeout of 2 seconds was reached</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(bulk_url, temp, dmethod)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - /tmp/RtmpnROsu9/file16474a3d62b-1-size#isdir#mode#mtime#ctime#atime#uid#gid#uname#grname-0-TRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw:FALSE local filter:FALSE called from:get_eurostat_rawavia_par_metxttempdir()FALSETRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - FALSE</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
