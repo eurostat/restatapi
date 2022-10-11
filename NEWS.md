@@ -1,3 +1,8 @@
+# restatapi 0.14.0
+
+- adjusting config file and the `load_cfg()` function to correctly handle the new API
+- adjusting `get_eurostat_dsd()` and `extract_dsd()` function to the new API
+
 # restatapi 0.13.3
 
 - removing memory size check for non-linux systems

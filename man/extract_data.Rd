@@ -41,12 +41,12 @@ bulk_url<-toc$downloadLink.sdmx[toc$code==id]
 options(timeout=2)
 if (!is.null(bulk_url)){
   temp<-tempfile()
-  download.file(bulk_url,temp)
+  tryCatch({download.file(bulk_url,temp)
   sdmx_xml<-xml2::read_xml(unzip(temp,paste0(id,".sdmx.xml"),exdir=tempdir()))
   xml_leafs<-xml2::xml_find_all(sdmx_xml,".//data:Series")
   extract_data(xml_leafs[1])
+  unlink(file.path(tempdir(),paste0(id,".sdmx.xml")))})
   unlink(temp)
-  unlink(file.path(tempdir(),paste0(id,".sdmx.xml")))
 }
 options(timeout=60)
 }
