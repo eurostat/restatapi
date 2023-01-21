@@ -88,7 +88,7 @@ if (!is.null(xml_toc)){
     message("\n ########--------- 15 test of the search_eurostat_dsd function")
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)
     message("\n ########--------- 16 test of the search_eurostat_dsd function")
-    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),19)
+    expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),20)
     message("\n ########--------- 17 test of the search_eurostat_dsd function")
     expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),15)
     message("\n ########--------- 18 test of the search_eurostat_dsd function")

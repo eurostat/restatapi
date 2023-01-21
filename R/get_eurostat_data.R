@@ -1,5 +1,5 @@
 #' @title Download, extract and filter Eurostat data
-#' @description Download full or partial data set from \href{https://ec.europa.eu/eurostat/}{Eurostat} \href{https://ec.europa.eu/eurostat/data/database}{database}.
+#' @description Download full or partial data set from \href{https://ec.europa.eu/eurostat/web/main/home}{Eurostat} \href{https://ec.europa.eu/eurostat/web/main/data/database}{database}.
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
 #' @param filters a string, a character vector or named list containing words to filter by the different concepts or geographical location.
@@ -37,7 +37,7 @@
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
-#'        \url{https://ec.europa.eu/eurostat/data/database/information}.
+#'        \url{https://ec.europa.eu/eurostat/web/main/data/database/information}.
 #' @param cflags a logical whether the missing observations with flag 'c' - "confidential"
 #'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 #'        \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.
@@ -60,7 +60,7 @@
 #' @export
 #' 
 #' @details Data sets are downloaded from the Eurostat Web Services 
-#' \href{https://ec.europa.eu/eurostat/web/sdmx-web-services}{SDMX API} if there is a filter otherwise the 
+#' \href{https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555}{SDMX API} if there is a filter otherwise the 
 #' \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} is used.
 #' If only the table \code{id} is given, the whole table is downloaded from the
 #' bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX REST API is
@@ -71,7 +71,7 @@
 #' The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 #' 
 #' The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched 
-#' for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
+#' for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/web/main/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
 #' 
 #' Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 

@@ -35,7 +35,7 @@ This package is similar to other packages like the [eurodata](https://github.com
 The package contains 8 main functions and several other sub functions in 3 areas.
 
 1. downloading and filtering the list of available datasets:
-    * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/data/database).
+    * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/web/main/data/database).
     * the `search_eurostat_toc` function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.
 2. downloading and searching in the metadata:  
     * the `get_eurostat_dsd` function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels. 
@@ -94,7 +94,7 @@ options(restatapi_update=TRUE)
 options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 ```
 
-**Example 6:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro (`avia_par_me`) and do not cache any of the data (`cache=FALSE`). Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://ec.europa.eu/eurostat/web/sdmx-web-services/rest-sdmx-2.1).
+**Example 6:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro (`avia_par_me`) and do not cache any of the data (`cache=FALSE`). Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555).
 Then download again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is exact match in the DSD for "HU" for August 2016 and 1 March 2014 (`date_filter=c("2016-08","2014-03-01")`). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the "HU" pattern, it will return all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (`label=TRUE`). 
 Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`, the order of the dates does not matter) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result will be all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods. 
 
