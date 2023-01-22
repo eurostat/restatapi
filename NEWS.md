@@ -2,6 +2,7 @@
 
 - adjusting the tests and the JSON config file for the introduction of Euro in Croatia
 - updating links due to the revamp of Eurostat website
+- CRAN release
 
 # restatapi 0.14.0
 
