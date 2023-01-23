@@ -257,8 +257,8 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"NAMA_10_GDP"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/Rtmp8DVaRS/file1631d6cff06'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CLV10_MNAC,D21,RO	: 	90277.1 p	82672.8 	88357.9 	83828.1 	76493.1 	71738.5 	69389.6 	64888.0 	62908.3 	63363.2 	63062.6 	60127.7 	56140.3 	64712.0 	61348.4 	59399.1 	56280.5 	51803.7 	48015.7 	45279.6 	42437.4 	41368.5 	40293.1 	423&gt;&gt;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>incomplete final line found on '/tmp/RtmplQ2QIW/file16274d9ea63'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Discarded single-line footer: &lt;&lt;CLV15_MNAC,P5G,EU28	: 	: 	: 	3485498.0 	3335955.8 	3218015.3 	3080321.9 	3004531.2 	2863064.2 	27274&gt;&gt;</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"htec_cis3"</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="st">"/tmp"</span>,cflags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
@@ -276,7 +276,10 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span>                      select_freq<span class="op">=</span><span class="st">"Q"</span>,</span></span>
 <span class="r-in"><span>                      label<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                      name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The query had at least one footer message. You can check the details with the 'verbose=TRUE' parameter.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,</span></span>
 <span class="r-in"><span>                      filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BE$"</span>,<span class="st">"Hungary"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      date_filter<span class="op">=</span><span class="st">"2007-06&lt;"</span>,</span></span>
@@ -284,6 +287,10 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"nama_10_a10_e"</span>,</span></span>
 <span class="r-in"><span>                      filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Annual"</span>,<span class="st">"EU28"</span>,<span class="st">"Belgium"</span>,<span class="st">"AT"</span>,<span class="st">"Total"</span>,<span class="st">"EMP_DC"</span>,<span class="st">"person"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2008"</span>,<span class="fl">2002</span>,<span class="fl">2013</span><span class="op">:</span><span class="fl">2018</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"vit_t3"</span>,</span></span>
 <span class="r-in"><span>                      filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EU28"</span>,<span class="va">eu</span><span class="op">$</span><span class="va">EA15</span>,<span class="st">"HU$"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2015"</span>,<span class="fl">2007</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -294,9 +301,14 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span>                      filters<span class="op">=</span><span class="st">"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,</span></span>
 <span class="r-in"><span>                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2017-07-01"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      select_freq<span class="op">=</span><span class="st">"M"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"htec_cis3"</span>,</span></span>
 <span class="r-in"><span>                       filters<span class="op">=</span><span class="st">"lu"</span>,</span></span>
 <span class="r-in"><span>                       ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"bop_its6_det"</span>,</span></span>
 <span class="r-in"><span>                       filters<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bop_item<span class="op">=</span><span class="st">"SC"</span>,</span></span>
 <span class="r-in"><span>                                    currency<span class="op">=</span><span class="st">"MIO_EUR"</span>,</span></span>
@@ -310,7 +322,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="st">"/tmp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                                 </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/Rtmp8DVaRS/restatapi</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmplQ2QIW/restatapi</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
