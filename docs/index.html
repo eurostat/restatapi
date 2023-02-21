@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
       </span>
     </div>
 
@@ -72,8 +72,13 @@
 
 
 <div class="section level1">
-<div class="page-header"><h1 id="restatapi">restatapi<a class="anchor" aria-label="anchor" href="#restatapi"></a>
+<div class="page-header"><h1 id="important-changes-with-the-new-api">IMPORTANT changes with the new API<a class="anchor" aria-label="anchor" href="#important-changes-with-the-new-api"></a>
 </h1></div>
+<p>Version 0.20.0 enables all the functionality for the <a href="https://wikis.ec.europa.eu/display/EUROSTATHELP/Developer%27s+corner" class="external-link">new dissemination chain</a>. It has breaking changes concerning the <code>date_filter</code> as in the old dissemination the value was assigned to <em>the first day</em> of the month, quarter and year so it was enough to filter for one day to get the value. Under the new API the value belongs to the full period. If a date range does not cover the whole period no values will be returned. E.g. to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With concrete numbers to get the value for 2022/Q3, the <code>startDate</code> should be 2022-07-01 or earlier and the <code>endDate</code> 2022-09-30 or later. In the old version it was enough if the period included the day 2022-07-01 only.</p>
+</div>
+<div class="section level1">
+<h1 id="restatapi">restatapi<a class="anchor" aria-label="anchor" href="#restatapi"></a>
+</h1>
 <p>An R package to search and retrieve data from Eurostat database using SDMX</p>
 <div class="section level2">
 <h2 id="installation">installation<a class="anchor" aria-label="anchor" href="#installation"></a>

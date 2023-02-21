@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
       </span>
     </div>
 
@@ -53,7 +53,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_data</span><span class="op">(</span><span class="va">xml_lf</span>, keep_flags <span class="op">=</span> <span class="cn">FALSE</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, bulk <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_data</span><span class="op">(</span></span>
+<span>  <span class="va">xml_lf</span>,</span>
+<span>  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  bulk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_toc <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,6 +80,10 @@ in this case the strings are returned as characters.</p></dd>
 <dt>bulk</dt>
 <dd><p>a logical value with default value <code>TRUE</code> if the input SDMX XML file is from the bulk download facility containing all the observations. 
 If the input file has pre-filtered values then the value <code>FALSE</code> should be used.</p></dd>
+
+
+<dt>check_toc</dt>
+<dd><p>if the the URL was downloaded from the TOC link or not, the default is FALSE</p></dd>
 
 </dl></div>
     <div id="value">
