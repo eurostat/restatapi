@@ -240,25 +240,38 @@ get_eurostat_data <- function(id,
   }
   
   if (tbc){
+    if (verbose) {message("get_eurostat_data - select_freq:",select_freq)}
     if(!is.null(select_freq)){ 
+      if (verbose) {message("get_eurostat_data - not NULL select_freq:",select_freq)}
       append_sf<-FALSE
       if (is.null(filters)|(length(filters)>1)) # no filter or there is already several filters defined => the select_freq is appended to the the filters
       {
+        if (verbose) {message("get_eurostat_data - select_freq with NULL filters:",select_freq)}
         append_sf<-TRUE  
-      } else if (!is.null(filters)) #there is a single filter
+      } else if (!is.null(filters)) #there are filters
       {  
-        if (grepl("\\.",filters,perl=TRUE)) #filter is given as a string for the REST API
-        { 
-          if (grepl("^\\.",filters,perl=TRUE)) # no FREQ value is given in the filter
+        if (verbose) {message("get_eurostat_data - select_freq with filters:",select_freq)}
+        if (length(filters)==1) #there is a single string filter
+        {
+          if (verbose) {message("get_eurostat_data - select_freq with 1 filter:",select_freq)}
+          if (grepl("\\.",filters,perl=TRUE)) #filter is given as a string for the REST API
           { 
-            filters<-paste0(select_freq,filters)
-          } else{
-            filters<-paste0(select_freq,"+",filters)
-          }  
+            if (verbose) {message("get_eurostat_data - select_freq with string filter with '.'at the beginning:",select_freq)}
+            if (grepl("^\\.",filters,perl=TRUE)) # no FREQ value is given in the filter
+            { 
+              filters<-paste0(select_freq,filters)
+            } else{
+              filters<-paste0(select_freq,"+",filters)
+            }  
+          }else{
+            append_sf<-TRUE
+          }
         } else {
+          if (verbose) {message("get_eurostat_data - select_freq with more than 1 filter:",select_freq)}
           append_sf<-TRUE
         }
       }
+        
       if (append_sf){
         to_add<-switch(select_freq,
                A=c("^Annual$","^A$"),
@@ -290,7 +303,9 @@ get_eurostat_data <- function(id,
           message("Could not download the DSD. The filter is ignored")
           filters_url<-NULL
         } else {
-          dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]
+          if(rav==1) {dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept))-2)]}
+          if(rav==2) {dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept)))]}
+          
           if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1) | length(filters)>1){
             ft<-restatapi::create_filter_table(filters=filters,date_filter=FALSE,dsd=dsd,exact_match=exact_match,verbose=verbose,...)
             if (nrow(ft)>0){
@@ -374,6 +389,7 @@ get_eurostat_data <- function(id,
                        })
             } 
             if (tbc & !is.null(xml_foot)){
+              if (length(xml_foot)>0){
                 code<-xml2::xml_attr(xml_foot,"code")
                 if (length(code)!=0){
                   notification<-"The query had at least one footer message."
@@ -385,12 +401,16 @@ get_eurostat_data <- function(id,
                 if (verbose){message("get_eurostat_data - ",x,"\ncode: ",code," - severity:",severity,"\n",paste(fmsg,collapse="\n"))}
                 code<-c(getOption("code_opt",NULL),code) #put the footer code into options in case there are several time filter
                 options(code_opt=code)
+              } else {
+                xml_foot<-NULL
+              }
             } else {
               tbc<-FALSE
               message("Problem by the extraction of the footer information from the xml_file.")
             }
             if(tbc){
-              tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),".//generic:Series")
+              tryCatch({xml_mark<-switch(rav,"1" = ".//generic:Series","2" = ".//g:Series")
+                        xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),xml_mark)
                         if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
                         if (Sys.info()[['sysname']]=='Windows'){
                           if (getOption("restatapi_cores",1L)==1) {
@@ -607,7 +627,7 @@ get_eurostat_data <- function(id,
         sub_dsd<-dsd[dsd$code %in% as.character(levels(unique(unlist(as.list(restat[,(cn),with=FALSE]))))),]
         sub_dsd<-data.table::setorder(sub_dsd,concept,code)
         for (x in cn){
-          levels(restat[[x]])<-sub_dsd$name[sub_dsd$concept==toupper(x)]
+          levels(restat[[x]])<-sub_dsd$name[toupper(sub_dsd$concept)==toupper(x)]
         }
         if (!stringsAsFactors){
           col_conv<-colnames(restat)[!(colnames(restat) %in% c("values"))]

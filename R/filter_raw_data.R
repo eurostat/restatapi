@@ -54,13 +54,16 @@ filter_raw_data<-function(raw_data=NULL,filter_table=NULL,date_filter=FALSE){
       if ("obstime" %in% colnames(raw_data)){data.table::setnames(raw_data,"obstime","time")}
       raw_data$ft<-as.character(raw_data$time)
       raw_data[grepl("^\\d{4}$",time),ft:=paste0(time,"-01-01")]
+      raw_data[grepl("^\\d{4}-\\d\\d$",time),ft:=paste0(time,"-01")]
       raw_data[grepl("[M]\\d\\d$",time),ft:=paste0(gsub('[M]',"-",time),"-01")]
       raw_data[grepl("[MD]",ft),ft:=gsub('[MD]',"-",ft)]
-      raw_data[grepl("Q",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,6,6),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,6,6))-1)*3+1),"-01")]
+      raw_data[grepl("\\dQ",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,6,6),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,6,6))-1)*3+1),"-01")]
+      raw_data[grepl("-Q",time),ft:=paste0(substr(time,1,4),"-",lapply(substr(time,7,7),function(x){if (x<"4"){"0"}else{""}}),as.character((as.numeric(substr(time,7,7))-1)*3+1),"-01")]
       raw_data[grepl("S",time),ft:=paste0(substr(time,1,4),"-0",as.character((as.numeric(substr(time,6,6))-1)*6+1),"-01")]
       data_out<-data.table::rbindlist(lapply(1:nrow(filter_table),function (x){raw_data[(ft>=filter_table$sd[x] & ft<=filter_table$ed[x])]}))
       data_out<-data_out[,!'ft'][]
     }else{
+      filter_table$concept<-toupper(filter_table$concept)
       filter_table<-unique(filter_table[,c("concept","code")])
       data.table::setnames(raw_data,colnames(raw_data),toupper(colnames(raw_data)))
       concepts<-unique(filter_table$concept)

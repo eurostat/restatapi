@@ -48,7 +48,7 @@ get_eurostat_dsd <- function(id,
     warning('No dataset id were provided.')
     dsd<-NULL
   } else {
-    dsd<-dsd_xml<-NULL
+    dsd<-dsd_xml<-cc_xml<-NULL
     if((!exists(".restatapi_env")|(length(list(...))>0))){
       if ((length(list(...))>0)) {
         if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -70,7 +70,8 @@ get_eurostat_dsd <- function(id,
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$datastructure"))),"/", 
                              eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id,"?",
                              eval(parse(text=paste0("cfg$QUERY_PARAMETERS$'",rav,"'$metadata[2]"))),"=",
-                             eval(parse(text=paste0("cfg$DATAFLOW_REFERENCES$'",rav,"'$datastructure[1]"))))
+                             eval(parse(text=paste0("cfg$DATAFLOW_REFERENCES$'",rav,"'$datastructure[1]")))
+                             )
       temp<-tempfile()
       if (verbose) {
         message("\nget_eurostat_dsd - Trying to download the DSD from: ",dsd_endpoint)
@@ -113,11 +114,8 @@ get_eurostat_dsd <- function(id,
       }
       unlink(temp)
       if (!is.null(dsd_xml)){
-        if(rav==1){
-          concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//str:ConceptIdentity//Ref"),"id")
-        } else if (rav==2){
-          concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,"//s:ConceptIdentity//Ref"),"id")
-        }
+        prefix<-switch(rav,"1"="str","2"="s")
+        concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0("//",prefix,":ConceptIdentity//Ref")),"id")
         if (Sys.info()[['sysname']]=='Windows'){
           if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (getOption("restatapi_cores",1L)==1) {
@@ -137,6 +135,60 @@ get_eurostat_dsd <- function(id,
           dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,api_version=rav,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         }  
         names(dsd)<-c("concept","code","name")
+
+  #get content constraint (cc)
+        
+        cc_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$contentconstraint"))),"/", 
+                               eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id)
+        temp<-tempfile()
+        if (verbose) {
+          message("\nget_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
+          tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
+                   error = function(e) {
+                     message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
+                   },
+                   warning = function(w) {
+                     message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',paste(unlist(w),collapse="\n"))
+                   })
+          if (file.size(temp)!=0) {
+            message("Trying to extract the CC from: ",temp)
+            tryCatch({cc_xml<-xml2::read_xml(temp)},
+                     error = function(e) {
+                       message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(e),collapse="\n"))
+                       cc_xml<-NULL
+                     },
+                     warning = function(w) {
+                       message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(w),collapse="\n"))
+                     })
+          } else {
+            cc_xml<-NULL
+          }
+        } else {
+          tryCatch({utils::download.file(cc_endpoint,temp,dmethod,quiet=TRUE)},
+                   error = function(e) {
+                   },
+                   warning = function(w) {
+                   })
+          if (file.size(temp)!=0) {
+            tryCatch({cc_xml<-xml2::read_xml(temp)},
+                     error = function(e) {
+                       cc_xml<-NULL
+                     },
+                     warning = function(w) {
+                     })
+          } else {
+            cc_xml<-NULL
+          }
+        }
+        unlink(temp)
+        if (!is.null(cc_xml)){
+          cconcepts<-xml2::xml_attr(xml2::xml_find_all(cc_xml,"//c:KeyValue"),"id")
+          if (verbose) {message(class(cconcepts),"\nnumber of nodes: ",length(cconcepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+        }
+        
+        ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
+        dsd<-ft_dsd
+        
         if (cache){
           pl<-restatapi::put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
           if (verbose) {message("get_eurostat_dsd - The DSD of the ",id," dataset was cached ",pl,".\n")}
@@ -154,3 +206,9 @@ get_eurostat_dsd <- function(id,
   }
   return(dsd)
 }
+
+filter_dsd<-function(x,cc_xml,dsd){
+  cc_values<-xml2::xml_text(xml2::xml_children(xml2::xml_find_all(cc_xml,paste0('//c:KeyValue[@id="',x,'"]'))))
+  return(dsd[(dsd$concept==x) & (dsd$code %in% cc_values),])
+}
+

@@ -4,12 +4,17 @@
 status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](https://github.com/eurostat/restatapi/actions)
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
-[![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
+[![CRAN status](https://badges.cranchecks.info/summary/restatapi.svg)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
 [![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/cran_stat/)
 [![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/restatapi/)
 [![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](https://mmatyi.github.io/restatapi_logs/)
 <!-- badges: end -->
+
+# IMPORTANT changes with the new API
+
+Version 0.20.0 enables all the functionality for the [new dissemination chain](https://wikis.ec.europa.eu/display/EUROSTATHELP/Developer%27s+corner). It has breaking changes concerning the `date_filter` as in the old dissemination the value was assigned to *the first day* of the month, quarter and year so it was enough to filter for one day to get the value. Under the new API the value belongs to the full period. If a date range does not cover the whole period no values will be returned. E.g. to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With concrete numbers to get the value for 2022/Q3, the `startDate` should be 2022-07-01 or earlier and the `endDate` 2022-09-30 or later. In the old version it was enough if the period included the day 2022-07-01 only. 
+
 
 # restatapi
 An R package to search and retrieve data from Eurostat database using SDMX  

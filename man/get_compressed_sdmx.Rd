@@ -4,13 +4,15 @@
 \alias{get_compressed_sdmx}
 \title{Download and extract compressed SDMX XML}
 \usage{
-get_compressed_sdmx(url = NULL, verbose = FALSE)
+get_compressed_sdmx(url = NULL, verbose = FALSE, format = "gz")
 }
 \arguments{
 \item{url}{a URL from the bulk download facility to download the zipped SDMX XML file}
 
 \item{verbose}{a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}.}
+
+\item{format}{the format of the compression, either "zip" or "gz" the default value}
 }
 \value{
 an xml class object with SDMX tags extracted and read from the downloaded file.
@@ -26,6 +28,6 @@ base_url<-"https://ec.europa.eu/eurostat/"
 url_end<-"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"
 url<-paste0(base_url,url_end)
 options(timeout=2)
-sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE)
+sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE,format="zip")
 options(timeout=60)
 }
