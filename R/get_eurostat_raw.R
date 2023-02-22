@@ -165,39 +165,53 @@ get_eurostat_raw <- function(id,
     }
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
       if (mode=="txt"){
-        temp<-tempfile()
-        if (verbose){
-          tryCatch({utils::download.file(bulk_url,temp,dmethod)},
-                   error = function(e) {
-                     message("get_eurostat_raw - Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
-                     tbc<-FALSE
-                   },
-                   warning = function(w) {
-                     message("get_eurostat_raw - Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
-                  })
-        } else {
-          tryCatch({utils::download.file(bulk_url,temp,dmethod,quiet=TRUE)},
-                   error = function(e) { tbc<-FALSE },
-                   warning = function(w) { })
-        }
-        if (verbose) {message("get_eurostat_raw - ",temp,"-", nrow(file.info(temp)),"-",paste(colnames(file.info(temp)),collapse="#"),"-", file.info(temp)$size,"-",file.exists(temp))}
-        if (file.exists(temp)){
-          if (tbc & (file.info(temp)$size>0)){
-            tryCatch({gz<-gzfile(temp,open="rt")},
-                     error = function(e) {
-                       if (verbose){message("get_eurostat_raw - Error by the opening the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
-                       tbc<-FALSE
-                     },
-                     warning = function(w) {
-                       if (verbose){message("get_eurostat_raw - Warning by the opening the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
-                     })
+        # temp<-tempfile()
+        # if (verbose){
+        #   tryCatch({utils::download.file(bulk_url,temp,dmethod)},
+        #            error = function(e) {
+        #              message("get_eurostat_raw - Error by the download the TSV file:",'\n',paste(unlist(e),collapse="\n"))
+        #              tbc<-FALSE
+        #            },
+        #            warning = function(w) {
+        #              message("get_eurostat_raw - Warning by the download the TSV file:",'\n',paste(unlist(w),collapse="\n"))
+        #           })
+        # } else {
+        #   tryCatch({utils::download.file(bulk_url,temp,dmethod,quiet=TRUE)},
+        #            error = function(e) { tbc<-FALSE },
+        #            warning = function(w) { })
+        # }
+        # if (verbose) {message("get_eurostat_raw - ",temp,"-", nrow(file.info(temp)),"-",paste(colnames(file.info(temp)),collapse="#"),"-", file.info(temp)$size,"-",file.exists(temp))}
+        # if (file.exists(temp)){
+          # if (tbc & (file.info(temp)$size>0)){
+          #   tryCatch({gz<-gzcon(file(normalizePath(temp),open="rb"))},
+          #            error = function(e) {
+          #              if (verbose){message("get_eurostat_raw - Error by the opening the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+          #              tbc<-FALSE
+          #            },
+          #            warning = function(w) {
+          #              if (verbose){message("get_eurostat_raw - Warning by the opening the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+          #            })
             if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
-              raw<-data.table::fread(text=readLines(gz),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
+              tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                       error = function(e) {
+                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         tbc<-FALSE
+                       },
+                       warning = function(w) {
+                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                       })
             } else{
-              raw<-data.table::fread(paste(readLines(gz),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)
+              tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                       error = function(e) {
+                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         tbc<-FALSE
+                       },
+                       warning = function(w) {
+                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                       })
             }
-            close(gz)
-            unlink(temp)
+            # close(gz)
+            # unlink(temp)
             if(ncol(raw)==1){
               data.table::setnames(raw,"v1")
               raw<-as.character(raw$v1)
@@ -239,17 +253,18 @@ get_eurostat_raw <- function(id,
                 cache<-update_cache<-FALSE
               }
             }  
-          }
-        }
+          # }
+        # }
       } else if (mode=="xml"){
         format<-switch(rav, "1" = "zip", "2" = "gz")
         if (check_toc) {format<-"zip"}
+        if (verbose) {{message("get_eurostat_raw - format:",format)}
         sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose,format=format)
         if(!is.null(sdmx_file)){
           xml_mark<-switch(rav, "1" = ".//data:Series", "2" = ".//Series")
           if (check_toc) {xml_mark<-".//data:Series"}
           xml_leafs<-xml2::xml_find_all(sdmx_file,xml_mark)
-          if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+          if (verbose) {message("get_eurostat_raw - ",class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (Sys.info()[['sysname']]=='Windows'){
             if (getOption("restatapi_cores",1L)==1) {
               if (verbose) message("No parallel")

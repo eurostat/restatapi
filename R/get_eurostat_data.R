@@ -337,6 +337,11 @@ get_eurostat_data <- function(id,
         }
       }else{dft<-NULL}
       if (verbose){message(filters_url,"-",date_filter)}
+      
+      #
+      # finished filter creation start data retrieval
+      #
+      
       if (is.null(filters_url)&(is.null(date_filter))) #after parsing there is no valid filter or it is missing => bulk download
       { 
         message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
