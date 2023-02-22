@@ -39,11 +39,11 @@
 extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE,check_toc=FALSE){
   rav<-get("rav",envir=restatapi::.restatapi_env)
   prefix<-switch(rav,"1"="generic:","2"="g:")
-  if (Sys.info()[['sysname']]=='Windows'){
-    xml_lf<-gsub(prefix,"",xml_lf)
-    xml_lf<-xml2::as_xml_document(xml_lf)
-  } 
   if(bulk){
+    if (Sys.info()[['sysname']]=='Windows'){
+      xml_lf<-gsub(prefix,"",xml_lf)
+      xml_lf<-xml2::as_xml_document(xml_lf)
+    } 
     bd<-t(as.data.frame(xml2::xml_attrs(xml_lf),stringsAsFactors=FALSE))
     rownames(bd)<-NULL
     dv<-xml2::xml_attrs(xml2::xml_children(xml_lf))
@@ -58,6 +58,9 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE,
     colnames(df)<-cn
     out<-data.frame(bd,df,stringsAsFactors=FALSE)  
   } else {
+    # if (Sys.info()[['sysname']]=='Windows'){
+    #   xml_lf<-xml2::as_xml_document(xml_lf)
+    # } 
     tmp<-as.data.frame(xml2::xml_attrs(xml2::xml_children(xml2::xml_find_all(xml_lf,paste0(".//",prefix,"SeriesKey")))),stringsAsFactors=FALSE)
     bd<-as.data.frame(tmp[2,],stringsAsFactors=FALSE)
     colnames(bd)<-tmp[1,]

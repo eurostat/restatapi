@@ -24,26 +24,27 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
     message("The url is missing.")
     return(NULL)
   } else {
-    temp<-tempfile()
-    if (verbose) {
-      tryCatch({utils::download.file(url,temp,dmethod)},
-               error = function(e) {
-                 message("\nget_compressed_sdmx - Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
-                 tbc<-FALSE
-               },
-               warning = function(w) {
-                 message("\nget_compressed_sdmx - Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
-                 tbc<-FALSE
-               })
-    } else {
-      tryCatch({utils::download.file(url,temp,dmethod,quiet=TRUE)},
-               error = function(e) {tbc<-FALSE},
-               warning = function(w) {tbc<-FALSE})
-    }
     if (tbc) {
-      
-      if (format=="zip"){
+      if (format=="zip"){ # zip format
+        # download file 
+        temp<-tempfile()  
+        if (verbose) {
+          tryCatch({utils::download.file(url,temp,dmethod)},
+                   error = function(e) {
+                     message("\nget_compressed_sdmx - Error by the download of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
+                     tbc<-FALSE
+                   },
+                   warning = function(w) {
+                     message("\nget_compressed_sdmx - Warning during the download of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
+                     tbc<-FALSE
+                   })
+        } else {
+          tryCatch({utils::download.file(url,temp,dmethod,quiet=TRUE)},
+                   error = function(e) {tbc<-FALSE},
+                   warning = function(w) {tbc<-FALSE})
+        }
         
+        # unzip file
         if (grepl("Bulk",url)){
           fajl<-paste0(sub("\\..*$","",sub("^.*\\/","",url,perl=TRUE),perl=TRUE),".sdmx")
         } else {
@@ -65,11 +66,11 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                    warning = function(w) {})
         }
         if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)} else {xml<-NULL}
-        unlink(temp)
-        unlink(file.path(tmpdir,paste0(fajl,".xml")))
-      } else if (format=="gz"){
+          unlink(temp)
+          unlink(file.path(tmpdir,paste0(fajl,".xml")))
+        } else if (format=="gz"){
         if (verbose) {
-          tryCatch({xml_fajl<-gzfile(temp,open="rt")},
+          tryCatch({xml_fajl<-readLines(gzcon(url(url)),warn=verbose)},
                  error = function(e) {
                    message("\nget_compressed_sdmx - Error during the unzip of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
@@ -77,14 +78,13 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                    message("\nget_compressed_sdmx - Warning by the unzip of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
         } else {
-          tryCatch({xml_fajl<-gzfile(temp,open="rt")},
+          tryCatch({xml_fajl<-readLines(gzcon(url(url)),warn=verbose)},
                  error = function(e) {},
                  warning = function(w) {})
         }  
         if (!is.null(xml_fajl)){xml<-xml2::read_xml(readLines(xml_fajl,warn=FALSE))} else {xml<-NULL}
-        unlink(temp)
         
-        
+
       } else {
         message("\nIncorrect compression format. The compression format should be either 'gz' or 'zip'.") 
       }
