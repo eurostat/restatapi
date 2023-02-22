@@ -1,3 +1,9 @@
+# restatapi 0.20.1
+
+- adjusting the `extract_data()` function for the new API under Windows
+- replacing the `gzfile()` function with `gzcon()` and `url()` in the  `get_compressed_sdmx()` and `get_eurostat_raw()` due to problems under Windows 
+
+
 # restatapi 0.20.0
 
 - major update in order to change to the API of the new dissemination chain

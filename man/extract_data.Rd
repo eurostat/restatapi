@@ -23,7 +23,7 @@ in this case the strings are returned as characters.}
 \item{bulk}{a logical value with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
 If the input file has pre-filtered values then the value \code{FALSE} should be used.}
 
-\item{check_toc}{if the the URL was downloaded from the TOC link or not, the default is FALSE}
+\item{check_toc}{if the data file was downloaded using the URL from the TOC or not. The default is FALSE means not the TOC link is used.}
 }
 \value{
 a data frame containing the values of an SDMX node: the dimensions, value and the optional flag(s)
