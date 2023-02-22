@@ -258,7 +258,7 @@ get_eurostat_raw <- function(id,
       } else if (mode=="xml"){
         format<-switch(rav, "1" = "zip", "2" = "gz")
         if (check_toc) {format<-"zip"}
-        if (verbose) {{message("get_eurostat_raw - format:",format)}
+        if (verbose) {message("get_eurostat_raw - format:",format)}
         sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose,format=format)
         if(!is.null(sdmx_file)){
           xml_mark<-switch(rav, "1" = ".//data:Series", "2" = ".//Series")
