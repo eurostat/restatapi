@@ -4,12 +4,17 @@
 status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](https://github.com/eurostat/restatapi/actions)
 [![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
-[![CRAN status](https://cranchecks.info/badges/flavor/release/restatapi)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
+[![CRAN status](https://badges.cranchecks.info/summary/restatapi.svg)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
 [![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/cran_stat/)
 [![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/restatapi/)
 [![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](https://mmatyi.github.io/restatapi_logs/)
 <!-- badges: end -->
+
+# IMPORTANT changes with the new API
+
+Version 0.20.0 enables all the functionality for the [new dissemination chain](https://wikis.ec.europa.eu/display/EUROSTATHELP/Developer%27s+corner). It has breaking changes concerning the `date_filter` as in the old dissemination the value was assigned to *the first day* of the month, quarter and year so it was enough to filter for one day to get the value. Under the new API the value belongs to the full period. If a date range does not cover the whole period no values will be returned. E.g. to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With concrete numbers to get the value for 2022/Q3, the `startDate` should be 2022-07-01 or earlier and the `endDate` 2022-09-30 or later. In the old version it was enough if the period included the day 2022-07-01 only. 
+
 
 # restatapi
 An R package to search and retrieve data from Eurostat database using SDMX  
@@ -35,7 +40,7 @@ This package is similar to other packages like the [eurodata](https://github.com
 The package contains 8 main functions and several other sub functions in 3 areas.
 
 1. downloading and filtering the list of available datasets:
-    * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/data/database).
+    * the `get_eurostat_toc` function downloads the Table of Contents (TOC) of all [Eurostat datasets](https://ec.europa.eu/eurostat/web/main/data/database).
     * the `search_eurostat_toc` function provides the facility to search for phrase, pattern and regular expressions in the TOC and returns the rows of the TOC where the search string(s) found.
 2. downloading and searching in the metadata:  
     * the `get_eurostat_dsd` function returns the Data Structure Definition (DSD) of a given dataset containing the possible dimensions and values with their labels. 
@@ -48,7 +53,7 @@ The package contains 8 main functions and several other sub functions in 3 areas
 
 Below there are examples demonstrating the main features, the detailed documentation of the functions is in the package.
 
-Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
+Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=48517911&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
 ## 10 examples
 
@@ -94,7 +99,7 @@ options(restatapi_update=TRUE)
 options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 ```
 
-**Example 6:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro (`avia_par_me`) and do not cache any of the data (`cache=FALSE`). Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://ec.europa.eu/eurostat/web/sdmx-web-services/rest-sdmx-2.1).
+**Example 6:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro (`avia_par_me`) and do not cache any of the data (`cache=FALSE`). Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555).
 Then download again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is exact match in the DSD for "HU" for August 2016 and 1 March 2014 (`date_filter=c("2016-08","2014-03-01")`). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the "HU" pattern, it will return all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (`label=TRUE`). 
 Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`, the order of the dates does not matter) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result will be all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods. 
 

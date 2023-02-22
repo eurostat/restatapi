@@ -6,6 +6,7 @@
 \usage{
 get_eurostat_dsd(
   id,
+  lang = "en",
   cache = TRUE,
   update_cache = FALSE,
   cache_dir = NULL,
@@ -16,6 +17,8 @@ get_eurostat_dsd(
 }
 \arguments{
 \item{id}{a character string with the id of the dataset. It is the value from the codename column of the \code{\link{get_eurostat_toc}} function.}
+
+\item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column of the DSD. It is used only in the new API. The default is \code{en} - English.}
 
 \item{cache}{a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.}
 
@@ -54,7 +57,7 @@ if (parallel::detectCores()<=2){
 }
 \donttest{
 options(timeout=2)
-dsd<-get_eurostat_dsd("med_rd6",cache=FALSE,verbose=TRUE)
+dsd<-get_eurostat_dsd("med_rd6",lang="de",cache=FALSE,verbose=TRUE)
 head(dsd)
 options(timeout=60)
 }

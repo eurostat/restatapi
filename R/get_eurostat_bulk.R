@@ -152,6 +152,7 @@ get_eurostat_bulk <- function(id,
     restat_bulk[]
     drop<-NULL
     if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
+    if ("freq" %in% colnames(restat_bulk)) {drop<-c(drop,"freq")}
     if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
     if (is.null(select_freq)){
       if (length(unique(restat_bulk$FREQ))>1){
@@ -163,9 +164,12 @@ get_eurostat_bulk <- function(id,
     if ((!(is.null(select_freq)))&("FREQ" %in% colnames(restat_bulk))){restat_bulk<-restat_bulk[restat_bulk$FREQ==select_freq,][]}
     if ("OBS_VALUE" %in% colnames(restat_bulk)) {
       if (keep_flags){
-        data.table::setnames(restat_bulk,"OBS_STATUS","flags")[]
+        if ("OBS_STATUS" %in% colnames(restat_bulk)) {cn<-"OBS_STATUS"}
+        if ("OBS_FLAG" %in% colnames(restat_bulk)) {cn<-"OBS_FLAG"}
+        data.table::setnames(restat_bulk,cn,"flags")[]
       } else {
-        if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}    
+        if ("OBS_STATUS" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_STATUS")}
+        if ("OBS_FLAG" %in% colnames(restat_bulk)) {drop<-c(drop,"OBS_FLAG")}    
       }
       data.table::setnames(restat_bulk,c("TIME_PERIOD","OBS_VALUE"),c("time","values"))[]
     }

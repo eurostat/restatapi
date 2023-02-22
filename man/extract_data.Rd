@@ -4,7 +4,13 @@
 \alias{extract_data}
 \title{Extract data values from SDMX XML}
 \usage{
-extract_data(xml_lf, keep_flags = FALSE, stringsAsFactors = FALSE, bulk = TRUE)
+extract_data(
+  xml_lf,
+  keep_flags = FALSE,
+  stringsAsFactors = FALSE,
+  bulk = TRUE,
+  check_toc = FALSE
+)
 }
 \arguments{
 \item{xml_lf}{an input XML leaf with data series from an SDMX XML file to extract the value and its dimensions from it}
@@ -16,6 +22,8 @@ in this case the strings are returned as characters.}
 
 \item{bulk}{a logical value with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
 If the input file has pre-filtered values then the value \code{FALSE} should be used.}
+
+\item{check_toc}{if the the URL was downloaded from the TOC link or not, the default is FALSE}
 }
 \value{
 a data frame containing the values of an SDMX node: the dimensions, value and the optional flag(s)
@@ -41,12 +49,12 @@ bulk_url<-toc$downloadLink.sdmx[toc$code==id]
 options(timeout=2)
 if (!is.null(bulk_url)){
   temp<-tempfile()
-  download.file(bulk_url,temp)
+  tryCatch({download.file(bulk_url,temp)
   sdmx_xml<-xml2::read_xml(unzip(temp,paste0(id,".sdmx.xml"),exdir=tempdir()))
   xml_leafs<-xml2::xml_find_all(sdmx_xml,".//data:Series")
   extract_data(xml_leafs[1])
+  unlink(file.path(tempdir(),paste0(id,".sdmx.xml")))})
   unlink(temp)
-  unlink(file.path(tempdir(),paste0(id,".sdmx.xml")))
 }
 options(timeout=60)
 }

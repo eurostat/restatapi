@@ -161,11 +161,14 @@ get_eurostat_toc<-function(mode="xml",
                        })
             }
             if (exists("leafs")){
-              toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)
-              type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+              # toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)[,c(1:19)]
+              # type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
+              toc<-data.table::rbindlist(leafs,fill=TRUE)[,c(1:19)]
+              type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attr,attr="type")))
               toc<-cbind(toc,type)
-              names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
-              toc<-toc[,c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")]
+              # names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
+              keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")
+              toc<-toc[,keep,with=FALSE]
               names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
             }
           } 

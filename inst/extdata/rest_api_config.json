@@ -709,7 +709,9 @@
     "1": {
       "ESTAT": "http://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing"
     },
-    "2": null,
+    "2":{
+      "ESTAT": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/"
+    },
     "3": null
   },
   "BULK_PARAMETERS": {
@@ -972,6 +974,28 @@
       "IT",
       "LU",
       "NL"
+      ],
+    "EA20": [
+      "BE",
+      "DE",
+      "EE",
+      "IE",
+      "EL",
+      "ES",
+      "FR",
+      "HR",
+      "IT",
+      "CY",
+      "LV",
+      "LT",
+      "LU",
+      "MT",
+      "NL",
+      "AT",
+      "PT",
+      "SI",
+      "SK",
+      "FI"
       ],
     "EA19": [
       "BE",

@@ -1,3 +1,31 @@
+# restatapi 0.20.0
+
+- major update in order to change to the API of the new dissemination chain
+- adding the bulk URL of the new API to the JSON config file
+- the `create_filter_table()` function was adjusted for the changing letter case
+- new parameter for the `extract_data()` function to handle files which was downloaded using the link from the TOC (as those links are still referring to the old API)
+- the `extract_toc()` function returns a `data.table` and not a character vector to have correct number of columns for all cases
+- the `get_eurostat_toc()` function was changed to handle the different format from the `extract_toc()` function
+- the `filter_raw_data()` function was adjusted to handle the changing letter case and time format
+- the `get_compressed_sdmx()` function has a new parameter signalling the type of compression used, as it changes with the new API
+- the `get_eurostat_data()` function was adjusted to handle the changing DSD content
+- the `get_eurostat_dsd()` function was changed to filter out only the relevant concepts and code from the new general DSD files
+- the `get_eurostat_raw()` function was changed to handle the different compression formats in the `get_compressed_sdmx()` function
+- the `get_eurostat_raw()`, `get_eurostat_bulk()` and `get_eurostat_date()` functions were adjusted to handle the changing letter case and dimension names
+- correction of `get_eurostat_data()` function when `select_freq` was used with only 1 filter
+- updating the tests because of the change in the handling of `time_filter` and availability of data under the new API
+
+# restatapi 0.14.1
+
+- adjusting the tests and the JSON config file for the introduction of Euro in Croatia
+- updating links due to the revamp of Eurostat website
+- CRAN release
+
+# restatapi 0.14.0
+
+- adjusting config file and the `load_cfg()` function to correctly handle the new API
+- adjusting `get_eurostat_dsd()` and `extract_dsd()` function to the new API
+
 # restatapi 0.13.3
 
 - removing memory size check for non-linux systems

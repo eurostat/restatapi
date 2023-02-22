@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.0</span>
       </span>
     </div>
 
@@ -47,6 +47,34 @@
       <small>Source: <a href="https://github.com/eurostat/restatapi/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.20.0" id="restatapi-0200">restatapi 0.20.0<a class="anchor" aria-label="anchor" href="#restatapi-0200"></a></h2>
+<ul><li>major update in order to change to the API of the new dissemination chain</li>
+<li>adding the bulk URL of the new API to the JSON config file</li>
+<li>the <code><a href="../reference/create_filter_table.html">create_filter_table()</a></code> function was adjusted for the changing letter case</li>
+<li>new parameter for the <code><a href="../reference/extract_data.html">extract_data()</a></code> function to handle files which was downloaded using the link from the TOC (as those links are still referring to the old API)</li>
+<li>the <code><a href="../reference/extract_toc.html">extract_toc()</a></code> function returns a <code>data.table</code> and not a character vector to have correct number of columns for all cases</li>
+<li>the <code><a href="../reference/get_eurostat_toc.html">get_eurostat_toc()</a></code> function was changed to handle the different format from the <code><a href="../reference/extract_toc.html">extract_toc()</a></code> function</li>
+<li>the <code><a href="../reference/filter_raw_data.html">filter_raw_data()</a></code> function was adjusted to handle the changing letter case and time format</li>
+<li>the <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code> function has a new parameter signalling the type of compression used, as it changes with the new API</li>
+<li>the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function was adjusted to handle the changing DSD content</li>
+<li>the <code><a href="../reference/get_eurostat_dsd.html">get_eurostat_dsd()</a></code> function was changed to filter out only the relevant concepts and code from the new general DSD files</li>
+<li>the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code> function was changed to handle the different compression formats in the <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code> function</li>
+<li>the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code>, <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code> and <code>get_eurostat_date()</code> functions were adjusted to handle the changing letter case and dimension names</li>
+<li>correction of <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function when <code>select_freq</code> was used with only 1 filter</li>
+<li>updating the tests because of the change in the handling of <code>time_filter</code> and availability of data under the new API</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.14.1" id="restatapi-0141">restatapi 0.14.1<small>2023-01-21</small><a class="anchor" aria-label="anchor" href="#restatapi-0141"></a></h2>
+<ul><li>adjusting the tests and the JSON config file for the introduction of Euro in Croatia</li>
+<li>updating links due to the revamp of Eurostat website</li>
+<li>CRAN release</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.14.0" id="restatapi-0140">restatapi 0.14.0<a class="anchor" aria-label="anchor" href="#restatapi-0140"></a></h2>
+<ul><li>adjusting config file and the <code><a href="../reference/load_cfg.html">load_cfg()</a></code> function to correctly handle the new API</li>
+<li>adjusting <code><a href="../reference/get_eurostat_dsd.html">get_eurostat_dsd()</a></code> and <code><a href="../reference/extract_dsd.html">extract_dsd()</a></code> function to the new API</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.13.3" id="restatapi-0133">restatapi 0.13.3<small>2022-05-31</small><a class="anchor" aria-label="anchor" href="#restatapi-0133"></a></h2>
 <ul><li>removing memory size check for non-linux systems</li>
@@ -487,7 +515,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

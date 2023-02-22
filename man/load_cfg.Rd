@@ -5,7 +5,8 @@
 \title{Load configuration data from JSON}
 \usage{
 load_cfg(
-  api_version = "current",
+  api_version = "default",
+  cfg_file = "github",
   load_toc = FALSE,
   parallel = TRUE,
   max_cores = FALSE,
@@ -13,7 +14,9 @@ load_cfg(
 )
 }
 \arguments{
-\item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current".}
+\item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current" which defined by the DEFAULT_API_VERSION value of the config file.}
+
+\item{cfg_file}{The location of the config file. It can be either "github" (the default value) or "local".}
 
 \item{load_toc}{The default value \code{FALSE}, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 cached automatically in the '.restatapi_env' when the package is loaded.}

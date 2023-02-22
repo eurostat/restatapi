@@ -1,6 +1,7 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
-#' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current".
+#' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current" which defined by the DEFAULT_API_VERSION value of the config file.
+#' @param cfg_file The location of the config file. It can be either "github" (the default value) or "local".
 #' @param load_toc The default value \code{FALSE}, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 #'        cached automatically in the '.restatapi_env' when the package is loaded.
 #' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
@@ -42,78 +43,102 @@
 #' }
 
 
-load_cfg<-function(api_version="current",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
+load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   options(restatapi_log=TRUE)
+  tbc<-TRUE
   # .restatapi_env<-new.env()
   # assign(".restatapi_env",new.env(),envir=parent.env(parent.frame()))
-  cfg_source<-"GitHub"
-  tryCatch(
-    {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
-    error = function(e) 
+  if (cfg_file=="github"){
+    cfg_source<-"GitHub"
+    tryCatch(
+      {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
+      error = function(e) 
       {if (verbose) {warning("\nload_cfg - The configuration file could not be downloaded from GitHub, the preinstalled file in the package is used.")}
-      assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
-      cfg_source<-"the file installed locally"})
-  cfg<-get("cfg",envir=.restatapi_env)
-  assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
-  rav<-get("rav",envir=.restatapi_env)
-  assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
-  
-  if ((capabilities("libcurl")) & (Sys.info()[['sysname']]=='Windows')){
-    options(restatapi_dmethod="libcurl")
-    assign("dmethod","libcurl",envir=.restatapi_env)
-  }else{
-    options(restatapi_dmethod="auto")
-    assign("dmethod","auto",envir=.restatapi_env)
+        assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
+        cfg_source<-"the file installed locally"})
+  } else if (cfg_file=="local"){
+    if (verbose) {message("\nload_cfg - The preinstalled file in the package is used.")}
+    assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
+    cfg_source<-"the file installed locally"
+  } else {
+    message('Incorrect value for the cfg_file parameter. It should take the value either "github" or "local".')
+    tbc<-FALSE
   }
-  
-
-  if (load_toc){
-    options(restatapi_cores=1)
-    toc<-get_eurostat_toc(verbose=FALSE)
-    if (!is.null(toc)){
-      assign("toc.xml",toc,envir=.restatapi_env)
-      msg_end<-"\n           - the Table of contents (TOC) successfully cached in '.restatapi_env'."
-    } else{
-      msg_end<-"\n           - the download and caching of the Table of contents (TOC) were unsuccessful."
+  if (tbc) {
+    cfg<-get("cfg",envir=.restatapi_env)
+    if (api_version=="default") {
+      api_version<-cfg$DEFAULT_API_VERSION
     }
-  } else{
-    msg_end<-"\n           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env')."
+    if (api_version %in% c("old", "new", "test", "current")){
+      assign("rav",eval(parse(text=paste0("cfg$API_VERSIONING$",api_version))),envir=.restatapi_env)
+    } else {
+      message('Incorrect value for the api_version parameter. It can take the value "old", "new", "test" or "current".')
+      tbc<-FALSE
+    }
   }
   
-
-  suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
-                   Linux={tryCatch({as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo",intern=TRUE,ignore.stderr=TRUE))/1024},error=function(e){0},warning=function(w){0})}
-                  ))
-  if (is.null(mem_size)|length(mem_size)==0){mem_size<-0}
-  if (parallel) {
-    if (max_cores){
-      options(restatapi_cores=parallel::detectCores()-1)
-    } else {
-      if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
-        options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
-      } else if (parallel::detectCores()>4){
-        if (mem_size>30000){
-          options(restatapi_cores=4)
-        } else {
-          options(restatapi_cores=2)  
-        }
-      } else if (parallel::detectCores()>2){
-        options(restatapi_cores=2)  
+  if (tbc) {
+    rav<-get("rav",envir=.restatapi_env)
+    assign("cc",cfg$COUNTRIES,envir=.restatapi_env)
+  }    
+    if ((capabilities("libcurl")) & (Sys.info()[['sysname']]=='Windows')){
+      options(restatapi_dmethod="libcurl")
+      assign("dmethod","libcurl",envir=.restatapi_env)
+    }else{
+      options(restatapi_dmethod="auto")
+      assign("dmethod","auto",envir=.restatapi_env)
+    }
+    
+    
+    if (load_toc){
+      options(restatapi_cores=1)
+      toc<-get_eurostat_toc(verbose=FALSE)
+      if (!is.null(toc)){
+        assign("toc.xml",toc,envir=.restatapi_env)
+        msg_end<-"\n           - the Table of contents (TOC) successfully cached in '.restatapi_env'."
+      } else{
+        msg_end<-"\n           - the download and caching of the Table of contents (TOC) were unsuccessful."
+      }
+    } else{
+      msg_end<-"\n           - the Table of contents (TOC) was not pre-loaded into the deafult cache ('.restatapi_env')."
+    }
+    
+    
+    suppressWarnings(mem_size<-switch(Sys.info()[['sysname']],
+                                      Linux={tryCatch({as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo",intern=TRUE,ignore.stderr=TRUE))/1024},error=function(e){0},warning=function(w){0})}
+    ))
+    if (is.null(mem_size)|length(mem_size)==0){mem_size<-0}
+    if (parallel) {
+      if (max_cores){
+        options(restatapi_cores=parallel::detectCores()-1)
       } else {
-        options(restatapi_cores=1)
+        if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){
+          options(restatapi_cores=max(getOption("mc.cores"),Sys.getenv("MC_CORES")))
+        } else if (parallel::detectCores()>4){
+          if (mem_size>30000){
+            options(restatapi_cores=4)
+          } else {
+            options(restatapi_cores=2)  
+          }
+        } else if (parallel::detectCores()>2){
+          options(restatapi_cores=2)  
+        } else {
+          options(restatapi_cores=1)
+        }
       }
     }
-  }
-  
-  if (getOption("restatapi_cores")<2){
-    parallel_text<-"no parallel computing."
-  } else{
-    parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing, can be changed with 'options(restatapi_cores=...)'")    
-  }
-  
-  if (verbose) {message("restatapi: - version ",getNamespaceVersion("restatapi"), 
-                        "\n           - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,
-                        ").\n           - ",parallel_text,
-                        "\n           - '",getOption("restatapi_dmethod","auto"),"' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'",msg_end)}
+    
+    if (getOption("restatapi_cores")<2){
+      parallel_text<-"no parallel computing."
+    } else{
+      parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing, can be changed with 'options(restatapi_cores=...)'")    
+    }
+    
+    if (verbose) {message("restatapi: - version ",getNamespaceVersion("restatapi"), 
+                          "\n           - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,
+                          ").\n           - ",parallel_text,
+                          "\n           - '",getOption("restatapi_dmethod","auto"),"' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'",msg_end)
+    }
+    
 }

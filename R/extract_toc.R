@@ -34,5 +34,8 @@
 
 extract_toc<-function(ns){
   if (Sys.info()[['sysname']]=='Windows'){ns<-xml2::as_xml_document(ns)}
-  sub("<.*","",sub(".*?>","",as.character(xml2::xml_children(ns)),perl=TRUE))
+  lf<-data.table::as.data.table(t(xml2::xml_text(xml2::xml_children(ns))))
+  data.table::setnames(lf,gsub("\\.character\\(0\\)","",paste0(xml2::xml_name(xml2::xml_children(ns)),".",xml2::xml_attrs(xml2::xml_children(ns)))))
+  return(lf[])
 }
+

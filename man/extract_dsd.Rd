@@ -4,12 +4,17 @@
 \alias{extract_dsd}
 \title{Extract the Data Structure Definition content from SDMX XML}
 \usage{
-extract_dsd(concept = NULL, dsd_xml = NULL)
+extract_dsd(concept = NULL, dsd_xml = NULL, lang = "en", api_version)
 }
 \arguments{
 \item{concept}{a character vector with a concept id}
 
 \item{dsd_xml}{an XML file with DSD content}
+
+\item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column 
+of the DSD. It is used only in the new API. The default is \code{en} - English.}
+
+\item{api_version}{the value of the API_VERSIONING from the config file}
 }
 \value{
 a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
@@ -30,7 +35,19 @@ if (parallel::detectCores()<=2){
 }    
 }
 \donttest{
-dsd_url<-"https://ec.europa.eu/eurostat/SDMX/diss-web/rest/datastructure/ESTAT/DSD_med_rd6"
+id<-"med_rd6"
+cfg<-get("cfg",envir=restatapi::.restatapi_env)
+rav<-get("rav",envir=restatapi::.restatapi_env)
+dsd_url <- paste0(eval(
+     parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$datastructure"))
+   ),"/",eval(
+     parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))
+   ),id,"?",eval(
+     parse(text=paste0("cfg$QUERY_PARAMETERS$'",rav,"'$metadata[2]"))
+   ),"=",eval(
+     parse(text=paste0("cfg$DATAFLOW_REFERENCES$'",rav,"'$datastructure[1]"))
+   )
+ )
 options(timeout=2)
 tryCatch({
   dsd_xml<-xml2::read_xml(dsd_url)}, 
@@ -38,7 +55,7 @@ tryCatch({
   message("Unable to download the xml file.\n",e)}, 
   warning=function(w){
   message("Unable to download the xml file.\n",w)}) 
-if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
+if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml,api_version=rav)} 
 options(timeout=2)
 }
 }
