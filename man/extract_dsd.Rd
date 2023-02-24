@@ -4,7 +4,7 @@
 \alias{extract_dsd}
 \title{Extract the Data Structure Definition content from SDMX XML}
 \usage{
-extract_dsd(concept = NULL, dsd_xml = NULL, lang = "en", api_version)
+extract_dsd(concept = NULL, dsd_xml = NULL, lang = "en")
 }
 \arguments{
 \item{concept}{a character vector with a concept id}
@@ -13,8 +13,6 @@ extract_dsd(concept = NULL, dsd_xml = NULL, lang = "en", api_version)
 
 \item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column 
 of the DSD. It is used only in the new API. The default is \code{en} - English.}
-
-\item{api_version}{the value of the API_VERSIONING from the config file}
 }
 \value{
 a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
@@ -55,7 +53,7 @@ tryCatch({
   message("Unable to download the xml file.\n",e)}, 
   warning=function(w){
   message("Unable to download the xml file.\n",w)}) 
-if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml,api_version=rav)} 
+if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
 options(timeout=2)
 }
 }

@@ -44,6 +44,8 @@ get_eurostat_dsd <- function(id,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (verbose)  {message("\nget_eurostat_dsd - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -60,6 +62,8 @@ get_eurostat_dsd <- function(id,
         load_cfg()
       }  
     }
+   
+    
     update_cache <- update_cache | getOption("restatapi_update", FALSE)
     if ((cache) & (!update_cache)) {
       dsd<-restatapi::get_eurostat_cache(paste0(id,".dsd"),cache_dir,verbose=verbose)
@@ -67,6 +71,7 @@ get_eurostat_dsd <- function(id,
     if ((!cache)|(is.null(dsd))|(update_cache)){
       cfg<-get("cfg",envir=restatapi::.restatapi_env) 
       rav<-get("rav",envir=restatapi::.restatapi_env)
+      if (verbose)  {message("get_eurostat_dsd - API version:",rav)}
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$datastructure"))),"/", 
                              eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id,"?",
                              eval(parse(text=paste0("cfg$QUERY_PARAMETERS$'",rav,"'$metadata[2]"))),"=",
@@ -116,11 +121,13 @@ get_eurostat_dsd <- function(id,
       if (!is.null(dsd_xml)){
         prefix<-switch(rav,"1"="str","2"="s")
         concepts<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0("//",prefix,":ConceptIdentity//Ref")),"id")
+        concepts<-concepts[!(toupper(concepts) %in% c("TIME_PERIOD","OBS_VALUE"))]
+        if (verbose)  {message("get_eurostat_dsd - concepts:",paste(concepts,collapse = ","))}
         if (Sys.info()[['sysname']]=='Windows'){
           if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (getOption("restatapi_cores",1L)==1) {
             if (verbose) message("No parallel")
-            dsd<-data.frame(do.call(rbind,lapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,api_version=rav)),stringsAsFactors=FALSE)
+            dsd<-data.frame(do.call(rbind,lapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
           } else {
             dsd_xml<-as.character(dsd_xml)
             cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
@@ -128,11 +135,11 @@ get_eurostat_dsd <- function(id,
             parallel::clusterEvalQ(cl,require(restatapi))
             # parallel::clusterExport(cl,c("extract_dsd"))
             parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
-            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,api_version=rav)),stringsAsFactors=FALSE)
+            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
             parallel::stopCluster(cl)
           }
         }else{
-          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,api_version=rav,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         }  
         names(dsd)<-c("concept","code","name")
 
@@ -142,7 +149,7 @@ get_eurostat_dsd <- function(id,
                                eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id)
         temp<-tempfile()
         if (verbose) {
-          message("\nget_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
+          message("get_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
           tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
                    error = function(e) {
                      message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
@@ -191,7 +198,7 @@ get_eurostat_dsd <- function(id,
         
         if (cache){
           pl<-restatapi::put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)
-          if (verbose) {message("get_eurostat_dsd - The DSD of the ",id," dataset was cached ",pl,".\n")}
+          if (verbose) {message("get_eurostat_dsd - The DSD of the ",id," dataset was cached ",pl,".")}
         }  
       } else {
 #       dsd<-NULL

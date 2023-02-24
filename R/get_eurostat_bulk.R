@@ -99,6 +99,7 @@ get_eurostat_bulk <- function(id,
   tbc<-TRUE #to be continued for the next steps
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
+  if (verbose)  {message("\nget_eurostat_bulk - API version:",get("rav",envir=restatapi::.restatapi_env))}
   if(cflags){keep_flags<-cflags}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
@@ -111,6 +112,8 @@ get_eurostat_bulk <- function(id,
       load_cfg()
     }  
   }
+  if (verbose)  {message("get_eurostat_bulk - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     message("The dataset 'id' is missing.")
@@ -125,7 +128,7 @@ get_eurostat_bulk <- function(id,
       } else {
         if (any(grepl(id,toc$code,ignore.case=TRUE))){
           udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-          if (verbose) {message("\nget_eurostat_bulk - bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+          if (verbose) {message("get_eurostat_bulk - bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -143,7 +146,7 @@ get_eurostat_bulk <- function(id,
     }
 
     if ((!cache)|is.null(restat_bulk)|(update_cache)){
-      if (verbose) {message("\nget_eurostat_bulk - ", class(id),"txt",class(cache),class(update_cache),class(cache_dir),class(compress_file),class(stringsAsFactors),class(keep_flags),class(check_toc),class(melt),class(verbose))}
+      if (verbose) {message("get_eurostat_bulk - ", class(id),"txt",class(cache),class(update_cache),class(cache_dir),class(compress_file),class(stringsAsFactors),class(keep_flags),class(check_toc),class(melt),class(verbose))}
       restat_bulk<-restatapi::get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
     }
   }  
@@ -151,8 +154,8 @@ get_eurostat_bulk <- function(id,
   if (!is.null(restat_bulk)){
     restat_bulk[]
     drop<-NULL
+    if ("freq" %in% colnames(restat_bulk)) {setnames(restat_bulk,"freq","FREQ")}
     if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
-    if ("freq" %in% colnames(restat_bulk)) {drop<-c(drop,"freq")}
     if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
     if (is.null(select_freq)){
       if (length(unique(restat_bulk$FREQ))>1){

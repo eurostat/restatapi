@@ -65,6 +65,7 @@ get_eurostat_toc<-function(mode="xml",
                            verbose=FALSE,...) {
   toc<-xml_leafs<-NULL
   tbc<-TRUE
+  if (verbose)  {message("\nget_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -76,6 +77,7 @@ get_eurostat_toc<-function(mode="xml",
       load_cfg()
     }  
   }
+  if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env))}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
@@ -89,7 +91,7 @@ get_eurostat_toc<-function(mode="xml",
     if(mode=="txt"){
       toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$txt$",lang)))
       temp<-tempfile()
-      if (verbose) {message("\nget_eurostat_toc - Downloading ",toc_endpoint)}
+      if (verbose) {message("get_eurostat_toc - Downloading ",toc_endpoint)}
       tryCatch({utils::download.file(toc_endpoint,temp,dmethod,quiet=!verbose)},
                  error = function(e) {
                  if (verbose) {message("get_eurostat_toc - Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
@@ -189,7 +191,7 @@ get_eurostat_toc<-function(mode="xml",
   if (!is.null(toc)&cache){
     name<-paste0("toc.",mode,".",lang)
     pl<-restatapi::put_eurostat_cache(toc,name,update_cache,cache_dir,compress_file)
-    if (verbose){message("get_eurostat_toc - The TOC was cached ",pl,".\n")}
+    if (verbose){message("get_eurostat_toc - The TOC was cached ",pl,".")}
   }
   return(toc)  
 }

@@ -190,8 +190,9 @@ get_eurostat_data <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (verbose)  {message("\nget_eurostat_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
-  if (verbose) {message("\nget_eurostat_data - footer code option value at start:",paste(getOption("code_opt",NULL),collapse=", "))}
+  if (verbose) {message("get_eurostat_data - footer code option value at start:",paste(getOption("code_opt",NULL),collapse=", "))}
   options(code_opt=NULL)
   if (verbose) {message("get_eurostat_data - footer code option value after reset:",paste(getOption("code_opt",NULL),collapse=", "))}
   if(cflags){keep_flags<-cflags}
@@ -618,7 +619,7 @@ get_eurostat_data <- function(id,
     {
       force(oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE)))
       pl<-restatapi::put_eurostat_cache(restat,oname,update_cache,cache_dir,compress_file)
-      if (verbose){message("get_eurostat_data - The data was cached ",pl,".\n")}
+      if (verbose){message("get_eurostat_data - The data was cached ",pl,".")}
     }
     if (label & !is.null(restat)) #label data
     {

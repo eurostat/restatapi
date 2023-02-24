@@ -4,7 +4,6 @@
 #' @param dsd_xml an XML file with DSD content
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column 
 #' of the DSD. It is used only in the new API. The default is \code{en} - English.
-#' @param api_version the value of the API_VERSIONING from the config file
 #' @export 
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_dsd}} function.
 #' @return  a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
@@ -38,28 +37,35 @@
 #'   message("Unable to download the xml file.\n",e)}, 
 #'   warning=function(w){
 #'   message("Unable to download the xml file.\n",w)}) 
-#' if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml,api_version=rav)} 
+#' if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
 #' options(timeout=2)
 #' }
 
-extract_dsd<-function(concept=NULL,dsd_xml=NULL,lang="en",api_version){
+extract_dsd<-function(concept=NULL,dsd_xml=NULL,lang="en"){
+  rav<-get("rav",envir=restatapi::.restatapi_env)
+  if (getOption("restatapi_verbose",FALSE))  {message("\nextract_dsd - API version:",rav)}
+  
+  xml_string_clc<-switch(rav,
+                      "1" = paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code'),
+                      "2" = paste0('//s:Codelist[@id="',toupper(concept),'"]/s:Code')
+    
+  )
+  xml_string_cln<-switch(rav,
+                      "1" = paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code/com:Name'),
+                      "2" = paste0('//s:Codelist[@id="',toupper(concept),'"]/s:Code/c:Name[@xml:lang="',lang,'"]')
+                        
+  )
+  if (getOption("restatapi_verbose",FALSE))  {message("extract_dsd - xml_string_clc:",xml_string_clc,"\nextract_dsd - xml_string_cln:",xml_string_cln)}
+
   if (is.null(dsd_xml)|is.null(concept)){
     message("The XML file or the concept is missing.")
     return(NULL)
-  } else if (api_version==1){
+  } else {
     if (Sys.info()[['sysname']]=='Windows'){dsd_xml<-xml2::as_xml_document(dsd_xml)}
-    xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code')),"id")
+    xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,xml_string_clc),"id")
     if (length(xml_clc)>0){
-      xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,paste0('//str:Codelist[@id="CL_',concept,'"]/str:Code/com:Name')))
+      xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,xml_string_cln))
       cbind(concept,xml_clc,xml_cln)
     }
-  } else if(api_version==2) {
-    if (Sys.info()[['sysname']]=='Windows'){dsd_xml<-xml2::as_xml_document(dsd_xml)}
-    xml_clc<-xml2::xml_attr(xml2::xml_find_all(dsd_xml,paste0('//s:Codelist[@id="',toupper(concept),'"]/s:Code')),"id")
-    if (length(xml_clc)>0){
-      xml_cln<-xml2::xml_text(xml2::xml_find_all(dsd_xml,paste0('//s:Codelist[@id="',toupper(concept),'"]/s:Code/c:Name[@xml:lang="',lang,'"]')))
-      cbind(concept,xml_clc,xml_cln)
-    }  
   } 
-  
 }  

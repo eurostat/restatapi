@@ -94,6 +94,7 @@ get_eurostat_raw <- function(id,
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   tbc<-TRUE #to be continued to the next steps 
+  if (verbose)  {message("\nget_eurostat_raw - API version:",get("rav",envir=restatapi::.restatapi_env))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -107,6 +108,7 @@ get_eurostat_raw <- function(id,
   }
   cfg<-get("cfg",envir=restatapi::.restatapi_env) 
   rav<-get("rav",envir=restatapi::.restatapi_env)
+  if (verbose)  {message("get_eurostat_raw - API version:",rav)}
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     message("The dataset 'id' is missing.")
@@ -132,7 +134,7 @@ get_eurostat_raw <- function(id,
             message("There is no downloadlink in the TOC for ",id)
             tbc<-FALSE
           }
-          if (verbose) {message("\nget_eurostat_raw - raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+          if (verbose) {message("get_eurostat_raw - raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -207,14 +209,14 @@ get_eurostat_raw <- function(id,
                   rm(raw)
                   data.table::setnames(raw_melted,2:3,c(rname,"values"))
                   raw_melted<-raw_melted[raw_melted$values!=":",]
-                  if (rav==1){
+                  if (check_toc|rav==1){
                     FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
                     FREQ[FREQ==""]<-"A"
                   }
                   restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
                   data.table::setnames(restat_raw,cnames)  
                   restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-                  if (rav==1) {restat_raw<-data.table::data.table(FREQ,restat_raw)}
+                  if (check_toc|rav==1) {restat_raw<-data.table::data.table(FREQ,restat_raw)}
                   if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
                   restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
                   restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
@@ -286,7 +288,7 @@ get_eurostat_raw <- function(id,
     if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))|child_cache)){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))
       pl<-restatapi::put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
-      if ((!is.null(pl))&(verbose)) {message("get_eurostat_raw - The raw data was cached ",pl,".\n" )}
+      if ((!is.null(pl))&(verbose)) {message("get_eurostat_raw - The raw data was cached ",pl,"." )}
     }
   }
   return(restat_raw)

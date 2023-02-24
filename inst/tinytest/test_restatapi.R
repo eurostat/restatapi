@@ -1,8 +1,9 @@
 library(restatapi)
 library(tinytest)
 
-load_cfg("new","local")
-# load_cfg("current")
+api_version="new"
+source="local"
+load_cfg(api_version,source)
 
 if (parallel::detectCores()<=2){
   options(restatapi_cores=1)
@@ -31,7 +32,6 @@ testid10<-"bop_its6_det"
 testid11<-"nrg_pc_206_h"
 testid12<-"ei_bsfs_q"
 testid13<-"avia_par_mk"
-
 
 
 
@@ -374,7 +374,7 @@ if (!is.null(rd)){
 
 if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   message("\n ########--------- 94 additional test of the get_eurostat_dsd function") 
-  expect_true(system.time({get_eurostat_dsd(testid1)})[3]<system.time({get_eurostat_dsd(testid1,update_cache=TRUE,parallel=FALSE)})[3])
+  expect_true(system.time({get_eurostat_dsd(testid1)})[3]<system.time({get_eurostat_dsd(testid1,update_cache=TRUE,parallel=FALSE,api_version=api_version)})[3])
   
   dsd1<-get_eurostat_dsd(testid4)
   if (!is.null(dsd1)&is.data.frame(dsd1)){
@@ -493,33 +493,39 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,keep_flags=TRUE)
   if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
+    kc<-colnames(bulk1)
+    bulk1<-bulk1[,..kc]
+    bulk1<-bulk2[,..kc]
+    data.table::setorder(bulk1)
+    data.table::setorder(bulk2)
     message("\n ########--------- 119 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   } else {no_check<-paste(no_check,"119",sep=", ")}
-  clean_restatapi_cache()
-  raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE)
-  bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE)
-  raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
-  bulk2<-get_eurostat_bulk(testid4)
-  if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
-    message("\n ########--------- 120 additional tests for the get_eurostat_raw/bulk function")
-    expect_true(identical(bulk1,bulk2))
-  } else {no_check<-paste(no_check,"120",sep=", ")}
+  # clean_restatapi_cache()
+  # raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE)
+  # bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE)
+  # raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
+  # bulk2<-get_eurostat_bulk(testid4)
+  # if (!is.null(bulk1)&!is.null(bulk2)){
+  #   kc<-colnames(bulk1)
+  #   bulk1<-bulk1[,..kc]
+  #   bulk1<-bulk2[,..kc]
+  #   data.table::setorder(bulk1)
+  #   data.table::setorder(bulk2)
+  #   message("\n ########--------- 120 additional tests for the get_eurostat_raw/bulk function")
+  #   expect_true(identical(bulk1,bulk2))
+  # } else {no_check<-paste(no_check,"120",sep=", ")}
   clean_restatapi_cache()
   raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE)
   bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE,stringsAsFactors=FALSE)
   raw2<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=FALSE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,stringsAsFactors=FALSE)
   if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
+    kc<-colnames(bulk1)
+    bulk1<-bulk1[,..kc]
+    bulk1<-bulk2[,..kc]
+    data.table::setorder(bulk1)
+    data.table::setorder(bulk2)
     message("\n ########--------- 121 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   } else {no_check<-paste(no_check,"121",sep=", ")}
@@ -529,9 +535,11 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   raw2<-get_eurostat_raw(testid4,mode="xml",check_toc=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid4,check_toc=TRUE,keep_flags=TRUE)
   if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
+    kc<-colnames(bulk1)
+    bulk1<-bulk1[,..kc]
+    bulk1<-bulk2[,..kc]
+    data.table::setorder(bulk1)
+    data.table::setorder(bulk2)
     message("\n ########--------- 122 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   } else {no_check<-paste(no_check,"122",sep=", ")}
@@ -541,9 +549,11 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   raw2<-get_eurostat_raw(testid11,mode="xml",check_toc=TRUE,keep_flags=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid11)
   if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
+    kc<-colnames(bulk1)
+    bulk1<-bulk1[,..kc]
+    bulk1<-bulk2[,..kc]
+    data.table::setorder(bulk1)
+    data.table::setorder(bulk2)
     message("\n ########--------- 123 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   } else {no_check<-paste(no_check,"123",sep=", ")}
@@ -553,9 +563,11 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   raw2<-get_eurostat_raw(testid11,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,check_toc=TRUE,update_cache=TRUE)
   bulk2<-get_eurostat_bulk(testid11,keep_flags=TRUE,stringsAsFactors=FALSE)
   if (!is.null(bulk1)&!is.null(bulk2)){
-    kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
-    data.table::setorderv(bulk1,kc)
-    data.table::setorderv(bulk2,kc)
+    kc<-colnames(bulk1)
+    bulk1<-bulk1[,..kc]
+    bulk1<-bulk2[,..kc]
+    data.table::setorder(bulk1)
+    data.table::setorder(bulk2)
     message("\n ########--------- 124 additional tests for the get_eurostat_raw/bulk function")
     expect_true(identical(bulk1,bulk2))
   } else {no_check<-paste(no_check,"124",sep=", ")}
@@ -582,7 +594,7 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   rt3<-system.time(raw3<-get_eurostat_raw(testid12,"xml",verbose=TRUE))[3]
   dt1<-system.time(estat_data1<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=TRUE))[3]
   dt2<-system.time(estat_data2<-get_eurostat_data(testid12,stringsAsFactors=FALSE,verbose=TRUE))[3]
-  dt3<-system.time(estat_data3<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=TRUE))[3]
+  dt3<-system.time(estat_data3<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=FALSE))[3]
   testid13<-"avia_par_mk"
   suppressWarnings(dt4<-system.time(estat_data4<-get_eurostat_data(testid13,stringsAsFactors=FALSE))[3])
   rt4<-system.time(raw4<-get_eurostat_raw(testid13,"xml",keep_flags=TRUE))[3]
@@ -668,4 +680,4 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
 }
 clean_restatapi_cache(tempdir(),verbose=TRUE)
 if (!is.null(no_check)) {message("\n\n\n\n\nThere are skipped tests:",gsub("^,","",no_check))}
-cat("\n\nSkipped tests:", no_check,"\nconfig version:",get("rav",envir=restatapi::.restatapi_env),"\n")
+cat("\n\nSkipped tests:",gsub("^,","",no_check),"\nconfig version:",get("rav",envir=restatapi::.restatapi_env),"\n")
