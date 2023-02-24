@@ -18,7 +18,7 @@ pattern in the title, units or short description."><!-- mathjax --><script src="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.3</span>
       </span>
     </div>
 
@@ -111,9 +111,12 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energy"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&amp;downfile=table_of_contents.xml</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 9101</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 8979</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> number of cores: 1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                title</span>
@@ -124,12 +127,12 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:                                                                                             ENP countries: energy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: Psychological well-being (energy and vitality index) by sex, age and educational attainment level (average score)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               code    type lastUpdate lastModified dataStart dataEnd values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: enps_nrg_bal_c1 dataset 2022.02.10   2022.02.10      2005    2020    280</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        med_eg10 dataset 2020.05.28   2021.02.08      2005    2018    391</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        med_eg20 dataset 2016.10.28   2021.02.08      2000    2015    776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      cpc_energy dataset 2016.10.11   2021.02.08      2000    2015    926</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     enpr_energy dataset 2020.01.14   2021.02.08      2005    2018    262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   hlth_ehis_st8 dataset 2014.03.20   2021.02.08      2008    2008   1455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: enps_nrg_bal_c1 dataset 2022.02.10   2022.02.10                      280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        med_eg10 dataset 2020.05.28   2021.02.08                      391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        med_eg20 dataset 2016.10.28   2021.02.08                      776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      cpc_energy dataset 2016.10.11   2021.02.08                      926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     enpr_energy dataset 2020.01.14   2021.02.08                      262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   hlth_ehis_st8 dataset 2014.03.20   2021.02.08                     1455</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    unit shortDescription</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:                      </span>
@@ -168,20 +171,27 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energy"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 88</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    title            code    type lastUpdate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:            Energie - monatliche Daten       ei_isen_m dataset 2023.02.21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                         Energiebilanz  enps_nrg_bal_c dataset 2022.02.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       Endenergieverbrauch nach Sektor enps_nrg_bal_c1 dataset 2022.02.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:               Primäre Energierzeugung        med_eg10 dataset 2020.05.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: Sekundäre Energierzeugung (Umsetzung)        med_eg20 dataset 2016.10.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                      Energieverbrauch        med_eg30 dataset 2020.05.28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    lastModified dataStart dataEnd values unit shortDescription</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   2023.02.21   2008M01 2023M01  70664                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   2022.02.10      2005    2020    552                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:   2022.02.10      2005    2020    280                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   2021.02.08      2005    2018    391                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   2021.02.08      2000    2015    776                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   2021.02.08      2005    2018    177                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                    title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                            Energie - monatliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                                                         Energiebilanz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                                       Endenergieverbrauch nach Sektor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: Energie - historische daten (2004-2007, ehemalige Methode und Quelle)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                                               Primäre Energierzeugung</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                                 Sekundäre Energierzeugung (Umsetzung)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               code    type lastUpdate lastModified dataStart dataEnd values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       ei_isen_m   table 2023.02.22   2023.02.22   2008-01 2023-01  70668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  enps_nrg_bal_c dataset 2022.02.10   2022.02.10                      552</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: enps_nrg_bal_c1 dataset 2022.02.10   2022.02.10                      280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      med_eg_all dataset 2014.12.08   2021.02.08                      935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        med_eg10 dataset 2020.05.28   2021.02.08                      391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        med_eg20 dataset 2016.10.28   2021.02.08                      776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    unit shortDescription</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     metadata.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: https://ec.europa.eu/eurostat/cache/metadata/en/ei_is_esms.htm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  https://ec.europa.eu/eurostat/cache/metadata/en/enps_esms.htm</span>
@@ -200,16 +210,16 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_isen_m.tsv.gz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.tsv.gz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.tsv.gz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg30.tsv.gz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg_all.tsv.gz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.tsv.gz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.tsv.gz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                  downloadLink.sdmx</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ei_isen_m.sdmx.zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c.sdmx.zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/enps_nrg_bal_c1.sdmx.zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg30.sdmx.zip</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg_all.sdmx.zip</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg10.sdmx.zip</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/med_eg20.sdmx.zip</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 106</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>

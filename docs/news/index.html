@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.3</span>
       </span>
     </div>
 
@@ -48,6 +48,20 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.20.3" id="restatapi-0203">restatapi 0.20.3<a class="anchor" aria-label="anchor" href="#restatapi-0203"></a></h2>
+<ul><li>the new API is the default one</li>
+<li>adjusting tests and documentation for the new API</li>
+<li>temporarily disabled parallel processing under Windows</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.20.2" id="restatapi-0202">restatapi 0.20.2<a class="anchor" aria-label="anchor" href="#restatapi-0202"></a></h2>
+<ul><li>adding additional debug messages when the <code>option(restatapi_verbose=TRUE)</code> used for the <code><a href="../reference/extract_data.html">extract_data()</a></code>, <code><a href="../reference/extract_dsd.html">extract_dsd()</a></code>, <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code>,<code><a href="../reference/get_eurostat_dsd.html">get_eurostat_dsd()</a></code>, <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code>, <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code>, <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code>and <code><a href="../reference/get_eurostat_toc.html">get_eurostat_toc()</a></code> functions</li>
+<li>changing the additional parameter added to <code><a href="../reference/get_eurostat_dsd.html">get_eurostat_dsd()</a></code> and <code><a href="../reference/extract_dsd.html">extract_dsd()</a></code> function for the new API in version 0.14.0 to variable in the <code>.restatapi_env</code> environment</li>
+<li>one step download and extraction of the SDMX file in the <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code> function when <code>format="gz"</code> is used<br></li>
+<li>the <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code> function was adjusted for the changing letter case under the new API</li>
+<li>fixing the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code> function when the <code>check_toc=TRUE</code> option used under the new API</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.20.1" id="restatapi-0201">restatapi 0.20.1<a class="anchor" aria-label="anchor" href="#restatapi-0201"></a></h2>
 <ul><li>adjusting the <code><a href="../reference/extract_data.html">extract_data()</a></code> function for the new API under Windows</li>
 <li>replacing the <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile()</a></code> function with <code><a href="https://rdrr.io/r/base/gzcon.html" class="external-link">gzcon()</a></code> and <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">url()</a></code> in the <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code> and <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code> due to problems under Windows</li>
@@ -56,7 +70,7 @@
 <h2 class="page-header" data-toc-text="0.20.0" id="restatapi-0200">restatapi 0.20.0<a class="anchor" aria-label="anchor" href="#restatapi-0200"></a></h2>
 <ul><li>major update in order to change to the API of the new dissemination chain</li>
 <li>adding the bulk URL of the new API to the JSON config file</li>
-<li>the <code><a href="../reference/create_filter_table.html">create_filter_table()</a></code> function was adjusted for the changing letter case</li>
+<li>the <code><a href="../reference/create_filter_table.html">create_filter_table()</a></code> function was adjusted for the changing letter case under the new API</li>
 <li>new parameter for the <code><a href="../reference/extract_data.html">extract_data()</a></code> function to handle files which was downloaded using the link from the TOC (as those links are still referring to the old API)</li>
 <li>the <code><a href="../reference/extract_toc.html">extract_toc()</a></code> function returns a <code>data.table</code> and not a character vector to have correct number of columns for all cases</li>
 <li>the <code><a href="../reference/get_eurostat_toc.html">get_eurostat_toc()</a></code> function was changed to handle the different format from the <code><a href="../reference/extract_toc.html">extract_toc()</a></code> function</li>
@@ -65,7 +79,7 @@
 <li>the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function was adjusted to handle the changing DSD content</li>
 <li>the <code><a href="../reference/get_eurostat_dsd.html">get_eurostat_dsd()</a></code> function was changed to filter out only the relevant concepts and code from the new general DSD files</li>
 <li>the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code> function was changed to handle the different compression formats in the <code><a href="../reference/get_compressed_sdmx.html">get_compressed_sdmx()</a></code> function</li>
-<li>the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code>, <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code> and <code>get_eurostat_date()</code> functions were adjusted to handle the changing letter case and dimension names</li>
+<li>the <code><a href="../reference/get_eurostat_raw.html">get_eurostat_raw()</a></code>, <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code> and <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> functions were adjusted to handle the changing letter case and dimension names</li>
 <li>correction of <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function when <code>select_freq</code> was used with only 1 filter</li>
 <li>updating the tests because of the change in the handling of <code>time_filter</code> and availability of data under the new API</li>
 </ul></div>

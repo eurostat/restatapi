@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.3</span>
       </span>
     </div>
 
@@ -89,6 +89,8 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code>.</p></dd>
 <span class="r-in"><span><span class="va">url</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">base_url</span>,<span class="va">url_end</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sdmx_xml</span><span class="op">&lt;-</span><span class="fu">get_compressed_sdmx</span><span class="op">(</span><span class="va">url</span>,verbose<span class="op">=</span><span class="cn">TRUE</span>,format<span class="op">=</span><span class="st">"zip"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - url:https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - format:zip</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
