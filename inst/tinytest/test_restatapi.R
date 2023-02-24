@@ -9,7 +9,12 @@ if (parallel::detectCores()<=2){
   options(restatapi_cores=1)
 }else{
   options(restatapi_cores=2)
-}    
+}  
+
+if (Sys.info()[['sysname']]=='Windows'){
+  options(restatapi_cores=1)
+}
+
 if (capabilities("libcurl")){
   options(restatapi_dmethod="libcurl")
 }
@@ -230,11 +235,11 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
     message("\n ########--------- 52 test of filtering in the get_eurostat_data function")
     expect_equal(nr5,11)
   } else {no_check<-paste(no_check,"52",sep=", ")} 
-  nr6<-nrow(get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2017-07-01"),select_freq="M",cflags=TRUE))
-#  if (!is.null(nr6)){
-#    message("\n ########--------- 53 test of filtering in the get_eurostat_data function")
-#    expect_equal(nr6,48)
-#  } else {no_check<-paste(no_check,"53",sep=", ")} 
+  nr6<-nrow(get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2017-07-01:2017-09-30"),select_freq="M",cflags=TRUE))
+  if (!is.null(nr6)){
+    message("\n ########--------- 53 test of filtering in the get_eurostat_data function")
+    expect_equal(nr6,96)
+  } else {no_check<-paste(no_check,"53",sep=", ")}
 } else {no_check<-paste(no_check,"47-53",sep=", ")} 
 
 dsd2<-get_eurostat_dsd(testid6)
@@ -397,10 +402,10 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
       message("\n ########--------- 97 additional tests for filtering in the get_eurostat_data function")
       expect_equal(nr9,24)
     } else {no_check<-paste(no_check,"97",sep=", ")}
-    nr10<-nrow(get_eurostat_data(testid6,date_filter=c(2016,"2017-03","2017-05","2017-07-01"),select_freq="Q",cflags=TRUE))
+    nr10<-nrow(get_eurostat_data(testid6,date_filter=c(2016,"2017-03","2017-05","2017-07-01:2017-09-30"),select_freq="Q",cflags=TRUE))
     if (!is.null(nr10)){
-    #  message("\n ########--------- 98 additional tests for filtering in the get_eurostat_data function")
-    #  expect_equal(nr10,1232)
+      message("\n ########--------- 98 additional tests for filtering in the get_eurostat_data function")
+      expect_equal(nr10,1232)
     } else {no_check<-paste(no_check,"98",sep=", ")}
     dt5<-get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2016-08","2017-07-01"),select_freq="M")
     dt6<-get_eurostat_data(testid6,filters=c("HU","Quarterly","Monthly"),date_filter=c("2016-08","2017-07-01"),stringsAsFactors=FALSE,label=TRUE)
@@ -419,10 +424,10 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
       message("\n ########--------- 102 additional tests for filtering in the get_eurostat_data function")
       expect_false(any(sapply(dt6,is.factor)))
     } else {no_check<-paste(no_check,"102",sep=", ")}
-    dt8<-get_eurostat_data(testid6,filters="BE$",date_filter=c("2017-03",2016,"2017-07-01",2012:2014),select_freq="Q",label=TRUE,verbose=FALSE,name=FALSE)
+    dt8<-get_eurostat_data(testid6,filters="BE$",date_filter=c("2017-03",2016,"2017-07-01:2017-09-30",2012:2014),select_freq="Q",label=TRUE,verbose=FALSE,name=FALSE)
     if (!is.null(dt8)){
-      # message("\n ########--------- 103 additional tests for filtering in the get_eurostat_data function")
-      # expect_true(nrow(dt8)<=5040)
+      message("\n ########--------- 103 additional tests for filtering in the get_eurostat_data function")
+      expect_true(nrow(dt8)<=5040)
       message("\n ########--------- 104 additional tests for filtering in the get_eurostat_data function")
       expect_true(ncol(dt8)<=5)
     } else {no_check<-paste(no_check,"103-104",sep=", ")}
@@ -443,8 +448,8 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   if (!is.null(dsd3)&is.data.frame(dsd3)){
     nr11<-nrow(get_eurostat_data(testid9,filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr11)){
-    #  message("\n ########--------- 107 additional tests for filtering in the get_eurostat_data function")
-    #  expect_equal(nr11,5565)
+      message("\n ########--------- 107 additional tests for filtering in the get_eurostat_data function")
+      expect_equal(nr11,4845)
     } else {no_check<-paste(no_check,"107",sep=", ")}
   } else {no_check<-paste(no_check,"107",sep=", ")}
   dsd4<-get_eurostat_dsd(testid10)

@@ -109,8 +109,11 @@ load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parall
                                       Linux={tryCatch({as.numeric(system("awk '/MemTotal/ {print $2}' /proc/meminfo",intern=TRUE,ignore.stderr=TRUE))/1024},error=function(e){0},warning=function(w){0})}
     ))
     if (is.null(mem_size)|length(mem_size)==0){mem_size<-0}
+    # if (Sys.info()[['sysname']]=='Windows'){parallel<-FALSE}
     if (parallel) {
-      if (max_cores){
+      if (Sys.info()[['sysname']]=='Windows'){
+        options(restatapi_cores=1)
+      } else if (max_cores){
         options(restatapi_cores=parallel::detectCores()-1)
       } else {
         if (max(getOption("mc.cores"),Sys.getenv("MC_CORES"))>0){

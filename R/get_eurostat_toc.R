@@ -65,7 +65,7 @@ get_eurostat_toc<-function(mode="xml",
                            verbose=FALSE,...) {
   toc<-xml_leafs<-NULL
   tbc<-TRUE
-  if (verbose)  {message("\nget_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  if (verbose)  {message("\nget_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
@@ -77,7 +77,7 @@ get_eurostat_toc<-function(mode="xml",
       load_cfg()
     }  
   }
-  if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}

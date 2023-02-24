@@ -141,60 +141,63 @@ get_eurostat_dsd <- function(id,
         }else{
           dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
         }  
-        names(dsd)<-c("concept","code","name")
+        if (verbose) {message("get_eurostat_dsd - DSD NULL:",is.null(dsd))}
+        if (!is.null(dsd)) {names(dsd)<-c("concept","code","name")}
 
   #get content constraint (cc)
         
-        cc_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$contentconstraint"))),"/", 
-                               eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id)
-        temp<-tempfile()
-        if (verbose) {
-          message("get_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
-          tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
-                   error = function(e) {
-                     message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
-                   },
-                   warning = function(w) {
-                     message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',paste(unlist(w),collapse="\n"))
-                   })
-          if (file.size(temp)!=0) {
-            message("Trying to extract the CC from: ",temp)
-            tryCatch({cc_xml<-xml2::read_xml(temp)},
+        if (!is.null(dsd)){
+          cc_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$contentconstraint"))),"/", 
+                                eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id)
+          temp<-tempfile()
+          if (verbose) {
+            message("get_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
+            tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
                      error = function(e) {
-                       message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(e),collapse="\n"))
-                       cc_xml<-NULL
+                       message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
                      },
                      warning = function(w) {
-                       message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(w),collapse="\n"))
+                       message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',paste(unlist(w),collapse="\n"))
                      })
+            if (file.size(temp)!=0) {
+              message("Trying to extract the CC from: ",temp)
+              tryCatch({cc_xml<-xml2::read_xml(temp)},
+                       error = function(e) {
+                         message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(e),collapse="\n"))
+                         cc_xml<-NULL
+                       },
+                       warning = function(w) {
+                         message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(w),collapse="\n"))
+                       })
+            } else {
+              cc_xml<-NULL
+            }
           } else {
-            cc_xml<-NULL
-          }
-        } else {
-          tryCatch({utils::download.file(cc_endpoint,temp,dmethod,quiet=TRUE)},
-                   error = function(e) {
-                   },
-                   warning = function(w) {
-                   })
-          if (file.size(temp)!=0) {
-            tryCatch({cc_xml<-xml2::read_xml(temp)},
+            tryCatch({utils::download.file(cc_endpoint,temp,dmethod,quiet=TRUE)},
                      error = function(e) {
-                       cc_xml<-NULL
                      },
                      warning = function(w) {
                      })
-          } else {
-            cc_xml<-NULL
+            if (file.size(temp)!=0) {
+              tryCatch({cc_xml<-xml2::read_xml(temp)},
+                       error = function(e) {
+                         cc_xml<-NULL
+                       },
+                       warning = function(w) {
+                       })
+            } else {
+              cc_xml<-NULL
+            }
           }
+          unlink(temp)
+          if (!is.null(cc_xml)){
+            cconcepts<-xml2::xml_attr(xml2::xml_find_all(cc_xml,"//c:KeyValue"),"id")
+            if (verbose) {message(class(cconcepts),"\nnumber of nodes: ",length(cconcepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+          }
+          
+          ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
+          dsd<-ft_dsd
         }
-        unlink(temp)
-        if (!is.null(cc_xml)){
-          cconcepts<-xml2::xml_attr(xml2::xml_find_all(cc_xml,"//c:KeyValue"),"id")
-          if (verbose) {message(class(cconcepts),"\nnumber of nodes: ",length(cconcepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
-        }
-        
-        ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
-        dsd<-ft_dsd
         
         if (cache){
           pl<-restatapi::put_eurostat_cache(dsd,paste0(id,".dsd"),update_cache,cache_dir,compress_file)

@@ -1,3 +1,10 @@
+# restatapi 0.20.3
+
+- the new API is the default one
+- adjusting tests and documentation for the new API
+- temporarily disabled parallel processing under Windows
+
+
 # restatapi 0.20.2
 
 - adding additional debug messages when the `option(restatapi_verbose=TRUE)` used for the `extract_data()`, `extract_dsd()`, `get_compressed_sdmx()`,`get_eurostat_dsd()`, `get_eurostat_raw()`, `get_eurostat_bulk()`, `get_eurostat_data()`and `get_eurostat_toc()` functions
