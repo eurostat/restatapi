@@ -3,7 +3,8 @@
 - the new API is the default one
 - adjusting tests and documentation for the new API
 - temporarily disabled parallel processing under Windows
-
+- additional checks in the `get_eurostat_dsd()` function
+- CRAN release
 
 # restatapi 0.20.2
 
