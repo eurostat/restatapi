@@ -45,7 +45,7 @@ get_eurostat_dsd <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if (verbose)  {message("\nget_eurostat_dsd - API version:",get("rav",envir=restatapi::.restatapi_env))}
-  
+  tbc<-TRUE #to be continued for the next steps
   if (is.null(id)){
     warning('No dataset id were provided.')
     dsd<-NULL
@@ -86,8 +86,10 @@ get_eurostat_dsd <- function(id,
                  },
                  warning = function(w) {
                    message("get_eurostat_dsd - Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
-                  })
-        if (file.size(temp)!=0) {
+                   tbc<-FALSE
+                   dsd_xml<-NULL
+                 })
+        if (file.size(temp)!=0 & tbc) {
           message("Trying to extract the DSD from: ",temp)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
@@ -105,13 +107,16 @@ get_eurostat_dsd <- function(id,
                  error = function(e) {
                  },
                  warning = function(w) {
+                   tbc<-FALSE
+                   dsd_xml<-NULL
                  })
-        if (file.size(temp)!=0) {
+        if (file.size(temp)!=0 & tbc) {
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
+                   dsd_xml<-NULL
                  })
         } else {
           dsd_xml<-NULL
@@ -155,11 +160,14 @@ get_eurostat_dsd <- function(id,
             tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
                      error = function(e) {
                        message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
+                     
                      },
                      warning = function(w) {
                        message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',paste(unlist(w),collapse="\n"))
+                       tbc<-FALSE
+                       cc_xml<-NULL
                      })
-            if (file.size(temp)!=0) {
+            if (file.size(temp)!=0 & tbc) {
               message("Trying to extract the CC from: ",temp)
               tryCatch({cc_xml<-xml2::read_xml(temp)},
                        error = function(e) {
@@ -177,8 +185,10 @@ get_eurostat_dsd <- function(id,
                      error = function(e) {
                      },
                      warning = function(w) {
+                       tbc<-FALSE
+                       cc_xml<-NULL
                      })
-            if (file.size(temp)!=0) {
+            if (file.size(temp)!=0 & tbc) {
               tryCatch({cc_xml<-xml2::read_xml(temp)},
                        error = function(e) {
                          cc_xml<-NULL
@@ -193,10 +203,12 @@ get_eurostat_dsd <- function(id,
           if (!is.null(cc_xml)){
             cconcepts<-xml2::xml_attr(xml2::xml_find_all(cc_xml,"//c:KeyValue"),"id")
             if (verbose) {message(class(cconcepts),"\nnumber of nodes: ",length(cconcepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+            ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
+            dsd<-ft_dsd
+            
+          } else {
+            dsd<-NULL
           }
-          
-          ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
-          dsd<-ft_dsd
         }
         
         if (cache){
