@@ -138,7 +138,7 @@ load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parall
       parallel_text<-paste0(getOption("restatapi_cores")," from the ",parallel::detectCores()," cores are used for parallel computing, can be changed with 'options(restatapi_cores=...)'")    
     }
     
-    if (verbose) {message("restatapi: - version ",getNamespaceVersion("restatapi"), 
+    if (verbose) {packageStartupMessage("restatapi: - version ",getNamespaceVersion("restatapi"), 
                           "\n           - config file with the API version ",rav," loaded from ",cfg_source," (the 'current' API version number is ",cfg$API_VERSIONING$current,
                           ").\n           - ",parallel_text,
                           "\n           - '",getOption("restatapi_dmethod","auto"),"' method will be used for file download, can be changed with 'options(restatapi_dmethod=...)'",msg_end)

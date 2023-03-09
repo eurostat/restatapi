@@ -1,3 +1,7 @@
+# restatapi 0.20.5
+
+- using `packageStartupMessage()` function when the package is loaded with the option `verbose=TRUE`
+
 # restatapi 0.20.4
 
 - additional checks in the `get_eurostat_dsd()` function to set the DSD to `NULL` if there is a warning during the download of the XML file
