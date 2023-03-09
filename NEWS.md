@@ -1,6 +1,7 @@
 # restatapi 0.20.6
 
-- additional debug messages to see source of errors in CRAN checks 
+- additional debug messages to see source of errors in CRAN checks
+- CRAN release
 
 # restatapi 0.20.5
 
