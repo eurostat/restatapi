@@ -186,7 +186,7 @@ get_eurostat_data <- function(id,
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
-  restat<-rdat<-drop<-concept<-code<-freq<-N<-values<-flags<-ft<-dft<-to_add<-NULL
+  restat<-rdat<-drop<-concept<-code<-freq<-N<-values<-flags<-ft<-dft<-to_add<-filters_url<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
@@ -479,7 +479,7 @@ get_eurostat_data <- function(id,
                 message(notification)
                 restat<-NULL
               }  
-          } else if (any(getOption("code_opt",NULL)==413)) #if there is some data but for some of the filters there is a warning that could not be downloaded imediately
+          } else if (any(getOption("code_opt",NULL)==413)) #if there is some data but for some of the filters there is a warning that could not be downloaded immediately
           { 
             if (local_filter) #apply filter locally and replace the data from the REST API
             { 
@@ -504,7 +504,7 @@ get_eurostat_data <- function(id,
             message(notification)
             restat<-NULL
           }  
-          cr<-FALSE # do not cahce filtered data only bulk datasets
+          cr<-FALSE # do not cache filtered data only bulk datasets
         }
       }
     }else #no filter is defined => get the whole data set
@@ -645,6 +645,7 @@ get_eurostat_data <- function(id,
       }
     }  
   }
+  if (getOption("restatapi_verbose",FALSE))  {message("get_eurostat_data - restat NULL:",is.null(restat),"\n\t id",id,"\n\t filters",filters_url,"\n\t date filter",date_filter)}
   return(restat)
 }
 

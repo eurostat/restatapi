@@ -1,3 +1,7 @@
+# restatapi 0.20.6
+
+- additional debug messages to see source of errors in CRAN checks 
+
 # restatapi 0.20.5
 
 - using `packageStartupMessage()` function when the package is loaded with the option `verbose=TRUE`
