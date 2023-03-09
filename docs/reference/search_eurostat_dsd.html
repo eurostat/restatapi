@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.6</span>
       </span>
     </div>
 
@@ -121,26 +121,92 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Warning by the download of the DSD file:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children': Timeout of 2 seconds was reached</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpDPkfo6/file1772b8127c1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Premature end of data in tag Name line 3 [77]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpUiUbrL/file163358c7c13</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - concepts:freq,unit,na_item,geo,OBS_FLAG</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - DSD NULL:FALSE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the CC from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/contentconstraint/ESTAT/nama_10_gdp</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the CC from: /tmp/RtmpUiUbrL/file16325bbcc4f</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> character</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 5</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> number of cores: 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The DSD of the nama_10_gdp dataset was cached in memory ('nama_10_gdp.dsd' in '.restatapi_env').</span>
 <span class="r-in"><span><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd_example</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No DSD were provided.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      pattern concept                 code</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475       EU    unit PC_EU27_2020_MEUR_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477       EU    unit PC_EU27_2020_MPPS_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 658       EU    unit              CP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 661       EU    unit    CP_MPPS_EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 667       EU    unit           CLV15_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 668       EU    unit           CLV10_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 669       EU    unit           CLV05_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 685       EU    unit             PYP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 692       EU    unit             PD15_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 693       EU    unit             PD10_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 694       EU    unit             PD05_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 698       EU    unit       PD_PCH_PRE_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1354      EU     geo            EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1357      EU     geo                 EU28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1360      EU     geo                 EU15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                    name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475                        Percentage of EU27 (from 2020) total (based on million euro), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477  Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 658                                                                        Current prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 661                            Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 667                                                           Chain linked volumes (2015), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 668                                                           Chain linked volumes (2010), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 669                                                           Chain linked volumes (2005), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 685                                                                  Previous year prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 692                                                     Price index (implicit deflator), 2015=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 693                                                     Price index (implicit deflator), 2010=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 694                                                     Price index (implicit deflator), 2005=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 698                         Price index (implicit deflator), percentage change on previous period, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1354                                                          European Union - 27 countries (from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1357                                                          European Union - 28 countries (2013-2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1360                                                          European Union - 15 countries (1995-2004)</span>
 <span class="r-in"><span><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU"</span>,<span class="va">dsd_example</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No DSD were provided.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      pattern concept                 code</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475       EU    unit PC_EU27_2020_MEUR_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477       EU    unit PC_EU27_2020_MPPS_CP</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 658       EU    unit              CP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 661       EU    unit    CP_MPPS_EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 667       EU    unit           CLV15_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 668       EU    unit           CLV10_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 669       EU    unit           CLV05_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 685       EU    unit             PYP_MEUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 692       EU    unit             PD15_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 693       EU    unit             PD10_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 694       EU    unit             PD05_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 698       EU    unit       PD_PCH_PRE_EUR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1354      EU     geo            EU27_2020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1357      EU     geo                 EU28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1360      EU     geo                 EU15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1369      EU     geo                   EA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1370      EU     geo                 EA20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1371      EU     geo                 EA19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1377      EU     geo                 EA12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                               name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475                                   Percentage of EU27 (from 2020) total (based on million euro), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477             Percentage of EU27 (from 2020) total (based on million purchasing power standards), current prices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 658                                                                                   Current prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 661                                       Current prices, million purchasing power standards (PPS, EU27 from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 667                                                                      Chain linked volumes (2015), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 668                                                                      Chain linked volumes (2010), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 669                                                                      Chain linked volumes (2005), million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 685                                                                             Previous year prices, million euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 692                                                                Price index (implicit deflator), 2015=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 693                                                                Price index (implicit deflator), 2010=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 694                                                                Price index (implicit deflator), 2005=100, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 698                                    Price index (implicit deflator), percentage change on previous period, euro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1354                                                                     European Union - 27 countries (from 2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1357                                                                     European Union - 28 countries (2013-2020)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1360                                                                     European Union - 15 countries (1995-2004)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1369 Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-2009, EA17-2011, EA18-2014, EA19-2015, EA20-2023)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1370                                                                          Euro area – 20 countries (from 2023)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1371                                                                         Euro area - 19 countries  (2015-2022)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1377                                                                          Euro area - 12 countries (2001-2006)</span>
 <span class="r-in"><span><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU27_2019"</span>,<span class="va">dsd_example</span>,name<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No DSD were provided.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu">search_eurostat_dsd</span><span class="op">(</span><span class="st">"EU27_2019"</span>,<span class="va">dsd_example</span>,exact_match<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No DSD were provided.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
