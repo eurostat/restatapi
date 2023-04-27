@@ -9,14 +9,14 @@ name: pkgdown-regi
 
 jobs:
   pkgdown:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       RSPM: https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     name: doc update
     container: rocker/verse
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: Rscript ./.github/workflows/make_doc.R
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
