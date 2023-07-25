@@ -343,7 +343,7 @@ if (!is.null(dsd)){
   message("\n ########--------- 85 test of the create_filter_table function")
   expect_equal(ncol(ft1),ncol(ft2))
   message("\n ########--------- 86 test of the create_filter_table function")
-  expect_equal(nrow(ft1),10)
+  expect_equal(nrow(ft1),11)
   message("\n ########--------- 87 test of the create_filter_table function")
   expect_equal(nrow(ft2),2)
 } else {no_check<-paste(no_check,"84-87",sep=", ")}

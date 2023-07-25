@@ -3,7 +3,7 @@
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
 #' @param mode defines the format of the downloaded dataset. It can be \code{txt} (the default value) for 
-#'        Tab Separated Values (TSV), or \code{xml} for the SDMX version. 
+#'        Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SDMX-ML version. 
 #' @param cache a logical whether to do caching. Default is \code{TRUE}.
 #' @param update_cache a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
 #'        \code{options(restatapi_update=TRUE)}
@@ -113,6 +113,13 @@ get_eurostat_raw <- function(id,
     tbc<-FALSE
     message("The dataset 'id' is missing.")
   }
+  if (!melt) {
+    cache=FALSE  # not cache if not melted
+    if (mode!="txt"){
+      message("It is not possible to have raw casted table with mode='csv' or mode='xml'.")
+    }
+  }
+  
   if (tbc){
     if (check_toc){
       toc<-restatapi::get_eurostat_toc(verbose=verbose)
@@ -142,7 +149,16 @@ get_eurostat_raw <- function(id,
       }
     }else{
       udate<-format(Sys.Date(),"%Y.%m.%d")
-      if (mode=="txt") {
+      if (mode=="csv") {
+        bulk_url_base<-eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT")))
+        if (keep_flags) {
+          bulk_url_end<- paste0(id,"?format=SDMX-CSV&compressed=true")
+        } else {
+          bulk_url_end<- paste0(id,"?format=SDMX-CSV&detail=dataonly&compressed=true")
+        }
+        bulk_url<-paste0(bulk_url_base,bulk_url_end)
+        if (verbose) {message("get_eurostat_raw - bulk url: ",bulk_url)}
+      }else if (mode=="txt") {
         bulk_url_base<-eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT")))
         bulk_url_end<- switch(rav,"1" = paste0("?file=data/",id,".tsv.gz"),"2"= paste0(id,"?format=TSV&compressed=true"))
         bulk_url<-paste0(bulk_url_base,bulk_url_end)
@@ -153,20 +169,58 @@ get_eurostat_raw <- function(id,
         bulk_url<-paste0(bulk_url_base,bulk_url_end)
         if (verbose) {message("get_eurostat_raw - bulk url: ",bulk_url)}
       } else {
-        message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
+        message("Incorrect mode:",mode,"\n It should be either 'csv', 'txt' (default) or 'xml'." )
         tbc<-FALSE
       }
     }
   }
   
-  if (!melt) cache=FALSE  
+  
   
   if (tbc){
     if ((cache)&(!update_cache)) {
       restat_raw<-data.table::copy(restatapi::get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
     }
     if ((!cache)|(is.null(restat_raw))|(update_cache)){
-      if (mode=="txt"){
+      if (mode=="csv"){
+        if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
+          tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                   error = function(e) {
+                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     tbc<-FALSE
+                   },
+                   warning = function(w) {
+                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                   })
+        } else{
+          tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                   error = function(e) {
+                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     tbc<-FALSE
+                   },
+                   warning = function(w) {
+                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                   })
+        }
+        if(!is.null(raw)){
+          if(ncol(raw)==1){
+            data.table::setnames(raw,"v1")
+            raw<-as.character(raw$v1)
+            if (any(grepl(paste0(id, ".* does not exist"),raw))){
+              message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
+              tbc<-FALSE
+            } 
+          }
+        }  
+        if (tbc){
+          restat_raw<-data.table::copy(raw)
+          restat_raw[, c("DATAFLOW", "LAST UPDATE") := NULL]
+          rm(raw)
+          # restat_raw$OBS_VALUE<-gsub('^\\:$',"",restat_raw$OBS_VALUE,perl=TRUE)
+          # restat_raw$OBS_VALUE<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$OBS_VALUE,perl=TRUE)
+          restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)
+        }
+      } else if (mode=="txt"){
             if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
               tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                        error = function(e) {

@@ -24,7 +24,7 @@ get_eurostat_raw(
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
 
 \item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for 
-Tab Separated Values (TSV), or \code{xml} for the SDMX version.}
+Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SDMX-ML version.}
 
 \item{cache}{a logical whether to do caching. Default is \code{TRUE}.}
 

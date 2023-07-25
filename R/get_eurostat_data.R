@@ -51,6 +51,8 @@
 #' @param force_local_filter a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local 
 #'        computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
 #'        but it is fully listed in the raw dataset. 
+#' @param response_format defines the format of the dataset response from the API. It can be  
+#'        \code{csv} for SDMX-CSV or \code{xml} for the SDMX-ML version. 
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
@@ -183,6 +185,7 @@ get_eurostat_data <- function(id,
                          check_toc=FALSE,
                          local_filter=TRUE,
                          force_local_filter=FALSE,
+                         response_format="xml",
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
@@ -367,80 +370,135 @@ get_eurostat_data <- function(id,
       } else #there is valid filter url => use the REST API with SDMX 
       { 
         base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
-        data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
-        options(code_opt=NULL)
-        restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
-            if (verbose) {message(x)}
-            temp <- tempfile()
-            tryCatch({utils::download.file(x,temp,dmethod,quiet=!verbose)},
-                     error = function(e) {
-                       if (verbose) {message("get_eurostat_data - Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
-                       tbc<-FALSE
-                     },
-                     warning = function(w) {
-                       if(verbose){message("get_eurostat_data - Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))}
-                       tbc<-FALSE
-                     })
-            if (length(temp)==0) {tbc<-FALSE}
-            if (tbc){
-              xml_foot<-NULL
-              tryCatch({xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")},
+        if (response_format=="xml"){
+          data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
+        } else if (response_format=="csv"){
+          if (keep_flags) {
+            # message(paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&compressed=true"))
+            data_endpoint<-gsub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&compressed=true"),perl=TRUE)
+        } else {
+            data_endpoint<-gsub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&detail=dataonly&compressed=true"),perl=TRUE)
+          }
+        } else { 
+          message("Incorrect response_fomrat:",mode,"\n It should be either 'csv' (default) or 'xml'." )
+          tbc<-FALSE
+        }  
+        if (tbc) {
+          if (response_format=="csv"){
+            restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
+              if (length(gregexpr("\\?",x)[[1]])>1) x<-gsub("\\?([^\\?]*)$","&\\1",x)
+              if (verbose) {message(x)}
+              if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
+                tryCatch({rdat<-data.table::fread(text=readLines(gzcon(url(x))),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                         error = function(e) {
+                           if (verbose){message("get_eurostat_data - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                           tbc<-FALSE
+                         },
+                         warning = function(w) {
+                           if (verbose){message("get_eurostat_data - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         })
+              } else{
+                tryCatch({rdat<-data.table::fread(paste(readLines(gzcon(url(x))),collapse="\n"),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
+                         error = function(e) {
+                           if (verbose){message("get_eurostat_data - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                           tbc<-FALSE
+                         },
+                         warning = function(w) {
+                           if (verbose){message("get_eurostat_rdat - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         })
+              }
+              if(!is.null(rdat)){
+                if(ncol(rdat)==1){
+                  data.table::setnames(rdat,"v1")
+                  raw<-as.character(rdat$v1)
+                  if (any(grepl(paste0(id, ".* does not exist"),rdat))){
+                    message("The file ",gsub(".*/","",x)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
+                    tbc<-FALSE
+                  } 
+                }
+              }  
+              if (!is.null(rdat)){
+                data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)
+                rdat[, c("DATAFLOW", "LAST UPDATE") := NULL]
+                }
+            }),fill=TRUE)
+          } else if (response_format=="xml"){
+            options(code_opt=NULL)
+            restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
+              if (verbose) {message(x)}
+              temp <- tempfile()
+              tryCatch({utils::download.file(x,temp,dmethod,quiet=!verbose)},
                        error = function(e) {
-                         if (verbose) {message("get_eurostat_data - Error by the extraction of the footer from the xml:",'\n',paste(unlist(e),collapse="\n"))}
+                         if (verbose) {message("get_eurostat_data - Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
                          tbc<-FALSE
                        },
                        warning = function(w) {
-                         if(verbose){message("get_eurostat_data - Warning by the extraction of the footer from the xml:",'\n',paste(unlist(w),collapse="\n"))}
+                         if(verbose){message("get_eurostat_data - Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))}
                          tbc<-FALSE
                        })
-            } 
-            if (tbc & !is.null(xml_foot)){
-              if (length(xml_foot)>0){
-                code<-xml2::xml_attr(xml_foot,"code")
-                if (length(code)!=0){
-                  notification<-"The query had at least one footer message."
-                  if (!verbose) {notification<-paste(notification,"You can check the details with the 'verbose=TRUE' parameter.")}
-                  message(notification)
-                }
-                severity<-xml2::xml_attr(xml_foot,"severity")
-                fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
-                if (verbose){message("get_eurostat_data - ",x,"\ncode: ",code," - severity:",severity,"\n",paste(fmsg,collapse="\n"))}
-                code<-c(getOption("code_opt",NULL),code) #put the footer code into options in case there are several time filter
-                options(code_opt=code)
-              } else {
+              if (length(temp)==0) {tbc<-FALSE}
+              if (tbc){
                 xml_foot<-NULL
+                tryCatch({xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")},
+                         error = function(e) {
+                           if (verbose) {message("get_eurostat_data - Error by the extraction of the footer from the xml:",'\n',paste(unlist(e),collapse="\n"))}
+                           tbc<-FALSE
+                         },
+                         warning = function(w) {
+                           if(verbose){message("get_eurostat_data - Warning by the extraction of the footer from the xml:",'\n',paste(unlist(w),collapse="\n"))}
+                           tbc<-FALSE
+                         })
+              } 
+              if (tbc & !is.null(xml_foot)){
+                if (length(xml_foot)>0){
+                  code<-xml2::xml_attr(xml_foot,"code")
+                  if (length(code)!=0){
+                    notification<-"The query had at least one footer message."
+                    if (!verbose) {notification<-paste(notification,"You can check the details with the 'verbose=TRUE' parameter.")}
+                    message(notification)
+                  }
+                  severity<-xml2::xml_attr(xml_foot,"severity")
+                  fmsg<-xml2::xml_text(xml2::xml_children(xml_foot))
+                  if (verbose){message("get_eurostat_data - ",x,"\ncode: ",code," - severity:",severity,"\n",paste(fmsg,collapse="\n"))}
+                  code<-c(getOption("code_opt",NULL),code) #put the footer code into options in case there are several time filter
+                  options(code_opt=code)
+                } else {
+                  xml_foot<-NULL
+                }
+              } else {
+                tbc<-FALSE
+                message("Problem by the extraction of the footer information from the xml_file.")
               }
-            } else {
-              tbc<-FALSE
-              message("Problem by the extraction of the footer information from the xml_file.")
-            }
-            if(tbc){
-              tryCatch({xml_mark<-switch(rav,"1" = ".//generic:Series","2" = ".//g:Series")
-                        xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),xml_mark)
-                        if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
-                        if (Sys.info()[['sysname']]=='Windows'){
-                          if (getOption("restatapi_cores",1L)==1) {
-                            if (verbose) message("No parallel")
-                            rdat<-data.table::rbindlist(lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))
-                          } else{
-                            xml_leafs<-as.character(xml_leafs)
-                            cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
-                            parallel::clusterEvalQ(cl,require(xml2))
-                            parallel::clusterExport(cl,c("extract_data"))
-                            rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
-                            parallel::stopCluster(cl)
-                          }  
-                        }else{
-                          rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
-                        }
-              },
-              error = function(e){rdat<-NULL},
-              warning = function(w){if (verbose){message("get_eurostat_data - ",w)}}
-              )
-            }
-            if (file.exists(temp)) unlink(temp)
-            if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}
-        }),fill=TRUE)
+              if(tbc){
+                tryCatch({xml_mark<-switch(rav,"1" = ".//generic:Series","2" = ".//g:Series")
+                xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),xml_mark)
+                if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+                if (Sys.info()[['sysname']]=='Windows'){
+                  if (getOption("restatapi_cores",1L)==1) {
+                    if (verbose) message("No parallel")
+                    rdat<-data.table::rbindlist(lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))
+                  } else{
+                    xml_leafs<-as.character(xml_leafs)
+                    cl<-parallel::makeCluster(min(2,getOption("restatapi_cores",1L)))
+                    parallel::clusterEvalQ(cl,require(xml2))
+                    parallel::clusterExport(cl,c("extract_data"))
+                    rdat<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE))              
+                    parallel::stopCluster(cl)
+                  }  
+                }else{
+                  rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
+                }
+                },
+                error = function(e){rdat<-NULL},
+                warning = function(w){if (verbose){message("get_eurostat_data - ",w)}}
+                )
+              }
+              if (file.exists(temp)) unlink(temp)
+              if (!is.null(rdat)){data.table::as.data.table(rdat,stringsAsFactors=stringsAsFactors)}
+            }),fill=TRUE)
+          }
+        }
+
         if (verbose) {message("get_eurostat_data - footer code option value after retrieval:",paste(getOption("code_opt",NULL),collapse=", "))}
         if (!is.null(restat)) #at least one url provided a valid result => check if all the queries with data downloaded
         {
