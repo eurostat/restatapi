@@ -137,21 +137,17 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpWswfPd/file1765ad47ce2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - concepts:freq,unit,geo,OBS_FLAG</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - DSD NULL:FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the CC from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/contentconstraint/ESTAT/med_rd6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the CC from: /tmp/RtmpWswfPd/file1766bec1762</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> character</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> number of cores: 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Warning by the download of the DSD file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children': Timeout of 2 seconds was reached</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmp8JzJ1I/file17616cc3c97</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Premature end of data in tag Name line 4 [77]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the DSD.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dsd</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      concept    code                            name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       freq       A                        Jährlich</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 111     unit   THS_T                  Tausend Tonnen</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 140     unit MIO_TKM Millionen Tonnenkilometer (TKM)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4251     geo      MA                         Marokko</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4496     geo      JO                       Jordanien</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

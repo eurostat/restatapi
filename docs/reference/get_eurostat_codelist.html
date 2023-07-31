@@ -104,10 +104,9 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
     <h2>Value</h2>
     
 
-<p>If the codelist does not exist it returns <code>NULL</code> otherwise the result is a table with the 3 columns:</p>
+<p>If the codelist does not exist it returns <code>NULL</code> otherwise the result is a table with the 2 columns:</p>
 <p></p>
-<table class="table table"><tr><td>!!!!!!!!!!!!!!!!!!!!ATIRNI
-     <code>concept</code></td><td>The name of the concepts in the order of the data structure</td></tr><tr><td><code>code</code></td><td>The possible list of codes under the concept</td></tr><tr><td><code>name</code></td><td>The name/description of the code</td></tr></table></div>
+<table class="table table"><tr><td><code>code</code></td><td>All the possible codes under the concept</td></tr><tr><td><code>name</code></td><td>The name/description of the code</td></tr></table></div>
     <div id="details">
     <h2>Details</h2>
     <p>The codelist is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.</p>
@@ -123,26 +122,27 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontshow{</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">&lt;=</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="kw">else</span><span class="op">{</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">get_eurostat_codelist</span><span class="op">(</span><span class="st">"freq"</span>,lang<span class="op">=</span><span class="st">"de"</span>,cache<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_codelist - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_codelist - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_codelist - Trying to download the codelist from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/FREQ</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the codelist from: /tmp/RtmpWswfPd/file17655ecd9e8</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_codelist - Trying to download the codelist from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/FREQ</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the codelist from: /tmp/Rtmp8JzJ1I/file1765879198b</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_codelist - codelist NULL:TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Empty data.table (0 rows and 2 cols): code,title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     code                           name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:    P                     Mehrjährig</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:    A                       Jährlich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:    S     Halbjährlich, pro Semester</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:    Q                Vierteljährlich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:    M                      Monatlich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:    W                    Wöchentlich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:    B   Täglich - pro Geschäftswoche</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:    D                        Täglich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:    H                      Stündlich</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:    I Unregelmäßig / Nichtperiodisch</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
