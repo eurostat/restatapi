@@ -47,7 +47,7 @@ id<-"agr_r_milkpr"
 toc<-get_eurostat_toc()
 bulk_url<-toc$downloadLink.sdmx[toc$code==id]
 options(timeout=2)
-if (!is.null(bulk_url)){
+if (!(is.null(bulk_url))&(!(length(bulk_url)==0))){
   temp<-tempfile()
   tryCatch({download.file(bulk_url,temp)
   sdmx_xml<-xml2::read_xml(unzip(temp,paste0(id,".sdmx.xml"),exdir=tempdir()))

@@ -84,7 +84,7 @@ if (!is.null(dsd)){
   message("\n ########--------- 12 test of the get_eurostat_dsd function")
   expect_true(exists(paste0(testid1,".dsd"),envir=restatapi::.restatapi_env))
 } else {no_check<-paste(no_check,"11-12",sep=", ")} 
-if (!is.null(xml_toc)){}
+# if (!is.null(xml_toc)){}
 
 eu<-get("cc",envir=restatapi::.restatapi_env)
 pattern<-"EU"
@@ -129,6 +129,7 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
 
 if (!is.null(xml_toc)){
   testid3<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)&is.na(xml_toc$downloadLink.tsv)][1]
+  # testid3<-xml_toc$code[(xml_toc$shortDescription=="")&is.na(xml_toc$metadata.html)&is.na(xml_toc$metadata.sdmx)][1]
   if (!is.na(testid3)){
     message("\n ########--------- 25 test of the get_eurostat_raw/bulk/data functions")
     expect_message(rt1<-get_eurostat_raw(testid3,verbose=FALSE))
@@ -199,9 +200,11 @@ message("\n ########--------- 45 test of filtering in the get_eurostat_data func
 expect_true(is.null(dt8))
 dt9<-get_eurostat_data(testid4,filters="2018",cflags=TRUE)
 if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
-  if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid4]))){
-    message("\n ########--------- 46 test of filtering in the get_eurostat_data function")
-    expect_equal(nrow(dt9),as.numeric(xml_toc$values[xml_toc$code==testid4]))
+  if (testid4 %in% xml_toc$code) {
+    if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid4]))){
+      message("\n ########--------- 46 test of filtering in the get_eurostat_data function")
+      expect_equal(nrow(dt9),as.numeric(xml_toc$values[xml_toc$code==testid4]))
+    } else {no_check<-paste(no_check,"46",sep=", ")}  
   } else {no_check<-paste(no_check,"46",sep=", ")}
 } else {no_check<-paste(no_check,"46",sep=", ")} 
 dsd1<-get_eurostat_dsd(testid4)
@@ -214,7 +217,7 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
     message("\n ########--------- 48 test of filtering in the get_eurostat_data function")
     expect_true(nrow(dt10)<nrow(dt11))
   } else {no_check<-paste(no_check,"47-48",sep=", ")}
-  nr1<-nrow(get_eurostat_data(testid4,date_filter=2016))
+  nr1<-nrow(get_eurostat_data(testid4,date_filter=2016,mode="xml"))
   nr2<-nrow(get_eurostat_data(testid4,date_filter="2016",keep_flags=TRUE))
   if (!is.null(nr1)&!is.null(nr2)){
     message("\n ########--------- 49 test of filtering in the get_eurostat_data function")

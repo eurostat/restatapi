@@ -51,7 +51,7 @@
 #' @param force_local_filter a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local 
 #'        computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
 #'        but it is fully listed in the raw dataset. 
-#' @param response_format defines the format of the dataset response from the API. It can be  
+#' @param mode defines the format of the dataset response from the API. It can be  
 #'        \code{csv} for SDMX-CSV or \code{xml} for the SDMX-ML version. 
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
@@ -185,7 +185,7 @@ get_eurostat_data <- function(id,
                          check_toc=FALSE,
                          local_filter=TRUE,
                          force_local_filter=FALSE,
-                         response_format="xml",
+                         mode="xml",
                          verbose=FALSE,...) {
   
   .datatable.aware=TRUE
@@ -370,9 +370,9 @@ get_eurostat_data <- function(id,
       } else #there is valid filter url => use the REST API with SDMX 
       { 
         base_url<-eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$data$'2.1'$data")))
-        if (response_format=="xml"){
+        if (mode=="xml"){
           data_endpoint<-sub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter),perl=TRUE)
-        } else if (response_format=="csv"){
+        } else if (mode=="csv"){
           if (keep_flags) {
             # message(paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&compressed=true"))
             data_endpoint<-gsub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&compressed=true"),perl=TRUE)
@@ -380,11 +380,11 @@ get_eurostat_data <- function(id,
             data_endpoint<-gsub("\\/\\/(?=\\?)","/",paste0(base_url,"/",id,"/",filters_url,"/",date_filter,"?format=SDMX-CSV&detail=dataonly&compressed=true"),perl=TRUE)
           }
         } else { 
-          message("Incorrect response_fomrat:",mode,"\n It should be either 'csv' (default) or 'xml'." )
+          message("Incorrect mode:",mode,"\n It should be either 'csv'  or 'xml' (default)" )
           tbc<-FALSE
         }  
         if (tbc) {
-          if (response_format=="csv"){
+          if (mode=="csv"){
             restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
               if (length(gregexpr("\\?",x)[[1]])>1) x<-gsub("\\?([^\\?]*)$","&\\1",x)
               if (verbose) {message(x)}
@@ -422,7 +422,7 @@ get_eurostat_data <- function(id,
                 rdat[, c("DATAFLOW", "LAST UPDATE") := NULL]
                 }
             }),fill=TRUE)
-          } else if (response_format=="xml"){
+          } else if (mode=="xml"){
             options(code_opt=NULL)
             restat<-data.table::rbindlist(lapply(data_endpoint, function(x) {
               if (verbose) {message(x)}

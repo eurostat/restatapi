@@ -1,6 +1,6 @@
 #' @title Download the Data Structure Definition of a dataset
 #' @description Download Data Structure Definition (DSD) of a Eurostat dataset if it is not cached previously. 
-#' @param id a character string with the id of the dataset. It is the value from the codename column of the \code{\link{get_eurostat_toc}} function. 
+#' @param id a character string with the id of the dataset. It is a value from the \code{codename} column of the \code{\link{get_eurostat_toc}} function. 
 #' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column of the DSD. It is used only in the new API. The default is \code{en} - English.
 #' @param cache a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.
 #' @param update_cache a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}
@@ -17,7 +17,7 @@
 #'    }
 #' @export
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{search_eurostat_toc}}.
-#' @details The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX) format.
+#' @details The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.
 #'  
 #' @references For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/data/web-services}{API}. 
 #' @examples 

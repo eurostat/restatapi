@@ -21,7 +21,7 @@ get_eurostat_data(
   check_toc = FALSE,
   local_filter = TRUE,
   force_local_filter = FALSE,
-  response_format = "xml",
+  mode = "xml",
   verbose = FALSE,
   ...
 )
@@ -94,7 +94,7 @@ that the result cannot be downloaded becuase it is too large, then the whole raw
 computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
 but it is fully listed in the raw dataset.}
 
-\item{response_format}{defines the format of the dataset response from the API. It can be
+\item{mode}{defines the format of the dataset response from the API. It can be
 \code{csv} for SDMX-CSV or \code{xml} for the SDMX-ML version.}
 
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.

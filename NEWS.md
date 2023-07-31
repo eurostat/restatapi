@@ -1,8 +1,13 @@
+# restatapi 0.21.0
+
+- new function `get_eurostat_codelist()` to retrieve codelist for a concept 
+- adjusting tests for the the new  function
+- adjustment of documentation    
+
 # restatapi 0.20.7
 
 - correction of tests
 - adding the SDMX-CSV option to the `get_eurostat_raw()` and `get_eurostat_data()` function  
-
 
 # restatapi 0.20.6
 
