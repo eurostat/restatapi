@@ -686,6 +686,22 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   } else {no_check<-paste(no_check,"158",sep=", ")}
   
 }
+
+
+##################################
+# new tests                      #
+##################################
+
+cl<-get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
+if (!is.null(cl)){
+  message("\n ########--------- 159 test of the get_eurostat_codelist function")
+  expect_equal(ncol(cl),2)
+  message("\n ########--------- 160 test of the get_eurostat_codelist function")
+  expect_equal(nrow(cl),10)
+}
+
+
+
 clean_restatapi_cache(tempdir(),verbose=TRUE)
 if (!is.null(no_check)) {message("\n\n\n\n\nThere are skipped tests:",gsub("^,","",no_check))}
 cat("\n\nSkipped tests:",gsub("^,","",no_check),"\nconfig version:",get("rav",envir=restatapi::.restatapi_env),"\n")

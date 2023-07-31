@@ -9,11 +9,9 @@
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 #'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... parameter to pass on the \code{load_cfg} function
-#' @return If the codelist does not exist it returns \code{NULL} otherwise the result is a table with the 3 columns:
+#' @return If the codelist does not exist it returns \code{NULL} otherwise the result is a table with the 2 columns:
 #'    \tabular{ll}{
-#'    !!!!!!!!!!!!!!!!!!!!ATIRNI
-#'      \code{concept} \tab The name of the concepts in the order of the data structure \cr
-#'      \code{code} \tab The possible list of codes under the concept \cr
+#'      \code{code} \tab All the possible codes under the concept \cr
 #'      \code{name} \tab The name/description of the code 
 #'    }
 #' @export
@@ -22,18 +20,9 @@
 #'  
 #' @references For more information see the detailed documentation of the \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/API+SDMX+2.1+-+metadata+query}{API}. 
 #' @examples 
-#' \dontshow{
-#' if (parallel::detectCores()<=2){
-#'    options(restatapi_cores=1)
-#' }else{
-#'    options(restatapi_cores=2)
-#' }
-#' }
-#' \donttest{
 #' options(timeout=2)
 #' get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
 #' options(timeout=60)
-#' }
 
 get_eurostat_codelist <- function(id,
                              lang="en",
@@ -73,10 +62,10 @@ get_eurostat_codelist <- function(id,
     if (tbc) {
       update_cache <- update_cache | getOption("restatapi_update", FALSE)
       if ((cache) & (!update_cache)) {
-        cls<-restatapi::get_eurostat_cache(paste0(id,".cls"),cache_dir,verbose=verbose)
+        cls<-restatapi::get_eurostat_cache(paste0(id,".cls.",lang),cache_dir,verbose=verbose)
       }
       if ((!cache)|(is.null(cls))|(update_cache)){
-        cls_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$codelist"))),"/",toupper(id))
+        cls_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$codelist"))),"/ESTAT/",toupper(id))
         temp<-tempfile()
         if (verbose) {
           message("\nget_eurostat_codelist - Trying to download the codelist from: ",cls_endpoint)
@@ -131,13 +120,13 @@ get_eurostat_codelist <- function(id,
           # parse xml:
           cls <- data.table::data.table(
             "code"=xml2::xml_attr(x=xml2::xml_find_all(x=cls_xml, xpath="*//s:Code"), attr="id"),
-            "title"=xml2::xml_text(xml2::xml_find_all(x=cls_xml, xpath=xpath.lang), trim=TRUE)
+            "name"=xml2::xml_text(xml2::xml_find_all(x=cls_xml, xpath=xpath.lang), trim=TRUE)
           )
           
 
         }
         if (cache){
-          pl<-restatapi::put_eurostat_cache(cls,paste0(id,".cls"),update_cache,cache_dir,compress_file)
+          pl<-restatapi::put_eurostat_cache(cls,paste0(id,".cls.",lang),update_cache,cache_dir,compress_file)
           if (verbose) {message("get_eurostat_codelist - the codelist of the ",id," concept was cached ",pl,".")}
         }  
       } else {

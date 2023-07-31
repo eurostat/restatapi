@@ -34,11 +34,9 @@ Can be set also with \code{options(restatapi_verbose=TRUE)}}
 \item{...}{parameter to pass on the \code{load_cfg} function}
 }
 \value{
-If the codelist does not exist it returns \code{NULL} otherwise the result is a table with the 3 columns:
+If the codelist does not exist it returns \code{NULL} otherwise the result is a table with the 2 columns:
    \tabular{ll}{
-   !!!!!!!!!!!!!!!!!!!!ATIRNI
-     \code{concept} \tab The name of the concepts in the order of the data structure \cr
-     \code{code} \tab The possible list of codes under the concept \cr
+     \code{code} \tab All the possible codes under the concept \cr
      \code{name} \tab The name/description of the code 
    }
 }
@@ -49,18 +47,9 @@ Download codelist of a concept from Eurostat if it is not cached previously.
 The codelist is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.
 }
 \examples{
-\dontshow{
-if (parallel::detectCores()<=2){
-   options(restatapi_cores=1)
-}else{
-   options(restatapi_cores=2)
-}
-}
-\donttest{
 options(timeout=2)
 get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
 options(timeout=60)
-}
 }
 \references{
 For more information see the detailed documentation of the \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/API+SDMX+2.1+-+metadata+query}{API}.
