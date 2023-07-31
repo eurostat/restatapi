@@ -43,6 +43,9 @@
     <loc>/reference/get_eurostat_cache.html</loc>
   </url>
   <url>
+    <loc>/reference/get_eurostat_codelist.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_eurostat_data.html</loc>
   </url>
   <url>

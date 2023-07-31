@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0</span>
       </span>
     </div>
 
@@ -142,11 +142,11 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <p>a data.table with the following columns if the default <code>melt=TRUE</code> is used:</p>
 <p></p>
 <table class="table table"><tr><td><code>FREQ</code></td><td>The frequency of the data (<strong>A</strong>nnual, <strong>S</strong>emi-annual, <strong>H</strong>alf-year, <strong>Q</strong>uarterly, <strong>M</strong>onthly,
- <strong>W</strong>eekly, <strong>D</strong>aily)</td></tr><tr><td>dimension names</td><td>One column for each dimension in the data</td></tr><tr><td><code>TIME_FORMAT</code></td><td>A column for the time format, if the source file SDMX and the data was not
+ <strong>W</strong>eekly, <strong>D</strong>aily)</td></tr><tr><td>dimension names</td><td>One column for each dimension in the data</td></tr><tr><td><code>TIME_FORMAT</code></td><td>A column for the time format, if the source file SDMX-ML and the data was not
  loaded from a previously cached TSV download (this column is missing if the source file is TSV)</td></tr><tr><td><code>time/TIME_PERIOD</code></td><td>A column for the time dimension, where the name of the column depends on the
- source file (TSV/SDMX)</td></tr><tr><td><code>values/OBS_VALUE</code></td><td>A column for numerical values, where the name of the column depends on the
- source file (TSV/SDMX)</td></tr><tr><td><code>flags/OBS_STATUS</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> otherwise this column is not included
- in the data table, and the name of the column depends on the source file (TSV/SDMX)</td></tr></table><p>The data does not include all missing values. The missing values are dropped if the value and flags are missing
+ source file (TSV/SDMX-ML)</td></tr><tr><td><code>values/OBS_VALUE</code></td><td>A column for numerical values, where the name of the column depends on the
+ source file (TSV/SDMX-ML)</td></tr><tr><td><code>flags/OBS_STATUS</code></td><td>A column for flags if the <code>keep_flags=TRUE</code> otherwise this column is not included
+ in the data table, and the name of the column depends on the source file (TSV/SDMX-ML)</td></tr></table><p>The data does not include all missing values. The missing values are dropped if the value and flags are missing
 on a particular time.</p>
 
 

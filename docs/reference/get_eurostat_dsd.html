@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.20.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.21.0</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>id</dt>
-<dd><p>a character string with the id of the dataset. It is the value from the codename column of the <code><a href="get_eurostat_toc.html">get_eurostat_toc</a></code> function.</p></dd>
+<dd><p>a character string with the id of the dataset. It is a value from the <code>codename</code> column of the <code><a href="get_eurostat_toc.html">get_eurostat_toc</a></code> function.</p></dd>
 
 
 <dt>lang</dt>
@@ -109,7 +109,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <table class="table table"><tr><td><code>concept</code></td><td>The name of the concepts in the order of the data structure</td></tr><tr><td><code>code</code></td><td>The possible list of codes under the concept</td></tr><tr><td><code>name</code></td><td>The name/description of the code</td></tr></table></div>
     <div id="details">
     <h2>Details</h2>
-    <p>The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX) format.</p>
+    <p>The DSD is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -137,11 +137,11 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmps1jZd0/file176106a84</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpWswfPd/file1765ad47ce2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - concepts:freq,unit,geo,OBS_FLAG</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - DSD NULL:FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the CC from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/contentconstraint/ESTAT/med_rd6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the CC from: /tmp/Rtmps1jZd0/file176789b24f0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the CC from: /tmp/RtmpWswfPd/file1766bec1762</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> character</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> number of nodes: 4</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> number of cores: 1</span>
