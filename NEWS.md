@@ -1,7 +1,12 @@
+# restatapi 0.21.1
+
+- correction of the `get_eurostat_dsd()` function so the result is a data.table 
+- adjustment of the debug messages in the tests 
+
 # restatapi 0.21.0
 
 - new function `get_eurostat_codelist()` to retrieve codelist for a concept 
-- adjusting tests for the the new  function
+- adjustment of tests for the the new  function
 - adjustment of documentation    
 
 # restatapi 0.20.7

@@ -132,7 +132,8 @@ get_eurostat_dsd <- function(id,
           if (verbose) {message(class(concepts),"\nnumber of nodes: ",length(concepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
           if (getOption("restatapi_cores",1L)==1) {
             if (verbose) message("No parallel")
-            dsd<-data.frame(do.call(rbind,lapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
+            dsd<-data.table::data.table(do.call(rbind,lapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
+            # if (verbose)  {message("get_eurostat_dsd - dsd type 1:",class(dsd))}
           } else {
             dsd_xml<-as.character(dsd_xml)
             cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
@@ -140,11 +141,12 @@ get_eurostat_dsd <- function(id,
             parallel::clusterEvalQ(cl,require(restatapi))
             # parallel::clusterExport(cl,c("extract_dsd"))
             parallel::clusterExport(cl,c("dsd_xml"),envir=environment())
-            dsd<-data.frame(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
+            dsd<-data.table::data.table(do.call(rbind,parallel::parLapply(cl,concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang)),stringsAsFactors=FALSE)
             parallel::stopCluster(cl)
           }
         }else{
-          dsd<-data.frame(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+          dsd<-data.table::data.table(do.call(rbind,parallel::mclapply(concepts,restatapi::extract_dsd,dsd_xml=dsd_xml,lang=lang,mc.cores=getOption("restatapi_cores",1L))),stringsAsFactors=FALSE)
+          # if (verbose)  {message("get_eurostat_dsd - dsd type 2:",class(dsd))}
         }  
         if (verbose) {message("get_eurostat_dsd - DSD NULL:",is.null(dsd))}
         if (!is.null(dsd)) {names(dsd)<-c("concept","code","name")}
@@ -203,8 +205,9 @@ get_eurostat_dsd <- function(id,
           if (!is.null(cc_xml)){
             cconcepts<-xml2::xml_attr(xml2::xml_find_all(cc_xml,"//c:KeyValue"),"id")
             if (verbose) {message(class(cconcepts),"\nnumber of nodes: ",length(cconcepts),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
-            ft_dsd<-data.frame(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
+            ft_dsd<-data.table::data.table(do.call(rbind,lapply(cconcepts,filter_dsd,cc_xml=cc_xml, dsd=dsd)),stringsAsFactors=FALSE)
             dsd<-ft_dsd
+            # if (verbose)  {message("get_eurostat_dsd - dsd type 3:",class(dsd))}
             
           } else {
             dsd<-NULL
@@ -223,7 +226,9 @@ get_eurostat_dsd <- function(id,
       }
     }
     if (!is.null(dsd)){
+      # if (verbose)  {message("get_eurostat_dsd - dsd type 4:",class(dsd))}
       data.table::as.data.table(dsd,stringsAsFactors=FALSE)
+      # if (verbose)  {message("get_eurostat_dsd - dsd type 5:",class(dsd))}
     }
   }
   return(dsd)

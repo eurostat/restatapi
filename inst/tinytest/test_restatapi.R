@@ -38,52 +38,63 @@ testid11<-"nrg_pc_206_h"
 testid12<-"ei_bsfs_q"
 testid13<-"avia_par_mk"
 
+tm<-function(tn,msg){
+  message("\n m########--------- ",tn,msg)
+  # cat("\n c########--------- ",tn,msg)
+  # paste("\n p########--------- ",tn,msg)
+
+  return(tn+1)
+}
+
+tn<-1
 
 
 t1<-system.time({xml_toc<-get_eurostat_toc(verbose=TRUE)})[3]
 txt_toc<-get_eurostat_toc(mode="txt")
 t2<-system.time({get_eurostat_toc()})[3]
-message("\n ########--------- 1 test of the get_eurostat_toc function")
+tn<-tm(tn, " test of the get_eurostat_toc function")
 expect_error(get_eurostat_toc(mode="text"))
 if (!is.null(xml_toc)){
-  message("\n ########--------- 2 test of the get_eurostat_toc function")
+  tn<-tm(tn, " test of the get_eurostat_toc function")
   expect_equal(ncol(xml_toc),14)
-  message("\n ########--------- 3 test of the get_eurostat_toc function")
+  tn<-tm(tn, " test of the get_eurostat_toc function")
   expect_true(exists("toc.xml.en",envir=restatapi::.restatapi_env))
   if (!is.null(txt_toc)){
-    message("\n ########--------- 4 test of the get_eurostat_toc function")
+    tn<-tm(tn, " test of the get_eurostat_toc function")
     expect_equal(ncol(txt_toc),8)
-    message("\n ########--------- 5 test of the get_eurostat_toc function")
+    tn<-tm(tn, " test of the get_eurostat_toc function")
     expect_equal(nrow(xml_toc),nrow(txt_toc))
-    message("\n ########--------- 6 test of the get_eurostat_toc function")
+    tn<-tm(tn, " test of the get_eurostat_toc function")
     expect_true(exists("toc.txt.en",envir=restatapi::.restatapi_env))
-    message("\n ########--------- 7 test of the get_eurostat_toc function")
+    tn<-tm(tn, " test of the get_eurostat_toc function")
     expect_true(t2<t1)
-  } else {no_check<-paste(no_check,"4-7",sep=", ")} 
-} else {no_check<-paste(no_check,"2-7",sep=", ")}
+  } else {no_check<-paste(no_check,tn,"-",tn+3,sep=", ");tn<-tn+3} 
+} else {no_check<-paste(no_check,tn,"-",tn+5,sep=", ");tn<-tn+5}
 
 r1<-search_eurostat_toc("energy")
 r2<-search_eurostat_toc("energy",ignore.case=TRUE)
 r3<-search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
 if (!is.null(r1)&!is.null(r2)){
-  message("\n ########--------- 8 test of the search_eurostat_toc function")
+  tn<-tm(tn, " test of the search_eurostat_toc function")
   expect_true(nrow(r1)<nrow(r2))
-} else {no_check<-paste(no_check,"8",sep=", ")}
+} else {no_check<-paste(no_check,tn,sep=", ");tn<-tn+1}
 if (!is.null(r3)){
-  message("\n ########--------- 9 test of the search_eurostat_toc function")
+  tn<-tm(tn, " test of the search_eurostat_toc function")
   expect_true(nrow(r3)>80)
-} else {no_check<-paste(no_check,"9",sep=", ")}
+} else {no_check<-paste(no_check,tn,sep=", ");tn<-tn+1}
 
-message("\n ########--------- 10 test of the get_eurostat_dsd function")
+tn<-tm(tn, " test of the get_eurostat_dsd function")
 expect_equal(get_eurostat_dsd("text"),NULL)
 
 dsd<-get_eurostat_dsd(testid1)
 if (!is.null(dsd)){
-  message("\n ########--------- 11 test of the get_eurostat_dsd function")
+  tn<-tm(tn, " test of the get_eurostat_dsd function")
+  expect_true(data.table::is.data.table(dsd))
+  tn<-tm(tn, "  test of the get_eurostat_dsd function")
   expect_equal(ncol(dsd),3)
-  message("\n ########--------- 12 test of the get_eurostat_dsd function")
+  tn<-tm(tn, "  test of the get_eurostat_dsd function")
   expect_true(exists(paste0(testid1,".dsd"),envir=restatapi::.restatapi_env))
-} else {no_check<-paste(no_check,"11-12",sep=", ")} 
+} else {no_check<-paste(no_check,tn,"-",tn+2,sep=", ");tn<-tn+2} 
 # if (!is.null(xml_toc)){}
 
 eu<-get("cc",envir=restatapi::.restatapi_env)
