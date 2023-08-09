@@ -1,3 +1,8 @@
+# restatapi 0.21.2
+
+- update of authors 
+- CRAN release
+
 # restatapi 0.21.1
 
 - correction of the `get_eurostat_dsd()` function so the result is a data.table 
