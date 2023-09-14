@@ -703,12 +703,12 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
 # new tests                      #
 ##################################
 
-cl<-get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
+cl<-get_eurostat_codelist("sex",lang="de",cache=FALSE,verbose=TRUE)
 if (!is.null(cl)){
   message("\n ########--------- 159 test of the get_eurostat_codelist function")
   expect_equal(ncol(cl),2)
   message("\n ########--------- 160 test of the get_eurostat_codelist function")
-  expect_equal(nrow(cl),10)
+  expect_equal(nrow(cl),7)
 }
 
 

@@ -1,3 +1,7 @@
+# restatapi 0.21.3
+
+- correction of tests
+
 # restatapi 0.21.2
 
 - update of authors 
