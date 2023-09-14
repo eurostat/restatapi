@@ -351,19 +351,21 @@ get_eurostat_data <- function(id,
         message("None of the filter could be applied. The whole dataset will be retrieved through bulk download.")
         restat<-restatapi::get_eurostat_bulk(id,cache,update_cache,cache_dir,compress_file,stringsAsFactors,select_freq,keep_flags,cflags,check_toc,verbose=verbose)
         if (!is.null(restat) & (verbose)) {message("get_eurostat_data - bulk restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"));message("cflags:",cflags)}
-      } else  if (force_local_filter) #there is valid filter but want to filter localy, not using the API and filter url => raw download and filtering
+      } else  if (force_local_filter) #there is valid filter but want to filter locally, not using the API and filter url => raw download and filtering
       { 
-        message("Forcing to apply filter locally. The whole dataset is downloaded through the raw download and the filters are applied locally.")
+        message("Forcing to apply filter locally. The whole dataset will be downloaded through the raw download and then the filters are applied locally.")
         restat_raw<-restatapi::get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose)
         if (!is.null(restat_raw) & (verbose)) {message("get_eurostat_data - raw restat - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
         if (verbose) {message("get_eurostat_data - filter table:");print(ft)}
-        if (!is.null(dft)){
+        if (!is.null(ft)){
           if (nrow(ft)>0){restat_raw<-restatapi::filter_raw_data(restat_raw,ft)[]}
         }
+        if (!is.null(restat_raw) & (verbose)) {message("get_eurostat_data - local filtered restat_raw after ft- nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
         if (verbose) {message("get_eurostat_data - date filter table:");print(dft)}
         if (!is.null(dft)){
           if (nrow(dft)>0){restat_raw<-restatapi::filter_raw_data(restat_raw,dft,TRUE)[]}
         }
+        if (!is.null(restat_raw) & (verbose)) {message("get_eurostat_data - local filtered restat_raw after dft - nrow:",nrow(restat_raw),";ncol:",ncol(restat_raw),";colnames:",paste(colnames(restat_raw),collapse="/"))}
         cr<-FALSE
         restat<-restat_raw[]
         if (!is.null(restat) & (verbose)) {message("get_eurostat_data - local filtered restat - nrow:",nrow(restat),";ncol:",ncol(restat),";colnames:",paste(colnames(restat),collapse="/"))}
@@ -660,9 +662,10 @@ get_eurostat_data <- function(id,
             restat$values<-suppressWarnings(as.numeric(levels(restat$values))[restat$values])        
           }
         }
-        if (is.character(restat$values)){
+        if (any(is.character(restat$values))){
           if (!any(grepl('\\d+\\:\\d+',restat$values))){
-            restat$values<-as.numeric(restat$values)
+            restat$values[grepl('^\\:$',restat$values)]<-NA
+            restat$values<-suppressWarnings(as.numeric(restat$values))
           }
         }
         restat<-unique(restat)[]

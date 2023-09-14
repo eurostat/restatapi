@@ -83,8 +83,8 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE,
                                                 }
                                                 return(as.data.frame(dr,stringsAsFactors=FALSE))
       }), fill=TRUE)
-    # if (!grepl("\\d:\\d",df$obsValue)) df$obsValue<-as.numeric(df$obsValue)
-    df$obsValue<-as.numeric(df$obsValue)
+    if (any(!grepl("\\d:\\d",df$obsValue))) df$obsValue<-as.numeric(df$obsValue)
+    # df$obsValue<-as.numeric(df$obsValue)
     df$obsValue[df$obsValue=="NaN"]<-NA
     if (keep_flags){
       out<-data.frame(bd,df,stringsAsFactors=stringsAsFactors)  
