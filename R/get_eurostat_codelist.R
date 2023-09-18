@@ -93,18 +93,18 @@ get_eurostat_codelist <- function(id,
           }
         } else {
           tryCatch({utils::download.file(cls_endpoint,temp,dmethod,quiet=TRUE)},
-                   error = function(e) {
+                   error = function(e) {message("There is an error by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                    },
-                   warning = function(w) {
+                   warning = function(w) {message("There is a warning by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                      tbc<-FALSE
                      cls_xml<-NULL
                    })
           if (file.size(temp)!=0 & tbc) {
             tryCatch({cls_xml<-xml2::read_xml(temp)},
-                     error = function(e) {
+                     error = function(e) {message("There is an error by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                        cls_xml<-NULL
                      },
-                     warning = function(w) {
+                     warning = function(w) {message("There is a warning by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                        cls_xml<-NULL
                      })
           } else {

@@ -63,7 +63,7 @@
 #' 
 #' @details Data sets are downloaded from the Eurostat Web Services 
 #' \href{https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555}{SDMX API} if there is a filter otherwise the 
-#' \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} is used.
+#' \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} is used.
 #' If only the table \code{id} is given, the whole table is downloaded from the
 #' bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX REST API is
 #' used. In case after filtering the dataset has more rows than the limitation of the SDMX REST API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .
@@ -394,19 +394,23 @@ get_eurostat_data <- function(id,
                 tryCatch({rdat<-data.table::fread(text=readLines(gzcon(url(x))),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                          error = function(e) {
                            if (verbose){message("get_eurostat_data - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                           else {message("There is an error by the reading of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                            tbc<-FALSE
                          },
                          warning = function(w) {
                            if (verbose){message("get_eurostat_data - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                           else {message("There is a warning by the reading of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          })
               } else{
                 tryCatch({rdat<-data.table::fread(paste(readLines(gzcon(url(x))),collapse="\n"),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                          error = function(e) {
                            if (verbose){message("get_eurostat_data - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                           else {message("There is an error by the reading of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                            tbc<-FALSE
                          },
                          warning = function(w) {
                            if (verbose){message("get_eurostat_rdat - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                           else {message("There is a warning by the reading of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          })
               }
               if(!is.null(rdat)){
@@ -432,10 +436,12 @@ get_eurostat_data <- function(id,
               tryCatch({utils::download.file(x,temp,dmethod,quiet=!verbose)},
                        error = function(e) {
                          if (verbose) {message("get_eurostat_data - Error by the download the xml file:",'\n',paste(unlist(e),collapse="\n"))}
+                         else {message("There is an error by the download of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        },
                        warning = function(w) {
                          if(verbose){message("get_eurostat_data - Warning by the download the xml file:",'\n',paste(unlist(w),collapse="\n"))}
+                         else {message("There is a warning by the download of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        })
               if (length(temp)==0) {tbc<-FALSE}
@@ -444,10 +450,12 @@ get_eurostat_data <- function(id,
                 tryCatch({xml_foot<-xml2::xml_find_all(xml2::read_xml(temp),".//footer:Message")},
                          error = function(e) {
                            if (verbose) {message("get_eurostat_data - Error by the extraction of the footer from the xml:",'\n',paste(unlist(e),collapse="\n"))}
+                           else {message("There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                            tbc<-FALSE
                          },
                          warning = function(w) {
                            if(verbose){message("get_eurostat_data - Warning by the extraction of the footer from the xml:",'\n',paste(unlist(w),collapse="\n"))}
+                           else {message("There is a warning by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                            tbc<-FALSE
                          })
               } 
@@ -469,11 +477,28 @@ get_eurostat_data <- function(id,
                 }
               } else {
                 tbc<-FALSE
+                tryCatch({xml_fault<-xml2::xml_find_all(xml2::read_xml(temp),".//S:Fault")},
+                        error = function(e) {
+                              if (verbose) {message("get_eurostat_data - Error by the extraction of the faultcode from the xml:",'\n',paste(unlist(e),collapse="\n"))}
+                              },
+                        warning = function(w) {
+                                if(verbose){message("get_eurostat_data - Warning by the extraction of the faultcode from the xml:",'\n',paste(unlist(w),collapse="\n"))}
+                              })
                 message("Problem by the extraction of the footer information from the xml_file.")
               }
               if(tbc){
-                tryCatch({xml_mark<-switch(rav,"1" = ".//generic:Series","2" = ".//g:Series")
-                xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),xml_mark)
+               xml_mark<-switch(rav,"1" = ".//generic:Series","2" = ".//g:Series")
+               tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(temp),xml_mark)},
+                         error = function(e) {
+                                if (verbose) {message("get_eurostat_data - Error by the reading of data from the downloaded XML:",'\n',paste(unlist(e),collapse="\n"))}
+                                else {message("There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
+                         },
+                         warning = function(w) { 
+                           if(verbose){message("get_eurostat_data - Warning by reading of data from the downloaded XML file:",'\n',paste(unlist(w),collapse="\n"))}
+                           else {message("There is a warning by the downloaded of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.")}
+                           }
+                )
+               tryCatch({           
                 if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
                 if (Sys.info()[['sysname']]=='Windows'){
                   if (getOption("restatapi_cores",1L)==1) {
@@ -491,7 +516,7 @@ get_eurostat_data <- function(id,
                   rdat<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,bulk=FALSE,mc.cores=getOption("restatapi_cores",1L)))                                  
                 }
                 },
-                error = function(e){rdat<-NULL},
+                error = function(e){if (verbose){message("get_eurostat_data - ",e);rdat<-NULL}},
                 warning = function(w){if (verbose){message("get_eurostat_data - ",w)}}
                 )
               }

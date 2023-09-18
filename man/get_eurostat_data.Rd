@@ -133,7 +133,7 @@ Download full or partial data set from \href{https://ec.europa.eu/eurostat/web/m
 \details{
 Data sets are downloaded from the Eurostat Web Services 
 \href{https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555}{SDMX API} if there is a filter otherwise the 
-\href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} is used.
+\href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} is used.
 If only the table \code{id} is given, the whole table is downloaded from the
 bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX REST API is
 used. In case after filtering the dataset has more rows than the limitation of the SDMX REST API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .

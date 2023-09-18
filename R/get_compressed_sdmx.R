@@ -42,8 +42,12 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                    })
         } else {
           tryCatch({utils::download.file(url,temp,dmethod,quiet=TRUE)},
-                   error = function(e) {tbc<-FALSE},
-                   warning = function(w) {tbc<-FALSE})
+                   error = function(e) {
+                     message("There is an error by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                     tbc<-FALSE},
+                   warning = function(w) {
+                     message("There is a warning by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                     tbc<-FALSE})
         }
         
         # unzip file
@@ -64,8 +68,8 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                    })
         } else {
           tryCatch({xml_fajl<-utils::unzip(temp,paste0(fajl,".xml"),exdir=tmpdir)},
-                   error = function(e) {},
-                   warning = function(w) {})
+                   error = function(e) { message("There is an error by the unzipping of the downloaded SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")},
+                   warning = function(w) { message("There is an warning by the unzipping of the downloaded SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")})
         }
         if (!is.null(xml_fajl)){xml<-xml2::read_xml(xml_fajl)} else {xml<-NULL}
           unlink(temp)
@@ -81,8 +85,8 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                  })
         } else {
           tryCatch({xml<-xml2::read_xml(gzcon(url(url,open="rb")))},
-                 error = function(e) {},
-                 warning = function(w) {})
+                 error = function(e) { message("There is an error by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")},
+                 warning = function(w) { message("There is an warning by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")})
         }
         if (verbose) message("get_compressed_sdmx - xml NULL:",is.null(xml))  
         # if (!is.null(xml_fajl)){xml<-xml2::read_xml(gzcon(url(url,open="rb")))} else {xml<-NULL}

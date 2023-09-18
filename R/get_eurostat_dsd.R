@@ -104,18 +104,18 @@ get_eurostat_dsd <- function(id,
         }
       } else {
         tryCatch({utils::download.file(dsd_endpoint,temp,dmethod,quiet=TRUE)},
-                 error = function(e) {
+                 error = function(e) {message("There is an error by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.")
                  },
-                 warning = function(w) {
+                 warning = function(w) {message("There is a warning by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.")
                    tbc<-FALSE
                    dsd_xml<-NULL
                  })
         if (file.size(temp)!=0 & tbc) {
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
-                 error = function(e) {
+                 error = function(e) {message("There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.")
                    dsd_xml<-NULL
                  },
-                 warning = function(w) {
+                 warning = function(w) {message("There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.")
                    dsd_xml<-NULL
                  })
         } else {
@@ -170,7 +170,7 @@ get_eurostat_dsd <- function(id,
                        cc_xml<-NULL
                      })
             if (file.size(temp)!=0 & tbc) {
-              message("Trying to extract the CC from: ",temp)
+              message("get_eurostat_dsd - Trying to extract the CC from: ",temp)
               tryCatch({cc_xml<-xml2::read_xml(temp)},
                        error = function(e) {
                          message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(e),collapse="\n"))
@@ -184,18 +184,21 @@ get_eurostat_dsd <- function(id,
             }
           } else {
             tryCatch({utils::download.file(cc_endpoint,temp,dmethod,quiet=TRUE)},
-                     error = function(e) {
+                     error = function(e) {message("There is an error by the download of the content constraint file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                       tbc<-FALSE
+                       cc_xml<-NULL
                      },
-                     warning = function(w) {
+                     warning = function(w) {message("There is an error by the download of the content constraint file. Run the same command with verbose=TRUE option to get more info on the issue.")
                        tbc<-FALSE
                        cc_xml<-NULL
                      })
             if (file.size(temp)!=0 & tbc) {
               tryCatch({cc_xml<-xml2::read_xml(temp)},
-                       error = function(e) {
+                       error = function(e) {message("There is an error by the reading of the downloaded CC file. Run the same command with verbose=TRUE option to get more info on the issue.")
                          cc_xml<-NULL
                        },
-                       warning = function(w) {
+                       warning = function(w) {message("There is a warning by the reading of the downloaded CC file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                         cc_xml<-NULL
                        })
             } else {
               cc_xml<-NULL

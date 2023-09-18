@@ -14,7 +14,7 @@
 #' @param compress_file a logical whether to compress the
 #'        RDS-file in caching. Default is \code{TRUE}.
 #' @param stringsAsFactors if \code{TRUE} the variables which are not numeric are
-#'        converted to factors. The defaulft value \code{FALSE}, in this case they are returned as characters.
+#'        converted to factors. The default value \code{FALSE}, in this case they are returned as characters.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
@@ -30,8 +30,8 @@
 #' @param ... further argument for the \code{\link{load_cfg}} function
 #' @export
 #' 
-#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
-#' in TSV or SDMX format.
+#' @details Data sets are downloaded from \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} 
+#' in CSV, TSV or SDMX format.
 #' 
 #' 
 #' The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
@@ -187,19 +187,23 @@ get_eurostat_raw <- function(id,
           tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                    error = function(e) {
                      if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     else {message("There is an error by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                      tbc<-FALSE
                    },
                    warning = function(w) {
                      if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                     else {message("There is a warning by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    })
         } else{
           tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                    error = function(e) {
                      if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     else {message("There is an error by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                      tbc<-FALSE
                    },
                    warning = function(w) {
                      if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                     else {message("There is a warning by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    })
         }
         if(!is.null(raw)){
@@ -225,19 +229,23 @@ get_eurostat_raw <- function(id,
               tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                        error = function(e) {
                          if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         else {message("There is an error by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        },
                        warning = function(w) {
                          if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         else {message("There is a warning by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                        })
             } else{
               tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                        error = function(e) {
                          if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         else {message("There is an error by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        },
                        warning = function(w) {
                          if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         else {message("There is a warning by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                        })
             }
             if(!is.null(raw)){

@@ -1,5 +1,10 @@
 # restatapi 0.22.0
 
+- refactoring tests for CRAN checks
+- updating debugging messages and documentation
+
+# restatapi 0.22.0
+
 - correction of the `extract_data()` function to handle observations when the value is not numeric
 - correction of the `get_eurostat_data()` function when the option `force_local_filter=TRUE`
 

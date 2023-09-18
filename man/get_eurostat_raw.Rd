@@ -40,7 +40,7 @@ under the temporary directory from \code{tempdir()}. Directory can also be set w
 RDS-file in caching. Default is \code{TRUE}.}
 
 \item{stringsAsFactors}{if \code{TRUE} the variables which are not numeric are
-converted to factors. The defaulft value \code{FALSE}, in this case they are returned as characters.}
+converted to factors. The default value \code{FALSE}, in this case they are returned as characters.}
 
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
@@ -84,8 +84,8 @@ In case \code{melt=FALSE} the results is a data.table where the first column con
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
 }
 \details{
-Data sets are downloaded from \href{https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing}{the Eurostat bulk download facility} 
-in TSV or SDMX format.
+Data sets are downloaded from \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} 
+in CSV, TSV or SDMX format.
 
 
 The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}

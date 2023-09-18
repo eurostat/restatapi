@@ -95,20 +95,24 @@ get_eurostat_toc<-function(mode="xml",
       tryCatch({utils::download.file(toc_endpoint,temp,dmethod,quiet=!verbose)},
                  error = function(e) {
                  if (verbose) {message("get_eurostat_toc - Error during the download of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 else {message("There is an error by the download of the txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                  tbc<-FALSE
                },
                warning = function(w) {
                  if (verbose) {message("get_eurostat_toc - Warning by the download of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 else {message("There is a warning by the download of the txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                  tbc<-FALSE
                })
       if (tbc) {
         tryCatch({toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)},
                  error = function(e) {
                    if (verbose) {message("get_eurostat_toc - Error during the reading of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                   else {message("There is an error by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    tbc<-FALSE
                  },
                  warning = function(w) {
                    if (verbose) {message("get_eurostat_toc - Warning by the reading of the tsv version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                   else {message("There is a warning by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    tbc<-FALSE
                  })
         if (tbc) {
@@ -126,10 +130,12 @@ get_eurostat_toc<-function(mode="xml",
       tryCatch({xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint,verbose=verbose),".//nt:leaf")},
                error = function(e) {
                  if (verbose) {message("get_eurostat_toc - Error during the download of the xml version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
+                 else {message("There is an error by the download of the XML TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                  tbc<-FALSE
                },
                warning = function(w) {
                  if (verbose) {message("get_eurostat_toc - Warning by the download of the xml version of the TOC file:",'\n',paste(unlist(w),collapse="\n"))}
+                 else {message("There is a warning by the download of the XML TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                  tbc<-FALSE
                })
       if ((tbc)){
@@ -177,7 +183,7 @@ get_eurostat_toc<-function(mode="xml",
         }
       }
     } else {
-      stop('Incorrect mode is given. It should be either "xml" or "txt".')
+      warning('Incorrect mode is given. It should be either "xml" or "txt".')
     } 
     if (!is.null(toc)){
       toc<-toc[!duplicated(toc[,c(1:8)]),]
