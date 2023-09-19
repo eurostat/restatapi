@@ -1,7 +1,8 @@
-# restatapi 0.22.0
+# restatapi 0.22.1
 
 - refactoring tests for CRAN checks
 - updating debugging messages and documentation
+- CRAN release
 
 # restatapi 0.22.0
 
