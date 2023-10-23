@@ -70,7 +70,7 @@ if (!is.null(r3)){
 } else {not_checked<-paste(not_checked,9,sep=",")}
 
 #### test of the get_eurostat_dsd function
-expect_equal(get_eurostat_dsd("text"),NULL) # 10
+expect_equal(suppressMessages(get_eurostat_dsd("text")),NULL) # 10
 dsd<-get_eurostat_dsd(testid1)
 if (!is.null(dsd)){
   expect_true(data.table::is.data.table(dsd)) # 11
@@ -281,8 +281,8 @@ if (!is.null(cl)){
 
 
 
-message(Sys.info()['release'])
-message("Are we at home:",at_home())
+message("\n",Sys.info()['release'])
+message("\n","Are we at home:",at_home())
 
 ##################################
 # additional test not on CRAN    #
@@ -540,9 +540,9 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   dt1<-system.time(estat_data1<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=FALSE))[3]
   dt2<-system.time(estat_data2<-get_eurostat_data(testid12,stringsAsFactors=FALSE,verbose=FALSE))[3]
   dt3<-system.time(estat_data3<-get_eurostat_data(testid12,keep_flags=TRUE,verbose=FALSE))[3]
-  dt4<-system.time(suppressWarnings(estat_data4<-get_eurostat_data(testid13,stringsAsFactors=FALSE)))[3]
+  dt4<-system.time(suppressMessages(estat_data4<-get_eurostat_data(testid13,stringsAsFactors=FALSE)))[3]
   rt4<-system.time(raw4<-get_eurostat_raw(testid13,"xml",keep_flags=TRUE))[3]
-  bt2<-system.time(suppressWarnings(bulk2<-get_eurostat_bulk(testid13,keep_flags=TRUE,verbose=FALSE)))[3]
+  bt2<-system.time(suppressMessages(bulk2<-get_eurostat_bulk(testid13,keep_flags=TRUE,verbose=FALSE)))[3]
   if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.null(raw3)&is.data.frame(raw3)&!is.null(raw4)&is.data.frame(raw4)&!is.null(bulk1)&is.data.frame(bulk1)&!is.null(bulk2)&is.data.frame(bulk2)&!is.null(estat_data1)&is.data.frame(estat_data1)&!is.null(estat_data2)&is.data.frame(estat_data2)&!is.null(estat_data3)&is.data.frame(estat_data3)&!is.null(estat_data4)&is.data.frame(estat_data4)){
     kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
     data.table::setorderv(bulk1,kc)

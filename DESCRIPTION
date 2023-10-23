@@ -1,8 +1,8 @@
 Package: restatapi
 Type: Package
 Title: Search and Retrieve Data from Eurostat Database
-Date: 2023-09-19
-Version: 0.22.1
+Date: 2023-10-23
+Version: 0.22.2
 Encoding: UTF-8
 Authors@R: c(person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre")),
             person("Sebastian", "Weinand", role = "ctb"))

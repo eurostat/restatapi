@@ -8,11 +8,12 @@
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}} functions.
 #' @return an xml class object with SDMX tags extracted and read from the downloaded file.  
 #' @examples 
-#' base_url<-"https://ec.europa.eu/eurostat/"
-#' url_end<-"estat-navtree-portlet-prod/BulkDownloadListing?file=data/agr_r_milkpr.sdmx.zip"
-#' url<-paste0(base_url,url_end)
+#' id<-"agr_r_milkpr"
+#' url<-paste0("https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/",
+#'             id,
+#'             "?format=sdmx_2.1_structured&compressed=true")
 #' options(timeout=2)
-#' sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE,format="zip")
+#' sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE,format="gz")
 #' options(timeout=60)
 
 get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
@@ -76,7 +77,10 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
           unlink(file.path(tmpdir,paste0(fajl,".xml")))
         } else if (format=="gz"){
         if (verbose) {
-          tryCatch({xml<-xml2::read_xml(gzcon(url(url,open="rb")))},
+          tryCatch({
+                 cid<-gzcon(url(url,open="rb"))
+                 xml<-xml2::read_xml(cid)
+                 close(cid)},
                  error = function(e) {
                    message("get_compressed_sdmx - Error during retrieval and extraction of the SDMX file:",'\n',paste(unlist(e),collapse="\n"))
                  },
@@ -84,9 +88,12 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
                    message("get_compressed_sdmx - Warning by the retrieval and extraction of the SDMX file:",'\n',paste(unlist(w),collapse="\n"))
                  })
         } else {
-          tryCatch({xml<-xml2::read_xml(gzcon(url(url,open="rb")))},
-                 error = function(e) { message("There is an error by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")},
-                 warning = function(w) { message("There is an warning by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")})
+          tryCatch({
+                    cid<-gzcon(url(url,open="rb"))
+                    xml<-xml2::read_xml(cid)
+                    close(cid)},
+                    error = function(e) { message("There is an error by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")},
+                    warning = function(w) { message("There is an warning by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.")})
         }
         if (verbose) message("get_compressed_sdmx - xml NULL:",is.null(xml))  
         # if (!is.null(xml_fajl)){xml<-xml2::read_xml(gzcon(url(url,open="rb")))} else {xml<-NULL}

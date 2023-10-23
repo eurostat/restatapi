@@ -1,3 +1,8 @@
+# restatapi 0.22.2
+
+- correcting the get_compressed_sdmx() function not closing connections
+- updating examples and tests 
+
 # restatapi 0.22.1
 
 - refactoring tests for CRAN checks
