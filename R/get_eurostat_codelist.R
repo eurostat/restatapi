@@ -72,13 +72,15 @@ get_eurostat_codelist <- function(id,
           tryCatch({utils::download.file(cls_endpoint,temp,dmethod)},
                    error = function(e) {
                      message("get_eurostat_codelist - Error by the download of the codelist file:",'\n',paste(unlist(e),collapse="\n"))
+                     cls_xml<-NULL
                    },
                    warning = function(w) {
                      message("get_eurostat_codelist - Warning by the download of the codelist file:",'\n',paste(unlist(w),collapse="\n"))
                      tbc<-FALSE
                      cls_xml<-NULL
                    })
-          if (file.size(temp)!=0 & tbc) {
+          if (is.na(file.size(temp))) {temp_size=0} else {temp_size=file.size(temp)}
+          if (temp_size!=0 & tbc) {
             message("Trying to extract the codelist from: ",temp)
             tryCatch({cls_xml<-xml2::read_xml(temp)},
                      error = function(e) {
@@ -87,24 +89,27 @@ get_eurostat_codelist <- function(id,
                      },
                      warning = function(w) {
                        message("get_eurostat_codelist - There is warning by the extraction of the XML from the downloaded codelist file:",'\n',paste(unlist(w),collapse="\n"))
+                       cls_xml<-NULL
                      })
           } else {
             cls_xml<-NULL
           }
         } else {
           tryCatch({utils::download.file(cls_endpoint,temp,dmethod,quiet=TRUE)},
-                   error = function(e) {message("There is an error by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                   error = function(e) {message("get_eurostat_codelist - There is an error by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                     cls_xml<-NULL
                    },
-                   warning = function(w) {message("There is a warning by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                   warning = function(w) {message("get_eurostat_codelist - There is a warning by the download of the codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                      tbc<-FALSE
                      cls_xml<-NULL
                    })
-          if (file.size(temp)!=0 & tbc) {
+          if (is.na(file.size(temp))) {temp_size=0} else {temp_size=file.size(temp)}
+          if (temp_size!=0 & tbc) {
             tryCatch({cls_xml<-xml2::read_xml(temp)},
-                     error = function(e) {message("There is an error by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                     error = function(e) {message("get_eurostat_codelist - There is an error by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                        cls_xml<-NULL
                      },
-                     warning = function(w) {message("There is a warning by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
+                     warning = function(w) {message("get_eurostat_codelist - There is a warning by the reading of the downloaded codelist file. Run the same command with verbose=TRUE option to get more info on the issue.")
                        cls_xml<-NULL
                      })
           } else {
@@ -131,9 +136,9 @@ get_eurostat_codelist <- function(id,
         }  
       } else {
         # cls<-NULL
-        # if (verbose) {
-        #    message("get_eurostat_codelist - The cls_xml is NULL. Please check in a browser the url below. If it provides valid reponse you can try again to download the codelist.\n ",cls_endpoint)
-        # }
+        if (verbose) {
+           message("get_eurostat_codelist - The cls_xml is NULL. Please check in a browser the url below. If it provides valid response you can try again to download the codelist.\n ",cls_endpoint)
+        }
       }
       if (!is.null(cls)){
         data.table::as.data.table(cls,stringsAsFactors=FALSE)

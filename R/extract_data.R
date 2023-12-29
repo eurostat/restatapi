@@ -32,7 +32,7 @@
 #' 
 
 extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE,check_toc=FALSE){
-  if (getOption("restatapi_verbose",FALSE))  {message("extract_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  # if (getOption("restatapi_verbose",FALSE))  {message("extract_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
   rav<-get("rav",envir=restatapi::.restatapi_env)
   prefix<-switch(rav,"1"="generic:","2"="g:")
   if(bulk){
