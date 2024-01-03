@@ -98,8 +98,10 @@ t2<-system.time({dt2<-get_eurostat_data(testid2,stringsAsFactors=FALSE)})[3]
 nc2<-ncol(dt2)
 if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
   if (!is.null(xml_toc)){
-    if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid2]))){
-      expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==testid2])) # 18
+    if (testid2 %in% xml_toc$code){
+      if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid2]))){
+        expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==testid2])) # 18
+      } else {not_checked<-paste(not_checked,"18",sep=",")} 
     } else {not_checked<-paste(not_checked,"18",sep=",")}
   } else {not_checked<-paste(not_checked,"18",sep=",")} 
   expect_equal(nc2+1,nc1) # 19

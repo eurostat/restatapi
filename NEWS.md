@@ -1,3 +1,8 @@
+# restatapi 0.22.4
+
+- updating tests because of missing dataset in the XML version of the Table of Contents 
+
+
 # restatapi 0.22.3
 
 - additional check in the get_eurostat_dsd() and get_eurostat_codelist() for failing writing data to disk because of failing network connection 
