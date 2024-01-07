@@ -193,7 +193,7 @@ get_eurostat_data <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
-  if (verbose)  {message("\nget_eurostat_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  # if (verbose)  {message("\nget_eurostat_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
   if (verbose) {message("get_eurostat_data - footer code option value at start:",paste(getOption("code_opt",NULL),collapse=", "))}
   options(code_opt=NULL)
@@ -223,7 +223,7 @@ get_eurostat_data <- function(id,
     check_toc<-FALSE
     message("The dataset 'id' is missing.")
   }
-  if (verbose) {message("get_eurostat_data - id:",id)}
+  if (verbose) {message("get_eurostat_data - id: ",id)}
   
   if (check_toc){
     toc<-restatapi::get_eurostat_toc(verbose=verbose)
@@ -244,23 +244,23 @@ get_eurostat_data <- function(id,
   }
   
   if (tbc){
-    if (verbose) {message("get_eurostat_data - select_freq:",select_freq)}
+    if (verbose) {message("get_eurostat_data - select_freq: ",select_freq)}
     if(!is.null(select_freq)){ 
-      if (verbose) {message("get_eurostat_data - not NULL select_freq:",select_freq)}
+      if (verbose) {message("get_eurostat_data - not NULL select_freq: ",select_freq)}
       append_sf<-FALSE
       if (is.null(filters)|(length(filters)>1)) # no filter or there is already several filters defined => the select_freq is appended to the the filters
       {
-        if (verbose) {message("get_eurostat_data - select_freq with NULL filters:",select_freq)}
+        if (verbose) {message("get_eurostat_data - select_freq with NULL filters: ",select_freq)}
         append_sf<-TRUE  
       } else if (!is.null(filters)) #there are filters
       {  
-        if (verbose) {message("get_eurostat_data - select_freq with filters:",select_freq)}
+        if (verbose) {message("get_eurostat_data - select_freq with filters: ",select_freq)}
         if (length(filters)==1) #there is a single string filter
         {
-          if (verbose) {message("get_eurostat_data - select_freq with 1 filter:",select_freq)}
+          if (verbose) {message("get_eurostat_data - select_freq with 1 filter: ",select_freq)}
           if (grepl("\\.",filters,perl=TRUE)) #filter is given as a string for the REST API
           { 
-            if (verbose) {message("get_eurostat_data - select_freq with string filter with '.'at the beginning:",select_freq)}
+            if (verbose) {message("get_eurostat_data - select_freq with string filter with '.'at the beginning: ",select_freq)}
             if (grepl("^\\.",filters,perl=TRUE)) # no FREQ value is given in the filter
             { 
               filters<-paste0(select_freq,filters)
@@ -271,7 +271,7 @@ get_eurostat_data <- function(id,
             append_sf<-TRUE
           }
         } else {
-          if (verbose) {message("get_eurostat_data - select_freq with more than 1 filter:",select_freq)}
+          if (verbose) {message("get_eurostat_data - select_freq with more than 1 filter: ",select_freq)}
           append_sf<-TRUE
         }
       }
@@ -499,7 +499,9 @@ get_eurostat_data <- function(id,
                            }
                 )
                tryCatch({           
-                if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+                if (verbose) {message("get_eurostat_data - class(xml_leafs):",class(xml_leafs),
+                                      "\nget_eurostat_data - number of nodes: ",length(xml_leafs),
+                                      "\nget_eurostat_data - number of cores: ",getOption("restatapi_cores",1L))}
                 if (Sys.info()[['sysname']]=='Windows'){
                   if (getOption("restatapi_cores",1L)==1) {
                     if (verbose) message("No parallel")
@@ -731,7 +733,7 @@ get_eurostat_data <- function(id,
       }
     }  
   }
-  if (getOption("restatapi_verbose",FALSE))  {message("get_eurostat_data - restat NULL:",is.null(restat),"\n\t id",id,"\n\t filters",filters_url,"\n\t date filter",date_filter)}
+  if (getOption("restatapi_verbose",FALSE))  {message("get_eurostat_data - restat NULL?:",is.null(restat),"\n\t id: ",id,"\n\t filters: ",filters_url,"\n\t date filter: ",date_filter)}
   return(restat)
 }
 

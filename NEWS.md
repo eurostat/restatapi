@@ -1,3 +1,7 @@
+# restatapi 0.22.5
+
+- synchronization of debug messages 
+
 # restatapi 0.22.4
 
 - updating tests because of missing dataset in the XML version of the Table of Contents 

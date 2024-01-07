@@ -62,7 +62,7 @@ if (!is.null(xml_toc)){
 r1<-search_eurostat_toc("energy")
 r2<-search_eurostat_toc("energy",ignore.case=TRUE)
 r3<-search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
-if (!is.null(r1)|!is.null(r2)){
+if (!is.null(r1) & !is.null(r2)){
   expect_true(nrow(r1)<nrow(r2)) # 8
 } else {not_checked<-paste(not_checked,8,sep=",")}
 if (!is.null(r3)){

@@ -44,7 +44,7 @@ get_eurostat_dsd <- function(id,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
-  if (verbose)  {message("\nget_eurostat_dsd - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  # if (verbose)  {message("\nget_eurostat_dsd - API version:",get("rav",envir=restatapi::.restatapi_env))}
   tbc<-TRUE #to be continued for the next steps
   if (is.null(id)){
     warning('No dataset id were provided.')
@@ -71,7 +71,7 @@ get_eurostat_dsd <- function(id,
     if ((!cache)|(is.null(dsd))|(update_cache)){
       cfg<-get("cfg",envir=restatapi::.restatapi_env) 
       rav<-get("rav",envir=restatapi::.restatapi_env)
-      if (verbose)  {message("get_eurostat_dsd - API version:",rav)}
+      if (verbose)  {message("\nget_eurostat_dsd - API version:",rav)}
       dsd_endpoint <- paste0(eval(parse(text=paste0("cfg$QUERY_BASE_URL$'",rav,"'$ESTAT$metadata$'2.1'$datastructure"))),"/", 
                              eval(parse(text=paste0("cfg$QUERY_PRIOR_ID$'",rav,"'$ESTAT$metadata"))),id,"?",
                              eval(parse(text=paste0("cfg$QUERY_PARAMETERS$'",rav,"'$metadata[2]"))),"=",

@@ -26,7 +26,7 @@ get_compressed_sdmx<-function(url=NULL,verbose=FALSE,format="gz"){
     return(NULL)
   } else {
     if (tbc) {
-      if (verbose) message("get_compressed_sdmx - url:",url,"\nget_compressed_sdmx - format:",format)
+      if (verbose) message("\nget_compressed_sdmx - url:",url,"\nget_compressed_sdmx - format:",format)
 
       if (format=="zip"){ # zip format
         # download file 

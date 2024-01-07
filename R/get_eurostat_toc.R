@@ -77,7 +77,7 @@ get_eurostat_toc<-function(mode="xml",
       load_cfg()
     }  
   }
-  if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
+  # if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
@@ -141,7 +141,9 @@ get_eurostat_toc<-function(mode="xml",
       if ((tbc)){
         if (!is.null(xml_leafs)){
           if (length(xml_leafs)>0){
-            if (verbose) {message(class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+            if (verbose) {message("get_eurostat_toc - class(xml_leafs): ",class(xml_leafs),
+                                  "\nget_eurostat_toc - number of nodes: ",length(xml_leafs),
+                                  "\nget_eurostat_toc - number of cores: ",getOption("restatapi_cores",1L))}
             if (Sys.info()[['sysname']]=='Windows'){
               if (getOption("restatapi_cores",1L)==1) {
                 if (verbose) message("No parallel")

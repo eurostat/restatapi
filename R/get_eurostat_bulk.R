@@ -112,7 +112,7 @@ get_eurostat_bulk <- function(id,
       load_cfg()
     }  
   }
-  if (verbose)  {message("get_eurostat_bulk - API version:",get("rav",envir=restatapi::.restatapi_env))}
+  # if (verbose)  {message("get_eurostat_bulk - API version:",get("rav",envir=restatapi::.restatapi_env))}
   
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
@@ -128,7 +128,9 @@ get_eurostat_bulk <- function(id,
       } else {
         if (any(grepl(id,toc$code,ignore.case=TRUE))){
           udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-          if (verbose) {message("get_eurostat_bulk - bulk TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+          if (verbose) {message("get_eurostat_bulk - TOC rows: ",nrow(toc),"
+                                \nget_eurostat_bulk - bulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],
+                                "\nget_eurostat_bulk - ndata rowcount in TOC: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -146,7 +148,9 @@ get_eurostat_bulk <- function(id,
     }
 
     if ((!cache)|is.null(restat_bulk)|(update_cache)){
-      if (verbose) {message("get_eurostat_bulk - ", class(id),"txt",class(cache),class(update_cache),class(cache_dir),class(compress_file),class(stringsAsFactors),class(keep_flags),class(check_toc),class(melt),class(verbose))}
+      if (verbose) {message("get_eurostat_bulk - class of id, cache, update_cache, cache_dir, compress_file, stringsAsFactors, keep_flags, check_toc, melt, verbose:\n", class(id)," - ",class(cache)," -",class(update_cache),
+                            " - ",class(cache_dir)," - ",class(compress_file)," - ",class(stringsAsFactors)," - ",class(keep_flags),
+                            " - ",class(check_toc)," - ",class(melt)," - ",class(verbose))}
       restat_bulk<-restatapi::get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
     }
   }  
@@ -206,7 +210,7 @@ get_eurostat_bulk <- function(id,
   if ((!is.null(restat_bulk))&cache&(all(!grepl("get_eurostat_data",as.character(sys.calls()),perl=TRUE)))){
     oname<-paste0("b_",id,"-",udate,"-",sum(keep_flags),"-",sum(cflags),sub("-$","",paste0("-",select_freq),perl=TRUE))
     pl<-restatapi::put_eurostat_cache(restat_bulk,oname,update_cache,cache_dir,compress_file)
-    if ((!is.null(pl))&(verbose)) {message("get_eurostat_bulk - The bulk data was cached ",pl,".\n" )}
+    if ((!is.null(pl))&(verbose)) {message("get_eurostat_bulk - The bulk data was cached ",pl,"." )}
   }
   
   return(restat_bulk)

@@ -108,7 +108,7 @@ get_eurostat_raw <- function(id,
   }
   cfg<-get("cfg",envir=restatapi::.restatapi_env) 
   rav<-get("rav",envir=restatapi::.restatapi_env)
-  if (verbose)  {message("get_eurostat_raw - API version:",rav)}
+  # if (verbose)  {message("get_eurostat_raw - API version:",rav)}
   if (!is.null(id)){id<-tolower(trimws(id))} else {
     tbc<-FALSE
     message("The dataset 'id' is missing.")
@@ -141,7 +141,9 @@ get_eurostat_raw <- function(id,
             message("There is no downloadlink in the TOC for ",id)
             tbc<-FALSE
           }
-          if (verbose) {message("get_eurostat_raw - raw TOC rows: ",nrow(toc),"\nbulk url: ",bulk_url,"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+          if (verbose) {message("get_eurostat_raw - raws of TOC: ",nrow(toc),
+                                "\nget_eurostat_raw - bulk url: ",bulk_url,
+                                "\nget_eurostat_raw - data rowcount in TOC: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -265,7 +267,7 @@ get_eurostat_raw <- function(id,
                 if (is.character(cname)){
                   cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
                   rname<-switch(rav, "1" = utils::tail(unlist(strsplit(cname,(',|\\\\'))),1),"2"="time")
-                  if (verbose) {message("get_eurostat_raw - class:",class(raw))}
+                  if (verbose) {message("get_eurostat_raw - class(raw): ",class(raw))}
                   data.table::setnames(raw,1,"bdown")
                   raw_melted<-data.table::melt.data.table(raw,"bdown",variable.factor=stringsAsFactors)
                   rm(raw)
@@ -296,13 +298,15 @@ get_eurostat_raw <- function(id,
       } else if (mode=="xml"){
         format<-switch(rav, "1" = "zip", "2" = "gz")
         if (check_toc) {format<-"zip"}
-        if (verbose) {message("get_eurostat_raw - format:",format)}
+        if (verbose) {message("get_eurostat_raw - file format: ",format)}
         sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose,format=format)
         if(!is.null(sdmx_file)){
           xml_mark<-switch(rav, "1" = ".//data:Series", "2" = ".//Series")
           if (check_toc) {xml_mark<-".//data:Series"}
           xml_leafs<-xml2::xml_find_all(sdmx_file,xml_mark)
-          if (verbose) {message("get_eurostat_raw - ",class(xml_leafs),"\nnumber of nodes: ",length(xml_leafs),"\nnumber of cores: ",getOption("restatapi_cores",1L),"\n")}
+          if (verbose) {message("get_eurostat_raw - class(xml_leafs): ",class(xml_leafs),
+                                "\nget_eurostat_raw - number of nodes: ",length(xml_leafs),
+                                "\nget_eurostat_raw - number of cores: ",getOption("restatapi_cores",1L))}
           if (Sys.info()[['sysname']]=='Windows'){
             if (getOption("restatapi_cores",1L)==1) {
               if (verbose) message("No parallel")
@@ -334,8 +338,10 @@ get_eurostat_raw <- function(id,
       }
       if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
     }
-    if (verbose) {message("get_eurostat_raw - caching in raw:",all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))," local filter:",exists("local_filter",envir=sys.parent(1))," called from:",as.character(sys.call()))}
-    if (verbose) {message("get_eurostat_raw - ", grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse="")))}
+    if (verbose) {message("get_eurostat_raw - caching in raw: ",all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE)),
+                          "\nget_eurostat_raw - local filter: ",exists("local_filter",envir=sys.parent(1)),
+                          "\nget_eurostat_raw - called from: ",as.character(sys.call()),
+                          "\nget_eurostat_raw - get_eurostat_raw in sys.call(): ", grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse="")))}
     #check if the function was called from the get_eurostat_data function
     if (grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse=""))&any(grepl("get_eurostat_data",as.character(sys.calls())))){  
       #if yes get the value of local_filter and force_local_filter from the call
