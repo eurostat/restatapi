@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.5</span>
       </span>
     </div>
 
@@ -157,16 +157,15 @@ argument is only searched in the code column of the DSD, and the names of the co
 <span class="r-in"><span>                      <span class="st">"2008:2013"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                    date_filter<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                    verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - filters class: character; size: 12; filters:2017-032001-03:2005&lt;2000-07-012012201320142018&lt;20912&lt;3452&lt;:2018-04&gt;2&lt;034v2008:2013</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - filters: 2017-032001-03:2005&lt;2000-07-012012201320142018&lt;20912&lt;3452&lt;:2018-04&gt;2&lt;034v2008:2013; is numeric: FALSE; call parents: 40</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> length df: 12 -*- df: 2017-03, 2001-03:2005, &lt;2000-07-01, 2012, 2013, 2014, 2018&lt;, 20912, &lt;3452&lt;, :2018-04&gt;, 2&lt;034v, 2008:2013</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - length df: 12 content df: 2017-03, 2001-03:2005, &lt;2000-07-01, 2012, 2013, 2014, 2018&lt;, 20912, &lt;3452&lt;, :2018-04&gt;, 2&lt;034v, 2008:2013</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those characters removed from the date filter.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table -  2017-03, create_filter_table -  2001-03:2005, create_filter_table -  &lt;2000-07-01, create_filter_table -  2012, create_filter_table -  2013, create_filter_table -  2014, create_filter_table -  2018&lt;, create_filter_table -  20912, create_filter_table -  &lt;3452&lt;, create_filter_table -  :2018-04&gt;, create_filter_table -  2&lt;034, create_filter_table -  2008:2013 date filter length: 12, nchar date_filter: 7,12,11,4,4,4,5,5,6,9,5,9</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not parse date filter: '20912' not in [&lt;&gt;]yyyy[-mm][-dd][&lt;&gt;] format or incorrect date value. The date filter is ignored.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - Could not parse date filter: '20912' not in [&lt;&gt;]yyyy[-mm][-dd][&lt;&gt;] format or incorrect date value. The date filter is ignored.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Could not parse date filter: '&lt;3452&lt;'. This date filter is ignored.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Could not parse date filter: ':2018-04&gt;'. This date filter is ignored.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not parse date filter: '2&lt;034' not in [&lt;&gt;]yyyy[-mm][-dd][&lt;&gt;] format or incorrect date value. The date filter is ignored.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - Could not parse date filter: '2&lt;034' not in [&lt;&gt;]yyyy[-mm][-dd][&lt;&gt;] format or incorrect date value. The date filter is ignored.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            sd         ed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:          0 2000-07-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2001-03-01 2005-12-31</span>

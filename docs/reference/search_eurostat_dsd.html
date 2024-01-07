@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.5</span>
       </span>
     </div>
 
@@ -118,17 +118,17 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></dd>
 <span class="r-in"><span><span class="va">dsd_example</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Warning by the download of the DSD file:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children': Timeout of 2 seconds was reached</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 573440 - temp: /tmp/RtmpcHCInU/file19447dc2505</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpcHCInU/file19447dc2505</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 720896 - temp: /tmp/Rtmp5EUdi3/file1947eea2074</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmp5EUdi3/file1947eea2074</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Premature end of data in tag Name line 3 [77]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> internal error: detected an error in element content</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  [1]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid response you can try again to download the DSD.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children</span>
