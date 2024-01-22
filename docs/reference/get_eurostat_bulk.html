@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.6</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ If all the frequencies needed the <code><a href="get_eurostat_raw.html">get_euro
 <dd><p>a logical value whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is <code>FALSE</code>. For flag values see: 
-<a href="https://ec.europa.eu/eurostat/data/database/information" class="external-link">https://ec.europa.eu/eurostat/data/database/information</a>.</p></dd>
+<a href="https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&amp;format=TSV&amp;lang=en" class="external-link">https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&amp;format=TSV&amp;lang=en</a>.</p></dd>
 
 
 <dt>cflags</dt>
@@ -185,7 +185,8 @@ in parenthesis.</p>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There are multiple frequencies in the dataset. The 'M' is selected as it is the most common frequency.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The file download was not successful. Try again later.</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,select_freq<span class="op">=</span><span class="st">"A"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - API version:2</span>
@@ -216,7 +217,7 @@ in parenthesis.</p>
 <span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects except from 'cfg', 'rav', 'cc' and 'dmethod' are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/Rtmp5EUdi3/restatapi is empty.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpPmYqXs/restatapi is empty.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
