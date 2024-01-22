@@ -75,7 +75,7 @@ converted to factors. If the value \code{FALSE} they are returned as characters.
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is \code{FALSE}. For flag values see: 
-\url{https://ec.europa.eu/eurostat/web/main/data/database/information}.}
+\url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.}
 
 \item{cflags}{a logical whether the missing observations with flag 'c' - "confidential"
 should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 

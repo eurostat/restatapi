@@ -22,7 +22,7 @@
 #' @param keep_flags a logical value whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
 #'        can be removed. Default is \code{FALSE}. For flag values see: 
-#'        \url{https://ec.europa.eu/eurostat/data/database/information}.
+#'        \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.
 #' @param cflags a logical value whether the missing observations with flag 'c' - "confidential"
 #'        should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
 #'        \code{TRUE} then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in \code{keep_flags} is set to \code{TRUE}.  
@@ -128,8 +128,8 @@ get_eurostat_bulk <- function(id,
       } else {
         if (any(grepl(id,toc$code,ignore.case=TRUE))){
           udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-          if (verbose) {message("get_eurostat_bulk - TOC rows: ",nrow(toc),"
-                                \nget_eurostat_bulk - bulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],
+          if (verbose) {message("get_eurostat_bulk - TOC rows: ",nrow(toc),
+                                "\nget_eurostat_bulk - bulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],
                                 "\nget_eurostat_bulk - ndata rowcount in TOC: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))

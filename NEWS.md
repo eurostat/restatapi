@@ -1,11 +1,15 @@
+# restatapi 0.22.6
+
+- update of link for the possible flag values
+
 # restatapi 0.22.5
 
-- synchronization of debug messages 
+- synchronization of debug messages
+- CRAN release
 
 # restatapi 0.22.4
 
 - updating tests because of missing dataset in the XML version of the Table of Contents 
-
 
 # restatapi 0.22.3
 

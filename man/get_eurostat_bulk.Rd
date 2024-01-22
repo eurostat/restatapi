@@ -49,7 +49,7 @@ If all the frequencies needed the \code{\link{get_eurostat_raw}} function can be
 \item{keep_flags}{a logical value whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
 can be removed. Default is \code{FALSE}. For flag values see: 
-\url{https://ec.europa.eu/eurostat/data/database/information}.}
+\url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.}
 
 \item{cflags}{a logical value whether the missing observations with flag 'c' - "confidential"
 should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
