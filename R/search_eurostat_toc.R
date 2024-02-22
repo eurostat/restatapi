@@ -41,7 +41,7 @@
 #' }    
 #' }
 #' \donttest{
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' head(search_eurostat_toc("energy",verbose=TRUE))
 #' nrow(search_eurostat_toc("energy"))
 #' head(search_eurostat_toc("energie",lang="de",ignore.case=TRUE))

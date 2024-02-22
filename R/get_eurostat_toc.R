@@ -48,7 +48,7 @@
 #' }    
 #' }
 #' \donttest{
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' toc_xml<-get_eurostat_toc(cache=FALSE,verbose=TRUE)
 #' head(toc_xml)
 #' toc_txt<-get_eurostat_toc(mode="txt", lang="de")

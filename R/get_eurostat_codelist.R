@@ -20,7 +20,7 @@
 #'  
 #' @references For more information see the detailed documentation of the \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/API+SDMX+2.1+-+metadata+query}{API}. 
 #' @examples 
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
 #' options(timeout=60)
 

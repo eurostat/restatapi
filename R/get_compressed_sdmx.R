@@ -8,12 +8,11 @@
 #' @details It is a sub-function to use in the \code{\link{get_eurostat_raw}} and the \code{\link{get_eurostat_data}} functions.
 #' @return an xml class object with SDMX tags extracted and read from the downloaded file.  
 #' @examples 
-#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' id<-"agr_r_milkpr"
 #' url<-paste0("https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/",
 #'             id,
 #'             "?format=sdmx_2.1_structured&compressed=true")
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' sdmx_xml<-get_compressed_sdmx(url,verbose=TRUE,format="gz")
 #' options(timeout=60)
 

@@ -38,7 +38,7 @@
 #'   warning=function(w){
 #'   message("Unable to download the xml file.\n",w)}) 
 #' if (exists("dsd_xml")) extract_dsd("FREQ",dsd_xml) 
-#' options(timeout=2)
+#' options(timeout=60)
 #' }
 
 extract_dsd<-function(concept=NULL,dsd_xml=NULL,lang="en"){

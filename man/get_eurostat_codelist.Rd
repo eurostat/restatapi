@@ -47,7 +47,7 @@ Download codelist of a concept from Eurostat if it is not cached previously.
 The codelist is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.
 }
 \examples{
-options(timeout=2)
+if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
 options(timeout=60)
 }
