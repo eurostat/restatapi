@@ -107,13 +107,13 @@ if (parallel::detectCores()<=2){
 }    
 }
 \donttest{
-options(timeout=2)
-dt<-get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE)
+if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
+head(get_eurostat_bulk("agr_r_milkpr",keep_flags=TRUE))
 options(restatapi_update=TRUE)
-dt<-get_eurostat_bulk("avia_par_ee",check_toc=TRUE)
-dt<-get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE)
+head(get_eurostat_bulk("avia_par_ee",check_toc=TRUE))
+head(get_eurostat_bulk("avia_par_ee",select_freq="A",verbose=TRUE))
 options(restatapi_update=FALSE)
-dt<-get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+head(get_eurostat_bulk("agr_r_milkpr",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE))
 clean_restatapi_cache(cache_dir=tempdir(),verbose=TRUE)
 options(timeout=60)
 }

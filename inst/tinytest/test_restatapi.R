@@ -291,7 +291,7 @@ message("\n","Are we at home:",at_home())
 ##################################
 
 
-if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
+if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   
   #### additional test of the get_eurostat_dsd function
   expect_true(system.time({get_eurostat_dsd(testid1)})[3]<system.time({get_eurostat_dsd(testid1,update_cache=TRUE,parallel=FALSE,api_version=api_version)})[3]) # a0
@@ -374,7 +374,7 @@ if (grepl("\\.amzn|-aws|5.4.109+",Sys.info()['release'])) {
   } else {not_checked<-paste(not_checked,"a21",sep=",")}
   dsd4<-get_eurostat_dsd(testid10)
   if (!is.null(dsd4)&is.data.frame(dsd4)){
-    nr12<-nrow(get_eurostat_data(testid10,filters=list(bop_item="SC",currency="MIO_EUR",partner="EXT_EU28",geo=c("EU28","HU"),time="2010:2017",stk_flow="BAL"),date_filter="2010:2012",select_freq="A",label=TRUE,name=FALSE))
+    nr12<-nrow(get_eurostat_data(testid10,filters=list(bop_item="SC",currency="MIO_EUR",partner="EXT_EU28",geo=c("EU28","HU"),time="2015:2017",stk_flow="BAL"),date_filter="2010:2012",select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr12)){
       expect_equal(nr12,6) # a22
     } else {not_checked<-paste(not_checked,"a22",sep=",")}

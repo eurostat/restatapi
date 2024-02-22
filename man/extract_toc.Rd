@@ -30,7 +30,7 @@ cfg<-get("cfg",envir=restatapi::.restatapi_env)
 rav<-get("rav",envir=restatapi::.restatapi_env)
 toc_endpoint<-eval(parse(text=paste0("cfg$TOC_ENDPOINT$'",rav,"'$ESTAT$xml")))
 \donttest{
-options(timeout=2)
+if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 tryCatch(xml_leafs<-xml2::xml_find_all(xml2::read_xml(toc_endpoint),".//nt:leaf"),
          error = function(e) {xml_leafs<-""},
          warning = function(w) {xml_leafs<-""})

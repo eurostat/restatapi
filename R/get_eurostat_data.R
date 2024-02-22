@@ -123,14 +123,14 @@
 #' }    
 #' }
 #' \donttest{
-#' options(timeout=2)
-#' dt<-get_eurostat_data("NAMA_10_GDP")
-#' dt<-get_eurostat_data("htec_cis3",update_cache=TRUE,check_toc=TRUE)
-#' dt<-get_eurostat_data("agr_r_milkpr",cache_dir="/tmp",cflags=TRUE)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
+#' head(get_eurostat_data("NAMA_10_GDP"))
+#' head(get_eurostat_data("htec_cis3",update_cache=TRUE,check_toc=TRUE,verbose=TRUE))
+#' head(get_eurostat_data("agr_r_milkpr",cache_dir="/tmp",cflags=TRUE))
 #' options(restatapi_update=FALSE)
 #' options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
-#' dt<-get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE)
-#' dt<-get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE)
+#' head(get_eurostat_data("avia_gonc",select_freq="A",cache=FALSE))
+#' head(get_eurostat_data("agr_r_milkpr",date_filter=2008,keep_flags=TRUE))
 #' dt<-get_eurostat_data("avia_par_me",
 #'                       filters="BE$",
 #'                       exact_match=FALSE,
@@ -160,7 +160,8 @@
 #'                                     currency="MIO_EUR",
 #'                                     partner="EXT_EU28",
 #'                                     geo=c("EU28","HU"),
-#'                                     stk_flow="BAL"),
+#'                                     stk_flow="BAL",
+#'                                     time="2015:2020"),
 #'                        date_filter="2010:2012",
 #'                        select_freq="A",
 #'                        label=TRUE,
@@ -311,6 +312,9 @@ get_eurostat_data <- function(id,
           if(rav==2) {dsdorder<-unique(dsd$concept)[1:(length(unique(dsd$concept)))]}
           
           if (length(gregexpr("\\.",filters,perl=TRUE)[[1]])!=(length(dsdorder)-1) | length(filters)>1){
+            if (!(is.null(names(filters)))) {
+              if ("time" %in% names(filters)) date_filter<-c(date_filter, unlist(filters["time"]))
+            }
             ft<-restatapi::create_filter_table(filters=filters,date_filter=FALSE,dsd=dsd,exact_match=exact_match,verbose=verbose,...)
             if (nrow(ft)>0){
               ft<-unique(ft[ft$code!=FALSE,2:3])

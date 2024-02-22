@@ -57,7 +57,6 @@ Loads configuration data from a JSON file. The function first tries to load the 
 }
 \examples{
 \donttest{
-options(timeout=2)
 load_cfg(parallel=FALSE)
 options(restatapi_dmethod="auto")
 load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
@@ -65,6 +64,5 @@ load_cfg()
 eu<-get("cc",envir=.restatapi_env)
 eu$EU28
 eu$EA15
-options(timeout=60)
 }
 }

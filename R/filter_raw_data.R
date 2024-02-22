@@ -31,7 +31,7 @@
 #' }
 #' \donttest{
 #' id<-"tus_00age"
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' rd<-get_eurostat_raw(id)
 #' dsd<-get_eurostat_dsd(id)
 #' ft<-create_filter_table(c("TIME_SP","Hungary",'T'),FALSE,dsd)

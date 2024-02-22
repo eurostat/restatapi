@@ -31,7 +31,6 @@
 #'          In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
-#' options(timeout=2)
 #' load_cfg(parallel=FALSE)
 #' options(restatapi_dmethod="auto")
 #' load_cfg(api_version="test",verbose=TRUE,max_cores=FALSE)
@@ -39,7 +38,6 @@
 #' eu<-get("cc",envir=.restatapi_env)
 #' eu$EU28
 #' eu$EA15
-#' options(timeout=60)
 #' }
 
 
@@ -110,7 +108,7 @@ load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parall
     ))
     if (is.null(mem_size)|length(mem_size)==0){mem_size<-0}
     # if (Sys.info()[['sysname']]=='Windows'){parallel<-FALSE}
-    if (parallel) {
+    if (parallel & !is.na(parallel::detectCores())) {
       if (Sys.info()[['sysname']]=='Windows'){
         options(restatapi_cores=1)
       } else if (max_cores){
@@ -130,6 +128,8 @@ load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parall
           options(restatapi_cores=1)
         }
       }
+    } else {
+      options(restatapi_cores=1)
     }
     
     if (getOption("restatapi_cores")<2){

@@ -69,11 +69,16 @@
 #' }    
 #' }
 #' \donttest{
-#' options(timeout=2)
-#' dt<-get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE)
-#' dt<-get_eurostat_raw("avia_par_ee",mode="xml",check_toc=TRUE,update_cache=TRUE)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
+#' head(get_eurostat_raw("agr_r_milkpr",keep_flags=TRUE))
+#' head(get_eurostat_raw("avia_par_ee",mode="xml",check_toc=TRUE,update_cache=TRUE,verbose=TRUE))
 #' options(restatapi_update=FALSE)
-#' dt<-get_eurostat_raw("avia_par_me",mode="txt",cache_dir=tempdir(),compress_file=FALSE,verbose=TRUE)
+#' head(get_eurostat_raw("avia_par_me",mode="txt",melt=FALSE))
+#' head(get_eurostat_raw("avia_par_me",
+#'                       mode="txt",
+#'                       cache_dir=tempdir(),
+#'                       compress_file=FALSE,
+#'                       verbose=TRUE))
 #' options(timeout=60)
 #' }
 

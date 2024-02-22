@@ -1,3 +1,9 @@
+# restatapi 0.22.7
+
+- correction for detection of cores to be able to load the package in WebR
+- correction for `date_filter` if there is a `time` value defined under the `filters` parameter
+- update of examples to generate relevant output for documentation
+
 # restatapi 0.22.6
 
 - update of link for the possible flag values

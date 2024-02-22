@@ -29,9 +29,8 @@
 #' }
 #' }
 #' \donttest{
-#' options(timeout=2)
-#' dsd<-get_eurostat_dsd("med_rd6",lang="de",cache=FALSE,verbose=TRUE)
-#' head(dsd)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
+#' head(get_eurostat_dsd("med_rd6",lang="de",cache=FALSE,verbose=TRUE))
 #' options(timeout=60)
 #' }
 

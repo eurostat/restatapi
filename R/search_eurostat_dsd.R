@@ -34,7 +34,7 @@
 #' rav<-get("rav",envir=restatapi::.restatapi_env)
 #' }
 #' \donttest{
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' dsd_example<-get_eurostat_dsd("nama_10_gdp",verbose=TRUE)
 #' search_eurostat_dsd("EU",dsd_example)
 #' search_eurostat_dsd("EU",dsd_example,ignore.case=TRUE)

@@ -30,14 +30,14 @@
 #'      parse(text=paste0("cfg$DATAFLOW_REFERENCES$'",rav,"'$datastructure[1]"))
 #'    )
 #'  )
-#' options(timeout=2)
+#' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' tryCatch({
 #'   dsd_xml<-xml2::read_xml(dsd_url)}, 
 #'   error=function(e){
 #'   message("Unable to download the xml file.\n",e)}, 
 #'   warning=function(w){
 #'   message("Unable to download the xml file.\n",w)}) 
-#' if (exists("dsd_xml")) {extract_dsd("GEO",dsd_xml)} 
+#' if (exists("dsd_xml")) extract_dsd("FREQ",dsd_xml) 
 #' options(timeout=2)
 #' }
 

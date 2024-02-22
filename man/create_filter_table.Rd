@@ -72,7 +72,7 @@ cfg<-get("cfg",envir=restatapi::.restatapi_env)
 rav<-get("rav",envir=restatapi::.restatapi_env)
 }
 \donttest{
-options(timeout=2)
+if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 dsd<-get_eurostat_dsd("avia_par_me") 
 create_filter_table(c("KYIV","hu","Quarterly"),dsd=dsd,exact_match=FALSE,ignore.case=TRUE)
 create_filter_table(c("KYIV","LHBP","Monthly"),dsd=dsd,exact_match=FALSE,name=FALSE)
