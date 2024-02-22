@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.7</span>
       </span>
     </div>
 
@@ -179,14 +179,172 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 <span class="r-in"><span><span class="op">}</span>    </span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,mode<span class="op">=</span><span class="st">"xml"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is an warning by the unzipping of the downloaded SDMX file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"amzn|-aws|-azure "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">'release'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      freq milkitem dairyprod    geo   time values  flags</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt;   &lt;char&gt;    &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      A      PRO    D1110A     CY   1995 139.00       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      A      PRO    D1110A    CY0   1995 139.00       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      A      PRO    D1110A   CY00   1995 139.00       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      A      PRO    D1110A     EE   1995 706.60       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      A      PRO    D1110A    EE0   1995 706.60       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:      A      PRO    D1110A   EE00   1995 706.60       </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_ee"</span>,mode<span class="op">=</span><span class="st">"xml"</span>,check_toc<span class="op">=</span><span class="cn">TRUE</span>,update_cache<span class="op">=</span><span class="cn">TRUE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - API version:2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 9223</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in the file /tmp/RtmpyenKoT/restatapi/toc.xml.en.rds.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - raws of TOC: 7153</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_ee.sdmx.zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - data rowcount in TOC: 88890</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - file format: zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - url:https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/avia_par_ee.sdmx.zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - format:zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - Warning during the download of the SDMX file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> downloaded length 0 != reported length 0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(url, temp, dmethod)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_compressed_sdmx - Warning by the unzip of the SDMX file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> error 1 in extracting from zip file</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::unzip(temp, paste0(fajl, ".xml"), exdir = tmpdir)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Could not download the SDMX file, use the verbose option to see the exact cause of the error.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: get_eurostat_rawavia_par_eexmlTRUETRUETRUE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,mode<span class="op">=</span><span class="st">"txt"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,mode<span class="op">=</span><span class="st">"txt"</span>,melt<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    freq,unit,tra_meas,airp_pr\\TIME_PERIOD   2016 2016-01 2016-02 2016-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                     &lt;char&gt; &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        A,FLIGHT,CAF_PAS,ME_LYPG_AT_LOWW   1069       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        A,FLIGHT,CAF_PAS,ME_LYPG_BE_EBCI    208       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        A,FLIGHT,CAF_PAS,ME_LYPG_CH_LSZH    399       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        A,FLIGHT,CAF_PAS,ME_LYPG_DE_EDDB      :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        A,FLIGHT,CAF_PAS,ME_LYPG_DE_EDDF    341       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        A,FLIGHT,CAF_PAS,ME_LYPG_DE_EDDS      :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2016-04 2016-05 2016-06 2016-07 2016-08 2016-09 2016-10 2016-11 2016-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2016-Q1 2016-Q2 2016-Q3 2016-Q4   2017 2017-01 2017-02 2017-03 2017-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt; &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :   1011       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :    210       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :    402       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :    211       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :    339       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :      :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2017-05 2017-06 2017-07 2017-08 2017-09 2017-10 2017-11 2017-12 2017-Q1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2017-Q2 2017-Q3 2017-Q4   2018 2018-01 2018-02 2018-03 2018-04 2018-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt; &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :   1008       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :    214       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :    423       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :    208       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :    338       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :      :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2018-06 2018-07 2018-08 2018-09 2018-10 2018-11 2018-12 2018-Q1 2018-Q2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2018-Q3 2018-Q4   2019 2019-01 2019-02 2019-03 2019-04 2019-05 2019-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt; &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :   1034       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :    208       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :    408       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :    210       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :    343       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :    158       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2019-07 2019-08 2019-09 2019-10 2019-11 2019-12 2019-Q1 2019-Q2 2019-Q3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2019-Q4   2020 2020-01 2020-02 2020-03 2020-04 2020-05 2020-06 2020-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt; &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :    424       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :      :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :      :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :      :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :      :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :      :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2020-08 2020-09 2020-10 2020-11 2020-12 2020-Q1 2020-Q2 2020-Q3 2020-Q4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2021 2021-01 2021-02 2021-03 2021-04 2021-05 2021-06 2021-07 2021-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:    836       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:      :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2021-09 2021-10 2021-11 2021-12 2021-Q1 2021-Q2 2021-Q3 2021-Q4   2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :   1293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :    198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :      :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :    159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :      :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :      :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2022-01 2022-02 2022-03 2022-04 2022-05 2022-06 2022-07 2022-08 2022-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2022-10 2022-11 2022-12 2022-Q1 2022-Q2 2022-Q3 2022-Q4 2023-01 2023-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2023-03 2023-04 2023-05 2023-06 2023-Q1 2023-Q2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:       :       :       :       :       :       :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:       :       :       :       :       :       :</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_raw</span><span class="op">(</span><span class="st">"avia_par_me"</span>,</span></span>
+<span class="r-in"><span>                      mode<span class="op">=</span><span class="st">"txt"</span>,</span></span>
+<span class="r-in"><span>                      cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                      compress_file<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                      verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/avia_par_me?format=TSV&amp;compressed=true</span>
@@ -195,6 +353,14 @@ If the <code>id</code> is checked in TOC then the data will saved in the cache w
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: get_eurostat_rawavia_par_metxttempdir()FALSETRUE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      freq   unit tra_meas         airp_pr   time values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt; &lt;char&gt;   &lt;char&gt;          &lt;char&gt; &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      A FLIGHT  CAF_PAS ME_LYPG_AT_LOWW   2016   1069</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      A FLIGHT  CAF_PAS ME_LYPG_BE_EBCI   2016    208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      A FLIGHT  CAF_PAS ME_LYPG_CH_LSZH   2016    399</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:      A FLIGHT  CAF_PAS ME_LYPG_DE_EDDF   2016    341</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:      A FLIGHT  CAF_PAS ME_LYPG_FR_LFPG   2016    473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:      A FLIGHT  CAF_PAS ME_LYPG_IT_LIRF   2016    702</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.7</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@ in this case the filters applied to the other columns of the <code>raw_data</cod
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">id</span><span class="op">&lt;-</span><span class="st">"tus_00age"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"amzn|-aws|-azure "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">'release'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">rd</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_raw.html">get_eurostat_raw</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is a warning by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
@@ -108,18 +108,19 @@ in this case the filters applied to the other columns of the <code>raw_data</cod
 <span class="r-in"><span><span class="va">ft</span><span class="op">&lt;-</span><span class="fu"><a href="create_filter_table.html">create_filter_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TIME_SP"</span>,<span class="st">"Hungary"</span>,<span class="st">'T'</span><span class="op">)</span>,<span class="cn">FALSE</span>,<span class="va">dsd</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The DSD is missing from the create_filter_table function.</span>
 <span class="r-in"><span><span class="fu">filter_raw_data</span><span class="op">(</span><span class="va">rd</span>,<span class="va">ft</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        freq    unit sex    age acl00 geo time values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1:    A  PTP_RT   F  TOTAL   AC0  BE 2000  100.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     2:    A  PTP_RT   F  TOTAL   AC0  BG 2000  100.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     3:    A  PTP_RT   F  TOTAL   AC0  DE 2000  100.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     4:    A  PTP_RT   F  TOTAL   AC0  EE 2000  100.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     5:    A  PTP_RT   F  TOTAL   AC0  ES 2000  100.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ---                                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98375:    A TIME_SP   T Y_GE65 TOTAL  PL 2010  24:00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98376:    A TIME_SP   T Y_GE65 TOTAL  RO 2010  24:00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98377:    A TIME_SP   T Y_GE65 TOTAL  RS 2010  24:00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98378:    A TIME_SP   T Y_GE65 TOTAL  TR 2010  24:00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98379:    A TIME_SP   T Y_GE65 TOTAL  UK 2010  24:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          freq    unit    sex    age  acl00    geo   time values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;  &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1:      A  PTP_RT      F  TOTAL    AC0     BE   2000  100.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2:      A  PTP_RT      F  TOTAL    AC0     BG   2000  100.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     3:      A  PTP_RT      F  TOTAL    AC0     DE   2000  100.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     4:      A  PTP_RT      F  TOTAL    AC0     EE   2000  100.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     5:      A  PTP_RT      F  TOTAL    AC0     ES   2000  100.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ---                                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98375:      A TIME_SP      T Y_GE65  TOTAL     PL   2010  24:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98376:      A TIME_SP      T Y_GE65  TOTAL     RO   2010  24:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98377:      A TIME_SP      T Y_GE65  TOTAL     RS   2010  24:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98378:      A TIME_SP      T Y_GE65  TOTAL     TR   2010  24:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98379:      A TIME_SP      T Y_GE65  TOTAL     UK   2010  24:00</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
