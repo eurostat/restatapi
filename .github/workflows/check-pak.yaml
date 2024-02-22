@@ -73,7 +73,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           pak::pkg_sysreqs(".")
-          pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
+          pak::pkg_sysreqs("rcmdcheck")
         shell: Rscript {0}
 
       - name: Install dependencies
