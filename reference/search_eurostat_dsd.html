@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.7</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></dd>
 <span class="r-in"><span><span class="va">rav</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"rav"</span>,envir<span class="op">=</span><span class="fu">restatapi</span><span class="fu">::</span><span class="va"><a href="dot-restatapi_env.html">.restatapi_env</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"amzn|-aws|-azure "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">'release'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dsd_example</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"nama_10_gdp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - API version:2</span>
@@ -124,10 +124,10 @@ The default value for <code>ignore.case</code> is <code>FALSE</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children': Timeout of 2 seconds was reached</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 778240 - temp: /tmp/RtmpLqDJXM/file4a2e12dfe291</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpLqDJXM/file4a2e12dfe291</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 1150976 - temp: /tmp/Rtmpfc4oNN/file182c446813b0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmpfc4oNN/file182c446813b0</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Specification mandates value for attribute lan [41]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> AttValue: ' expected [40]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid response you can try again to download the DSD.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/nama_10_gdp?references=children</span>
