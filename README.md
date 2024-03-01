@@ -67,7 +67,7 @@ Next to the functions the package contains a list of country codes for different
 options(restatapi_cores=3)
 get_eurostat_toc()
 options(restatapi_dmethod="libcurl")
-get_get_eurostat_toc(mode="txt",verbose=TRUE)
+get_eurostat_toc(mode="txt",verbose=TRUE)
 search_eurostat_toc("energie",lang="de",ignore.case=TRUE)
 ```
 

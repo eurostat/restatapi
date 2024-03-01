@@ -126,11 +126,11 @@ get_eurostat_bulk <- function(id,
         message("The TOC is missing. Could not get the download link.")
         tbc<-FALSE
       } else {
-        if (any(grepl(id,toc$code,ignore.case=TRUE))){
-          udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
+        if (id %in% toc$code){
+          udate<-toc$lastUpdate[toc$code %in% id]
           if (verbose) {message("get_eurostat_bulk - TOC rows: ",nrow(toc),
-                                "\nget_eurostat_bulk - bulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],
-                                "\nget_eurostat_bulk - ndata rowcount in TOC: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+                                "\nget_eurostat_bulk - tsv bulk url from TOC: ",toc$downloadLink.tsv[toc$code %in% id],
+                                "\nget_eurostat_bulk - ndata rowcount in TOC: ",toc$values[toc$code %in% id])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -150,7 +150,7 @@ get_eurostat_bulk <- function(id,
     if ((!cache)|is.null(restat_bulk)|(update_cache)){
       if (verbose) {message("get_eurostat_bulk - class of id, cache, update_cache, cache_dir, compress_file, stringsAsFactors, keep_flags, check_toc, melt, verbose:\n", class(id)," - ",class(cache)," -",class(update_cache),
                             " - ",class(cache_dir)," - ",class(compress_file)," - ",class(stringsAsFactors)," - ",class(keep_flags),
-                            " - ",class(check_toc)," - ",class(melt)," - ",class(verbose))}
+                            " - ",class(check_toc)," - ",class(TRUE)," - ",class(verbose))}
       restat_bulk<-restatapi::get_eurostat_raw(id,"txt",cache,update_cache,cache_dir,compress_file,stringsAsFactors,keep_flags,check_toc,melt=TRUE,verbose=verbose)
     }
   }  
@@ -158,7 +158,7 @@ get_eurostat_bulk <- function(id,
   if (!is.null(restat_bulk)){
     restat_bulk[]
     drop<-NULL
-    if ("freq" %in% colnames(restat_bulk)) {setnames(restat_bulk,"freq","FREQ")}
+    if ("freq" %in% colnames(restat_bulk)) {data.table::setnames(restat_bulk,"freq","FREQ")}
     if ("FREQ" %in% colnames(restat_bulk)) {drop=c("FREQ")}
     if ("TIME_FORMAT" %in% colnames(restat_bulk)) {drop<-c(drop,"TIME_FORMAT")} 
     if (is.null(select_freq)){

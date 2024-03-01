@@ -232,9 +232,9 @@ get_eurostat_data <- function(id,
       message("The TOC is missing. Could not get the download link.")
       tbc<-FALSE
     } else {
-      if (any(grepl(id,toc$code,ignore.case=TRUE))){
-        udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
-        if (verbose) {message("get_eurostat_data - data TOC rows: ",nrow(toc),"\nbulk url: ",toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)],"\ndata rowcount: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+      if (id %in% toc$code){
+        udate<-toc$lastUpdate[toc$code %in% id]
+        if (verbose) {message("get_eurostat_data - data TOC rows: ",nrow(toc),"\n\tbulk url from TOC: ",toc$downloadLink.tsv[toc$code %in% id],"\n\tdata rowcount in TOC: ",toc$values[toc$code %in% id])}
       } else {
         message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
         tbc<-FALSE

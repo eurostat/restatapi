@@ -475,7 +475,7 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   if (!is.null(bulk1)&!is.null(bulk2)){
     kc<-colnames(bulk1)
     bulk1<-bulk1[,..kc]
-    bulk1<-bulk2[,..kc]
+    bulk2<-bulk2[,..kc]
     data.table::setorder(bulk1)
     data.table::setorder(bulk2)
     expect_true(identical(bulk1,bulk2)) # a44
@@ -584,7 +584,7 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
     expect_equal(nrow(estat_data4),nrow(bulk2)) # a79
     expect_true(nrow(raw4)>nrow(estat_data4)) # a80
   } else {not_checked<-paste(not_checked,"a50-a80",sep=",")}
-  
+  if (tolower(testid1) %in% xml_toc$code) expect_true(!is.null(get_eurostat_data(testid1,update_cache=TRUE,check_toc=TRUE))) #a81
   
 }
 

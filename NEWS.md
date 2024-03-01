@@ -1,3 +1,7 @@
+# restatapi 0.22.8
+
+- correction when `check_toc=TRUE` option is used
+
 # restatapi 0.22.7
 
 - correction for detection of cores to be able to load the package in WebR

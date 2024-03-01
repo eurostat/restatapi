@@ -132,12 +132,16 @@ get_eurostat_raw <- function(id,
         message("The TOC is missing. Could not get the download link.")
         tbc<-FALSE
       } else {
-        if (any(grepl(id,toc$code,ignore.case=TRUE))){
-          udate<-toc$lastUpdate[grepl(id,toc$code,ignore.case=TRUE)]
+        if (id %in% toc$code){
+          udate<-toc$lastUpdate[toc$code %in% id]
           if (mode=="txt") {
-            bulk_url<-toc$downloadLink.tsv[grepl(id,toc$code,ignore.case=TRUE)]
+            bulk_url_base<-eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT")))
+            bulk_url_end<- switch(rav,"1" = paste0("?file=data/",id,".tsv.gz"),"2"= paste0(id,"?format=TSV&compressed=true"))
+            bulk_url<-paste0(bulk_url_base,bulk_url_end)
           } else if (mode=="xml") {
-            bulk_url<-toc$downloadLink.sdmx[grepl(id,toc$code,ignore.case=TRUE)]
+            bulk_url_base<-eval(parse(text=paste0("cfg$BULK_BASE_URL$'",rav,"'$ESTAT")))
+            bulk_url_end<- switch(rav,"1" = paste0("?file=data/",id,".sdmx.zip"),"2"= paste0(id,"?format=sdmx_2.1_structured&compressed=true"))
+            bulk_url<-paste0(bulk_url_base,bulk_url_end)
           } else {
             message("Incorrect mode:",mode,"\n It should be either 'txt' or 'xml'." )
             tbc<-FALSE
@@ -147,8 +151,9 @@ get_eurostat_raw <- function(id,
             tbc<-FALSE
           }
           if (verbose) {message("get_eurostat_raw - raws of TOC: ",nrow(toc),
-                                "\nget_eurostat_raw - bulk url: ",bulk_url,
-                                "\nget_eurostat_raw - data rowcount in TOC: ",toc$values[grepl(id,toc$code,ignore.case=TRUE)])}
+                                "\nget_eurostat_raw - txt bulk url from TOC:",toc$downloadLink.tsv[toc$code %in% id],
+                                "\nget_eurostat_raw - txt bulk url from cfg:",bulk_url,
+                                "\nget_eurostat_raw - data rowcount in TOC: ",toc$values[toc$code %in% id])}
         } else {
           message(paste0("'",id,"' is not in the table of contents. Please check if the 'id' is correctly spelled."))
           tbc<-FALSE
@@ -278,14 +283,14 @@ get_eurostat_raw <- function(id,
                   rm(raw)
                   data.table::setnames(raw_melted,2:3,c(rname,"values"))
                   raw_melted<-raw_melted[raw_melted$values!=":",]
-                  if (check_toc|rav==1){
-                    FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
-                    FREQ[FREQ==""]<-"A"
-                  }
+                  # if (check_toc|rav==1){
+                  #   FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
+                  #   FREQ[FREQ==""]<-"A"
+                  # }
                   restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
                   data.table::setnames(restat_raw,cnames)  
                   restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-                  if (check_toc|rav==1) {restat_raw<-data.table::data.table(FREQ,restat_raw)}
+                  # if (check_toc|rav==1) {restat_raw<-data.table::data.table(FREQ,restat_raw)}
                   if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
                   restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
                   restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
