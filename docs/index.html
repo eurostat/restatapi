@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.8</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_cores<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/get_eurostat_toc.html">get_eurostat_toc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_dmethod<span class="op">=</span><span class="st">"libcurl"</span><span class="op">)</span></span>
-<span><span class="fu">get_get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_eurostat_toc.html">get_eurostat_toc</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/search_eurostat_toc.html">search_eurostat_toc</a></span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Example 2:</strong> Download the Data Structure Definition (DSD) for the ‘Financial services - quarterly data’ (<code>ei_bsfs_q</code>) datasets. First search in the DSD the “EU” pattern everywhere case sensitive. Then search only in the code list (<code>name=FALSE</code>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
