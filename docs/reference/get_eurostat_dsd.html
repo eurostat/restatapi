@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.22.9</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
 
 
 <dt>cache</dt>
-<dd><p>a boolean whether to load/save the TOC from/in the cache or not. The default value is <code>TRUE</code>, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.</p></dd>
+<dd><p>a boolean whether to load/save the DSD from/in the cache or not. The default value is <code>TRUE</code>, so that the DSD is checked first in the cache and if does not exist then downloaded from Eurostat and cached.</p></dd>
 
 
 <dt>update_cache</dt>
@@ -84,7 +84,7 @@
 
 
 <dt>cache_dir</dt>
-<dd><p>a path to a cache directory. The default is <code>NULL</code>, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> to save the RDS-file. Directory can also be set with <code>option(restatapi_cache_dir=...)</code>.</p></dd>
+<dd><p>a path to a cache directory. The default is <code>NULL</code>, in this case the DSD is cached in the memory (in the '.restatapi_env'). Otherwise if the <code>cache_dir</code> directory does not exist it creates the 'restatapi' directory in the temporary directory from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> to save the RDS-file. Directory can also be set with <code>option(restatapi_cache_dir=...)</code>.</p></dd>
 
 
 <dt>compress_file</dt>
@@ -140,8 +140,8 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children': Timeout of 2 seconds was reached</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 1921024 - temp: /tmp/RtmpcQPb44/file1c657aa8286</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpcQPb44/file1c657aa8286</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 1015808 - temp: /tmp/RtmpQwdS1Q/file1b07f820091</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpQwdS1Q/file1b07f820091</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> expected '&gt;' [73]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
