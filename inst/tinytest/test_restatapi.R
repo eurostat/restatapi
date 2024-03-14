@@ -75,7 +75,7 @@ dsd<-get_eurostat_dsd(testid1)
 if (!is.null(dsd)){
   expect_true(data.table::is.data.table(dsd)) # 11
   expect_equal(ncol(dsd),3) # 12
-  expect_true(exists(paste0(testid1,".dsd"),envir=restatapi::.restatapi_env)) # 13
+  expect_true(exists(paste0(testid1,".en.dsd"),envir=restatapi::.restatapi_env)) # 13
 } else {not_checked<-paste(not_checked,"11-13",sep=",")} 
 
 #### test of the search_eurostat_dsd function
@@ -192,7 +192,7 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
 } else {not_checked<-paste(not_checked,"45-48",sep=",")} 
 
 #### test of the get/put_eurostat_cache function
-dsd2<-get_eurostat_dsd(testid6)
+dsd2<-get_eurostat_dsd(testid6,lang="de")
 udate<-format(Sys.Date(),"%Y.%m.%d")
 if (!is.null(xml_toc)) {udate2<-xml_toc$lastUpdate[xml_toc$code==testid5]} else {udate2<-NULL}
 if (!is.null(rt5)&is.data.frame(rt5)){
@@ -206,10 +206,10 @@ if (!is.null(rt4)&is.data.frame(rt4)){
   expect_false(any(sapply(rt4,is.factor)))  # 52
 }  else {not_checked<-paste(not_checked,"51-52",sep=",")}
 if (!is.null(dsd1)){
-  expect_true(exists(paste0(testid4,".dsd"),envir=restatapi::.restatapi_env))  # 53
+  expect_true(exists(paste0(testid4,".en.dsd"),envir=restatapi::.restatapi_env))  # 53
 } else {not_checked<-paste(not_checked,"53",sep=",")}
 if (!is.null(dsd2)){
-  expect_true(exists(paste0(testid6,".dsd"),envir=restatapi::.restatapi_env))  # 54
+  expect_true(exists(paste0(testid6,".de.dsd"),envir=restatapi::.restatapi_env))  # 54
 } else {not_checked<-paste(not_checked,"54",sep=",")}
 expect_false(exists(paste0("b_",testid6,"-",udate,"-0-0-Q"),envir=restatapi::.restatapi_env))   # 55
 if (!is.null(rt3)&is.data.frame(rt3)){

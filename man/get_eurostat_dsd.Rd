@@ -20,11 +20,11 @@ get_eurostat_dsd(
 
 \item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column of the DSD. It is used only in the new API. The default is \code{en} - English.}
 
-\item{cache}{a boolean whether to load/save the TOC from/in the cache or not. The default value is \code{TRUE}, so that the TOC is checked first in the cache and if does not exist then downloaded from Eurostat and cached.}
+\item{cache}{a boolean whether to load/save the DSD from/in the cache or not. The default value is \code{TRUE}, so that the DSD is checked first in the cache and if does not exist then downloaded from Eurostat and cached.}
 
 \item{update_cache}{a boolean to update cache or not. The default value is \code{FALSE}, so the cache is not updated. Can be set also with \code{options(restatapi_update=TRUE)}}
 
-\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the TOC is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.}
+\item{cache_dir}{a path to a cache directory. The default is \code{NULL}, in this case the DSD is cached in the memory (in the '.restatapi_env'). Otherwise if the \code{cache_dir} directory does not exist it creates the 'restatapi' directory in the temporary directory from \code{tempdir()} to save the RDS-file. Directory can also be set with \code{option(restatapi_cache_dir=...)}.}
 
 \item{compress_file}{a logical whether to compress the RDS-file in caching. Default is \code{TRUE}.}
 

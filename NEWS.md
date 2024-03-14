@@ -1,3 +1,7 @@
+# restatapi 0.22.9
+
+- correction of caching when to DSD downloaded with different languages
+
 # restatapi 0.22.8
 
 - correction when `check_toc=TRUE` option is used
