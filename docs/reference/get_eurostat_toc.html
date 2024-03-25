@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.1</span>
       </span>
     </div>
 
@@ -113,8 +113,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
  <code>lang</code> parameter, for dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>metadata.html</code></td><td>The link to the metadata in html format, and this column exists only if the
  download <code>mode</code> is "xml"</td></tr><tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format, and this column exists only if the
  download <code>mode</code> is "xml"</td></tr><tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk
- download facility and this column exists only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>downloadLink.sdmx</code></td><td>The link to the whole dataset/table in SDMX format in the bulk download
- facility and this column exists only if the download <code>mode</code> is "xml"</td></tr></table></div>
+ download facility and this column exists only if the download <code>mode</code> is "xml"</td></tr></table></div>
     <div id="details">
     <h2>Details</h2>
     <p>The TOC is downloaded from Eurostat websites through the REST API for the <code>xml</code> (default) version or from the bulk download facilities for <code>txt</code> version.
@@ -189,21 +188,10 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BPM6IIP_Q?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:    https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BSCO_M?format=tsv&amp;compressed=true</span>
 <span class="r-in"><span><span class="va">toc_txt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>, lang<span class="op">=</span><span class="st">"de"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_txt</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                               title         code    type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          Leistungsbilanz - vierteljährliche Daten  ei_bpm6ca_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       Finanzierungskonto - vierteljährliche Daten  ei_bpm6fa_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                Leistungsbilanz - monatliche Daten  ei_bpm6ca_m   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8             Finanzierungskonto - monatliche Daten  ei_bpm6fa_m   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Auslandsvermögensstatus - vierteljährliche Daten ei_bpm6iip_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                   Verbraucher - monatliche Daten    ei_bsco_m dataset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    lastUpdate lastModified dataStart dataEnd values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  2024.02.20   2024.02.20   1992-Q1 2023-Q4 271230</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  2024.02.20   2024.02.20   1992-Q1 2023-Q4  48728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  2024.03.21   2024.03.21   1991-01 2024-01 220443</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  2024.03.21   2024.03.21   1991-01 2024-01  71324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  2024.01.12   2024.01.12   1992-Q4 2023-Q3  59859</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 2024.02.28   2024.02.28   1980-01 2024-02 308925</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
