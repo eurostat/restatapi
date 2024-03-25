@@ -48,7 +48,7 @@ txt_toc<-get_eurostat_toc(mode="txt")
 t2<-system.time({get_eurostat_toc()})[3]
 expect_warning(get_eurostat_toc(mode="text")) # 1
 if (!is.null(xml_toc)){
-  expect_equal(ncol(xml_toc),14) # 2
+  expect_equal(ncol(xml_toc),13) # 2
   expect_true(exists("toc.xml.en",envir=restatapi::.restatapi_env)) # 3
   if (!is.null(txt_toc)){
     expect_equal(ncol(txt_toc),8) # 4
@@ -110,19 +110,23 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
 } else {not_checked<-paste(not_checked,"18-21",sep=",")}
 
 if (!is.null(xml_toc)){
+  testid3<-xml_toc$code[xml_toc$values==min(xml_toc$values)][1]
+  if (!is.na(testid3)){
+    expect_equal(nrow(get_eurostat_raw(testid3,verbose=FALSE)),min(xml_toc$values)) # 22
+    expect_equal(nrow(get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)),min(xml_toc$values)) # 23
+    expect_message(bt1<-get_eurostat_bulk("blabla",check_toc=TRUE,verbose=FALSE)) # 24
+    expect_equal(bt1,NULL) # 25
+    expect_equal(nrow(get_eurostat_data(testid3,verbose=FALSE)),min(xml_toc$values)) # 26
+  }  else {not_checked<-paste(not_checked,"22-26",sep=",")}
   testid3<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)&is.na(xml_toc$downloadLink.tsv)][1]
   # testid3<-xml_toc$code[(xml_toc$shortDescription=="")&is.na(xml_toc$metadata.html)&is.na(xml_toc$metadata.sdmx)][1]
   if (!is.na(testid3)){
-    expect_message(rt1<-get_eurostat_raw(testid3,verbose=FALSE)) # 22
-    expect_equal(rt1,NULL) # 23
-    expect_message(rt2<-get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)) # 24
-    expect_equal(rt2,NULL) # 25
-    expect_message(bt1<-get_eurostat_bulk("blabla",check_toc=TRUE,verbose=FALSE)) # 26
-    expect_equal(bt1,NULL) # 27
-    expect_message(dt3<-get_eurostat_data(testid3,verbose=FALSE)) # 28
-    expect_equal(dt3,NULL) # 29
-  }
+    expect_message(rt1<-get_eurostat_raw(testid3,verbose=FALSE)) # 27
+    expect_message(rt2<-get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)) # 28
+    expect_message(dt3<-get_eurostat_data(testid3,verbose=FALSE)) # 29
+  }  else {not_checked<-paste(not_checked,"26-29",sep=",")}
 } else {not_checked<-paste(not_checked,"22-29",sep=",")}
+
 rt3<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
 bt2<-get_eurostat_data(testid4,keep_flags=TRUE,stringsAsFactors=FALSE)
 dt4<-get_eurostat_data(testid4,date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
@@ -145,7 +149,7 @@ if (!is.null(bt3)&!is.null(bt4)){
 } else {not_checked<-paste(not_checked,"32",sep=",")}
 if (!is.null(rt4)&!is.null(rt5)){
   expect_true(nrow(rt4)==nrow(rt5)) # 33
-  expect_true(ncol(rt4)+2==ncol(rt5)) # 34
+  expect_true(ncol(rt4)+1==ncol(rt5)) # 34
 } else {not_checked<-paste(not_checked,"33-34",sep=",")}
 
 #### test of filtering in the get_eurostat_data function

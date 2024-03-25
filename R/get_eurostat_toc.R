@@ -30,9 +30,7 @@
 #'  \code{metadata.sdmx}\tab The link to the metadata in SDMX format, and this column exists only if the
 #'  download \code{mode} is "xml"\cr
 #'  \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk
-#'  download facility and this column exists only if the download \code{mode} is "xml"\cr
-#'  \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download
-#'  facility and this column exists only if the download \code{mode} is "xml"
+#'  download facility and this column exists only if the download \code{mode} is "xml"
 #'  }
 #' @export
 #' @seealso \code{\link{search_eurostat_toc}}, \code{\link{get_eurostat_dsd}}, \code{\link{get_eurostat_raw}}, \code{\link{get_eurostat_bulk}}, \code{\link{get_eurostat_data}}.
@@ -65,6 +63,7 @@ get_eurostat_toc<-function(mode="xml",
                            verbose=FALSE,...) {
   toc<-xml_leafs<-NULL
   tbc<-TRUE
+  verbose<-verbose|getOption("restatapi_verbose",FALSE)
   if (verbose)  {message("\nget_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
@@ -81,7 +80,7 @@ get_eurostat_toc<-function(mode="xml",
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
-  verbose<-verbose|getOption("restatapi_verbose",FALSE)
+  
   if ((cache) & (!update_cache)) {
     toc<-restatapi::get_eurostat_cache(paste0("toc.",mode,".",lang),cache_dir,verbose=verbose)
   }
@@ -177,9 +176,9 @@ get_eurostat_toc<-function(mode="xml",
               type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attr,attr="type")))
               toc<-cbind(toc,type)
               # names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
-              keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")
+              keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv")
               toc<-toc[,keep,with=FALSE]
-              names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv","downloadLink.sdmx")        
+              names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv")        
             }
           } 
         }

@@ -1,3 +1,7 @@
+# restatapi 0.23.0
+
+- correction of `get_eurostat_toc()` function and the functions using the `check_toc` options because the content of the XML TOC has changed
+
 # restatapi 0.22.9
 
 - correction of caching when to DSD downloaded with different languages
@@ -27,11 +31,11 @@
 
 # restatapi 0.22.3
 
-- additional check in the get_eurostat_dsd() and get_eurostat_codelist() for failing writing data to disk because of failing network connection 
+- additional check in the `get_eurostat_dsd()` and `get_eurostat_codelist()` for failing writing data to disk because of failing network connection 
 
 # restatapi 0.22.2
 
-- correcting the get_compressed_sdmx() function not closing connections
+- correcting the `get_compressed_sdmx()` function not closing connections
 - updating examples and tests 
 
 # restatapi 0.22.1

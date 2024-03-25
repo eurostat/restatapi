@@ -307,12 +307,12 @@ get_eurostat_raw <- function(id,
         # }
       } else if (mode=="xml"){
         format<-switch(rav, "1" = "zip", "2" = "gz")
-        if (check_toc) {format<-"zip"}
+        # if (check_toc) {format<-"zip"}
         if (verbose) {message("get_eurostat_raw - file format: ",format)}
         sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose,format=format)
         if(!is.null(sdmx_file)){
           xml_mark<-switch(rav, "1" = ".//data:Series", "2" = ".//Series")
-          if (check_toc) {xml_mark<-".//data:Series"}
+          # if (check_toc) {xml_mark<-".//data:Series"}
           xml_leafs<-xml2::xml_find_all(sdmx_file,xml_mark)
           if (verbose) {message("get_eurostat_raw - class(xml_leafs): ",class(xml_leafs),
                                 "\nget_eurostat_raw - number of nodes: ",length(xml_leafs),
@@ -320,17 +320,17 @@ get_eurostat_raw <- function(id,
           if (Sys.info()[['sysname']]=='Windows'){
             if (getOption("restatapi_cores",1L)==1) {
               if (verbose) message("No parallel")
-              restat_raw<-data.table::rbindlist(lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,check_toc=check_toc))
+              restat_raw<-data.table::rbindlist(lapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
             } else {
               xml_leafs<-as.character(xml_leafs)
               cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
               parallel::clusterEvalQ(cl,require(xml2))
               parallel::clusterExport(cl,c("extract_data"))
-              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,check_toc=check_toc))              
+              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
               parallel::stopCluster(cl)  
             }
           }else{
-            restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,check_toc=check_toc,mc.cores=getOption("restatapi_cores",1L)))                                  
+            restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
           }
         } else{
           message("Could not download the SDMX file, use the verbose option to see the exact cause of the error.")
