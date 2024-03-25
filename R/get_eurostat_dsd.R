@@ -43,6 +43,7 @@ get_eurostat_dsd <- function(id,
                              verbose=FALSE,...) {
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (getOption("restatapi_cores",1L)>=parallel::detectCores()) options(restatapi_cores=parallel::detectCores()-1)
   # if (verbose)  {message("\nget_eurostat_dsd - API version:",get("rav",envir=restatapi::.restatapi_env))}
   tbc<-TRUE #to be continued for the next steps
   if (is.null(id)){

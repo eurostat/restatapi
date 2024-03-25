@@ -55,9 +55,7 @@ A data table with the following columns:
  \code{metadata.sdmx}\tab The link to the metadata in SDMX format, and this column exists only if the
  download \code{mode} is "xml"\cr
  \code{downloadLink.tsv}\tab The link to the whole dataset/table in tab separated values format in the bulk
- download facility and this column exists only if the download \code{mode} is "xml"\cr
- \code{downloadLink.sdmx}\tab The link to the whole dataset/table in SDMX format in the bulk download
- facility and this column exists only if the download \code{mode} is "xml"
+ download facility and this column exists only if the download \code{mode} is "xml"
  }
 }
 \description{

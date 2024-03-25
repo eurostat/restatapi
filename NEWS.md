@@ -1,6 +1,12 @@
+# restatapi 0.23.1
+
+- adding option `lang` to the `get_eurostat_data()` function to be able to use the German or French DSD for the `filters`
+- correction of the `get_eurostat_toc()` function when the `mode="txt"` and `lang="fr"`
+- checking if `restatapi_cores` is more than the maximum number of available cores
+
 # restatapi 0.23.0
 
-- correction of `get_eurostat_toc()` function and the functions using the `check_toc` options because the content of the XML TOC has changed
+- correction of the `get_eurostat_toc()` function and the functions using the `check_toc` options because the content of the XML TOC has changed
 
 # restatapi 0.22.9
 

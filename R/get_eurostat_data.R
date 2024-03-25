@@ -8,6 +8,7 @@
 #'        If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 #'        The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
 #'        If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the whole dataset and apply the filter on the local computer. This option can be disabled with the \code{local_filter=FALSE} parameter. 
+#' @param lang a character string either \code{en}, \code{de} or \code{fr} to define the language version for the DSD to search in for the \code{filters}. The default is \code{en} - English.
 #' @param exact_match a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern. 
 #' @param date_filter a vector which can be numeric or character containing dates to filter the dataset. If date is defined as character string it should follow the format yyyy[-mm][-dd], where the month and the day part is optional. 
 #'        If date filter applied only part of the dataset is downloaded through the API. 
@@ -139,7 +140,8 @@
 #'                       label=TRUE,
 #'                       name=FALSE)
 #' dt<-get_eurostat_data("agr_r_milkpr",
-#'                       filters=c("BE$","Hungary"),
+#'                       filters=c("BE$","Ungarn"),
+#'                       lang="de",
 #'                       date_filter="2007-06<",
 #'                       keep_flags=TRUE)
 #' dt<-get_eurostat_data("nama_10_a10_e",
@@ -172,6 +174,7 @@
 
 get_eurostat_data <- function(id,
                          filters=NULL,
+                         lang="en",
                          exact_match=TRUE,
                          date_filter=NULL,
                          label=FALSE,
@@ -194,6 +197,7 @@ get_eurostat_data <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update",FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (getOption("restatapi_cores",1L)>=parallel::detectCores()) options(restatapi_cores=parallel::detectCores()-1)
   # if (verbose)  {message("\nget_eurostat_data - API version:",get("rav",envir=restatapi::.restatapi_env))}
   tbc<-cr<-TRUE # to be continued for the next steps  / cache result data.table 
   if (verbose) {message("get_eurostat_data - footer code option value at start:",paste(getOption("code_opt",NULL),collapse=", "))}
@@ -303,7 +307,7 @@ get_eurostat_data <- function(id,
     { 
       if (!is.null(filters))#filter defined => create filter table and filter url
       { 
-        dsd<-get_eurostat_dsd(id,verbose=verbose)
+        dsd<-get_eurostat_dsd(id,lang=lang,verbose=verbose)
         if (is.null(dsd)){
           message("Could not download the DSD. The filter is ignored")
           filters_url<-NULL
@@ -716,7 +720,7 @@ get_eurostat_data <- function(id,
     if (label & !is.null(restat)) #label data
     {
       if (verbose) {message("get_eurostat_data - restat - nrow:",nrow(restat),";ncol:",ncol(restat))}
-      dsd<-restatapi::get_eurostat_dsd(id,verbose=verbose)
+      dsd<-restatapi::get_eurostat_dsd(id,lang=lang,verbose=verbose)
       if (!is.null(dsd)){
         if (verbose) {message("get_eurostat_data - dsd - nrow:",nrow(dsd),";ncol:",ncol(dsd))}
         cn<-colnames(restat)[!(colnames(restat) %in% c("time","values","flags"))]

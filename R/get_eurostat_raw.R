@@ -98,6 +98,7 @@ get_eurostat_raw <- function(id,
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (getOption("restatapi_cores",1L)>=parallel::detectCores()) options(restatapi_cores=parallel::detectCores()-1)
   tbc<-TRUE #to be continued to the next steps 
   if (verbose)  {message("\nget_eurostat_raw - API version:",get("rav",envir=restatapi::.restatapi_env))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
@@ -232,8 +233,6 @@ get_eurostat_raw <- function(id,
           restat_raw<-data.table::copy(raw)
           restat_raw[, c("DATAFLOW", "LAST UPDATE") := NULL]
           rm(raw)
-          # restat_raw$OBS_VALUE<-gsub('^\\:$',"",restat_raw$OBS_VALUE,perl=TRUE)
-          # restat_raw$OBS_VALUE<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$OBS_VALUE,perl=TRUE)
           restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)
         }
       } else if (mode=="txt"){
@@ -283,14 +282,9 @@ get_eurostat_raw <- function(id,
                   rm(raw)
                   data.table::setnames(raw_melted,2:3,c(rname,"values"))
                   raw_melted<-raw_melted[raw_melted$values!=":",]
-                  # if (check_toc|rav==1){
-                  #   FREQ<-gsub("MD","D",gsub('[0-9\\.\\-]',"",raw_melted$time))
-                  #   FREQ[FREQ==""]<-"A"
-                  # }
                   restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
                   data.table::setnames(restat_raw,cnames)  
                   restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
-                  # if (check_toc|rav==1) {restat_raw<-data.table::data.table(FREQ,restat_raw)}
                   if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
                   restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
                   restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
@@ -307,12 +301,10 @@ get_eurostat_raw <- function(id,
         # }
       } else if (mode=="xml"){
         format<-switch(rav, "1" = "zip", "2" = "gz")
-        # if (check_toc) {format<-"zip"}
         if (verbose) {message("get_eurostat_raw - file format: ",format)}
         sdmx_file<-restatapi::get_compressed_sdmx(bulk_url,verbose=verbose,format=format)
         if(!is.null(sdmx_file)){
           xml_mark<-switch(rav, "1" = ".//data:Series", "2" = ".//Series")
-          # if (check_toc) {xml_mark<-".//data:Series"}
           xml_leafs<-xml2::xml_find_all(sdmx_file,xml_mark)
           if (verbose) {message("get_eurostat_raw - class(xml_leafs): ",class(xml_leafs),
                                 "\nget_eurostat_raw - number of nodes: ",length(xml_leafs),

@@ -64,6 +64,9 @@ get_eurostat_toc<-function(mode="xml",
   toc<-xml_leafs<-NULL
   tbc<-TRUE
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
+  update_cache<-update_cache|getOption("restatapi_update",FALSE)
+  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
+  if (getOption("restatapi_cores",1L)>=parallel::detectCores()) options(restatapi_cores=parallel::detectCores()-1)
   if (verbose)  {message("\nget_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
@@ -77,8 +80,6 @@ get_eurostat_toc<-function(mode="xml",
     }  
   }
   # if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
-  update_cache<-update_cache|getOption("restatapi_update",FALSE)
-  dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   
   if ((cache) & (!update_cache)) {
@@ -103,7 +104,7 @@ get_eurostat_toc<-function(mode="xml",
                  tbc<-FALSE
                })
       if (tbc) {
-        tryCatch({toc<-utils::read.csv(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)},
+        tryCatch({toc<-data.table::fread(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)},
                  error = function(e) {
                    if (verbose) {message("get_eurostat_toc - Error during the reading of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
                    else {message("There is an error by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
@@ -170,12 +171,9 @@ get_eurostat_toc<-function(mode="xml",
                        })
             }
             if (exists("leafs")){
-              # toc<-data.frame(t(sapply(leafs, '[', seq(max(lengths(leafs))))),stringsAsFactors=FALSE)[,c(1:19)]
-              # type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attrs)))
               toc<-data.table::rbindlist(leafs,fill=TRUE)[,c(1:19)]
               type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attr,attr="type")))
               toc<-cbind(toc,type)
-              # names(toc)<-c(sub("\\.$","",paste(xml2::xml_name(xml2::xml_children(xml_leafs[1])),sub(".*)","",as.character(xml2::xml_attrs(xml2::xml_children(xml_leafs[1])))),sep="."),perl=TRUE),"type")
               keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv")
               toc<-toc[,keep,with=FALSE]
               names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv")        

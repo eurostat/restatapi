@@ -592,6 +592,17 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   
 }
 
+fr_txt_toc<-get_eurostat_toc(mode="txt",lang="fr")
+de_txt_toc<-get_eurostat_toc(mode="txt",lang="de")
+if (!is.null(fr_txt_toc)&!is.null(de_txt_toc)){
+  expect_true(nrow(fr_txt_toc)==nrow(de_txt_toc)) #a82
+} 
+
+dt1<-get_eurostat_data("agr_r_milkpr",filters=c("BE$","Ungarn"),lang="de",date_filter="2007-06<", keep_flags=TRUE)
+dt2<-get_eurostat_data("agr_r_milkpr",filters=c("BE$","Hungary"),date_filter="2007-06<", keep_flags=TRUE)
+if (!is.null(dt1)&!is.null(dt2)){
+  expect_true(nrow(dt1)==nrow(dt2)) #a83
+}
 
 ##################################
 # clean up                       #

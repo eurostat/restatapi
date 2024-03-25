@@ -7,6 +7,7 @@
 get_eurostat_data(
   id,
   filters = NULL,
+  lang = "en",
   exact_match = TRUE,
   date_filter = NULL,
   label = FALSE,
@@ -36,6 +37,8 @@ any word, Eurostat variable code, and value which are in the DSD \code{\link{sea
 If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
 If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the whole dataset and apply the filter on the local computer. This option can be disabled with the \code{local_filter=FALSE} parameter.}
+
+\item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the DSD to search in for the \code{filters}. The default is \code{en} - English.}
 
 \item{exact_match}{a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern.}
 
@@ -187,7 +190,8 @@ dt<-get_eurostat_data("avia_par_me",
                       label=TRUE,
                       name=FALSE)
 dt<-get_eurostat_data("agr_r_milkpr",
-                      filters=c("BE$","Hungary"),
+                      filters=c("BE$","Ungarn"),
+                      lang="de",
                       date_filter="2007-06<",
                       keep_flags=TRUE)
 dt<-get_eurostat_data("nama_10_a10_e",
