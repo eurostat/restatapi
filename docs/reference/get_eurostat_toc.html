@@ -179,10 +179,23 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BPM6IIP_Q?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:    https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BSCO_M?format=tsv&amp;compressed=true</span>
 <span class="r-in"><span><span class="va">toc_txt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>, lang<span class="op">=</span><span class="st">"de"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_txt</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                               title         code    type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                              &lt;char&gt;       &lt;char&gt;  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:         Leistungsbilanz - vierteljährliche Daten  ei_bpm6ca_q   table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      Finanzierungskonto - vierteljährliche Daten  ei_bpm6fa_q   table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:               Leistungsbilanz - monatliche Daten  ei_bpm6ca_m   table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:            Finanzierungskonto - monatliche Daten  ei_bpm6fa_m   table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: Auslandsvermögensstatus - vierteljährliche Daten ei_bpm6iip_q   table</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                   Verbraucher - monatliche Daten    ei_bsco_m dataset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    lastUpdate lastModified dataStart dataEnd values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2024.08.20   2024.08.20   1992-Q1 2024-Q2 277755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2024.08.20   2024.08.20   1992-Q1 2024-Q2  49888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2024.09.19   2024.09.19   1991-01 2024-07 231003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2024.09.19   2024.09.19   1991-01 2024-07  76043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2024.08.08   2024.08.08   1992-Q4 2024-Q1  61269</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2024.09.27   2024.09.27   1980-01 2024-09 283794</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
