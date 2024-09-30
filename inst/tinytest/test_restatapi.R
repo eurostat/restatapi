@@ -124,7 +124,7 @@ if (!is.null(xml_toc)){
     expect_message(rt1<-get_eurostat_raw(testid3,verbose=FALSE)) # 27
     expect_message(rt2<-get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)) # 28
     expect_message(dt3<-get_eurostat_data(testid3,verbose=FALSE)) # 29
-  }  else {not_checked<-paste(not_checked,"26-29",sep=",")}
+  }  else {not_checked<-paste(not_checked,"27-29",sep=",")}
 } else {not_checked<-paste(not_checked,"22-29",sep=",")}
 
 rt3<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
