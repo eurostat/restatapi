@@ -2,7 +2,7 @@
 [![last commit](https://img.shields.io/github/last-commit/eurostat/restatapi?style=flat)](https://github.com/eurostat/restatapi/commits/)
 [![R build
 status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](https://github.com/eurostat/restatapi/actions)
-[![dependencies](https://tinyverse.netlify.com/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
+[![dependencies](https://tinyverse.netlify.app/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![CRAN status](https://badges.cranchecks.info/summary/restatapi.svg)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
 [![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)

@@ -1,3 +1,8 @@
+# restatapi 0.23.2
+
+- correction of tests because change how the API handles confidentially suppressed data
+- switch off logging of filters 
+
 # restatapi 0.23.1
 
 - adding option `lang` to the `get_eurostat_data()` function to be able to use the German or French DSD for the `filters`
