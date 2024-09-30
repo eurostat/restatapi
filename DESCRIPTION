@@ -1,8 +1,8 @@
 Package: restatapi
 Type: Package
 Title: Search and Retrieve Data from Eurostat Database
-Date: 2024-03-25
-Version: 0.23.1
+Date: 2024-09-30
+Version: 0.23.2
 Encoding: UTF-8
 Authors@R: c(person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre")),
             person("Sebastian", "Weinand", role = "ctb"))
@@ -17,5 +17,5 @@ Suggests: chron, knitr, rmarkdown, tinytest, remotes
 NeedsCompilation: no
 URL: https://github.com/eurostat/restatapi
 BugReports: https://github.com/eurostat/restatapi/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Packaged: 2021-10-06 08:46:52 UTC; mmeszaros

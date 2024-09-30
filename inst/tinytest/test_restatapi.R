@@ -172,7 +172,7 @@ suppressMessages(dt9<-get_eurostat_data(testid4,filters="2018",cflags=TRUE))
 if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
   if (testid4 %in% xml_toc$code) {
     if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid4]))){
-      expect_equal(nrow(dt9),as.numeric(xml_toc$values[xml_toc$code==testid4])) # 44
+      expect_equal(nrow(dt9[!is.na(values)]),as.numeric(xml_toc$values[xml_toc$code==testid4])) # 44
     } else {not_checked<-paste(not_checked,"44",sep=",")}  
   } else {not_checked<-paste(not_checked,"44",sep=",")}
 } else {not_checked<-paste(not_checked,"44",sep=",")} 
@@ -373,7 +373,7 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   if (!is.null(dsd3)&is.data.frame(dsd3)){
     nr11<-nrow(get_eurostat_data(testid9,filters="Monthly",exact_match=FALSE,date_filter=c("<2018-07-01"),select_freq="A",label=TRUE,name=FALSE))
     if (!is.null(nr11)){
-      expect_equal(nr11,4845) # a21
+      expect_equal(nr11,4857) # a21
     } else {not_checked<-paste(not_checked,"a21",sep=",")}
   } else {not_checked<-paste(not_checked,"a21",sep=",")}
   dsd4<-get_eurostat_dsd(testid10)

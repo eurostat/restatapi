@@ -43,7 +43,7 @@
 
 load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parallel=TRUE,max_cores=FALSE,verbose=FALSE){
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
-  options(restatapi_log=TRUE)
+  options(restatapi_log=FALSE)
   tbc<-TRUE
   # .restatapi_env<-new.env()
   # assign(".restatapi_env",new.env(),envir=parent.env(parent.frame()))
