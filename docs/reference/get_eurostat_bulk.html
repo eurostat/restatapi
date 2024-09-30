@@ -201,19 +201,15 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - API version:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - bulk url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/avia_par_ee?format=TSV&amp;compressed=true</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/avia_par_ee?format=TSV&amp;compressed=true': Timeout of 2 seconds was reached</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> readLines(gzcon(url(bulk_url)))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The file download was not successful. Try again later.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      unit tra_meas         airp_pr   time values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;   &lt;fctr&gt;          &lt;fctr&gt; &lt;fctr&gt;  &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: FLIGHT  CAF_PAS EE_EETN_AT_LOWW   2001    540</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: FLIGHT  CAF_PAS EE_EETN_DE_EDDF   2001    415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: FLIGHT  CAF_PAS EE_EETN_DK_EKCH   2001   1829</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: FLIGHT  CAF_PAS EE_EETN_FI_EFHK   2001   4464</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: FLIGHT  CAF_PAS EE_EETN_LT_EYVI   2001   1083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: FLIGHT  CAF_PAS EE_EETN_RU_UUEE   2001    869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -239,7 +235,7 @@ in parenthesis.</p>
 <span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects (outside of 'cfg', 'rav', 'cc' and 'dmethod') are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/Rtmpyi760t/restatapi is empty.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpLD6W4Q/restatapi is empty.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
