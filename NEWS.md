@@ -1,7 +1,8 @@
 # restatapi 0.23.2
 
 - correction of tests because change how the API handles confidentially suppressed data
-- switch off logging of filters 
+- switch off logging of filters
+- CRAN release
 
 # restatapi 0.23.1
 
