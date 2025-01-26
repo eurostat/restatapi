@@ -5,7 +5,7 @@ status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](
 [![dependencies](https://tinyverse.netlify.app/badge/restatapi)](https://CRAN.R-project.org/package=restatapi)
 [![CRAN version](https://www.r-pkg.org/badges/version/restatapi)](https://CRAN.R-project.org/package=restatapi )
 [![CRAN status](https://badges.cranchecks.info/summary/restatapi.svg)](https://cran.r-project.org/web/checks/check_results_restatapi.html)
-[![license](https://img.shields.io/badge/license-EUPL-success)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
+[![license](https://img.shields.io/badge/license-EUPL-success)](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 [![weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/cran_stat/)
 [![monthly downloads](https://cranlogs.r-pkg.org/badges/restatapi)](https://mybinder.org/v2/gh/mmatyi/restatapi_logs/b1320a7cd483638e1f12c8a1f5bf595cbbc32233?urlpath=shiny/ShinyApps/restatapi/)
 [![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/restatapi)](https://mmatyi.github.io/restatapi_logs/)
@@ -13,15 +13,6 @@ status](https://github.com/eurostat/restatapi/workflows/R-CMD-check/badge.svg)](
 
 # restatapi
 An R package to search and retrieve data from Eurostat database using SDMX  
-
-# <span style="color:red">IMPORTANT changes with the new Eurostat API</span>
-
-Version 0.20.0 enables all the functionality for the [new dissemination chain](https://wikis.ec.europa.eu/display/EUROSTATHELP/Developer%27s+corner) and from version 0.20.3 it is the default API.
-
-The new API has **breaking changes** concerning the `date_filter`. In the old dissemination chain the value was assigned to *the first day* of the month, quarter and year, so it was enough to filter for one day to get the value for the whole period. Under the new API the value belongs to the full period. If a date range does not cover the whole period no value is returned. For example, to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With exact numerical example to get the value for 2022/Q3, the `startDate` should be 2022-07-01 or earlier and the `endDate` should be 2022-09-30 or later. In the old version of the API it was enough if the period included the day 2022-07-01 only. 
-
-In addition to this change, if the date filter is only one day (e.g. `startDate=2007-07-02&endDate=2007-07-02`) then the new API gives back the values for all the time periods in the dataset applying the filter provided for the other concepts. But if the time period changes to more than one day (e.g. `startDate=2007-07-01&endDate=2007-07-02`) then the new API gives back only those values which are covered by the range. For more details see the updated description of the numerical examples in [Example 6](#updated-date-filter). 
-
 
 ## installation
 
@@ -57,7 +48,7 @@ The package contains 8 main functions and several other sub functions in 3 areas
 
 Below there are examples demonstrating the main features, the detailed documentation of the functions is in the package.
 
-Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=48517911&StrLayoutCode=HIERARCHIC), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
+Next to the functions the package contains a list of country codes for different groups of European countries based on the [Eurostat standard code list](https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/SCL_GEO_EUEFTACC/1.0), e.g.: European Union (EU28, ..., EU6), Euro Area (EA19, ..., EA11) or New Member States (NMS13, ..., NMS2).
 
 ## 10 examples
 
@@ -104,8 +95,9 @@ options(restatapi_cache_dir=file.path(tempdir(),"restatapi"))
 ```
 <a name="updated-date-filter"></a>
 **Example 6:** First download the annual (`select_freq="A"`) air passenger transport data for the main airports of Montenegro (`avia_par_me`) and do not cache any of the data (`cache=FALSE`). Then from the same table download the monthly (`select_freq="M"`) and quarterly (`filters="Q...`) data for 2 specific airport pairs/routes (`filters=...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"`) in August 2016 and on 1 July 2017 (`date_filter=c("2016-08","2017-07-01")`). The filters are provided in the format how it is required by the [REST SDMX web service](https://wikis.ec.europa.eu/pages/viewpage.action?pageId=44165555). Under the old API, it returned the value for the selected routes for the month August 2016, July 2017 and the 3rd quarter of 2017. Meanwhile under the ***new API***, it returns all the quarterly and monthly value, as there is a single day in the `date_filter`.
-Then download again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is exact match in the DSD for "HU" for August 2016 and 1 March 2014 (`date_filter=c("2016-08","2014-03-01")`). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the "HU" pattern, it returned all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (`label=TRUE`) under the old API. Under the ***new API***, it returns all the quarterly and monthly data as there is a single day in the `date_filter`.
-Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`, the order of the dates does not matter) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result was all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there is no information for the other time periods under the old API. Under the ***new API***, it gives back all the quarterly data in dataset for flights from Montenegro to Hungary because in the `date_filter` there is a single day. 
+Then download again the monthly and quarterly data (`filters=c("Quarterly","Monthly")`) where there is exact match in the DSD for "HU" for August 2016 and 1 March 2014 (`date_filter=c("2016-08","2014-03-01")`). This query will provide only monthly data for 2016, as the quarterly data is always assigned to the first month of the quarter and there is no data for 2014. Since there is no exact match for the "HU" pattern, it returned all the monthly data for August 2016 and put the labels (like the name of the airports and units) so the data can be easier understood (`label=TRUE`) under the old API. Under the ***current API***, it returns all the quarterly and monthly data as there is a single day in the `date_filter`.
+Finally, download only the quarterly data (`select_freq="Q"`) for several time periods (`date_filter=c("2017-03",2016,"2017-07-01",2012:2014)`, the order of the dates does not matter) where the "HU" pattern can be found anywhere, but only in the `code` column of the DSD (`filters="HU",exact_match=FALSE,name=FALSE`). The result was all the statistics about flights from Montenegro to Hungary in the 3rd quarter of 2017, as there were no information for the other time periods under the old API. Under the ***current API***, it gives back all the quarterly data in the dataset for flights from Montenegro to Hungary because in the `date_filter` there is a single day. 
+Before 2022, in the old dissemination chain the value was assigned to *the first day* of the month, quarter and year, so it was enough to filter for one day to get the value for the whole period. Under the current API the value belongs to the full period. If a date range does not cover the whole period no value is returned. For example, to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With exact numerical example to get the value for 2022/Q3, the `startDate` should be 2022-07-01 or earlier and the `endDate` should be 2022-09-30 or later. In the old version of the API it was enough if the period included the day 2022-07-01 only. 
 
 ```R
 dt<-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)

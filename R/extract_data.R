@@ -73,6 +73,8 @@ extract_data<-function(xml_lf,keep_flags=FALSE,stringsAsFactors=FALSE,bulk=TRUE,
                                                     dr$OBS_STATUS<-""
                                                   } else{
                                                     f<-gsub("na","",f)
+                                                    f<-tolower(f)
+                                                    f<-gsub("@","",f)
                                                     dr$OBS_STATUS<-paste0(f,collapse="")
                                                   }
                                                 }

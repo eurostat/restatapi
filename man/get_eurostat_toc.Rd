@@ -44,10 +44,10 @@ A data table with the following columns:
  \code{lastModified}\tab The date when the structure of the dataset/table was last time modified\cr
  \code{dataStart}\tab The start date of the data in the dataset/table\cr
  \code{dataEnd}\tab The end date of the data in the dataset/table\cr
- \code{values}\tab The number of values in the dataset/table, and it is filled only if the download
- \code{mode} is "xml"\cr
+ \code{values}\tab The number of values in the dataset/table, and it is filled only if the download \code{mode} is "xml"\cr
  \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter, for
  dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
+ \code{source}\tab The source of the data and it is filled only if the download \code{mode} is "xml"\cr
  \code{shortDescription}\tab The short description of the values for tables in the language provided by the
  \code{lang} parameter, for dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
  \code{metadata.html}\tab The link to the metadata in html format, and this column exists only if the
