@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.1</span>
       </span>
     </div>
 
@@ -123,7 +123,6 @@ argument is only searched in the code column of the DSD, and the names of the co
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"amzn|-aws|-azure "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">'release'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dsd</span><span class="op">&lt;-</span><span class="fu"><a href="get_eurostat_dsd.html">get_eurostat_dsd</a></span><span class="op">(</span><span class="st">"avia_par_me"</span><span class="op">)</span> </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is a warning by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-in"><span><span class="fu">create_filter_table</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"KYIV"</span>,<span class="st">"hu"</span>,<span class="st">"Quarterly"</span><span class="op">)</span>,dsd<span class="op">=</span><span class="va">dsd</span>,exact_match<span class="op">=</span><span class="cn">FALSE</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The DSD is missing from the create_filter_table function.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -143,7 +142,7 @@ argument is only searched in the code column of the DSD, and the names of the co
 <span class="r-in"><span>                    date_filter<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                    verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - filters class: character; size: 12; filters:2017-032001-03:2005&lt;2000-07-012012201320142018&lt;20912&lt;3452&lt;:2018-04&gt;2&lt;034v2008:2013</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - filters: 2017-032001-03:2005&lt;2000-07-012012201320142018&lt;20912&lt;3452&lt;:2018-04&gt;2&lt;034v2008:2013; is numeric: FALSE; call parents: 46</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - filters: 2017-032001-03:2005&lt;2000-07-012012201320142018&lt;20912&lt;3452&lt;:2018-04&gt;2&lt;034v2008:2013; is numeric: FALSE; call parents: 43</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table - length df: 12 content df: 2017-03, 2001-03:2005, &lt;2000-07-01, 2012, 2013, 2014, 2018&lt;, 20912, &lt;3452&lt;, :2018-04&gt;, 2&lt;034v, 2008:2013</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The date filter had invalid character (not 0-9, '-', '&lt;', '&gt;' or ':'). Those characters removed from the date filter.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> create_filter_table -  2017-03, create_filter_table -  2001-03:2005, create_filter_table -  &lt;2000-07-01, create_filter_table -  2012, create_filter_table -  2013, create_filter_table -  2014, create_filter_table -  2018&lt;, create_filter_table -  20912, create_filter_table -  &lt;3452&lt;, create_filter_table -  :2018-04&gt;, create_filter_table -  2&lt;034, create_filter_table -  2008:2013 date filter length: 12, nchar date_filter: 7,12,11,4,4,4,5,5,6,9,5,9</span>
