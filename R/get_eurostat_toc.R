@@ -19,10 +19,10 @@
 #'  \code{lastModified}\tab The date when the structure of the dataset/table was last time modified\cr
 #'  \code{dataStart}\tab The start date of the data in the dataset/table\cr
 #'  \code{dataEnd}\tab The end date of the data in the dataset/table\cr
-#'  \code{values}\tab The number of values in the dataset/table, and it is filled only if the download
-#'  \code{mode} is "xml"\cr
+#'  \code{values}\tab The number of values in the dataset/table, and it is filled only if the download \code{mode} is "xml"\cr
 #'  \code{unit}\tab The unit name for tables in the language provided by the \code{lang} parameter, for
 #'  dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
+#'  \code{source}\tab The source of the data and it is filled only if the download \code{mode} is "xml"\cr
 #'  \code{shortDescription}\tab The short description of the values for tables in the language provided by the
 #'  \code{lang} parameter, for dataset it is empty and this column exists only if the download \code{mode} is "xml"\cr
 #'  \code{metadata.html}\tab The link to the metadata in html format, and this column exists only if the
@@ -171,12 +171,12 @@ get_eurostat_toc<-function(mode="xml",
                        })
             }
             if (exists("leafs")){
-              toc<-data.table::rbindlist(leafs,fill=TRUE)[,c(1:19)]
+              toc<-data.table::rbindlist(leafs,fill=TRUE)[,-'children']
               type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attr,attr="type")))
               toc<-cbind(toc,type)
-              keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv")
+              keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("source.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv")
               toc<-toc[,keep,with=FALSE]
-              names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv")        
+              names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","source","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv")        
             }
           } 
         }

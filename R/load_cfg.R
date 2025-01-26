@@ -28,7 +28,7 @@
 #'          This configuration code sets up the parallel processing to handle large XML files efficiently. By default if there is more then 4 cores/logical processors and at least 32 GB of RAM then
 #'          4 cores are used for parallel computing. If there is more then 2 cores then 2 cores are used. This default configuration can be overwritten with \code{options(restatapi_cores=...)} or with the \code{max_cores=TRUE} parameter.
 #'          In the second case part of the computation distributed over the maximum number minus one cores. By using the \code{max_cores=TRUE} option there is a higher probability that the program will run out off memory for larger datasets.  
-#'          In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the  \href{https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&StrNom=CL_GEO&StrLanguageCode=EN&IntPcKey=42277583&IntResult=1&StrLayoutCode=HIERARCHIC}{Eurostat standard code list}
+#'          In addition, the list of country codes are loaded to the variable \code{cc} (country codes), based on the \href{https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/SCL_GEO_EUEFTACC/1.0}{Eurostat standard code list}
 #' @examples 
 #' \donttest{
 #' load_cfg(parallel=FALSE)

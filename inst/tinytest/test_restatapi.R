@@ -48,7 +48,7 @@ txt_toc<-get_eurostat_toc(mode="txt")
 t2<-system.time({get_eurostat_toc()})[3]
 expect_warning(get_eurostat_toc(mode="text")) # 1
 if (!is.null(xml_toc)){
-  expect_equal(ncol(xml_toc),13) # 2
+  expect_equal(ncol(xml_toc),14) # 2
   expect_true(exists("toc.xml.en",envir=restatapi::.restatapi_env)) # 3
   if (!is.null(txt_toc)){
     expect_equal(ncol(txt_toc),8) # 4
