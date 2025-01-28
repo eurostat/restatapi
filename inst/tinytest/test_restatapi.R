@@ -110,13 +110,13 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
 } else {not_checked<-paste(not_checked,"18-21",sep=",")}
 
 if (!is.null(xml_toc)){
-  testid3<-xml_toc$code[xml_toc$values==min(xml_toc$values)][1]
+  testid3<-xml_toc$code[xml_toc$values==min(xml_toc$values[xml_toc$values>10])][1]
   if (!is.na(testid3)){
-    expect_equal(nrow(get_eurostat_raw(testid3,verbose=FALSE)),min(xml_toc$values)) # 22
-    expect_equal(nrow(get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)),min(xml_toc$values)) # 23
+    expect_equal(nrow(get_eurostat_raw(testid3,verbose=FALSE)),min(xml_toc$values[xml_toc$values>10])) # 22
+    expect_equal(nrow(get_eurostat_raw(testid3,check_toc=TRUE,verbose=FALSE)),min(xml_toc$values[xml_toc$values>10])) # 23
     expect_message(bt1<-get_eurostat_bulk("blabla",check_toc=TRUE,verbose=FALSE)) # 24
     expect_equal(bt1,NULL) # 25
-    expect_equal(nrow(get_eurostat_data(testid3,verbose=FALSE)),min(xml_toc$values)) # 26
+    expect_equal(nrow(get_eurostat_data(testid3,verbose=FALSE)),min(xml_toc$values[xml_toc$values>10])) # 26
   }  else {not_checked<-paste(not_checked,"22-26",sep=",")}
   testid3<-xml_toc$code[is.na(xml_toc$values)&is.na(xml_toc$lastUpdate)&is.na(xml_toc$downloadLink.tsv)][1]
   # testid3<-xml_toc$code[(xml_toc$shortDescription=="")&is.na(xml_toc$metadata.html)&is.na(xml_toc$metadata.sdmx)][1]
