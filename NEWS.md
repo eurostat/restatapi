@@ -1,7 +1,8 @@
 # restatapi 0.24.2
 
 - correction of test because of the changed Table of Content
-
+- CRAN release
+- 
 # restatapi 0.24.1
 
 - correction of outdated URLs and documentation
