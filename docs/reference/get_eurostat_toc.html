@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.23.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.2</span>
       </span>
     </div>
 
@@ -105,9 +105,8 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data table with the following columns:</p><table class="table table"><tr><td><code>title</code></td><td>The name of dataset/table in the language provided by the <code>lang</code> parameter</td></tr><tr><td><code>code</code></td><td>The codename of dataset/table which can be used as <code>id</code> in other functions</td></tr><tr><td><code>type</code></td><td>The type of information: 'dataset' or 'table'</td></tr><tr><td><code>lastUpdate</code></td><td>The date when the data was last time updated for tables and datasets</td></tr><tr><td><code>lastModified</code></td><td>The date when the structure of the dataset/table was last time modified</td></tr><tr><td><code>dataStart</code></td><td>The start date of the data in the dataset/table</td></tr><tr><td><code>dataEnd</code></td><td>The end date of the data in the dataset/table</td></tr><tr><td><code>values</code></td><td>The number of values in the dataset/table, and it is filled only if the download
- <code>mode</code> is "xml"</td></tr><tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter, for
- dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the
+    <p>A data table with the following columns:</p><table class="table table"><tr><td><code>title</code></td><td>The name of dataset/table in the language provided by the <code>lang</code> parameter</td></tr><tr><td><code>code</code></td><td>The codename of dataset/table which can be used as <code>id</code> in other functions</td></tr><tr><td><code>type</code></td><td>The type of information: 'dataset' or 'table'</td></tr><tr><td><code>lastUpdate</code></td><td>The date when the data was last time updated for tables and datasets</td></tr><tr><td><code>lastModified</code></td><td>The date when the structure of the dataset/table was last time modified</td></tr><tr><td><code>dataStart</code></td><td>The start date of the data in the dataset/table</td></tr><tr><td><code>dataEnd</code></td><td>The end date of the data in the dataset/table</td></tr><tr><td><code>values</code></td><td>The number of values in the dataset/table, and it is filled only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>unit</code></td><td>The unit name for tables in the language provided by the <code>lang</code> parameter, for
+ dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>source</code></td><td>The source of the data and it is filled only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>shortDescription</code></td><td>The short description of the values for tables in the language provided by the
  <code>lang</code> parameter, for dataset it is empty and this column exists only if the download <code>mode</code> is "xml"</td></tr><tr><td><code>metadata.html</code></td><td>The link to the metadata in html format, and this column exists only if the
  download <code>mode</code> is "xml"</td></tr><tr><td><code>metadata.sdmx</code></td><td>The link to the metadata in SDMX format, and this column exists only if the
  download <code>mode</code> is "xml"</td></tr><tr><td><code>downloadLink.tsv</code></td><td>The link to the whole dataset/table in tab separated values format in the bulk
@@ -135,7 +134,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 9688</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 9299</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_xml</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 title         code    type</span>
@@ -146,14 +145,30 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:                   Financial account - monthly data  ei_bpm6fa_m   table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: International investment position - quarterly data ei_bpm6iip_q   table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:                           Consumers - monthly data    ei_bsco_m dataset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    lastUpdate lastModified dataStart dataEnd values   unit shortDescription</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;           &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2024.08.20   2024.08.20   1992-Q1 2024-Q2 277755                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2024.08.20   2024.08.20   1992-Q1 2024-Q2  49888                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2024.09.19   2024.09.19   1991-01 2024-07 231003                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2024.09.19   2024.09.19   1991-01 2024-07  76043                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2024.08.08   2024.08.08   1992-Q4 2024-Q1  61269                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2024.09.27   2024.09.27   1980-01 2024-09 283794                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    lastUpdate lastModified dataStart dataEnd values   unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2025.01.14   2025.01.14   1991-Q1 2024-Q3 285253       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2025.01.14   2025.01.14   1991-Q1 2024-Q3  51240       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2025.01.17   2025.01.17   1991-01 2024-11 235210       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2025.01.17   2025.01.17   1991-01 2024-11  77446       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2025.01.13   2025.01.13   1992-Q4 2024-Q3  63011       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2025.01.08   2025.01.08   1980-01 2024-12 287142       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  source</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                                                             Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                                                                             Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                                                                             Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                                             Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                                                                             Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: European Commission - Directorate-General for Economic and Financial Affairs (ECFIN)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    shortDescription</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                      metadata.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                             &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  https://ec.europa.eu/eurostat/cache/metadata/en/ei_bp_esms.htm</span>
