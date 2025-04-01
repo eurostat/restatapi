@@ -1,5 +1,5 @@
-pandoc: 3.6.2
+pandoc: 3.6.3
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-01-28T14:48Z
+last_built: 2025-04-01T21:08Z
