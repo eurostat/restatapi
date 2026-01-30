@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.4</span>
       </span>
     </div>
 
@@ -134,25 +134,25 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 9834</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10463</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_xml</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 title         code    type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                &lt;char&gt;       &lt;char&gt;  &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                   Current account - quarterly data  ei_bpm6ca_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                 Financial account - quarterly data  ei_bpm6fa_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                     Current account - monthly data  ei_bpm6ca_m   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                   Financial account - monthly data  ei_bpm6fa_m   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: International investment position - quarterly data ei_bpm6iip_q   table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                           Consumers - monthly data    ei_bsco_m dataset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    lastUpdate lastModified dataStart dataEnd values   unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 2025.03.05   2025.03.05   1991-Q1 2024-Q4 285360       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2025.03.05   2025.03.05   1991-Q1 2024-Q4  51254       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2025.03.21   2025.03.21   1991-01 2025-01 237342       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2025.03.21   2025.03.21   1991-01 2025-01  78148       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2025.02.05   2025.02.28   1992-Q4 2024-Q3  63128       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2025.03.28   2025.03.28   1980-01 2025-03 290070       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                    title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                      Current account - quarterly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                                    Financial account - quarterly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                                        Current account - monthly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                      Financial account - monthly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                    International investment position - quarterly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: Economic sentiment and confidence indicators by sector - monthly data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            code    type lastUpdate lastModified dataStart dataEnd values   unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;  &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.01.13   2026.01.13   1991-Q1 2025-Q3 298336       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.01.13   2026.01.12   1991-Q1 2025-Q3  52732       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.01.20   2026.01.20   1991-01 2025-11 244174       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.01.20   2026.01.20   1991-01 2025-11  82256       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.01.20   2026.01.13   1992-Q4 2025-Q3  66069       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.01.29   2026.01.29   1980-01 2026-01 139484       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  source</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                                                             Eurostat</span>
@@ -192,12 +192,26 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BPM6CA_M?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BPM6FA_M?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BPM6IIP_Q?format=tsv&amp;compressed=true</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:    https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BSCO_M?format=tsv&amp;compressed=true</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/EI_BSSI_M_R2?format=tsv&amp;compressed=true</span>
 <span class="r-in"><span><span class="va">toc_txt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_toc</span><span class="op">(</span>mode<span class="op">=</span><span class="st">"txt"</span>, lang<span class="op">=</span><span class="st">"de"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_txt</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                       title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                      &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                                 Leistungsbilanz - vierteljährliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                                              Finanzierungskonto - vierteljährliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                                                       Leistungsbilanz - monatliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                                                    Finanzierungskonto - monatliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                                         Auslandsvermögensstatus - vierteljährliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: Indikatoren der wirtschaftlichen Einschätzung und Vertrauensindikator - monatliche Daten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            code    type lastUpdate lastModified dataStart dataEnd values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;  &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.01.13   2026.01.13   1991-Q1 2025-Q3 298336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.01.13   2026.01.12   1991-Q1 2025-Q3  52732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.01.20   2026.01.20   1991-01 2025-11 244174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.01.20   2026.01.20   1991-01 2025-11  82256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.01.20   2026.01.13   1992-Q4 2025-Q3  66069</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.01.29   2026.01.29   1980-01 2026-01 139484</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -214,7 +228,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>
