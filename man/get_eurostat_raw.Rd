@@ -84,7 +84,7 @@ In case \code{melt=FALSE} the results is a data.table where the first column con
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
 }
 \details{
-Data sets are downloaded from \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} 
+Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
 in CSV, TSV or SDMX format.
 
 

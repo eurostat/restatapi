@@ -30,7 +30,7 @@
 #' @param ... further argument for the \code{\link{load_cfg}} function
 #' @export
 #' 
-#' @details Data sets are downloaded from \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} 
+#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
 #' in CSV, TSV or SDMX format.
 #' 
 #' 

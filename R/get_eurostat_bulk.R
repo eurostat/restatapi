@@ -35,7 +35,7 @@
 #' @param ... other parameter(s) to pass on the \code{\link{load_cfg}} function        
 #' @export
 #' 
-#' @details Data sets are downloaded from \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API}{the Eurostat bulk download facility} 
+#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
 #' in TSV format as in this case smaller file has to be downloaded and processed. If there is more then one frequency then
 #'  the dataset is filtered for a unique time frequency.
 #' If no frequency is selected and there are multiple frequencies in the dataset, then the most common value is used used for frequency.

@@ -1,3 +1,7 @@
+# restatapi 0.24.4
+
+- correction of links in the documentation
+
 # restatapi 0.24.3
 
 - correction to handle errors in the text version of the Table of Content

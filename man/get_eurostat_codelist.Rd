@@ -52,7 +52,7 @@ get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)
 options(timeout=60)
 }
 \references{
-For more information see the detailed documentation of the \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/API+SDMX+2.1+-+metadata+query}{API}.
+For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access}{API}.
 }
 \seealso{
 \code{\link{get_eurostat_dsd}}.
