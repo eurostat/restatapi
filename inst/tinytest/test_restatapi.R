@@ -253,7 +253,7 @@ if (!is.null(dt1)&is.data.frame(dt1)){
 #### test of the create_filter_table function
 expect_message(dft2<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013","2019-04-32","2019-02-31"),TRUE,verbose=FALSE))  # 73
 expect_message(dft3<-create_filter_table(c("2017-03","2001-03:2005","<2017-07-01",2012:2014,"2016<",20912,"<3452<",":2018-04>","2<034v","2008:2013","2019-04-32","2019-02-31"),TRUE,verbose=FALSE))  # 74
-expect_message(dft1<-create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013"),TRUE,verbose=FALSE))  # 75
+expect_message(dft1<-create_filter_table(c("2017-03","2001-03:2005","<2000-07-01",2012:2014,"2018<",20912,"<3452<",":2018-04>","2<034v","2008:2013",NA),TRUE,verbose=FALSE))  # 75
 expect_equal(ncol(dft1),ncol(dft2))  # 76
 expect_equal(ncol(dft1),2)  # 77
 expect_equal(nrow(dft1),5)  # 78
