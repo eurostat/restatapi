@@ -18,7 +18,7 @@
 #' @seealso \code{\link{get_eurostat_dsd}}.
 #' @details The codelist is downloaded from Eurostat's website, through the REST API in XML (SDMX-ML) format.
 #'  
-#' @references For more information see the detailed documentation of the \href{https://wikis.ec.europa.eu/display/EUROSTATHELP/API+SDMX+2.1+-+metadata+query}{API}. 
+#' @references For more information see the detailed documentation of the \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access}{API}. 
 #' @examples 
 #' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 #' get_eurostat_codelist("freq",lang="de",cache=FALSE,verbose=TRUE)

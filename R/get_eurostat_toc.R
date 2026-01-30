@@ -79,7 +79,7 @@ get_eurostat_toc<-function(mode="xml",
       load_cfg()
     }  
   }
-  # if (verbose)  {message("get_eurostat_toc - API version:",get("rav",envir=restatapi::.restatapi_env)," - number of cores:",getOption("restatapi_cores",1L))}
+  
   if(any(grepl("get_eurostat_bulk|get_eurostat_data|get_eurostat_raw",as.character(sys.calls()),perl=TRUE))) {update_cache<-FALSE}
   
   if ((cache) & (!update_cache)) {
@@ -104,7 +104,7 @@ get_eurostat_toc<-function(mode="xml",
                  tbc<-FALSE
                })
       if (tbc) {
-        tryCatch({toc<-data.table::fread(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE)},
+        tryCatch({toc<-data.table::fread(temp,header=TRUE,sep="\t",stringsAsFactors=FALSE,fill=Inf)},
                  error = function(e) {
                    if (verbose) {message("get_eurostat_toc - Error during the reading of the tsv version of the TOC file:",'\n',paste(unlist(e),collapse="\n"))}
                    else {message("There is an error by the reading of the downloaded txt TOC file. Run the same command with verbose=TRUE option to get more info on the issue.")}
@@ -117,8 +117,11 @@ get_eurostat_toc<-function(mode="xml",
                  })
         if (tbc) {
           if (!is.null(toc)) {
-            names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
-            toc<-toc[toc$type!="folder",]
+            cnames<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values")
+            if (ncol(toc)>8) cnames<-c(cnames,paste0("X",1:(ncol(toc)-8))) 
+            names(toc)<-cnames
+            toc$code<-sub("^\\s*","",toc$code)
+            toc<-toc[toc$type!="folder"&toc$code!="",1:8]
             toc$title<-sub("^\\s*","",toc$title)
           }
         }
