@@ -1,3 +1,7 @@
+# restatapi 0.24.5
+
+- ignore `NA` for the `date_filter` parameter in the `get_eurostat_data()` function
+
 # restatapi 0.24.4
 
 - correction of links in the documentation
