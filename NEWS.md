@@ -1,8 +1,13 @@
+# restatapi 0.24.3
+
+- correction to handle errors in the text version of the Table of Content
+- correction of test because the use of Euro in Bulgaria since 2026
+
 # restatapi 0.24.2
 
 - correction of test because of the changed Table of Content
 - CRAN release
-- 
+ 
 # restatapi 0.24.1
 
 - correction of outdated URLs and documentation
