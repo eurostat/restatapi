@@ -19,8 +19,7 @@ if (capabilities("libcurl")){
   options(restatapi_dmethod="libcurl")
 }
 
-# options(restatapi_verbose=TRUE)
-options(restatapi_log=FALSE)
+options(restatapi_verbose=TRUE)
 get("rav",envir=restatapi::.restatapi_env)
 clean_restatapi_cache()
 not_checked<-NULL

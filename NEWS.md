@@ -1,6 +1,13 @@
+# restatapi 0.25.0
+
+- additional debugging for `get_eurostat_toc()` function
+- removing possibility to log parameters
+- CRAN release
+
 # restatapi 0.24.5
 
 - ignore `NA` for the `date_filter` parameter in the `get_eurostat_data()` function
+- CRAN release
 
 # restatapi 0.24.4
 
