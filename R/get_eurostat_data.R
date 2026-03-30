@@ -206,20 +206,6 @@ get_eurostat_data <- function(id,
   if(cflags){keep_flags<-cflags}
  
   if (!(exists(".restatapi_env"))) {load_cfg()}
-  if (getOption("restatapi_log",FALSE)){
-    tryCatch({
-      params<-paste(match.call())[2:length(match.call())]
-      pnames<-names(match.call())[2:length(match.call())]
-      toeval<-sapply(params,exists,envir = parent.frame())
-      params[toeval]<-sapply(params[toeval],function(x){eval(parse(text=x),envir=parent.frame())})
-      logstr<-paste(utils::packageVersion("restatapi"),paste(paste(pnames,params,sep="%3D"),collapse="\t"),sep="\t")
-      if(verbose){message("get_eurostat_data - ",logstr)}
-      utils::download.file(paste0("https://restatapi.azurewebsites.net/restatapi.php?params=",gsub("\\s","%20",gsub("\\t","%09",utils::URLencode(logstr,TRUE)))),"resp",quiet=(!verbose))
-      unlink("resp",force=TRUE)},
-      error=function(e){},
-      warning=function(w){}
-    )  
-  }
   
   cfg<-get("cfg",envir=restatapi::.restatapi_env) 
   rav<-get("rav",envir=restatapi::.restatapi_env)

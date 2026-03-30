@@ -177,7 +177,10 @@ get_eurostat_toc<-function(mode="xml",
               toc<-data.table::rbindlist(leafs,fill=TRUE)[,-'children']
               type<-as.character(unlist(lapply(xml_leafs,xml2::xml_attr,attr="type")))
               toc<-cbind(toc,type)
+              if  (verbose) {message("get_eurostat_toc - dim toc: ",paste(dim(toc),collapse = ","),
+                                     "\nget_eurostat_toc - colnames toc: ",paste(colnames(toc),collapse = ","))}
               keep<-c(paste0("title.",lang),"code","type","lastUpdate","lastModified","dataStart","dataEnd","values",paste0("unit.",lang),paste0("source.",lang),paste0("shortDescription.",lang),"metadata.html","metadata.sdmx","downloadLink.tsv")
+              if  (verbose) {message("get_eurostat_toc - cols to keep: ",paste(keep,collapse = ","))}
               toc<-toc[,keep,with=FALSE]
               names(toc)<-c("title","code","type","lastUpdate","lastModified","dataStart","dataEnd","values","unit","source","shortDescription","metadata.html","metadata.sdmx","downloadLink.tsv")        
             }
