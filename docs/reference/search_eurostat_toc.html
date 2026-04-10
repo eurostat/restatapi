@@ -18,7 +18,7 @@ pattern in the title, units or short description."><!-- mathjax --><script src="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
       </span>
     </div>
 
@@ -106,8 +106,11 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10458</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10473</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10473,22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - colnames toc: title.en,title.fr,title.de,code,lastUpdate,lastModified,dataStart,dataEnd,values,source.en,source.fr,source.de,unit.en,unit.fr,unit.de,shortDescription.en,shortDescription.fr,shortDescription.de,metadata.sdmx,metadata.html,downloadLink.tsv,type</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - cols to keep: title.en,code,type,lastUpdate,lastModified,dataStart,dataEnd,values,unit.en,source.en,shortDescription.en,metadata.html,metadata.sdmx,downloadLink.tsv</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                title</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               &lt;char&gt;</span>
@@ -119,11 +122,11 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:                        Primary production by source of energy, ENP-East countries</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               code    type lastUpdate lastModified dataStart dataEnd values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;char&gt;  &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: enps_nrg_bal_c1 dataset 2025.05.12   2025.05.12      2005    2023    371</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   enps_nrg_pprd dataset 2025.05.12   2025.05.12      2005    2023    311</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:    enps_nrg_imp dataset 2025.05.12   2025.05.12      2005    2023    147</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:    enps_nrg_gic dataset 2025.05.12   2025.05.12      2005    2023    119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   enps_nrg_rnew dataset 2025.05.12   2025.05.12      2006    2023     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: enps_nrg_bal_c1 dataset 2026.03.05   2026.03.05      2005    2024    389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   enps_nrg_pprd dataset 2026.03.06   2026.03.06      2005    2024    514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:    enps_nrg_imp dataset 2026.03.05   2026.03.05      2005    2024    152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:    enps_nrg_gic dataset 2026.03.05   2026.03.05      2005    2024    121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   enps_nrg_rnew dataset 2026.03.05   2026.03.05      2005    2024     67</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:   enpe_nrg_pprd dataset 2026.02.03   2026.02.03      2005    2024    265</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      unit   source shortDescription</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt;   &lt;char&gt;           &lt;char&gt;</span>
@@ -163,19 +166,19 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                        title            code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                       &lt;char&gt;          &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                Energie - monatliche Daten       ei_isen_m</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                      Energiebilanz  - südliche ENP-Länder  enps_nrg_bal_c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                       Energiebilanz - südliche ENP-Länder  enps_nrg_bal_c</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:                           Endenergieverbrauch nach Sektor enps_nrg_bal_c1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: Primärproduktion nach Energiequelle - südliche ENP-Länder   enps_nrg_pprd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:   Nettoimporte von Energieprodukten - südliche ENP-Länder    enps_nrg_imp</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:       Bruttoinlandsenergieverbrauch - südliche ENP-Länder    enps_nrg_gic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       type lastUpdate lastModified dataStart dataEnd values   unit   source</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;   &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   table 2026.02.03   2026.01.21   2008-01 2025-12  92850        Eurostat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: dataset 2025.05.12   2025.05.12      2005    2023    766        Eurostat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: dataset 2025.05.12   2025.05.12      2005    2023    371        Eurostat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: dataset 2025.05.12   2025.05.12      2005    2023    311        Eurostat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: dataset 2025.05.12   2025.05.12      2005    2023    147        Eurostat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: dataset 2025.05.12   2025.05.12      2005    2023    119        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   table 2026.04.09   2026.04.09   2008-01 2026-02  94184        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: dataset 2026.03.05   2026.03.05      2005    2024    802        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: dataset 2026.03.05   2026.03.05      2005    2024    389        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: dataset 2026.03.06   2026.03.06      2005    2024    514        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: dataset 2026.03.05   2026.03.05      2005    2024    152        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: dataset 2026.03.05   2026.03.05      2005    2024    121        Eurostat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    shortDescription</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                 </span>
