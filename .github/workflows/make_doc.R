@@ -1,8 +1,8 @@
-pkgs<-c("pkgdown","devtools","rjson","xml2","data.table")
+pkgs<-c("pkgdown","devtools","rjson","xml2","data.table","pak")
 pkgs_to_install<-pkgs[!(pkgs %in% installed.packages()[,"Package"])]
 if (length(pkgs_to_install)>0) install.packages(pkgs_to_install)
 
-devtools::install_github("eurostat/restatapi")
+pak::pak("eurostat/restatapi")
 cat(getwd())
 cat(Sys.info()['release'])
 message(getwd())
