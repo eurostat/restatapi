@@ -106,10 +106,10 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10473</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10407</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10473,22</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - colnames toc: title.en,title.fr,title.de,code,lastUpdate,lastModified,dataStart,dataEnd,values,source.en,source.fr,source.de,unit.en,unit.fr,unit.de,shortDescription.en,shortDescription.fr,shortDescription.de,metadata.sdmx,metadata.html,downloadLink.tsv,type</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10407,22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - colnames toc: title.en,title.fr,title.de,code,lastUpdate,lastModified,dataStart,dataEnd,values,source.en,source.fr,source.de,unit.en,unit.fr,unit.de,shortDescription.en,shortDescription.fr,shortDescription.de,metadata.html,metadata.sdmx,downloadLink.tsv,type</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - cols to keep: title.en,code,type,lastUpdate,lastModified,dataStart,dataEnd,values,unit.en,source.en,shortDescription.en,metadata.html,metadata.sdmx,downloadLink.tsv</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                title</span>
@@ -161,7 +161,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:   https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ENPS_NRG_RNEW?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:   https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ENPE_NRG_PPRD?format=tsv&amp;compressed=true</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energy"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 120</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                        title            code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                       &lt;char&gt;          &lt;char&gt;</span>
@@ -173,7 +173,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:       Bruttoinlandsenergieverbrauch - südliche ENP-Länder    enps_nrg_gic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       type lastUpdate lastModified dataStart dataEnd values   unit   source</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;   &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   table 2026.04.09   2026.04.09   2008-01 2026-02  94184        Eurostat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   table 2026.05.10   2026.05.06   2008-01 2026-03  94812        Eurostat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: dataset 2026.03.05   2026.03.05      2005    2024    802        Eurostat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3: dataset 2026.03.05   2026.03.05      2005    2024    389        Eurostat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4: dataset 2026.03.06   2026.03.06      2005    2024    514        Eurostat</span>
@@ -212,7 +212,7 @@ pattern in the dataset title, unit or short description. E.g. all tables/dataset
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:    https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ENPS_NRG_IMP?format=tsv&amp;compressed=true</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:    https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ENPS_NRG_GIC?format=tsv&amp;compressed=true</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">search_eurostat_toc</span><span class="op">(</span><span class="st">"energie"</span>,lang<span class="op">=</span><span class="st">"de"</span>,ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 132</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 130</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
