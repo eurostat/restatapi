@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -121,7 +121,7 @@ can be removed. Default is <code>FALSE</code>. For flag values see:
 
 
 <dt id="arg-cflags">cflags<a class="anchor" aria-label="anchor" href="#arg-cflags"></a></dt>
-<dd><p>a logical value whether the missing observations with flag 'c' - "confidential"
+<dd><p>a logical value whether the missing observations with flag 'C' - "confidential"
 should be kept or not. Default is <code>FALSE</code>, in this case these observations dropped from the dataset. If this parameter
 <code>TRUE</code> then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in <code>keep_flags</code> is set to <code>TRUE</code>.</p></dd>
 
@@ -204,7 +204,7 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_raw</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      unit tra_meas         airp_pr   time values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;   &lt;fctr&gt;          &lt;fctr&gt; &lt;fctr&gt;  &lt;num&gt;</span>
@@ -226,7 +226,7 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_raw</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    milkitem dairyprod    geo   time values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;fctr&gt;    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;  &lt;num&gt;</span>
@@ -239,7 +239,7 @@ in parenthesis.</p>
 <span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects (outside of 'cfg', 'rav', 'cc' and 'dmethod') are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/Rtmp4SG6J8/restatapi is empty.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpXWgoMG/restatapi is empty.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -256,7 +256,7 @@ in parenthesis.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

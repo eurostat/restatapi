@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -134,9 +134,9 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10407</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10326</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10407,22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10326,22</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - colnames toc: title.en,title.fr,title.de,code,lastUpdate,lastModified,dataStart,dataEnd,values,source.en,source.fr,source.de,unit.en,unit.fr,unit.de,shortDescription.en,shortDescription.fr,shortDescription.de,metadata.html,metadata.sdmx,downloadLink.tsv,type</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - cols to keep: title.en,code,type,lastUpdate,lastModified,dataStart,dataEnd,values,unit.en,source.en,shortDescription.en,metadata.html,metadata.sdmx,downloadLink.tsv</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toc_xml</span><span class="op">)</span></span></span>
@@ -150,12 +150,12 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: Economic sentiment and confidence indicators by sector - monthly data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            code    type lastUpdate lastModified dataStart dataEnd values   unit</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;  &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt; &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.04.14   2026.04.15   1991-Q1 2025-Q4 308403       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.04.14   2026.04.15   1991-Q1 2025-Q4  54836       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.04.17   2026.04.17   1991-01 2026-02 252051       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.04.17   2026.04.17   1991-01 2026-02  85336       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.04.14   2026.04.15   1992-Q4 2025-Q4  68758       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.04.29   2026.04.29   1980-01 2026-04 140582       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.10.02   2026.10.02   1991-Q1 2026-Q2 314789       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.10.02   2026.10.01   1991-Q1 2026-Q2  55918       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.09.18   2026.09.18   1991-01 2026-07 260325       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.09.18   2026.09.18   1991-01 2026-07  89327       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.10.02   2026.10.02   1992-Q4 2026-Q2  70743       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.09.29   2026.09.29   1980-01 2026-09 142312       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  source</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                  &lt;char&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:                                                                             Eurostat</span>
@@ -209,12 +209,12 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: Indikatoren der wirtschaftlichen Einschätzung und Vertrauensindikator - monatliche Daten</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            code    type lastUpdate lastModified dataStart dataEnd values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;char&gt;  &lt;char&gt;     &lt;char&gt;       &lt;char&gt;    &lt;char&gt;  &lt;char&gt;  &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.04.14   2026.04.15   1991-Q1 2025-Q4 308403</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.04.14   2026.04.15   1991-Q1 2025-Q4  54836</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.04.17   2026.04.17   1991-01 2026-02 252051</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.04.17   2026.04.17   1991-01 2026-02  85336</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.04.14   2026.04.15   1992-Q4 2025-Q4  68758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.04.29   2026.04.29   1980-01 2026-04 140582</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  ei_bpm6ca_q   table 2026.10.02   2026.10.02   1991-Q1 2026-Q2 314789</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  ei_bpm6fa_q   table 2026.10.02   2026.10.01   1991-Q1 2026-Q2  55918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  ei_bpm6ca_m   table 2026.09.18   2026.09.18   1991-01 2026-07 260325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  ei_bpm6fa_m   table 2026.09.18   2026.09.18   1991-01 2026-07  89327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: ei_bpm6iip_q   table 2026.10.02   2026.10.02   1992-Q4 2026-Q2  70743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: ei_bssi_m_r2 dataset 2026.09.29   2026.09.29   1980-01 2026-09 142312</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -231,7 +231,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

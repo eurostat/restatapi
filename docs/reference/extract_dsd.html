@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -101,12 +101,12 @@ of the DSD. It is used only in the new API. The default is <code>en</code> - Eng
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"amzn|-aws|-azure "</span>,<span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">'release'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">dsd_xml</span><span class="op">&lt;-</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="va">dsd_url</span><span class="op">)</span><span class="op">}</span>, </span></span>
+<span class="r-in"><span>  <span class="va">dsd_xml</span><span class="op">&lt;-</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="va">dsd_url</span><span class="op">)</span><span class="op">}</span>,</span></span>
 <span class="r-in"><span>  error<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Unable to download the xml file.\n"</span>,<span class="va">e</span><span class="op">)</span><span class="op">}</span>, </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Unable to download the xml file.\n"</span>,<span class="va">e</span><span class="op">)</span><span class="op">}</span>,</span></span>
 <span class="r-in"><span>  warning<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Unable to download the xml file.\n"</span>,<span class="va">w</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> </span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"dsd_xml"</span><span class="op">)</span><span class="op">)</span> <span class="fu">extract_dsd</span><span class="op">(</span><span class="st">"FREQ"</span>,<span class="va">dsd_xml</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Unable to download the xml file.\n"</span>,<span class="va">w</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"dsd_xml"</span><span class="op">)</span><span class="op">)</span> <span class="fu">extract_dsd</span><span class="op">(</span><span class="st">"FREQ"</span>,<span class="va">dsd_xml</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       concept xml_clc xml_cln                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "FREQ"  "P"     "Pluri-annual"           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "FREQ"  "A"     "Annual"                 </span>
@@ -135,7 +135,7 @@ of the DSD. It is used only in the new API. The default is <code>en</code> - Eng
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

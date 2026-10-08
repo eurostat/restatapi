@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -72,6 +72,7 @@
 <span>  local_filter <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  force_local_filter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  mode <span class="op">=</span> <span class="st">"xml"</span>,</span>
+<span>  dsd_order <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -175,7 +176,7 @@ is retrieved form the TOC.</p></dd>
 <dt id="arg-local-filter">local_filter<a class="anchor" aria-label="anchor" href="#arg-local-filter"></a></dt>
 <dd><p>a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations
 than the limit per query via the API would allow to download. The default is <code>TRUE</code>, in this case if the response footer contains information
-that the result cannot be downloaded becuase it is too large, then the whole raw dataset is downloaded and filtered on the local computer.</p></dd>
+that the result cannot be downloaded because it is too large, then the whole raw dataset is downloaded and filtered on the local computer.</p></dd>
 
 
 <dt id="arg-force-local-filter">force_local_filter<a class="anchor" aria-label="anchor" href="#arg-force-local-filter"></a></dt>
@@ -185,12 +186,17 @@ but it is fully listed in the raw dataset.</p></dd>
 
 
 <dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
-<dd><p>defines the format of the dataset response from the API. It can be
-<code>csv</code> for SDMX-CSV or <code>xml</code> for the SDMX-ML version.</p></dd>
+<dd><p>defines the format of the dataset response from the API. It can be <code>csv</code> for SDMX-CSV or <code>xml</code> for the SDMX-ML version.
+This parameter is ignored if <code>force_local_filter</code> is <code>TRUE</code> as it will download first the whole dataset in TSV format.</p></dd>
+
+
+<dt id="arg-dsd-order">dsd_order<a class="anchor" aria-label="anchor" href="#arg-dsd-order"></a></dt>
+<dd><p>a boolean with default <code>FALSE</code> defines if the output column should be ordered as it is in the DSD or not as
+the order can be different if the <code>mode</code> parameter <code>csv</code> or <code>xml</code> can provide different column order. If it is <code>TRUE</code> the retrieval time is a bit longer as it needs to get the DSD and order the columns as well.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>A boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
+<dd><p>a boolean with default <code>FALSE</code>, so detailed messages (for debugging) will not printed.
 Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 
 
@@ -262,13 +268,13 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - API version:2 - number of cores:2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - Downloading https://ec.europa.eu/eurostat/api/dissemination/catalogue/toc/xml</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - class(xml_leafs): xml_nodeset</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10407</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of nodes: 10326</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - number of cores: 2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10407,22</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - dim toc: 10326,22</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - colnames toc: title.en,title.fr,title.de,code,lastUpdate,lastModified,dataStart,dataEnd,values,source.en,source.fr,source.de,unit.en,unit.fr,unit.de,shortDescription.en,shortDescription.fr,shortDescription.de,metadata.html,metadata.sdmx,downloadLink.tsv,type</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - cols to keep: title.en,code,type,lastUpdate,lastModified,dataStart,dataEnd,values,unit.en,source.en,shortDescription.en,metadata.html,metadata.sdmx,downloadLink.tsv</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached in memory ('toc.xml.en' in '.restatapi_env').</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_data - data TOC rows: 7640</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_data - data TOC rows: 7559</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 	bulk url from TOC: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/HTEC_CIS3?format=tsv&amp;compressed=true</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 	data rowcount in TOC: 1006</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_data - select_freq: </span>
@@ -279,7 +285,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_cache - The 'toc.xml.en' was loaded from 'toc.xml.en' in '.restatapi_env'.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached previously in memory ('toc.xml.en' in '.restatapi_env'). It remained unchanged.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - TOC rows: 7640</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - TOC rows: 7559</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - tsv bulk url from TOC: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/HTEC_CIS3?format=tsv&amp;compressed=true</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - ndata rowcount in TOC: 1006</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_bulk - class of id, cache, update_cache, cache_dir, compress_file, stringsAsFactors, keep_flags, check_toc, melt, verbose:</span>
@@ -291,14 +297,14 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_cache - The 'toc.xml.en' was loaded from 'toc.xml.en' in '.restatapi_env'.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_toc - The TOC was cached previously in memory ('toc.xml.en' in '.restatapi_env'). It remained unchanged.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - raws of TOC: 7640</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - raws of TOC: 7559</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - txt bulk url from TOC:https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/HTEC_CIS3?format=tsv&amp;compressed=true</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - txt bulk url from cfg:https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/htec_cis3?format=TSV&amp;compressed=true</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - data rowcount in TOC: 1006</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_raw</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_data - The data was downloaded with bulk download.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_data - bulk restat - nrow:1006; ncol:6; colnames:indic_in/nace_r1/unit/geo/time/values</span>
@@ -336,6 +342,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The file download was not successful. Try again later.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,date_filter<span class="op">=</span><span class="fl">2008</span>,keep_flags<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;geo, milkitem, dairyprod, time, values&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       geo milkitem dairyprod   time  values  flags</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;   &lt;fctr&gt;    &lt;fctr&gt; &lt;fctr&gt;   &lt;num&gt; &lt;fctr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:     AT      PRO    D1110A   2008 3195.95       </span>
@@ -355,7 +362,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Could not download the DSD. The filter is ignored</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is a warning by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
@@ -393,6 +400,10 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is a warning by the download of the XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"avia_par_me"</span>,</span></span>
 <span class="r-in"><span>                      filters<span class="op">=</span><span class="st">"Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK"</span>,</span></span>
 <span class="r-in"><span>                      date_filter<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2016-08"</span>,<span class="st">"2017-07-01"</span><span class="op">)</span>,</span></span>
@@ -405,7 +416,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">&lt;-</span><span class="fu">get_eurostat_data</span><span class="op">(</span><span class="st">"htec_cis3"</span>,</span></span>
 <span class="r-in"><span>                       filters<span class="op">=</span><span class="st">"lu"</span>,</span></span>
-<span class="r-in"><span>                       ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>                       ignore.case<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is a warning by the download of the DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - There is an error by the reading of the downloaded DSD file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Could not download the DSD. The filter is ignored</span>
@@ -428,10 +439,10 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There is an error by the reading of the downloaded XML file. Run the same command with verbose=TRUE option to get more info on the issue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Problem by the extraction of the footer information from the xml_file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 404 - No data retrived with the given filter(s)</span>
-<span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="st">"/tmp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>                                 </span></span>
+<span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span><span class="st">"/tmp"</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects (outside of 'cfg', 'rav', 'cc' and 'dmethod') are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/Rtmp4SG6J8/restatapi</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - Deleted all .rds files from /tmp; /tmp/RtmpXWgoMG/restatapi</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -448,7 +459,7 @@ If there are multiple dates which is not a continuous range, it can be put in ve
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

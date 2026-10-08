@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -129,13 +129,11 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Trying to download the DSD from: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Warning by the download of the DSD file:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> URL 'https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children': Timeout of 2 seconds was reached</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> utils::download.file(dsd_endpoint, temp, dmethod)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 1054074 - temp: /tmp/Rtmp4SG6J8/file26657c584b3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/Rtmp4SG6J8/file26657c584b3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - class(temp): character - is.na(temp): FALSE - file.size(temp): 173906 - temp: /tmp/RtmpXWgoMG/file2734e472a0d</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Trying to extract the DSD from: /tmp/RtmpXWgoMG/file2734e472a0d</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> AttValue: ' expected [40]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> read_xml.character(temp)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Couldn't find end of Start Tag Annotation line 2 [73]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_dsd - The dsd_xml is NULL. Please check in a browser the url below. If it provides valid response you can try again to download the DSD.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/datastructure/ESTAT/med_rd6?references=children</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -155,7 +153,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
