@@ -4,26 +4,18 @@
 \alias{extract_data}
 \title{Extract data values from SDMX XML}
 \usage{
-extract_data(
-  xml_lf,
-  keep_flags = FALSE,
-  stringsAsFactors = FALSE,
-  bulk = TRUE,
-  check_toc = FALSE
-)
+extract_data(xml_lf, keep_flags = FALSE, stringsAsFactors = FALSE, bulk = TRUE)
 }
 \arguments{
 \item{xml_lf}{an input XML leaf with data series from an SDMX XML file to extract the value and its dimensions from it}
 
 \item{keep_flags}{a logical value if to extract the observation status (flag) information from the XML file. The default value is \code{FALSE}}
 
-\item{stringsAsFactors}{a logical value. If \code{TRUE} the columns are converted to factors. The default is \code{FALSE}, 
+\item{stringsAsFactors}{a logical value. If \code{TRUE} the columns are converted to factors. The default is \code{FALSE},
 in this case the strings are returned as characters.}
 
-\item{bulk}{a logical value with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations. 
+\item{bulk}{a logical value with default value \code{TRUE} if the input SDMX XML file is from the bulk download facility containing all the observations.
 If the input file has pre-filtered values then the value \code{FALSE} should be used.}
-
-\item{check_toc}{if the data file was downloaded using the URL from the TOC or not. The default is FALSE means not the TOC link is used.}
 }
 \value{
 a data frame containing the values of an SDMX node: the dimensions, value and the optional flag(s)

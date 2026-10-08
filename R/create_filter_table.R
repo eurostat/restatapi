@@ -186,7 +186,7 @@ create_filter_table <- function(filters,date_filter=FALSE,dsd=NULL,exact_match=T
         }
       } else{
         concepts<-names(filters)
-        ft<-data.table::rbindlist(lapply(1:length(filters),function (x,f,d){
+        ft<-data.table::rbindlist(lapply(seq_along(filters),function (x,f,d){
           do.call(rbind,lapply(unlist(f[x]),restatapi::search_eurostat_dsd,dsd=d[toupper(d$concept)==toupper(concepts[x]),],exact_match=exact_match,...))
         },f=filters,d=dsd))
       }

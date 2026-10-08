@@ -1,7 +1,8 @@
 #' @title Load configuration data from JSON
 #' @description Load the configuration information to the '.restatapi_env' from the JSON configuration file.
 #' @param api_version  It can be either "old", "new", "test" or "current". The default value is "current" which defined by the DEFAULT_API_VERSION value of the config file.
-#' @param cfg_file The location of the config file. It can be either "github" (the default value) or "local".
+#' @param cfg_file The location of the config file. It can be either "github" (the default value), "local", or a path to a local JSON configuration file. 
+#'        If a file path is provided, the configuration is loaded from that file. If the file does not exist or cannot be parsed, the preinstalled file in the package is used.
 #' @param load_toc The default value \code{FALSE}, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 #'        cached automatically in the '.restatapi_env' when the package is loaded.
 #' @param parallel A boolean with the default value \code{TRUE}. If there are multiple cores/logical processors then part of the data 
@@ -49,17 +50,26 @@ load_cfg<-function(api_version="default",cfg_file="github",load_toc=FALSE,parall
   if (cfg_file=="github"){
     cfg_source<-"GitHub"
     tryCatch(
-      {assign("cfg",rjson::fromJSON(file="https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json"),envir=.restatapi_env)},
+      {assign("cfg",jsonlite::fromJSON("https://raw.githubusercontent.com/eurostat/restatapi/master/inst/extdata/rest_api_config.json",simplifyVector=TRUE,simplifyDataFrame=FALSE,simplifyMatrix=FALSE),envir=.restatapi_env)},
       error = function(e) 
       {if (verbose) {warning("\nload_cfg - The configuration file could not be downloaded from GitHub, the preinstalled file in the package is used.")}
-        assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
-        cfg_source<-"the file installed locally"})
+        assign("cfg",jsonlite::fromJSON(system.file("extdata","rest_api_config.json",package="restatapi"),simplifyVector=TRUE,simplifyDataFrame=FALSE,simplifyMatrix=FALSE),envir=.restatapi_env)
+        cfg_source<<-"the file installed locally"})
   } else if (cfg_file=="local"){
     if (verbose) {message("\nload_cfg - The preinstalled file in the package is used.")}
-    assign("cfg",rjson::fromJSON(file=system.file("extdata","rest_api_config.json",package="restatapi")),envir=.restatapi_env)
+    assign("cfg",jsonlite::fromJSON(system.file("extdata","rest_api_config.json",package="restatapi"),simplifyVector=TRUE,simplifyDataFrame=FALSE,simplifyMatrix=FALSE),envir=.restatapi_env)
     cfg_source<-"the file installed locally"
+  } else if (file.exists(cfg_file)){
+    cfg_source<-paste0("the file '",cfg_file,"'")
+    tryCatch(
+      {assign("cfg",jsonlite::fromJSON(cfg_file,simplifyVector=TRUE,simplifyDataFrame=FALSE,simplifyMatrix=FALSE),envir=.restatapi_env)
+        if (verbose) {message("\nload_cfg - The configuration file '",cfg_file,"' is used.")}},
+      error = function(e) 
+      {if (verbose) {warning("\nload_cfg - The configuration file '",cfg_file,"' could not be parsed, the preinstalled file in the package is used.")}
+        assign("cfg",jsonlite::fromJSON(system.file("extdata","rest_api_config.json",package="restatapi"),simplifyVector=TRUE,simplifyDataFrame=FALSE,simplifyMatrix=FALSE),envir=.restatapi_env)
+        cfg_source<<-"the file installed locally"})
   } else {
-    message('Incorrect value for the cfg_file parameter. It should take the value either "github" or "local".')
+    message('Incorrect value for the cfg_file parameter. It should take the value either "github", "local", or a path to an existing JSON configuration file.')
     tbc<-FALSE
   }
   if (tbc) {

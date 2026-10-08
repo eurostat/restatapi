@@ -22,11 +22,8 @@ An R package to search and retrieve data from Eurostat database using SDMX
 install.packages("restatapi")
 ```
 
-or use the development version from GitHub
+or use the development version from GitHub.
 
-```R
-remotes::install_github("eurostat/restatapi")
-```
 
 ## background
 This package is similar to other packages like the [eurodata](https://cran.r-project.org/package=eurodata), [eurostat](https://cran.r-project.org/package=eurostat), [rdbnomics](https://cran.r-project.org/package=rdbnomics), [RJSDMX](https://cran.r-project.org/package=RJSDMX) or [TSsdmx](https://cran.r-project.org/package=TSsdmx) which can be used to download data from Eurostat database. The difference is that `restatapi` is based on SDMX (Statistical Data and Metadata eXchange) and XML to search and retrieve filtered datasets and use the TSV (tab separated values) bulk download facility to get whole data tables. The code was written in a way that the number of dependencies on other packages should be very small. The `restatapi` package provides flexible filtering options, data caching, and uses the `parallel` and `data.table` package to handle large dataset in an efficient way.  
@@ -101,16 +98,16 @@ Finally, download only the quarterly data (`select_freq="Q"`) for several time p
 Before 2022, in the old dissemination chain the value was assigned to *the first day* of the month, quarter and year, so it was enough to filter for one day to get the value for the whole period. Under the current API the value belongs to the full period. If a date range does not cover the whole period no value is returned. For example, to get the value of the whole quarter the date filter should start at least on the first date of the quarter and end at least on the last day of the quarter. With exact numerical example to get the value for 2022/Q3, the `startDate` should be 2022-07-01 or earlier and the `endDate` should be 2022-09-30 or later. In the old version of the API it was enough if the period included the day 2022-07-01 only. 
 
 ```R
-dt<-get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
-dt<-get_eurostat_data("avia_par_me",
+get_eurostat_data("avia_par_me",select_freq="A",cache=FALSE)
+get_eurostat_data("avia_par_me",
                        filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",
                        date_filter=c("2016-08","2017-07-01"),
                        select_freq="M") 
-dt<-get_eurostat_data("avia_par_me",
+get_eurostat_data("avia_par_me",
                        filters=c("HU","Quarterly","Monthly"),
                        date_filter=c("2016-08","2014-03-01"),
                        label=TRUE)
-dt<-get_eurostat_data("avia_par_me",
+get_eurostat_data("avia_par_me",
                        filters="HU",
                        exact_match=FALSE,
                        date_filter=c("2017-03",2016,"2017-07-01",2012:2014),
@@ -120,40 +117,31 @@ dt<-get_eurostat_data("avia_par_me",
                        name=FALSE)
 ```
 
-**Example 7:** Download from the Time Use Survey (TUS) data (`tus_00age`) for 2010 (`date_filter=2010`) in Hungary how much time spent with travel on average. If someone does not know the exact codes then the filter patterns (`filters=c("total","time spent","HU",'travel')`) can be searched in the labels (`label=TRUE`) non case sensitive (`ignore.case=TRUE`) without forcing exact match of the patterns (`exact_match=FALSE`). The first function call will result an empty data table as the SDMX webservice will provide NaN (Not a Number) response for the time values (hh:mm). But these values are included in the bulk download files, and can be retrieved by forcing the filtering on the local computer (`force_local_filter=TRUE`). Then the retrieved values can be summed using the [chron](https://cran.r-project.org/package=chron) package.
+**Example 7:** Download from the Time Use Survey (TUS) data (`tus_00age`) for 2010 (`date_filter=2010`) in Hungary how much time spent with travel on average. If someone does not know the exact codes then the filter patterns (`filters=c("total","time spent","HU",'travel')`) can be searched in the labels (`label=TRUE`) non case sensitive (`ignore.case=TRUE`) without forcing exact match of the patterns (`exact_match=FALSE`). 
 
 ```R
-dt<-get_eurostat_data("tus_00age",
+get_eurostat_data("tus_00age",
                        filters=c("HU","total","time spent",'travel'),
                        date_filter=2010,
                        exact_match=FALSE,
                        ignore.case=TRUE,
                        label=TRUE)
-dt<-get_eurostat_data("tus_00age",
-                       filters=c("HU","total","time spent",'travel'),
-                       date_filter=2010,
-                       force_local_filter=TRUE,
-                       exact_match=FALSE,
-                       ignore.case=TRUE,
-                       label=TRUE)
-dt
-dt[acl00!="Total",sum(chron::times(paste0(values,":00")))]                       
 ```
 
 **Example 8:** Download the data on the production of cow's milk on farms by NUTS 2 regions (`agr_r_milkpr`) first only for the new Member States joined in 2004 and keeping only the period between March 2009 and 5 June 2011 (`date_filter="2009-03:2011-06-05"`). The country code of the member states can be loaded from the `.restatapi env` (`eu<-get("cc",envir=.restatapi_env)`) and it can be used in the query (`filters=eu$NMS10`). Then get all the data for Belgium for all [NUTS](https://ec.europa.eu/eurostat/en/web/products-manuals-and-guidelines/-/ks-gq-20-092) level from the same data set before July 2009 (`date_filter="<2009-07"`) with the labels (`label=TRUE`) and the observation status (so called *flags*) information (`flags=TRUE`). In this case for filter (`filters="BE"`) the exact matching of pattern should be turned off (`exact_match=FALSE`) to get not just at country (NUTS0) level. Finally, get the data at for Hungary at NUTS2 level after 19 May 2017 (`date_filter="2017-05-19<`) and keeping the lines which were removed due to confidentiality (`cflags=TRUE`). For this we do not have to know the exact code, name or number of the NUTS2 regions as we can provide regular expression in the filter (`filters=c("^HU..")`) and providing the option that the expression is Perl compatible (`perl=TRUE`).    
 
 ```R
 eu<-get("cc",envir=.restatapi_env)
-dt<-get_eurostat_data("agr_r_milkpr",
+get_eurostat_data("agr_r_milkpr",
                        filters=eu$NMS10,
                        date_filter="2009-03:2011-06-05")
-dt<-get_eurostat_data("agr_r_milkpr",
+get_eurostat_data("agr_r_milkpr",
                       filters="BE",
                       date_filter="<2009-07",
                       keep_flags=TRUE,
                       exact_match=FALSE,
                       label=TRUE)
-dt<-get_eurostat_data("agr_r_milkpr",
+get_eurostat_data("agr_r_milkpr",
                        filters=c("^HU.."),
                        date_filter="2017-05-19<",
                        cflags=TRUE,
@@ -164,7 +152,7 @@ dt<-get_eurostat_data("agr_r_milkpr",
 **Example 9:** Download the balance (`stk_flow="BAL"`) from the international trade in services dataset (`bop_its6_det`) for 2020 (`date_filter=2020`), transport services (`bop_item="SC"`), with reporting countries Hungary and the EU (`geo=c("EU27_2020","HU")`) and trading partner outside EU (`partner="EXT_EU27_2020"`). In order to avoid that Hungary shows up in the partner countries the filter should be defined as a named list (`filters=list(bop_item="SC",partner="EXT_EU27_2020",geo=c("EU27_2020","HU"),stk_flow="BAL")`) and do not search for the terms in the labels (`name=FALSE`). In this case the filter patterns only searched where the concept equals to the name.  
 
 ```R
-dt<-get_eurostat_data("bop_its6_det",
+get_eurostat_data("bop_its6_det",
                        filters=list(bop_item="SC",
                                     partner="EXT_EU27_2020",
                                     geo=c("EU27_2020","HU"),

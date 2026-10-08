@@ -71,11 +71,11 @@ get_eurostat_codelist <- function(id,
           message("\nget_eurostat_codelist - Trying to download the codelist from: ",cls_endpoint)
           tryCatch({utils::download.file(cls_endpoint,temp,dmethod)},
                    error = function(e) {
-                     message("get_eurostat_codelist - Error by the download of the codelist file:",'\n',paste(unlist(e),collapse="\n"))
+                     message("get_eurostat_codelist - Error by the download of the codelist file:",'\n',conditionMessage(e))
                      cls_xml<-NULL
                    },
                    warning = function(w) {
-                     message("get_eurostat_codelist - Warning by the download of the codelist file:",'\n',paste(unlist(w),collapse="\n"))
+                     message("get_eurostat_codelist - Warning by the download of the codelist file:",'\n',conditionMessage(w))
                      tbc<-FALSE
                      cls_xml<-NULL
                    })
@@ -84,11 +84,11 @@ get_eurostat_codelist <- function(id,
             message("Trying to extract the codelist from: ",temp)
             tryCatch({cls_xml<-xml2::read_xml(temp)},
                      error = function(e) {
-                       message("get_eurostat_codelist - Error during the extraction of the XML from the downloaded codelist file:",'\n',paste(unlist(e),collapse="\n"))
+                       message("get_eurostat_codelist - Error during the extraction of the XML from the downloaded codelist file:",'\n',conditionMessage(e))
                        cls_xml<-NULL
                      },
                      warning = function(w) {
-                       message("get_eurostat_codelist - There is warning by the extraction of the XML from the downloaded codelist file:",'\n',paste(unlist(w),collapse="\n"))
+                       message("get_eurostat_codelist - There is warning by the extraction of the XML from the downloaded codelist file:",'\n',conditionMessage(w))
                        cls_xml<-NULL
                      })
           } else {

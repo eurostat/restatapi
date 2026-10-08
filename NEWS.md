@@ -1,3 +1,17 @@
+# restatapi 0.30.0
+
+Major revision of the package including:
+- replaced the `rjson` package with `jsonlite` for parsing the configuration file
+- removed the `chron`, `remotes`, `knitr` and `rmarkdown` packages from the suggested dependencies
+- shortened the verbose debug messages so they no longer include the source code of functions from the call stack
+- fixed the `get_eurostat_data()` function so that the `mode="csv"` and `mode="xml"` downloads return the same result: the empty `CONF_STATUS` column is dropped and a non-empty value is added into the `flags` column
+- aligned the `CONF_STATUS`/flag handling in the `get_eurostat_bulk()` function with the `get_eurostat_data()` function, folding the `CONF_STATUS` value into the `flags` column
+- the `extract_data()` function now also extracts the `CONF_STATUS` value from the XML so the confidentiality information is available in the `flags` column
+- added regression tests checking the `mode="csv"`/`mode="xml"` parity for datasets with  the `CONF_STATUS` column
+- new `dsd_order` parameter in the `get_eurostat_data()` function to have a standard order of columns independently from the download mode
+- `load_cfg()` now accepts a path to a local JSON configuration file in the `cfg_file` parameter
+- removal of the `check_toc` option from the `extract_data()` function as the TOC does not have the link anymore to the XML format 
+
 # restatapi 0.25.0
 
 - additional debugging for `get_eurostat_toc()` function

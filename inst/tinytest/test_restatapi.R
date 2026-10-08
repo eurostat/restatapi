@@ -9,7 +9,7 @@ if (parallel::detectCores()<=2){
   options(restatapi_cores=1)
 }else{
   options(restatapi_cores=2)
-}  
+}
 
 if (Sys.info()[['sysname']]=='Windows'){
   options(restatapi_cores=1)
@@ -37,6 +37,11 @@ testid10<-"bop_its6_det"
 testid11<-"nrg_pc_206_h"
 testid12<-"ei_bsfs_q"
 testid13<-"avia_par_mk"
+# datasets exercising the CONF_STATUS handling in the SDMX-CSV download (xml vs csv parity):
+testid14<-"hsw_ac1"        # confidential rows also carry 'b' and 'd' flags (b@C, d@C); no plain-empty confidential row
+testid15<-"apro_mk_strmk"  # a few confidential rows keep a non-empty OBS_VALUE (data anomaly)
+testid16<-"tag00043"       # small dataset, confidential rows also carry a 'b' (break) flag
+testid17<-"hsw_ac12"       # small dataset, confidential rows also carry a 'd' (definition differs) flag
 
 
 #### CRAN tests
@@ -54,7 +59,7 @@ if (!is.null(xml_toc)){
     expect_equal(nrow(xml_toc),nrow(txt_toc)) # 5
     expect_true(exists("toc.txt.en",envir=restatapi::.restatapi_env)) # 6
     expect_true(t2<t1) # 7
-  } else {not_checked<-paste(not_checked,"4-7",sep=",")} 
+  } else {not_checked<-paste(not_checked,"4-7",sep=",")}
 } else {not_checked<-paste(not_checked,"2-7",sep=",")}
 
 #### test of the search_eurostat_toc function
@@ -75,7 +80,7 @@ if (!is.null(dsd)){
   expect_true(data.table::is.data.table(dsd)) # 11
   expect_equal(ncol(dsd),3) # 12
   expect_true(exists(paste0(testid1,".en.dsd"),envir=restatapi::.restatapi_env)) # 13
-} else {not_checked<-paste(not_checked,"11-13",sep=",")} 
+} else {not_checked<-paste(not_checked,"11-13",sep=",")}
 
 #### test of the search_eurostat_dsd function
 eu<-get("cc",envir=restatapi::.restatapi_env)
@@ -85,7 +90,7 @@ if (!is.null(xml_toc)){
     expect_message(search_eurostat_dsd(dsd,pattern)) # 14
     expect_equal(search_eurostat_dsd("blabla",dsd),NULL) # 15
     expect_equal(ncol(search_eurostat_dsd(pattern,dsd)),4)  # 16
-    expect_message(search_eurostat_dsd(eu$NMS2,dsd)) # 17 
+    expect_message(search_eurostat_dsd(eu$NMS2,dsd)) # 17
   } else {not_checked<-paste(not_checked,"14-17",sep=",")}
 } else {not_checked<-paste(not_checked,"14-17",sep=",")}
 
@@ -100,9 +105,9 @@ if (!is.null(dt1)&is.data.frame(dt1)&!is.null(dt2)&is.data.frame(dt2)){
     if (testid2 %in% xml_toc$code){
       if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid2]))){
         expect_equal(nrow(dt1),as.numeric(xml_toc$values[xml_toc$code==testid2])) # 18
-      } else {not_checked<-paste(not_checked,"18",sep=",")} 
+      } else {not_checked<-paste(not_checked,"18",sep=",")}
     } else {not_checked<-paste(not_checked,"18",sep=",")}
-  } else {not_checked<-paste(not_checked,"18",sep=",")} 
+  } else {not_checked<-paste(not_checked,"18",sep=",")}
   expect_equal(nc2+1,nc1) # 19
   expect_true(all(is.numeric(dt1$values))) # 20
   expect_true(all(is.numeric(dt2$values)))  # 21
@@ -127,7 +132,7 @@ if (!is.null(xml_toc)){
 } else {not_checked<-paste(not_checked,"22-29",sep=",")}
 
 rt3<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
-bt2<-get_eurostat_data(testid4,keep_flags=TRUE,stringsAsFactors=FALSE)
+bt2<-get_eurostat_bulk(testid4,keep_flags=TRUE,stringsAsFactors=FALSE)
 dt4<-get_eurostat_data(testid4,date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
 if (!is.null(bt2)&!is.null(dt4)){
   expect_true(all.equal(bt2[time==2008,],dt4,check.attributes=FALSE,ignore.row.order=TRUE,ignore.col.order=TRUE)) # 30
@@ -148,7 +153,7 @@ if (!is.null(bt3)&!is.null(bt4)){
 } else {not_checked<-paste(not_checked,"32",sep=",")}
 if (!is.null(rt4)&!is.null(rt5)){
   expect_true(nrow(rt4)==nrow(rt5)) # 33
-  expect_true(ncol(rt4)+1==ncol(rt5)) # 34
+  expect_true(ncol(rt4)+2==ncol(rt5)) # 34
 } else {not_checked<-paste(not_checked,"33-34",sep=",")}
 
 #### test of filtering in the get_eurostat_data function
@@ -172,9 +177,9 @@ if (!is.null(dt9)&is.data.frame(dt9)&!is.null(xml_toc)){
   if (testid4 %in% xml_toc$code) {
     if (!is.na(as.numeric(xml_toc$values[xml_toc$code==testid4]))){
       expect_equal(nrow(dt9[!is.na(values)]),as.numeric(xml_toc$values[xml_toc$code==testid4])) # 44
-    } else {not_checked<-paste(not_checked,"44",sep=",")}  
+    } else {not_checked<-paste(not_checked,"44",sep=",")}
   } else {not_checked<-paste(not_checked,"44",sep=",")}
-} else {not_checked<-paste(not_checked,"44",sep=",")} 
+} else {not_checked<-paste(not_checked,"44",sep=",")}
 dsd1<-get_eurostat_dsd(testid4)
 if (!is.null(dsd1)&is.data.frame(dsd1)){
   dt10<-get_eurostat_data(testid4,filters="AT",verbose=FALSE)
@@ -192,7 +197,7 @@ if (!is.null(dsd1)&is.data.frame(dsd1)){
   if (!is.null(nr3)&!is.null(dt10)){
     expect_true(nr3>nrow(dt10)) # 48
   } else {not_checked<-paste(not_checked,"48",sep=",")}
-} else {not_checked<-paste(not_checked,"45-48",sep=",")} 
+} else {not_checked<-paste(not_checked,"45-48",sep=",")}
 
 #### test of the get/put_eurostat_cache function
 dsd2<-get_eurostat_dsd(testid6,lang="de")
@@ -225,7 +230,7 @@ if (!is.null(bt2)&is.data.frame(bt2)){
   expect_true(exists(paste0("b_",testid4,"-",udate,"-1-0"),envir=restatapi::.restatapi_env))  # 60
   expect_true(exists(paste0("b_",testid4,"-",udate,"-1-1"),envir=restatapi::.restatapi_env))  # 61
   expect_false(any(sapply(bt2,is.factor)))  # 62
-} else {not_checked<-paste(not_checked,"59-62",sep=",")} 
+} else {not_checked<-paste(not_checked,"59-62",sep=",")}
 if (!is.null(dt2)&is.data.frame(dt2)){
   expect_true(exists(paste0("b_",testid2,"-",udate,"-0-0"),envir=restatapi::.restatapi_env))  # 63
   expect_false(any(sapply(dt2,is.factor)))  # 64
@@ -295,16 +300,16 @@ message("\n","Are we at home:",at_home())
 
 
 if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
-  
+
   #### additional test of the get_eurostat_dsd function
   expect_true(system.time({get_eurostat_dsd(testid1)})[3]<system.time({get_eurostat_dsd(testid1,update_cache=TRUE,parallel=FALSE,api_version=api_version)})[3]) # a0
-  
+
   #### additional test of the search_eurostat_dsd function
   expect_equal(nrow(search_eurostat_dsd(pattern,dsd,ignore.case=TRUE)),20) # a1
   expect_equal(nrow(search_eurostat_dsd(pattern,dsd)),15)  # a2
   expect_equal(nrow(do.call(rbind,lapply(c(eu$EU15,eu$EA19),search_eurostat_dsd,dsd=dsd,name=FALSE,exact_match=TRUE))),34) # a3
   expect_equal(nrow(do.call(rbind,lapply(eu$NMS2,search_eurostat_dsd,dsd=dsd,exact_match=TRUE,ignore.case=TRUE))),2) # a4
-  
+
   #### additional test of filtering in the get_eurostat_data function
   nr4<-nrow(get_eurostat_data(testid4,filters="BE$",date_filter="2006-02:2008-06-05",label=TRUE))
   if (!is.null(nr4)){
@@ -313,7 +318,7 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   nr5<-nrow(get_eurostat_data(testid4,filters="BE",date_filter="<2008",cflags=TRUE))
   if (!is.null(nr5)){
     expect_equal(nr5,11) # a6
-  } else {not_checked<-paste(not_checked,"a6",sep=",")} 
+  } else {not_checked<-paste(not_checked,"a6",sep=",")}
   nr6<-nrow(get_eurostat_data(testid6,filters="Q...ME_LYPG_HU_LHBP+ME_LYTV_UA_UKKK",date_filter=c("2017-07-01:2017-09-30"),select_freq="M",cflags=TRUE))
   if (!is.null(nr6)){
     expect_equal(nr6,96) # a7
@@ -349,7 +354,7 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
         expect_true(any(sapply(dt7,is.factor))) # a14
       } else {not_checked<-paste(not_checked,"a13-a14",sep=",")}
     } else {not_checked<-paste(not_checked,"a12-a14",sep=",")}
-    if (!is.null(dt6)){ 
+    if (!is.null(dt6)){
       expect_false(any(sapply(dt6,is.factor))) # a15
     } else {not_checked<-paste(not_checked,"a15",sep=",")}
     expect_message(dt8<-get_eurostat_data(testid6,filters="BE$",date_filter=c("2017-03",2016,"2017-07-01:2017-09-30",2012:2014),select_freq="Q",label=TRUE,verbose=FALSE,name=FALSE))  # a16 faultcode 150
@@ -387,18 +392,18 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   if (!is.null(nr13)){
     expect_equal(nr13,252) # a23
   } else {not_checked<-paste(not_checked,"a23",sep=",")}
-  
+
   #### additional test of the create_filter_table function
-  dsd<-get_eurostat_dsd(testid6) 
+  dsd<-get_eurostat_dsd(testid6)
   if (!is.null(dsd)){
     ft1<-create_filter_table(c("KYIV","DE","Quarterly"),dsd=dsd,exact_match=FALSE,name=FALSE)
-    ft2<-create_filter_table(c("flight","Monthly"),dsd=dsd,exact_match=TRUE,name=TRUE,ignore.case=TRUE)  
+    ft2<-create_filter_table(c("flight","Monthly"),dsd=dsd,exact_match=TRUE,name=TRUE,ignore.case=TRUE)
     expect_equal(ncol(ft1),ncol(ft2)) # a24
     expect_equal(nrow(ft1),11)  # a25
     expect_equal(nrow(ft2),2)  # a26
     expect_equal(ncol(ft1),4) # a27
   } else {not_checked<-paste(not_checked,"a24-a27",sep=",")}
-  
+
   #### additional test of the filter_raw_data function
   rd<-get_eurostat_raw(testid7)
   dsd<-get_eurostat_dsd(testid7)
@@ -415,12 +420,12 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
     expect_equal(nrow(ft),1) # a30
     expect_equal(nrow(frd),9316) # a31
   } else {not_checked<-paste(not_checked,"a30-a31",sep=",")}
-  
+
   #### additional test of the get_eurostat_codelist function
   if (!is.null(cl)){
-    expect_equal(nrow(cl),7) # a32
+    expect_equal(nrow(cl),8) # a32
   } else {not_checked<-paste(not_checked,"a32",sep=",")}
-  
+
   #### additional test of the get_eurostat_raw/bulk function
   clean_restatapi_cache(tempdir(),verbose=FALSE)
   rt1<-system.time(raw_txt<-get_eurostat_raw(testid6,"txt"))[3]
@@ -456,20 +461,6 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
     data.table::setorder(bulk2)
     expect_true(identical(bulk1,bulk2)) # a43
   } else {not_checked<-paste(not_checked,"a43",sep=",")}
-  # clean_restatapi_cache()
-  # raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE)
-  # bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE)
-  # raw2<-get_eurostat_raw(testid4,mode="xml",keep_flags=TRUE,stringsAsFactors=FALSE,update_cache=TRUE)
-  # bulk2<-get_eurostat_bulk(testid4)
-  # if (!is.null(bulk1)&!is.null(bulk2)){
-  #   kc<-colnames(bulk1)
-  #   bulk1<-bulk1[,..kc]
-  #   bulk1<-bulk2[,..kc]
-  #   data.table::setorder(bulk1)
-  #   data.table::setorder(bulk2)
-  #   message("\n ########--------- 120 additional tests for the get_eurostat_raw/bulk function")
-  #   expect_true(identical(bulk1,bulk2))
-  # } else {not_checked<-paste(not_checked,"120",sep=",")}
   clean_restatapi_cache()
   raw1<-get_eurostat_raw(testid4,keep_flags=TRUE,update_cache=TRUE)
   bulk1<-get_eurostat_bulk(testid4,check_toc=TRUE,stringsAsFactors=FALSE)
@@ -548,7 +539,8 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
   dt4<-system.time(suppressMessages(estat_data4<-get_eurostat_data(testid13,stringsAsFactors=FALSE)))[3]
   rt4<-system.time(raw4<-get_eurostat_raw(testid13,"xml",keep_flags=TRUE))[3]
   bt2<-system.time(suppressMessages(bulk2<-get_eurostat_bulk(testid13,keep_flags=TRUE,verbose=FALSE)))[3]
-  if (!is.null(raw1)&is.data.frame(raw1)&!is.null(raw2)&is.data.frame(raw2)&!is.null(raw3)&is.data.frame(raw3)&!is.null(raw4)&is.data.frame(raw4)&!is.null(bulk1)&is.data.frame(bulk1)&!is.null(bulk2)&is.data.frame(bulk2)&!is.null(estat_data1)&is.data.frame(estat_data1)&!is.null(estat_data2)&is.data.frame(estat_data2)&!is.null(estat_data3)&is.data.frame(estat_data3)&!is.null(estat_data4)&is.data.frame(estat_data4)){
+  if (all(vapply(list(raw1,raw2,raw3,raw4,bulk1,bulk2,estat_data1,estat_data2,estat_data3,estat_data4),
+                 function(x) !is.null(x)&is.data.frame(x),logical(1)))){
     kc<-colnames(bulk1)[1:(ncol(bulk1)-1)]
     data.table::setorderv(bulk1,kc)
     data.table::setorderv(estat_data2,kc)
@@ -587,20 +579,72 @@ if (grepl("\\.amzn|-aws|5.4.109+|-azure ",Sys.info()['release'])) {
     expect_equal(nrow(estat_data4),nrow(bulk2)) # a79
     expect_true(nrow(raw4)>nrow(estat_data4)) # a80
   } else {not_checked<-paste(not_checked,"a50-a80",sep=",")}
-  if (tolower(testid1) %in% xml_toc$code) expect_true(!is.null(get_eurostat_data(testid1,update_cache=TRUE,check_toc=TRUE))) #a81
-  
-}
 
-fr_txt_toc<-get_eurostat_toc(mode="txt",lang="fr")
-de_txt_toc<-get_eurostat_toc(mode="txt",lang="de")
-if (!is.null(fr_txt_toc)&!is.null(de_txt_toc)){
-  expect_true(nrow(fr_txt_toc)==nrow(de_txt_toc)) #a82
-} 
+  if (tolower(testid1) %in% xml_toc$code) {
+    expect_true(!is.null(get_eurostat_data(testid1,update_cache=TRUE,check_toc=TRUE))) #a81
+  } else {not_checked<-paste(not_checked,"a81",sep=",")}
 
-dt1<-get_eurostat_data("agr_r_milkpr",filters=c("BE$","Ungarn"),lang="de",date_filter="2007-06<", keep_flags=TRUE)
-dt2<-get_eurostat_data("agr_r_milkpr",filters=c("BE$","Hungary"),date_filter="2007-06<", keep_flags=TRUE)
-if (!is.null(dt1)&!is.null(dt2)){
-  expect_true(nrow(dt1)==nrow(dt2)) #a83
+  fr_txt_toc<-get_eurostat_toc(mode="txt",lang="fr")
+  de_txt_toc<-get_eurostat_toc(mode="txt",lang="de")
+  if (!is.null(fr_txt_toc)&!is.null(de_txt_toc)){
+    expect_true(nrow(fr_txt_toc)==nrow(de_txt_toc)) #a82
+  } else {not_checked<-paste(not_checked,"a82",sep=",")}
+
+  dt1<-get_eurostat_data(testid4,filters=c("BE$","Ungarn"),lang="de",date_filter="2007-06<", keep_flags=TRUE)
+  dt2<-get_eurostat_data(testid4,filters=c("BE$","Hungary"),date_filter="2007-06<", keep_flags=TRUE)
+  if (!is.null(dt1)&!is.null(dt2)){
+    expect_true(nrow(dt1)==nrow(dt2)) #a83
+    # the German ('Ungarn') and English ('Hungary') filters must return the same data, not only the same number of rows
+    expect_true(all.equal(dt1,dt2,check.attributes=FALSE)) #a84
+  } else {not_checked<-paste(not_checked,"a83-a84",sep=",")}
+
+  rx1<-get_eurostat_raw(testid14,mode="xml",keep_flags=TRUE)
+  rc1<-get_eurostat_raw(testid14,mode="csv",keep_flags=TRUE)
+  rt1<-get_eurostat_raw(testid14,mode="txt",keep_flags=TRUE)
+  if (!is.null(rx1)&!is.null(rc1)&!is.null(rt1)){
+    expect_true(nrow(rx1)==nrow(rc1)) #a85
+    expect_true(nrow(rt1)==nrow(rc1)) #a86
+    expect_true(ncol(rx1)==ncol(rc1)) #a87
+    expect_true(ncol(rt1)==ncol(rc1)) #a88
+  } else {not_checked<-paste(not_checked,"a85-a88",sep=",")}
+
+  b1k<-get_eurostat_bulk(testid15,keep_flags=TRUE)
+  b1c<-get_eurostat_bulk(testid15,cflags=TRUE)
+  b1ck<-get_eurostat_bulk(testid15,keep_flags=FALSE,cflags=TRUE)
+
+  if (!is.null(b1c)&!is.null(b1k)&!is.null(b1ck)){
+    expect_true(nrow(b1c)==nrow(b1ck)) #a89
+    expect_true(nrow(b1k)<nrow(b1c)) #a90
+    expect_true(ncol(b1k)==ncol(b1c)) #a91
+    expect_true(all.equal(colnames(b1c),colnames(b1ck))) #a92
+  } else {not_checked<-paste(not_checked,"a89-a92",sep=",")}
+
+  d1xk<-get_eurostat_data(testid16,keep_flags=TRUE,filters="Austria",date_filter=">2017",mode="xml")
+  d1ck<-get_eurostat_data(testid16,keep_flags=TRUE,filters="Austria",date_filter=">2017",mode="csv")
+  d1xc<-get_eurostat_data(testid16,cflags=TRUE,filters="Austria",date_filter=">2017",mode="xml",dsd_order=TRUE,label=TRUE)
+  d1cc<-get_eurostat_data(testid16,cflags=TRUE,filters="Austria",date_filter=">2017",mode="csv",dsd_order=TRUE)
+  d1cf<-get_eurostat_data(testid16,cflags=TRUE,filters="Austria",date_filter=">2017",force_local_filter=TRUE)
+  d1kf<-get_eurostat_data(testid16,keep_flags=TRUE,filters="Austria",date_filter=">2017",force_local_filter=TRUE)
+
+  if (!is.null(d1xk)&!is.null(d1ck)&!is.null(b1ck)&!is.null(d1cc)&!is.null(d1cf)&!is.null(d1kf)){
+    expect_true(length(unique(ncol(d1xk),ncol(d1ck),ncol(d1xc),ncol(d1cc),ncol(d1cf),ncol(d1kf)))==1) #a93
+    expect_true(length(unique(nrow(d1xk),nrow(d1ck),nrow(d1kf)))==1) #a94
+    expect_true(length(unique(nrow(d1xc),nrow(d1cc),nrow(d1cf)))==1) #a95
+    expect_true(nrow(d1xk)<nrow(d1cf)) #a96
+  } else {not_checked<-paste(not_checked,"a94-a96",sep=",")}
+
+  clean_restatapi_cache()
+  rt<-get_eurostat_raw(testid4,mode="xml",stringsAsFactors=TRUE,keep_flags=TRUE)
+  dt<-get_eurostat_data(testid4,keep_flags=TRUE,stringsAsFactors=FALSE)
+  dtf<-get_eurostat_data(testid4,date_filter=2008,keep_flags=TRUE,stringsAsFactors=FALSE)
+  if (!is.null(dt)&!is.null(dtf)){
+    expect_true(all.equal(dt[time==2008,],dtf,check.attributes=FALSE,ignore.row.order=TRUE,ignore.col.order=TRUE)) # a97
+  } else {not_checked<-paste(not_checked,"a97",sep=",")}
+  if (!is.null(dt)&!is.null(rt)&!is.null(rt)){
+    expect_true(nrow(rt)>nrow(dt)) # a98
+    expect_true(length(unique(ncol(rt),ncol(dt),ncol(dtf)))==1) #a99
+  } else {not_checked<-paste(not_checked,"a98-a99",sep=",")}
+
 }
 
 ##################################

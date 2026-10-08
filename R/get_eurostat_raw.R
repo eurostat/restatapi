@@ -1,14 +1,14 @@
-#' @title Get Eurostat data as it is 
+#' @title Get Eurostat data as it is
 #' @description Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
 #' @param id A code name for the dataset of interest.
 #'        See \code{\link{search_eurostat_toc}} for details how to get an id.
-#' @param mode defines the format of the downloaded dataset. It can be \code{txt} (the default value) for 
-#'        Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SDMX-ML version. 
+#' @param mode defines the format of the downloaded dataset. It can be \code{txt} (the default value) for
+#'        Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SDMX-ML version.
 #' @param cache a logical whether to do caching. Default is \code{TRUE}.
 #' @param update_cache a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
 #'        \code{options(restatapi_update=TRUE)}
-#' @param cache_dir a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
-#'        If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
+#' @param cache_dir a path to a cache directory. The \code{NULL} (default) uses the memory as cache.
+#'        If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory
 #'        under the temporary directory from \code{tempdir()}. Directory can also be set with
 #'        \code{option(restatapi_cache_dir=...)}.
 #' @param compress_file a logical whether to compress the
@@ -17,29 +17,29 @@
 #'        converted to factors. The default value \code{FALSE}, in this case they are returned as characters.
 #' @param keep_flags a logical whether the observation status (flags) - e.g. "confidential",
 #'        "provisional", etc. - should be kept in a separate column or if they
-#'        can be removed. Default is \code{FALSE}. For flag values see: 
+#'        can be removed. Default is \code{FALSE}. For flag values see:
 #'        \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.
-#' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
-#'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
-#'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
-#'        is retrieved form the TOC.  
-#' @param melt a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE}, 
-#'        the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.         
+#' @param check_toc a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value
+#'        \code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file.
+#'        If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link
+#'        is retrieved form the TOC.
+#' @param melt a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE},
+#'        the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.
 #' @param verbose A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
-#'         Can be set also with \code{options(restatapi_verbose=TRUE)}        
+#'         Can be set also with \code{options(restatapi_verbose=TRUE)}
 #' @param ... further argument for the \code{\link{load_cfg}} function
 #' @export
-#' 
-#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
+#'
+#' @details Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility}
 #' in CSV, TSV or SDMX format.
-#' 
-#' 
+#'
+#'
 #' The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
 #'  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
-#' By default all datasets downloaded in TSV format and cached as they are often rather large. 
+#' By default all datasets downloaded in TSV format and cached as they are often rather large.
 #' The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 #' The cache can be emptied with \code{\link{clean_restatapi_cache}}.
-#' If the \code{id} is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.  
+#' If the \code{id} is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.
 #' @return a data.table with the following columns if the default \code{melt=TRUE} is used:
 #'  \tabular{ll}{
 #'  \code{FREQ} \tab The frequency of the data (\strong{A}nnual, \strong{S}emi-annual, \strong{H}alf-year, \strong{Q}uarterly, \strong{M}onthly,
@@ -55,18 +55,18 @@
 #'  in the data table, and the name of the column depends on the source file (TSV/SDMX-ML)
 #'  }
 #' The data does not include all missing values. The missing values are dropped if the value and flags are missing
-#' on a particular time. 
-#' 
-#' In case \code{melt=FALSE} the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.   
-#' 
+#' on a particular time.
+#'
+#' In case \code{melt=FALSE} the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.
+#'
 #' @seealso \code{\link{get_eurostat_data}}, \code{\link{get_eurostat_bulk}}
-#' @examples 
+#' @examples
 #' \dontshow{
 #' if (parallel::detectCores()<=2){
 #'    options(restatapi_cores=1)
 #' }else{
 #'    options(restatapi_cores=2)
-#' }    
+#' }
 #' }
 #' \donttest{
 #' if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
@@ -82,9 +82,9 @@
 #' options(timeout=60)
 #' }
 
-get_eurostat_raw <- function(id, 
+get_eurostat_raw <- function(id,
                              mode="txt",
-                             cache=TRUE, 
+                             cache=TRUE,
                              update_cache=FALSE,
                              cache_dir=NULL,
                              compress_file=TRUE,
@@ -93,26 +93,26 @@ get_eurostat_raw <- function(id,
                              check_toc=FALSE,
                              melt=TRUE,
                              verbose=FALSE,...){
-  
+
   restat_raw<-raw<-NULL
   verbose<-verbose|getOption("restatapi_verbose",FALSE)
   update_cache<-update_cache|getOption("restatapi_update", FALSE)
   dmethod<-getOption("restatapi_dmethod",get("dmethod",envir=restatapi::.restatapi_env))
   if (getOption("restatapi_cores",1L)>=parallel::detectCores()) options(restatapi_cores=parallel::detectCores()-1)
-  tbc<-TRUE #to be continued to the next steps 
+  tbc<-TRUE #to be continued to the next steps
   if (verbose)  {message("\nget_eurostat_raw - API version:",get("rav",envir=restatapi::.restatapi_env))}
   if((!exists(".restatapi_env")|(length(list(...))>0))){
     if ((length(list(...))>0)) {
       if (all(names(list(...)) %in% c("api_version","load_toc","parallel","max_cores","verbose"))){
-        load_cfg(...)  
+        load_cfg(...)
       } else {
         load_cfg()
       }
     } else {
       load_cfg()
-    }  
+    }
   }
-  cfg<-get("cfg",envir=restatapi::.restatapi_env) 
+  cfg<-get("cfg",envir=restatapi::.restatapi_env)
   rav<-get("rav",envir=restatapi::.restatapi_env)
   # if (verbose)  {message("get_eurostat_raw - API version:",rav)}
   if (!is.null(id)){id<-tolower(trimws(id))} else {
@@ -125,7 +125,7 @@ get_eurostat_raw <- function(id,
       message("It is not possible to have raw casted table with mode='csv' or mode='xml'.")
     }
   }
-  
+
   if (tbc){
     if (check_toc){
       toc<-restatapi::get_eurostat_toc(verbose=verbose)
@@ -187,9 +187,9 @@ get_eurostat_raw <- function(id,
       }
     }
   }
-  
-  
-  
+
+
+
   if (tbc){
     if ((cache)&(!update_cache)) {
       restat_raw<-data.table::copy(restatapi::get_eurostat_cache(paste0("r_",id,"-",udate,"-",sum(keep_flags)),cache_dir,verbose=verbose))
@@ -199,23 +199,23 @@ get_eurostat_raw <- function(id,
         if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
           tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                    error = function(e) {
-                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',conditionMessage(e))}
                      else {message("There is an error by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                      tbc<-FALSE
                    },
                    warning = function(w) {
-                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',conditionMessage(w))}
                      else {message("There is a warning by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    })
         } else{
           tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep=',',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                    error = function(e) {
-                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                     if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded CSV file:",'\n',conditionMessage(e))}
                      else {message("There is an error by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                      tbc<-FALSE
                    },
                    warning = function(w) {
-                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                     if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded CSV file:",'\n',conditionMessage(w))}
                      else {message("There is a warning by the download of the CSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                    })
         }
@@ -226,9 +226,9 @@ get_eurostat_raw <- function(id,
             if (any(grepl(paste0(id, ".* does not exist"),raw))){
               message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
               tbc<-FALSE
-            } 
+            }
           }
-        }  
+        }
         if (tbc){
           restat_raw<-data.table::copy(raw)
           restat_raw[, c("DATAFLOW", "LAST UPDATE") := NULL]
@@ -239,23 +239,23 @@ get_eurostat_raw <- function(id,
             if(max(utils::sessionInfo()$otherPkgs$data.table$Version,utils::sessionInfo()$loadedOnly$data.table$Version)>"1.11.7"){
               tryCatch({raw<-data.table::fread(text=readLines(gzcon(url(bulk_url))),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                        error = function(e) {
-                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',conditionMessage(e))}
                          else {message("There is an error by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        },
                        warning = function(w) {
-                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',conditionMessage(w))}
                          else {message("There is a warning by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                        })
             } else{
               tryCatch({raw<-data.table::fread(paste(readLines(gzcon(url(bulk_url))),collapse="\n"),sep='\t',sep2=',',colClasses='character',header=TRUE,stringsAsFactors=stringsAsFactors)},
                        error = function(e) {
-                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(e),collapse="\n"))}
+                         if (verbose){message("get_eurostat_raw - Error by the reading in with data.table the downloaded TSV file:",'\n',conditionMessage(e))}
                          else {message("There is an error by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                          tbc<-FALSE
                        },
                        warning = function(w) {
-                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',paste(unlist(w),collapse="\n"))}
+                         if (verbose){message("get_eurostat_raw - Warning by the reading in with data.table the downloaded TSV file:",'\n',conditionMessage(w))}
                          else {message("There is a warning by the download of the TSV file. Run the same command with verbose=TRUE option to get more info on the issue.")}
                        })
             }
@@ -267,12 +267,12 @@ get_eurostat_raw <- function(id,
                   message("The file ",gsub(".*/","",bulk_url)," does not exist or is not readable on the server. Try to download with the check_toc=TRUE option.")
                   tbc<-FALSE
                 }
-              }  
+              }
             }
 
             if (tbc) {
               if(melt) {
-                cname<-colnames(raw)[1] 
+                cname<-colnames(raw)[1]
                 if (is.character(cname)){
                   cnames<-utils::head(unlist(strsplit(cname,(',|\\\\'))),-1)
                   rname<-switch(rav, "1" = utils::tail(unlist(strsplit(cname,(',|\\\\'))),1),"2"="time")
@@ -283,20 +283,20 @@ get_eurostat_raw <- function(id,
                   data.table::setnames(raw_melted,2:3,c(rname,"values"))
                   raw_melted<-raw_melted[raw_melted$values!=":",]
                   restat_raw<-data.table::as.data.table(data.table::tstrsplit(raw_melted$bdown,",",fixed=TRUE),stringsAsFactors=stringsAsFactors)
-                  data.table::setnames(restat_raw,cnames)  
+                  data.table::setnames(restat_raw,cnames)
                   restat_raw<-data.table::data.table(restat_raw,raw_melted[,2:3],stringsAsFactors=stringsAsFactors)
                   if (keep_flags) {restat_raw$flags<-gsub('[0-9\\.\\-\\s\\:]',"",restat_raw$values,perl=TRUE)}
                   restat_raw$values<-gsub('^\\:$',"",restat_raw$values,perl=TRUE)
                   restat_raw$values<-gsub('[^0-9\\.\\-\\:]',"",restat_raw$values,perl=TRUE)
-                  restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)  
+                  restat_raw<-data.table::data.table(restat_raw,stringsAsFactors=stringsAsFactors)
                 } else {
                   message("The file download was not successful. Try again later.")
-                }   
+                }
               } else {
                 restat_raw<-raw
                 cache<-update_cache<-FALSE
               }
-            }  
+            }
           # }
         # }
       } else if (mode=="xml"){
@@ -318,11 +318,11 @@ get_eurostat_raw <- function(id,
               cl<-parallel::makeCluster(getOption("restatapi_cores",1L))
               parallel::clusterEvalQ(cl,require(xml2))
               parallel::clusterExport(cl,c("extract_data"))
-              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))              
-              parallel::stopCluster(cl)  
+              restat_raw<-data.table::rbindlist(parallel::parLapply(cl,xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors))
+              parallel::stopCluster(cl)
             }
           }else{
-            restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))                                  
+            restat_raw<-data.table::rbindlist(parallel::mclapply(xml_leafs,extract_data,keep_flags=keep_flags,stringsAsFactors=stringsAsFactors,mc.cores=getOption("restatapi_cores",1L)))
           }
         } else{
           message("Could not download the SDMX file, use the verbose option to see the exact cause of the error.")
@@ -340,12 +340,18 @@ get_eurostat_raw <- function(id,
       }
       if ((!keep_flags) & ("OBS_STATUS" %in% colnames(restat_raw)))  {restat_raw$OBS_STATUS<-NULL}
     }
-    if (verbose) {message("get_eurostat_raw - caching in raw: ",all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE)),
+    call_names<-vapply(sys.calls(),function(cc) paste(deparse(cc[[1]]),collapse=""),character(1))
+    this_call<-sys.call()
+    this_call_str<-paste0(vapply(as.list(this_call),
+                                 function(a) if (is.function(a)) "" else paste0(as.character(a),collapse=""),
+                                 character(1)),
+                          collapse="")
+    if (verbose) {message("get_eurostat_raw - caching in raw: ",all(!grepl("get_eurostat_bulk|get_eurostat_data",call_names,perl=TRUE)),
                           "\nget_eurostat_raw - local filter: ",exists("local_filter",envir=sys.parent(1)),
-                          "\nget_eurostat_raw - called from: ",as.character(sys.call()),
-                          "\nget_eurostat_raw - get_eurostat_raw in sys.call(): ", grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse="")))}
+                          "\nget_eurostat_raw - called from: ",paste(deparse(this_call[[1]]),collapse=""),
+                          "\nget_eurostat_raw - get_eurostat_raw in sys.call(): ", grepl("^get_eurostat_rawidtxt",this_call_str))}
     #check if the function was called from the get_eurostat_data function
-    if (grepl("^get_eurostat_rawidtxt",paste0(as.character(sys.call()),collapse=""))&any(grepl("get_eurostat_data",as.character(sys.calls())))){  
+    if (grepl("^get_eurostat_rawidtxt",this_call_str)&any(grepl("get_eurostat_data",call_names))){
       #if yes get the value of local_filter and force_local_filter from the call
       if (exists("local_filter",envir=sys.parent(1))) {plf<-get("local_filter",envir=sys.parent(1))} else {plf<-FALSE}
       if (exists("force_local_filter",envir=sys.parent(1))) {pflf<-get("force_local_filter",envir=sys.parent(1))} else {pflf<-FALSE}
@@ -354,8 +360,8 @@ get_eurostat_raw <- function(id,
     } else {
       child_cache<-FALSE
     }
-        
-    if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",as.character(sys.calls()),perl=TRUE))|child_cache)){
+
+    if ((!is.null(restat_raw))&cache&(all(!grepl("get_eurostat_bulk|get_eurostat_data",call_names,perl=TRUE))|child_cache)){
       oname<-paste0("r_",id,"-",udate,"-",sum(keep_flags))
       pl<-restatapi::put_eurostat_cache(restat_raw,oname,update_cache,cache_dir,compress_file)
       if ((!is.null(pl))&(verbose)) {message("get_eurostat_raw - The raw data was cached ",pl,"." )}

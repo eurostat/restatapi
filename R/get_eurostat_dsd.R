@@ -82,11 +82,11 @@ get_eurostat_dsd <- function(id,
         message("\nget_eurostat_dsd - Trying to download the DSD from: ",dsd_endpoint)
         tryCatch({utils::download.file(dsd_endpoint,temp,dmethod)},
                  error = function(e) {
-                   message("get_eurostat_dsd - Error by the download of the DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("get_eurostat_dsd - Error by the download of the DSD file:",'\n',conditionMessage(e))
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
-                   message("get_eurostat_dsd - Warning by the download of the DSD file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("get_eurostat_dsd - Warning by the download of the DSD file:",'\n',conditionMessage(w))
                    tbc<-FALSE
                    dsd_xml<-NULL
                  })
@@ -96,11 +96,11 @@ get_eurostat_dsd <- function(id,
           message("Trying to extract the DSD from: ",temp)
           tryCatch({dsd_xml<-xml2::read_xml(temp)},
                  error = function(e) {
-                   message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(e),collapse="\n"))
+                   message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded DSD file:",'\n',conditionMessage(e))
                    dsd_xml<-NULL
                  },
                  warning = function(w) {
-                   message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded DSD file:",'\n',paste(unlist(w),collapse="\n"))
+                   message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded DSD file:",'\n',conditionMessage(w))
                    dsd_xml<-NULL
                  })
         } else {
@@ -167,11 +167,11 @@ get_eurostat_dsd <- function(id,
             message("get_eurostat_dsd - Trying to download the CC from: ",cc_endpoint)
             tryCatch({utils::download.file(cc_endpoint,temp,dmethod)},
                      error = function(e) {
-                       message("get_eurostat_dsd - Error by the download of the CC file:",'\n',paste(unlist(e),collapse="\n"))
+                       message("get_eurostat_dsd - Error by the download of the CC file:",'\n',conditionMessage(e))
                        cc_xml<-NULL
                      },
                      warning = function(w) {
-                       message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',paste(unlist(w),collapse="\n"))
+                       message("get_eurostat_dsd - Warning by the download of the CC file:",'\n',conditionMessage(w))
                        tbc<-FALSE
                        cc_xml<-NULL
                      })
@@ -180,11 +180,11 @@ get_eurostat_dsd <- function(id,
               message("get_eurostat_dsd - Trying to extract the CC from: ",temp)
               tryCatch({cc_xml<-xml2::read_xml(temp)},
                        error = function(e) {
-                         message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(e),collapse="\n"))
+                         message("get_eurostat_dsd - Error during the extraction of the XML from the downloaded CC file:",'\n',conditionMessage(e))
                          cc_xml<-NULL
                        },
                        warning = function(w) {
-                         message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded CC file:",'\n',paste(unlist(w),collapse="\n"))
+                         message("get_eurostat_dsd - There is warning by the extraction of the XML from the downloaded CC file:",'\n',conditionMessage(w))
                          cc_xml<-NULL
                        })
             } else {

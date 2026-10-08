@@ -28,36 +28,36 @@ See \code{\link{search_eurostat_toc}} for details how to get an id.}
 \item{update_cache}{a logical value with a default value \code{FALSE}, whether to update cache. Can be set also with
 \code{options(restatapi_update=TRUE)}.}
 
-\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
-If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
+\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache.
+If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory
 under the temporary directory from \code{tempdir()}. Directory can also be set with
 \code{option(restatapi_cache_dir=...)}.}
 
 \item{compress_file}{a logical value whether to compress the
 RDS-file in caching. Default is \code{TRUE}.}
 
-\item{stringsAsFactors}{a logical value with the default \code{TRUE}. In this case the columns are converted to factors. If \code{FALSE}, 
+\item{stringsAsFactors}{a logical value with the default \code{TRUE}. In this case the columns are converted to factors. If \code{FALSE},
 the strings are returned as characters.}
 
 \item{select_freq}{a character symbol for a time frequency when a dataset has multiple time
 frequencies. Possible values are:
-  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
-  The default is \code{NULL} as most datasets have only one time frequency. 
+  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily.
+  The default is \code{NULL} as most datasets have only one time frequency.
   In case if there are multiple frequencies and \code{select_freq=NULL}, then only the most common frequency kept.
 If all the frequencies needed the \code{\link{get_eurostat_raw}} function can be used.}
 
 \item{keep_flags}{a logical value whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
-can be removed. Default is \code{FALSE}. For flag values see: 
+can be removed. Default is \code{FALSE}. For flag values see:
 \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.}
 
-\item{cflags}{a logical value whether the missing observations with flag 'c' - "confidential"
-should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
+\item{cflags}{a logical value whether the missing observations with flag 'C' - "confidential"
+should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter
 \code{TRUE} then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in \code{keep_flags} is set to \code{TRUE}.}
 
-\item{check_toc}{a logical value whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
-\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
-If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found there then the download link 
+\item{check_toc}{a logical value whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file.
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found there then the download link
 is retrieved form the TOC.}
 
 \item{verbose}{a logical value with default \code{FALSE}, so detailed messages (for debugging) will not printed.
@@ -66,7 +66,7 @@ Can be set also with \code{options(restatapi_verbose=TRUE)}.}
 \item{...}{other parameter(s) to pass on the \code{\link{load_cfg}} function}
 }
 \value{
-a data.table with the following columns: 
+a data.table with the following columns:
  \tabular{ll}{
      dimension names \tab One column for each dimension in the data\cr
      \code{time} \tab A column for the time dimension\cr
@@ -81,16 +81,16 @@ a data.table with the following columns:
 Download data sets from \href{https://ec.europa.eu/eurostat/}{Eurostat} database and put in a standardized format.
 }
 \details{
-Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
+Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility}
 in TSV format as in this case smaller file has to be downloaded and processed. If there is more then one frequency then
  the dataset is filtered for a unique time frequency.
 If no frequency is selected and there are multiple frequencies in the dataset, then the most common value is used used for frequency.
 
-Compared to the ouptut of the \code{\link{get_eurostat_raw}} function, the frequency (FREQ) and time format (TIME_FORMAT) columns are not included in the bulk data  
-and the column names for the time period, observation values and status have standardised names: "time", "values" and "flags" 
+Compared to the ouptut of the \code{\link{get_eurostat_raw}} function, the frequency (FREQ) and time format (TIME_FORMAT) columns are not included in the bulk data
+and the column names for the time period, observation values and status have standardised names: "time", "values" and "flags"
 independently if the data was downloaded previously in SDMX or TSV format.
 
-By default all datasets cached as they are often rather large. 
+By default all datasets cached as they are often rather large.
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 
@@ -104,7 +104,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)
-}    
+}
 }
 \donttest{
 if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)

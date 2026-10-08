@@ -23,6 +23,7 @@ get_eurostat_data(
   local_filter = TRUE,
   force_local_filter = FALSE,
   mode = "xml",
+  dsd_order = FALSE,
   verbose = FALSE,
   ...
 )
@@ -32,8 +33,8 @@ get_eurostat_data(
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
 
 \item{filters}{a string, a character vector or named list containing words to filter by the different concepts or geographical location.
-If filter applied only part of the dataset is downloaded through the API. The words can be  
-any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}. 
+If filter applied only part of the dataset is downloaded through the API. The words can be
+any word, Eurostat variable code, and value which are in the DSD \code{\link{search_eurostat_dsd}}.
 If a named list is used, then the name of the list elements should be the concepts from the DSD and the provided values will be used to filter the dataset for the given concept.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download. To filter by time see \code{date_filter} below.
 If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the whole dataset and apply the filter on the local computer. This option can be disabled with the \code{local_filter=FALSE} parameter.}
@@ -42,10 +43,10 @@ If after filtering still the dataset has more observations than the limit per qu
 
 \item{exact_match}{a boolean with the default value \code{TRUE}, if the strings provided in \code{filters} shall be matched exactly as it is or as a pattern.}
 
-\item{date_filter}{a vector which can be numeric or character containing dates to filter the dataset. If date is defined as character string it should follow the format yyyy[-mm][-dd], where the month and the day part is optional. 
-If date filter applied only part of the dataset is downloaded through the API. 
+\item{date_filter}{a vector which can be numeric or character containing dates to filter the dataset. If date is defined as character string it should follow the format yyyy[-mm][-dd], where the month and the day part is optional.
+If date filter applied only part of the dataset is downloaded through the API.
 The default is \code{NULL}, in this case the whole dataset is returned via the bulk download.
-If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the data and apply the filter on the local computer. 
+If after filtering still the dataset has more observations than the limit per query via the API, then the raw download is used to retrieve the data and apply the filter on the local computer.
 This option can be disabled with the \code{local_filter=FALSE} parameter.}
 
 \item{label}{a boolean with the default \code{FALSE}. If it is \code{TRUE} then the code values are replaced by the name from the Data Structure Definition (DSD) \code{\link{get_eurostat_dsd}}.
@@ -53,19 +54,19 @@ For example instead of "D1110A", "Raw cows' milk from farmtype" is used or "HU32
 
 \item{select_freq}{a character symbol for a time frequency when a dataset has multiple time
 frequencies. Possible values are:
-  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily. 
+  A = annual, S = semi-annual, H = half-year, Q = quarterly, M = monthly, W = weekly, D = daily.
   The default is \code{NULL} as most datasets have just one time
 frequency and in case there are multiple frequencies, then only the most common frequency kept.
 If all the frequencies needed the \code{\link{get_eurostat_raw}} can be used.}
 
-\item{cache}{a logical whether to do caching. Default is \code{TRUE}. Affects 
+\item{cache}{a logical whether to do caching. Default is \code{TRUE}. Affects
 only queries without filtering. If \code{filters} or \code{date_filter} is used then there is no caching.}
 
 \item{update_cache}{a logical with a default value \code{FALSE}, whether to update the data in the cache. Can be set also with
 \code{options(restatapi_update=TRUE)}}
 
-\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
-If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
+\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache.
+If the folder \code{cache_dir} directory does not exist it saves in the 'restatapi' directory
 under the temporary directory from \code{tempdir()}. Directory can also be set with
 \code{option(restatapi_cache_dir=...)}.}
 
@@ -77,39 +78,42 @@ converted to factors. If the value \code{FALSE} they are returned as characters.
 
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
-can be removed. Default is \code{FALSE}. For flag values see: 
+can be removed. Default is \code{FALSE}. For flag values see:
 \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.}
 
 \item{cflags}{a logical whether the missing observations with flag 'c' - "confidential"
-should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter 
+should be kept or not. Default is \code{FALSE}, in this case these observations dropped from the dataset. If this parameter
 \code{TRUE} then the flags are kept and the parameter provided in \code{keep_flags} is not taken into account.}
 
-\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
-\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
-If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file.
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link
 is retrieved form the TOC.}
 
-\item{local_filter}{a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations 
-than the limit per query via the API would allow to download. The default is \code{TRUE}, in this case if the response footer contains information 
-that the result cannot be downloaded becuase it is too large, then the whole raw dataset is downloaded and filtered on the local computer.}
+\item{local_filter}{a boolean whether do the filtering on the local computer or not in case after filtering still the dataset has more observations
+than the limit per query via the API would allow to download. The default is \code{TRUE}, in this case if the response footer contains information
+that the result cannot be downloaded because it is too large, then the whole raw dataset is downloaded and filtered on the local computer.}
 
-\item{force_local_filter}{a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local 
-computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API, 
+\item{force_local_filter}{a boolean with the default value \code{FALSE}. In case, if there are existing filter conditions, then it will do the filtering on the local
+computer and not requesting through the REST API. It can be useful, if the values are not numeric as these are provided as NaN (Not a Number) through the REST API,
 but it is fully listed in the raw dataset.}
 
-\item{mode}{defines the format of the dataset response from the API. It can be
-\code{csv} for SDMX-CSV or \code{xml} for the SDMX-ML version.}
+\item{mode}{defines the format of the dataset response from the API. It can be \code{csv} for SDMX-CSV or \code{xml} for the SDMX-ML version.
+This parameter is ignored if \code{force_local_filter} is \code{TRUE} as it will download first the whole dataset in TSV format.}
 
-\item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
+\item{dsd_order}{a boolean with default \code{FALSE} defines if the output column should be ordered as it is in the DSD or not as
+the order can be different if the \code{mode} parameter \code{csv} or \code{xml} can provide different column order. If it is \code{TRUE} the retrieval time is a bit longer as it needs to get the DSD and order the columns as well.}
+
+\item{verbose}{a boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
 Can be set also with \code{options(restatapi_verbose=TRUE)}}
 
-\item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}. 
-The \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is, 
+\item{...}{further arguments to the for \code{\link{search_eurostat_dsd}} function, e.g.: \code{ignore.case} or \code{name}.
+The \code{ignore.case} has the default value \code{FALSE}, then the strings provided in \code{filters} are matched as is,
 otherwise the case of the letters is ignored. If the \code{name=FALSE} then the pattern(s) provided in the \code{filters}
 argument is only searched in the code column of the DSD, and the names of the codes will not be searched.}
 }
 \value{
-a data.table with the following columns: 
+a data.table with the following columns:
  \tabular{ll}{
      \code{freq} \tab A column for the frequency of the data in case there are multiple frequencies, for
      single frequency this columns is dropped from the data table\cr
@@ -119,46 +123,46 @@ a data.table with the following columns:
      \code{flags} \tab A column for flags if the \code{keep_flags=TRUE} or \code{cflags=TRUE} otherwise this column
      is not included in the data table
    }
-        
+
  The data.table does not include all missing values. The missing values are dropped if the value and flag are missing
  on a particular time.
- 
- In case the provided \code{filters} can be found in the DSD, then it is used to query the API or applied locally. If the applied \code{filters} with combination of \code{date_filter} 
+
+ In case the provided \code{filters} can be found in the DSD, then it is used to query the API or applied locally. If the applied \code{filters} with combination of \code{date_filter}
  and \code{select_freq} has no observation in the data set then the fucntion returns the data.table with 0 row.
- 
+
  In case none of the provided \code{filters}, \code{date_filter} or \code{select_freq} can be parsed or found in the DSD then the whole dataset downloaded through the bulk download with a warning message.
- 
+
  In case the \code{id} is not exist then the function returns the value \code{NULL}.
 }
 \description{
 Download full or partial data set from \href{https://ec.europa.eu/eurostat/web/main/home}{Eurostat} \href{https://ec.europa.eu/eurostat/web/main/data/database}{database}.
 }
 \details{
-Data sets are downloaded from the Eurostat Web Services 
-\href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-detailed-guidelines/sdmx2-1}{SDMX API} if there is a filter otherwise the 
+Data sets are downloaded from the Eurostat Web Services
+\href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-detailed-guidelines/sdmx2-1}{SDMX API} if there is a filter otherwise the
 \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} is used.
 If only the table \code{id} is given, the whole table is downloaded from the
 bulk download facility. If also \code{filters} or \code{date_filter} is defined then the SDMX REST API is
 used. In case after filtering the dataset has more rows than the limitation of the SDMX REST API (1 million values at one time) then the bulk download is used to retrieve the whole dataset .
 
-By default all datasets cached as they are often rather large. 
+By default all datasets cached as they are often rather large.
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 
-The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched 
+The \code{id}, is a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched
 for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/web/main/data/database}{Eurostat database}
  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
 
-Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+". 
-If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}. 
-Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option \code{ignore.case=TRUE} and \code{exact_match=FALSE}, 
-but in this case the results may include unwanted elements as well. In the \code{filters} parameter regular expressions can be used as well. 
-We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD. 
+Filtering can be done by the codes as described in the API documentation providing in the correct order and connecting with "." and "+".
+If we do not know the codes we can filter based on words or by the mix of the two putting in a vector like \code{c("AT$","Belgium","persons","Total")}.
+Be careful that the filter is case sensitive, if you do not know the code or label exactly you can use the option \code{ignore.case=TRUE} and \code{exact_match=FALSE},
+but in this case the results may include unwanted elements as well. In the \code{filters} parameter regular expressions can be used as well.
+We do not have to worry about the correct order of the filter, it will be put in the correct place based on the DSD.
 
 
 The \code{date_filter} shall be a string in the format yyyy[-mm][-dd]. The month and the day part is optional, but if we use the years and we have monthly frequency then all the data for the given year is retrieved.
 The string can be extended by adding the "<" or ">" to the beginning or to the end of the string. In this case the date filter is treated as range, and the date is used as a starting or end date. The data will include the observation of the start/end date.
-A single date range can be defined as well by concatenating two dates with the ":", e.g. \code{"2016-08:2017-03-15"}. As seen in the example the dates can have different length: one defined only at year/month level, the other by day level. 
+A single date range can be defined as well by concatenating two dates with the ":", e.g. \code{"2016-08:2017-03-15"}. As seen in the example the dates can have different length: one defined only at year/month level, the other by day level.
 If a date range is defined with ":", it is not possible to use the "<" or ">" characters in the date filter.
 If there are multiple dates which is not a continuous range, it can be put in vector in any order like \code{c("2016-08",2013:2015,"2017-07-01")}. In this case, as well, it is  not possible to use the  "<" or ">" characters.
 }
@@ -171,7 +175,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)
-}    
+}
 }
 \donttest{
 if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
@@ -206,7 +210,7 @@ dt<-get_eurostat_data("avia_par_me",
                       select_freq="M")
 dt<-get_eurostat_data("htec_cis3",
                        filters="lu",
-                       ignore.case=TRUE) 
+                       ignore.case=TRUE)
 dt<-get_eurostat_data("bop_its6_det",
                        filters=list(bop_item="SC",
                                     currency="MIO_EUR",
@@ -218,7 +222,7 @@ dt<-get_eurostat_data("bop_its6_det",
                        select_freq="A",
                        label=TRUE,
                        name=FALSE)
-clean_restatapi_cache("/tmp",verbose=TRUE)                                 
+clean_restatapi_cache("/tmp",verbose=TRUE)
 options(timeout=60)
 }
 }
