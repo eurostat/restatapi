@@ -10,7 +10,9 @@ Major revision of the package including:
 - added regression tests checking the `mode="csv"`/`mode="xml"` parity for datasets with  the `CONF_STATUS` column
 - new `dsd_order` parameter in the `get_eurostat_data()` function to have a standard order of columns independently from the download mode
 - `load_cfg()` now accepts a path to a local JSON configuration file in the `cfg_file` parameter
-- removal of the `check_toc` option from the `extract_data()` function as the TOC does not have the link anymore to the XML format 
+- removal of the `check_toc` option from the `extract_data()` function as the TOC does not have the link anymore to the XML format
+- additional tests
+- CRAN release
 
 # restatapi 0.25.0
 
