@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -53,13 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_data</span><span class="op">(</span></span>
-<span>  <span class="va">xml_lf</span>,</span>
-<span>  keep_flags <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  bulk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  check_toc <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_data</span><span class="op">(</span><span class="va">xml_lf</span>, keep_flags <span class="op">=</span> <span class="cn">FALSE</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, bulk <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,10 +76,6 @@ in this case the strings are returned as characters.</p></dd>
 <dt id="arg-bulk">bulk<a class="anchor" aria-label="anchor" href="#arg-bulk"></a></dt>
 <dd><p>a logical value with default value <code>TRUE</code> if the input SDMX XML file is from the bulk download facility containing all the observations.
 If the input file has pre-filtered values then the value <code>FALSE</code> should be used.</p></dd>
-
-
-<dt id="arg-check-toc">check_toc<a class="anchor" aria-label="anchor" href="#arg-check-toc"></a></dt>
-<dd><p>if the data file was downloaded using the URL from the TOC or not. The default is FALSE means not the TOC link is used.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -116,6 +106,7 @@ If the input file has pre-filtered values then the value <code>FALSE</code> shou
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  AL      PRO    A    D1110A        2021    859.38</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  AL      PRO    A    D1110A        2022    824.94</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  AL      PRO    A    D1110A        2023    765.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  AL      PRO    A    D1110A        2024    744.69</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
@@ -133,7 +124,7 @@ If the input file has pre-filtered values then the value <code>FALSE</code> shou
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

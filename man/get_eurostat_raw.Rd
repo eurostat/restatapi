@@ -23,7 +23,7 @@ get_eurostat_raw(
 \item{id}{A code name for the dataset of interest.
 See \code{\link{search_eurostat_toc}} for details how to get an id.}
 
-\item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for 
+\item{mode}{defines the format of the downloaded dataset. It can be \code{txt} (the default value) for
 Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SDMX-ML version.}
 
 \item{cache}{a logical whether to do caching. Default is \code{TRUE}.}
@@ -31,8 +31,8 @@ Tab Separated Values (TSV), or \code{csv} for SDMX-CSV, or \code{xml} for the SD
 \item{update_cache}{a logical with a default value \code{FALSE}, whether to update cache. Can be set also with
 \code{options(restatapi_update=TRUE)}}
 
-\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache. 
-If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory 
+\item{cache_dir}{a path to a cache directory. The \code{NULL} (default) uses the memory as cache.
+If the folder  if the \code{cache_dir} directory does not exist it saves in the 'restatapi' directory
 under the temporary directory from \code{tempdir()}. Directory can also be set with
 \code{option(restatapi_cache_dir=...)}.}
 
@@ -44,15 +44,15 @@ converted to factors. The default value \code{FALSE}, in this case they are retu
 
 \item{keep_flags}{a logical whether the observation status (flags) - e.g. "confidential",
 "provisional", etc. - should be kept in a separate column or if they
-can be removed. Default is \code{FALSE}. For flag values see: 
+can be removed. Default is \code{FALSE}. For flag values see:
 \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/codelist/ESTAT/OBS_STATUS/?compressed=false&format=TSV&lang=en}.}
 
-\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value 
-\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file. 
-If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link 
+\item{check_toc}{a boolean whether to check the provided \code{id} in the Table of Contents (TOC) or not. The default value
+\code{FALSE}, in this case the base URL for the download link is retrieved from the configuration file.
+If the value is \code{TRUE} then the TOC is downloaded and the \code{id} is checked in it. If it found then the download link
 is retrieved form the TOC.}
 
-\item{melt}{a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE}, 
+\item{melt}{a boolean with default value \code{TRUE} and used only if the \code{mode="txt"}. In case it is \code{FALSE},
 the downloaded tsv file is not melted, the time dimension remains in columns and it does not process the flags.}
 
 \item{verbose}{A boolean with default \code{FALSE}, so detailed messages (for debugging) will not printed.
@@ -76,7 +76,7 @@ a data.table with the following columns if the default \code{melt=TRUE} is used:
  in the data table, and the name of the column depends on the source file (TSV/SDMX-ML)
  }
 The data does not include all missing values. The missing values are dropped if the value and flags are missing
-on a particular time. 
+on a particular time.
 
 In case \code{melt=FALSE} the results is a data.table where the first column contains the comma separated values of the various dimensions, and the columns contains the observations for each time dimension.
 }
@@ -84,13 +84,13 @@ In case \code{melt=FALSE} the results is a data.table where the first column con
 Download data sets from \href{https://ec.europa.eu/eurostat}{Eurostat} database .
 }
 \details{
-Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility} 
+Data sets are downloaded from \href{https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload}{the Eurostat bulk download facility}
 in CSV, TSV or SDMX format.
 
 
 The \code{id}, should be a value from the \code{code} column of the table of contents (\code{\link{get_eurostat_toc}}), and can be searched for with the \code{\link{search_eurostat_toc}} function. The id value can be retrieved from the \href{https://ec.europa.eu/eurostat/data/database}{Eurostat database}
  as well. The Eurostat database gives codes in the Data Navigation Tree after every dataset in parenthesis.
-By default all datasets downloaded in TSV format and cached as they are often rather large. 
+By default all datasets downloaded in TSV format and cached as they are often rather large.
 The datasets cached in memory (default) or can be stored in a temporary directory if \code{cache_dir} or \code{option(restatpi_cache_dir)} is defined.
 The cache can be emptied with \code{\link{clean_restatapi_cache}}.
 If the \code{id} is checked in TOC then the data will saved in the cache with the date from the "lastUpdate" column from the TOC, otherwise it is saved with the current date.
@@ -101,7 +101,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)
-}    
+}
 }
 \donttest{
 if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)

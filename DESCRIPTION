@@ -1,8 +1,8 @@
 Package: restatapi
 Type: Package
 Title: Search and Retrieve Data from Eurostat Database
-Date: 2026-03-27
-Version: 0.25.0
+Date: 2026-10-08
+Version: 0.30.0
 Encoding: UTF-8
 Authors@R: c(person("Mátyás", "Mészáros", email = "matyas.meszaros@ec.europa.eu", role = c("aut", "cre")),
             person("Sebastian", "Weinand", role = "ctb"))
@@ -12,9 +12,9 @@ Description: Eurostat is the statistical office of the European Union and provid
              (<https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-detailed-guidelines/sdmx2-1>) to search and download data from 
              the Eurostat database using the SDMX standard. 
 License: EUPL
-Imports: data.table, rjson, xml2
-Suggests: chron, knitr, rmarkdown, tinytest, remotes
+Imports: data.table, jsonlite, xml2
+Suggests: tinytest
 NeedsCompilation: no
 URL: https://github.com/eurostat/restatapi
 BugReports: https://github.com/eurostat/restatapi/issues
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.0

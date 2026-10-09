@@ -71,7 +71,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)
-}    
+}
 }
 \donttest{
 if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)

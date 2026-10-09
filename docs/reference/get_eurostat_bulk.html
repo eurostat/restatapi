@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -121,7 +121,7 @@ can be removed. Default is <code>FALSE</code>. For flag values see:
 
 
 <dt id="arg-cflags">cflags<a class="anchor" aria-label="anchor" href="#arg-cflags"></a></dt>
-<dd><p>a logical value whether the missing observations with flag 'c' - "confidential"
+<dd><p>a logical value whether the missing observations with flag 'C' - "confidential"
 should be kept or not. Default is <code>FALSE</code>, in this case these observations dropped from the dataset. If this parameter
 <code>TRUE</code> then all the flags and the suppressed observations with missing values are kept. In this case the parameter provided in <code>keep_flags</code> is set to <code>TRUE</code>.</p></dd>
 
@@ -150,7 +150,7 @@ Can be set also with <code>options(restatapi_verbose=TRUE)</code>.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>Data sets are downloaded from <a href="https://wikis.ec.europa.eu/display/EUROSTATHELP/Transition+-+from+Eurostat+Bulk+Download+to+API" class="external-link">the Eurostat bulk download facility</a>
+    <p>Data sets are downloaded from <a href="https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-migrating/bulkdownload" class="external-link">the Eurostat bulk download facility</a>
 in TSV format as in this case smaller file has to be downloaded and processed. If there is more then one frequency then
  the dataset is filtered for a unique time frequency.
 If no frequency is selected and there are multiple frequencies in the dataset, then the most common value is used used for frequency.</p>
@@ -204,16 +204,16 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_raw</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      unit tra_meas         airp_pr   time values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;fctr&gt;   &lt;fctr&gt;          &lt;fctr&gt; &lt;fctr&gt;  &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: FLIGHT  CAF_PAS EE_EETN_AT_LOWW   2001    540</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: FLIGHT  CAF_PAS EE_EETN_DE_EDDF   2001    415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: FLIGHT  CAF_PAS EE_EETN_DK_EKCH   2001   1829</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: FLIGHT  CAF_PAS EE_EETN_FI_EFHK   2001   4464</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: FLIGHT  CAF_PAS EE_EETN_LT_EYVI   2001   1083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: FLIGHT  CAF_PAS EE_EETN_RU_UUEE   2001    869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: FLIGHT  CAF_PAS EE_EETN_CZ_LKPR   2004    860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: FLIGHT  CAF_PAS EE_EETN_DE_EDDF   2004   1163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: FLIGHT  CAF_PAS EE_EETN_DE_EDDH   2004    369</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: FLIGHT  CAF_PAS EE_EETN_DE_EDDM   2004    274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: FLIGHT  CAF_PAS EE_EETN_DE_EDDT   2004    302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: FLIGHT  CAF_PAS EE_EETN_DK_EKCH   2004   1901</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>restatapi_update<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">get_eurostat_bulk</span><span class="op">(</span><span class="st">"agr_r_milkpr"</span>,cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,compress_file<span class="op">=</span><span class="cn">FALSE</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -226,7 +226,7 @@ in parenthesis.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - class(raw): data.tabledata.frame</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - caching in raw: FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - local filter: FALSE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_rawidtxtcacheupdate_cachecache_dircompress_filestringsAsFactorskeep_flagscheck_tocTRUEverbose</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - called from: restatapi::get_eurostat_raw</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> get_eurostat_raw - get_eurostat_raw in sys.call(): FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    milkitem dairyprod    geo   time values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;fctr&gt;    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;  &lt;num&gt;</span>
@@ -239,7 +239,7 @@ in parenthesis.</p>
 <span class="r-in"><span><span class="fu"><a href="clean_restatapi_cache.html">clean_restatapi_cache</a></span><span class="op">(</span>cache_dir<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - All objects (outside of 'cfg', 'rav', 'cc' and 'dmethod') are removed from '.restatapi_env'.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/RtmpjrKOEg/restatapi is empty.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> clean_restatapi_cache - The cache folder /tmp/Rtmp6ApQm2/restatapi is empty.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -256,7 +256,7 @@ in parenthesis.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

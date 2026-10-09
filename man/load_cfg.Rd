@@ -16,7 +16,8 @@ load_cfg(
 \arguments{
 \item{api_version}{It can be either "old", "new", "test" or "current". The default value is "current" which defined by the DEFAULT_API_VERSION value of the config file.}
 
-\item{cfg_file}{The location of the config file. It can be either "github" (the default value) or "local".}
+\item{cfg_file}{The location of the config file. It can be either "github" (the default value), "local", or a path to a local JSON configuration file. 
+If a file path is provided, the configuration is loaded from that file. If the file does not exist or cannot be parsed, the preinstalled file in the package is used.}
 
 \item{load_toc}{The default value \code{FALSE}, which means that the XML version of the Table of contents (TOC) will not be downloaded and 
 cached automatically in the '.restatapi_env' when the package is loaded.}

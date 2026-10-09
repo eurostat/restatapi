@@ -11,11 +11,11 @@ extract_dsd(concept = NULL, dsd_xml = NULL, lang = "en")
 
 \item{dsd_xml}{an XML file with DSD content}
 
-\item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column 
+\item{lang}{a character string either \code{en}, \code{de} or \code{fr} to define the language version for the name column
 of the DSD. It is used only in the new API. The default is \code{en} - English.}
 }
 \value{
-a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column 
+a matrix with 3 columns if the provided \code{concept} has a code list in the DSD file. The first column is the provided \code{concept}. The second column
         is the possible codes under the given \code{concept}. The last column is the name/description for the code in the second column, which can be used as labels.
 }
 \description{
@@ -30,7 +30,7 @@ if (parallel::detectCores()<=2){
    options(restatapi_cores=1)
 }else{
    options(restatapi_cores=2)
-}    
+}
 }
 \donttest{
 id<-"med_rd6"
@@ -48,12 +48,12 @@ dsd_url <- paste0(eval(
  )
 if (!(grepl("amzn|-aws|-azure ",Sys.info()['release']))) options(timeout=2)
 tryCatch({
-  dsd_xml<-xml2::read_xml(dsd_url)}, 
+  dsd_xml<-xml2::read_xml(dsd_url)},
   error=function(e){
-  message("Unable to download the xml file.\n",e)}, 
+  message("Unable to download the xml file.\n",e)},
   warning=function(w){
-  message("Unable to download the xml file.\n",w)}) 
-if (exists("dsd_xml")) extract_dsd("FREQ",dsd_xml) 
+  message("Unable to download the xml file.\n",w)})
+if (exists("dsd_xml")) extract_dsd("FREQ",dsd_xml)
 options(timeout=60)
 }
 }

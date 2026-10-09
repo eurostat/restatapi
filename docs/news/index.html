@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">restatapi</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.24.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.30.0</span>
       </span>
     </div>
 
@@ -48,11 +48,37 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.30.0" id="restatapi-0300">restatapi 0.30.0<a class="anchor" aria-label="anchor" href="#restatapi-0300"></a></h2>
+<p>Major revision of the package including: - replaced the <code>rjson</code> package with <code>jsonlite</code> for parsing the configuration file - removed the <code>chron</code>, <code>remotes</code>, <code>knitr</code> and <code>rmarkdown</code> packages from the suggested dependencies - shortened the verbose debug messages so they no longer include the source code of functions from the call stack - fixed the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function so that the <code>mode="csv"</code> and <code>mode="xml"</code> downloads return the same result: the empty <code>CONF_STATUS</code> column is dropped and a non-empty value is added into the <code>flags</code> column - aligned the <code>CONF_STATUS</code>/flag handling in the <code><a href="../reference/get_eurostat_bulk.html">get_eurostat_bulk()</a></code> function with the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function, folding the <code>CONF_STATUS</code> value into the <code>flags</code> column - the <code><a href="../reference/extract_data.html">extract_data()</a></code> function now also extracts the <code>CONF_STATUS</code> value from the XML so the confidentiality information is available in the <code>flags</code> column - added regression tests checking the <code>mode="csv"</code>/<code>mode="xml"</code> parity for datasets with the <code>CONF_STATUS</code> column - new <code>dsd_order</code> parameter in the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function to have a standard order of columns independently from the download mode - <code><a href="../reference/load_cfg.html">load_cfg()</a></code> now accepts a path to a local JSON configuration file in the <code>cfg_file</code> parameter - removal of the <code>check_toc</code> option from the <code><a href="../reference/extract_data.html">extract_data()</a></code> function as the TOC does not have the link anymore to the XML format - additional tests - CRAN release</p>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.25.0" id="restatapi-0250">restatapi 0.25.0<small>2026-03-30</small><a class="anchor" aria-label="anchor" href="#restatapi-0250"></a></h2>
+<ul><li>additional debugging for <code><a href="../reference/get_eurostat_toc.html">get_eurostat_toc()</a></code> function</li>
+<li>removing possibility to log parameters</li>
+<li>CRAN release</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.24.5" id="restatapi-0245">restatapi 0.24.5<small>2026-02-04</small><a class="anchor" aria-label="anchor" href="#restatapi-0245"></a></h2>
+<ul><li>ignore <code>NA</code> for the <code>date_filter</code> parameter in the <code><a href="../reference/get_eurostat_data.html">get_eurostat_data()</a></code> function</li>
+<li>CRAN release</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.24.4" id="restatapi-0244">restatapi 0.24.4<a class="anchor" aria-label="anchor" href="#restatapi-0244"></a></h2>
+<ul><li>correction of links in the documentation</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.24.3" id="restatapi-0243">restatapi 0.24.3<a class="anchor" aria-label="anchor" href="#restatapi-0243"></a></h2>
+<ul><li>correction to handle errors in the text version of the Table of Content</li>
+<li>correction of test because the use of Euro in Bulgaria since 2026</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.24.2" id="restatapi-0242">restatapi 0.24.2<small>2025-01-28</small><a class="anchor" aria-label="anchor" href="#restatapi-0242"></a></h2>
 <ul><li>correction of test because of the changed Table of Content</li>
 <li>CRAN release</li>
-<li><h2 id="restatapi-0241" class="page-header" data-toc-text="0.24.2">restatapi 0.24.1<small>2025-01-28</small></h2></li>
-<li>correction of outdated URLs and documentation</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.24.1" id="restatapi-0241">restatapi 0.24.1<small>2025-01-26</small><a class="anchor" aria-label="anchor" href="#restatapi-0241"></a></h2>
+<ul><li>correction of outdated URLs and documentation</li>
 <li>CRAN release</li>
 </ul></div>
     <div class="section level2">
@@ -655,7 +681,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>
